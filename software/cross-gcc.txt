@@ -1,0 +1,43 @@
+[constants]
+common_args = [
+    '-U_FILE_OFFSET_BITS',
+    '-mthumb',                   
+    '-mcpu=cortex-m0plus',
+    '-mfloat-abi=soft',
+    '-specs=nosys.specs',
+    '-ffunction-sections',# each function to a seperate section ==> Code-optimization / deletion
+    '-fdata-sections',# each variable to a seperate section ==> Code-optimization / deletion
+    '-ffreestanding',
+    '-nostdlib',
+    '-nodefaultlibs',
+    '-nostartfiles'
+    ]
+
+link_args = [
+    '-Wl,-T,@GLOBAL_SOURCE_ROOT@/STM32C031XX_FLASH.ld']
+
+[binaries]
+c       = 'arm-none-eabi-gcc'
+cpp     = 'arm-none-eabi-g++'
+ld      = 'arm-none-eabi-g++'
+ar      = 'arm-none-eabi-ar'
+as      = 'arm-none-eabi-as'
+size    = 'arm-none-eabi-size'
+objdump = 'arm-none-eabi-objdump'
+objcopy = 'arm-none-eabi-objcopy'
+strip   = 'arm-none-eabi-strip'
+gdb     = 'arm-none-eabi-gdb'
+
+[host_machine]
+system     = 'none'
+cpu_family = 'arm'
+cpu        = 'cortex-m0plus'
+endian     = 'little'
+
+[built-in options]
+c_args = common_args
+cpp_args = common_args + [
+    '-fno-exceptions',
+    '-fno-rtti']
+cpp_link_args = cpp_args + link_args
+c_link_args = c_args + link_args

@@ -1,0 +1,265 @@
+(footprint "L_Vishay_IHLP-5050"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Inductor, Vishay, IHLP series, 12.7mmx12.7mm")
+	(tags "inductor vishay ihlp smd")
+	(property "Reference" "REF**"
+		(at 0 -7.565686 0)
+		(layer "F.SilkS")
+		(uuid "2f79a4cd-34b7-4a4a-98c9-9323e525e524")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "4.7u"
+		(at 0 7.85 0)
+		(layer "F.Fab")
+		(uuid "dffe635d-4225-4c00-81b7-3863aec55e58")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.vishay.com/docs/34126/ihlp-5050ez-01.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b862cc04-2f85-44e8-a56f-94fad392769e")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Inductor"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bd213396-8adc-476b-b2bf-c2611784ed89")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "541-IHLP5050FDER4R7M0PCT-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "98b71e09-5301-4e4c-ba0d-8fdb6c0de5af")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Vishay Dale"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bff7fb35-88f9-4f8b-a0fb-c7361d79bca7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "IHLP5050FDER4R7M0P"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "63f806c0-34b2-4fdf-8e69-cc1653889d3e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "70-IHLP5050FDR4R7M0P"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7dcd2d0b-78c5-4415-a887-fd021706a82e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e56709b2-7b10-4035-bf2e-3260b771e462")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr. 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "550c6063-8de0-4176-9772-4b05af77b744")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "IHLP5050FDER4R7M0P"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "525971a6-eccf-45ee-8562-92f65d87065f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -6.9 -6.7)
+		(end 6.8 -6.7)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "d3dc22c6-7928-42dc-bd88-8a326ff88b04")
+	)
+	(fp_line
+		(start -6.9 -2.9)
+		(end -6.9 -6.7)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "9349f590-2816-4198-b97f-a9cf286a7487")
+	)
+	(fp_line
+		(start -6.8 2.9)
+		(end -6.8 6.7)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "17169b1f-e16a-4147-b8a1-93369a2638b5")
+	)
+	(fp_line
+		(start -6.8 6.7)
+		(end 6.9 6.7)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "0ff65f80-4eac-4fd6-adfe-376d6dbab017")
+	)
+	(fp_line
+		(start 6.8 -6.7)
+		(end 6.8 -2.9)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "43fdcc8f-0f8c-401e-97bb-db82d2e2ffff")
+	)
+	(fp_line
+		(start 6.9 6.7)
+		(end 6.9 2.9)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "5d68b2bc-22d9-430d-b026-ac2943aac8ad")
+	)
+	(fp_rect
+		(start -7.6 -6.9)
+		(end 7.6 6.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "405be7fc-59e5-4a6a-8f91-75005a4b0567")
+	)
+	(fp_rect
+		(start -6.6 -6.45)
+		(end 6.6 6.45)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "19ac393e-9313-4e01-9174-f2c513cfd97e")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "3c3dd359-fc71-41b2-bc27-68dce4d47f8b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -5.725 0)
+		(size 3.25 5.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "b4fe4584-cfd3-496e-9c64-6b113340525b")
+	)
+	(pad "2" smd rect
+		(at 5.725 0)
+		(size 3.25 5.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "078e3b2d-3e6f-46d9-921b-4d1e27e2af93")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/packages3D/IHLP-5050.step"
+		(offset
+			(xyz 0 0 0.1)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

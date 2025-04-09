@@ -1,0 +1,299 @@
+(footprint "SOT-23-6"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "SOT, 6 Pin (JEDEC MO-178 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-178), generated with kicad-footprint-generator ipc_gullwing_generator.py")
+	(tags "SOT TO_SOT_SMD")
+	(property "Reference" "REF**"
+		(at -2.9625 4 270)
+		(layer "F.SilkS")
+		(uuid "321a4427-d863-4d8d-95a7-b4875df39f31")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "LV2862XDDC"
+		(at 0 2.4 180)
+		(layer "F.Fab")
+		(uuid "9066d036-43f0-4ed5-8155-5d342db2e06b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.ti.com/lit/ds/symlink/lv2862.pdf"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ed9e4aa6-0466-4ef3-a327-05bf3dcdb422")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "60V, 0.6A, stepdown, DC/DC converter, 770kHz"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "46790038-392f-4508-a0dd-61b5964c342f")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "296-LV2862XLVDDCRCT-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9db0fcd0-0195-42f6-97d3-9181952b6dba")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Texas Instruments"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f7b376ec-b219-4d3c-92fe-f5009fbaa587")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "LV2862XLVDDCR"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "586b440f-c44a-4d02-a05a-ddeaffee3c49")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "LV2862XLVDDCR"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5670185f-b0b3-4a3a-96d0-4a1c0b6b393f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "595-LV2862XLVDDCR"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0187a838-da6b-4310-b140-d3f3283bff87")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start 0 -1.560001)
+		(end -0.8 -1.56)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "5b650003-e394-4e0b-a535-7d1aa5dd938a")
+	)
+	(fp_line
+		(start 0 -1.560001)
+		(end 0.8 -1.56)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "5036a79d-7a29-49e8-8d70-12e48822fbc5")
+	)
+	(fp_line
+		(start 0 1.560001)
+		(end -0.8 1.56)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3b0af3eb-4409-41ad-aea7-afb3a6e204ec")
+	)
+	(fp_line
+		(start 0 1.560001)
+		(end 0.8 1.56)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f6ef05c1-0579-4b53-8549-56db1140e70c")
+	)
+	(fp_poly
+		(pts
+			(xy -1.3 -1.51) (xy -1.54 -1.84) (xy -1.06 -1.84)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "6669b099-78f0-4a01-8eb0-1e65db18288b")
+	)
+	(fp_poly
+		(pts
+			(xy -2.049999 -1.7) (xy 2.049999 -1.7) (xy 2.049999 1.7) (xy -2.049999 1.7)
+		)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "75f8d2d9-2ec1-4511-aa91-979c863d4ad5")
+	)
+	(fp_line
+		(start -0.8 -1.050001)
+		(end -0.4 -1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "77115cef-fd29-47a1-81bc-b4672906bce2")
+	)
+	(fp_line
+		(start -0.8 1.45)
+		(end -0.8 -1.050001)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "2f986cbb-4885-4570-8cf6-1e46daef7b98")
+	)
+	(fp_line
+		(start -0.4 -1.45)
+		(end 0.8 -1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "130421ba-58c8-4863-ae7d-e6ee7d146732")
+	)
+	(fp_line
+		(start 0.8 -1.45)
+		(end 0.8 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "38dcf220-9008-4ec0-9ffb-d6d67edaec26")
+	)
+	(fp_line
+		(start 0.8 1.45)
+		(end -0.8 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "2e4edb70-b845-4c9d-b26c-7e40247d9759")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "9c8953b8-8868-4422-aef5-1205b1c59b58")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -1.1375 -0.949999)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "9ad6f578-810b-4c4a-8dc8-2111d72cde4a")
+	)
+	(pad "2" smd roundrect
+		(at -1.1375 0)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "d061ae2c-e364-4d67-92aa-83cb932152f0")
+	)
+	(pad "3" smd roundrect
+		(at -1.1375 0.949999)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "73e4ac90-91bd-44e9-8bcf-d395bb3db3e5")
+	)
+	(pad "4" smd roundrect
+		(at 1.1375 0.949999)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "6cf82cb6-3b89-4ab4-8aa3-f3ce2e0f53e1")
+	)
+	(pad "5" smd roundrect
+		(at 1.1375 0)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "6774f5dc-5318-4f67-af9a-f64bc5951769")
+	)
+	(pad "6" smd roundrect
+		(at 1.1375 -0.949999)
+		(size 1.325 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "91f8f187-794c-424d-995e-44d479490348")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/packages3D/SOT-23-6.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

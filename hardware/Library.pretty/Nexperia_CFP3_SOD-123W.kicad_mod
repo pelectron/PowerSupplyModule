@@ -1,0 +1,353 @@
+(footprint "Nexperia_CFP3_SOD-123W"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Nexperia CFP3 (SOD-123W), https://assets.nexperia.com/documents/outline-drawing/SOD123W.pdf")
+	(tags "CFP3 SOD-123W")
+	(property "Reference" "REF**"
+		(at 0 -2.000001 180)
+		(layer "F.SilkS")
+		(uuid "ffd11630-1991-4b3f-a240-fce272333ef8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "D_Zener_Small"
+		(at 0 2.000001 180)
+		(layer "F.Fab")
+		(uuid "7865b053-934f-4a06-b618-4b59ee9a5ff5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds18004.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b99ca1db-c07f-445d-9332-2fc1fb7d6f46")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "DIODE ZENER 15V 500MW SOD123"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "00b4d4ea-93fa-4eb0-9067-08aadc60ec81")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Diodes Incorporated"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "16841de3-d97d-43fc-a3a9-bb8f5a71abe3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "BZT52C15-7-F"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f1d39534-881c-45c2-b9d0-6ec9b4aedd72")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "11719ebe-6a83-45a5-a88b-55769a9c6354")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-2-Nr." ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d4457aa4-28d8-4cc0-9bc1-594a9ec49cdf")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "BZT52C15-FDICT-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9acb4df9-deb5-4b05-8a8f-ab527e69b460")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "621-BZT52C15-F"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ee56ad70-21c9-4bbc-bed8-0055f7569852")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "BZT52C15-7-F"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9abd965c-caf8-4b9f-abe3-4c8ff5e515ef")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -2.26 -0.95)
+		(end -2.26 0.95)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3d9668fc-f742-438d-b30b-b8e7ff3c886a")
+	)
+	(fp_line
+		(start -2.26 -0.95)
+		(end 1.4 -0.95)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "9ec77d10-e8b1-41ce-a9d6-87961c6d9528")
+	)
+	(fp_line
+		(start -2.26 0.95)
+		(end 1.4 0.95)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "37fa31de-8850-44dc-bd9b-c2652f77afc1")
+	)
+	(fp_line
+		(start -2.25 -1.1)
+		(end -2.25 1.1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a271040f-5818-4aa6-97ed-7c09c714fc25")
+	)
+	(fp_line
+		(start -2.25 -1.1)
+		(end 2.25 -1.1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "d4dc718c-f5b6-4c49-a9e4-24694aea7e53")
+	)
+	(fp_line
+		(start 2.25 -1.1)
+		(end 2.25 1.1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4e43528b-6926-4730-90c3-1cc7adb3992c")
+	)
+	(fp_line
+		(start 2.25 1.1)
+		(end -2.25 1.1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "636d951c-adb1-46e3-8421-c3044fcdece4")
+	)
+	(fp_line
+		(start -1.3 -0.85)
+		(end 1.3 -0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "dba3b571-64fd-4ec4-8fec-4fb7ad55fd21")
+	)
+	(fp_line
+		(start -1.3 0.85)
+		(end -1.3 -0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f70c201d-ea6c-4599-b686-f4a277b7690c")
+	)
+	(fp_line
+		(start -0.75 0)
+		(end -0.35 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "25e83355-1f65-491c-8bcf-73760b6d189c")
+	)
+	(fp_line
+		(start -0.35 -0.55)
+		(end -0.35 0.55)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "8ccb1ecb-b829-48b3-8bed-c04d8a8d811b")
+	)
+	(fp_line
+		(start -0.35 0)
+		(end 0.25 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c5668d82-91b8-4569-80bb-d940f26684eb")
+	)
+	(fp_line
+		(start -0.35 0)
+		(end 0.25 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "366f30b7-d78d-4cb7-b315-b58e078480ee")
+	)
+	(fp_line
+		(start 0.25 -0.4)
+		(end 0.25 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0212805b-261c-4db6-a69a-e305d35d6cef")
+	)
+	(fp_line
+		(start 0.75 0)
+		(end 0.25 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "e5882628-2997-468f-b318-309824b5cfcc")
+	)
+	(fp_line
+		(start 1.3 -0.85)
+		(end 1.3 0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "4a38cb17-fec9-4c74-9148-e6de2f2bdbd8")
+	)
+	(fp_line
+		(start 1.3 0.85)
+		(end -1.3 0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5f33afa2-43e4-47ac-8cd8-8971f7c2ef3d")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 -2.000001 180)
+		(layer "F.Fab")
+		(uuid "78f0cf19-d154-476c-a4a4-6dd39ccdddb3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -1.4 0)
+		(size 1.2 1.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "1d41b280-9d2c-48b1-b04a-81c410ea5cfe")
+	)
+	(pad "2" smd rect
+		(at 1.4 0)
+		(size 1.2 1.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "6bdffdd4-c718-4fb5-866c-9a00c17b3193")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/packages3D/Nexperia_CFP3_SOD-123W.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

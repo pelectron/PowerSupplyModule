@@ -1,0 +1,259 @@
+(footprint "MountingHole_3.5mm"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Mounting Hole 3.5mm, no annular")
+	(tags "mounting hole 3.5mm no annular")
+	(property "Reference" "REF**"
+		(at 0 -4.5 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "8a550b9a-06d2-4623-9a4e-c78fb81649d6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "MountingHole"
+		(at 0 4.5 0)
+		(layer "F.Fab")
+		(uuid "26ee1d98-37f0-4ed6-8b9d-2aad4b914b2b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2ce6a9ce-d5e6-4d56-baae-162eb9790816")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Mounting Hole without connection"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7d088381-d336-4916-835f-9a249e669ec3")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bcde71aa-c5f3-478a-9c84-9bf872da4b20")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr. 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "65064aba-8627-45cd-b78e-e214c3b57646")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Essentra Components"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "acbebf51-2b13-44b1-8380-fd6b737bb740")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "CBTS140A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5d70593a-04a2-4f89-9804-264af4a6d881")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c3416db2-b082-43ee-bac6-f0e0e7a635d8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-2-Nr." ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "599bcaaf-0db5-4d52-ae74-b9d740c13c1a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "RPC1486-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "fabfe5af-3808-45a8-9053-d52c7c22ea0d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "144-CBTS140A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8e8d06b7-524a-4431-acf5-4fb3e4cb968e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "CBTS140A"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "70c54e7b-15d6-4b30-a783-a1349b047db3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr exclude_from_pos_files exclude_from_bom)
+	(fp_circle
+		(center 0 0)
+		(end 3.5 0)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(fill no)
+		(layer "Cmts.User")
+		(uuid "74563285-acb7-43f9-9398-5ee37c35adcf")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 3.75 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "38c01723-99f4-41f8-b1fc-1149db2ab14d")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "7091093e-06bb-4d7e-b73a-6a6df104fa2c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "" np_thru_hole circle
+		(at 0 0)
+		(size 3.5 3.5)
+		(drill 3.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "2adb4406-28c4-4544-8f5e-1bce16823cc5")
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu" "F.CrtYd")
+		(uuid "8432905c-f150-4ad5-ad7b-3b8a77c0f3a4")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy 3.6 0) (xy 3.580279 -0.376302) (xy 3.521331 -0.748482) (xy 3.423803 -1.112461) (xy 3.288764 -1.464252)
+				(xy 3.117691 -1.8) (xy 2.912461 -2.116027) (xy 2.675321 -2.40887) (xy 2.40887 -2.675321) (xy 2.116027 -2.912461)
+				(xy 1.8 -3.117691) (xy 1.464252 -3.288764) (xy 1.112461 -3.423803) (xy 0.748482 -3.521331) (xy 0.376302 -3.580279)
+				(xy 0 -3.6) (xy -0.376302 -3.580279) (xy -0.748482 -3.521331) (xy -1.112461 -3.423803) (xy -1.464252 -3.288764)
+				(xy -1.8 -3.117691) (xy -2.116027 -2.912461) (xy -2.40887 -2.675321) (xy -2.675321 -2.40887) (xy -2.912461 -2.116027)
+				(xy -3.117691 -1.8) (xy -3.288764 -1.464252) (xy -3.423803 -1.112461) (xy -3.521331 -0.748482) (xy -3.580279 -0.376302)
+				(xy -3.6 0) (xy -3.580279 0.376302) (xy -3.521331 0.748482) (xy -3.423803 1.112461) (xy -3.288764 1.464252)
+				(xy -3.117691 1.8) (xy -2.912461 2.116027) (xy -2.675321 2.40887) (xy -2.40887 2.675321) (xy -2.116027 2.912461)
+				(xy -1.8 3.117691) (xy -1.464252 3.288764) (xy -1.112461 3.423803) (xy -0.748482 3.521331) (xy -0.376302 3.580279)
+				(xy 0 3.6) (xy 0.376302 3.580279) (xy 0.748482 3.521331) (xy 1.112461 3.423803) (xy 1.464252 3.288764)
+				(xy 1.8 3.117691) (xy 2.116027 2.912461) (xy 2.40887 2.675321) (xy 2.675321 2.40887) (xy 2.912461 2.116027)
+				(xy 3.117691 1.8) (xy 3.288764 1.464252) (xy 3.423803 1.112461) (xy 3.521331 0.748482) (xy 3.580279 0.376302)
+			)
+		)
+	)
+	(embedded_fonts no)
+)

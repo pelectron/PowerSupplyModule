@@ -1,0 +1,222 @@
+(footprint "SEWF3920D5L00P9"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 4.1 -2.265686 270)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "5ef506ff-2f45-42a2-852a-ccdc367abdeb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "5m"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "0e5eb732-06a9-4496-a44d-10a009dd11b7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://s.resistor.today/shop/products/epdf/SEWF3920.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3dae456d-27f7-4fe5-95fc-f8b577881983")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "5 mOhms ±0.5% 3W Chip Resistor 3920 (1052 Metric) Automotive AEC-Q200, Current Sense Metal Element"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "04f0be2f-b524-44d2-ab4f-7098edf84534")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "4506-SEWF3920D5L00P9CT-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d6c5d277-a2a2-4751-8a66-1c5347d022b5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "RESI"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0177507e-82d8-4ee8-9899-a60973f85b71")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "SEWF3920D5L00P9"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2f9973d6-08bf-4dfc-b666-f1d90973fde5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "754-MSRPK3920Q5L0D2P"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f16025dc-d75c-4dfa-86fb-28e510fb5cc1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer 2" "Susumu"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "07bad05e-eab7-4331-b58f-d5d35c0499c8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr. 2" "MSRPK3920Q-5L00-D2P0"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "00efbba1-3af9-401b-b21c-df3a40ef3223")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "SEWF3920D5L00P9"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9554b80d-2bd3-4bee-b91a-eb5588c4c133")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -3 -2.5)
+		(end -3 2.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "a737cb31-48d1-4998-86ff-e6007b749097")
+	)
+	(fp_line
+		(start 3 -2.5)
+		(end 3 2.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "9c5e51df-1e62-4f25-b6d0-39e37e84950d")
+	)
+	(fp_rect
+		(start -3.4 -5.9)
+		(end 3.4 5.9)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "7fb4cf4b-e0a5-4dbd-b06e-cf7a6a53f429")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 2.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "9df75680-3fb2-4757-82b8-54286b9886d4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at 0 -4.25)
+		(size 6.4 2.9)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "8892fabc-c592-4371-b16c-d793025a227f")
+	)
+	(pad "2" smd rect
+		(at 0 -2.3)
+		(size 0.2 1)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "560ef868-05a9-40ef-98a3-73d1d022d558")
+	)
+	(pad "3" smd roundrect
+		(at 0 4.25)
+		(size 6.4 2.9)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(thermal_bridge_angle 45)
+		(uuid "6d12d64d-9405-4733-af4d-e02e01a98831")
+	)
+	(pad "4" smd rect
+		(at 0 2.3)
+		(size 0.2 1)
+		(layers "F.Cu")
+		(thermal_bridge_angle 45)
+		(uuid "b739097f-787c-4ed9-9903-8e8a41b1f499")
+	)
+	(embedded_fonts no)
+)

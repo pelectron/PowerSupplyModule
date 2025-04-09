@@ -1,0 +1,7 @@
+[wrap-git]
+url = https://github.com/pelectron/poly
+revision = head
+depth = 1
+
+[provide]
+poly = poly_dep

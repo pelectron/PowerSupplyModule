@@ -1,0 +1,380 @@
+(footprint "Vishay_PowerPAK_1212-8_Single"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "PowerPAK 1212-8 Single (https://www.vishay.com/docs/71656/ppak12128.pdf, https://www.vishay.com/docs/72597/72597.pdf)")
+	(tags "Vishay PowerPAK 1212-8 Single")
+	(property "Reference" "REF**"
+		(at -3 -0.1 90)
+		(layer "F.SilkS")
+		(uuid "84205f32-6f40-449d-9514-645ac7f291b0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SISS76LDN-T1-GE3"
+		(at 0 2.7 0)
+		(layer "F.Fab")
+		(uuid "8cffa7a6-5656-4b34-ac8f-7c693aa03fd0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e269aa74-7315-41de-a59a-f0e20fadb0fa")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "N-MOSFET transistor, drain/gate/source"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d961c11c-a92c-4640-9e2e-eecbc6dee713")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Digikey-Nr." "742-SISS76LDN-T1-GE3CT-ND"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cf37d254-facc-46d9-9de5-183e3ec87d5e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Vishay Siliconix"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ee1d93cc-79ea-4b2c-b3c8-bd03d86d2fe4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Nr." "SISS76LDN-T1-GE3"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ba4ecf84-d941-40bd-ae83-43e2997855d3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Mouser-Nr." "78-SISS76LDN-T1-GE3"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d67d1e75-4d60-4ad5-b5ed-b55682805a24")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "90b3e24c-2016-495d-9cff-4fba99ce538f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr. 2" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a6a5c14e-ded5-4945-a1d2-6bc9c7157e06")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer-Nr." "SISS76LDN-T1-GE3"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b3e2af0b-4e0f-455c-881f-304d3f4e5b84")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -1.635 -1.635)
+		(end -1.635 -1.45)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8ba7780b-47bd-4c87-b690-afd2d5a924cc")
+	)
+	(fp_line
+		(start -1.635 -1.635)
+		(end 1.635 -1.635)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "18268bb1-6c0b-4df1-9a93-7ce28df9dec9")
+	)
+	(fp_line
+		(start -1.635 1.45)
+		(end -1.635 1.635)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "c9dd42a6-89d4-423e-9cff-c501837004f4")
+	)
+	(fp_line
+		(start -1.635 1.635)
+		(end 1.635 1.635)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "dceff45e-0723-4ee6-809c-a57fc93816ea")
+	)
+	(fp_line
+		(start 1.635 -1.635)
+		(end 1.635 -1.45)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ce09ddf3-2431-4d68-b907-8ea09df3303f")
+	)
+	(fp_line
+		(start 1.635 1.45)
+		(end 1.635 1.635)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "00b8eb47-0bf0-48c4-88ca-1d6d110d42c2")
+	)
+	(fp_poly
+		(pts
+			(xy -2.355 -1.46) (xy -1.955 -1.86) (xy -1.955 -1.46)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "f0feb050-d1e2-4c8f-ae1e-3be42089ad2f")
+	)
+	(fp_line
+		(start -2.18 -1.78)
+		(end -2.18 1.78)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "77ff6d1e-e9ba-41cd-a07c-5e82b04df0e7")
+	)
+	(fp_line
+		(start -2.18 -1.78)
+		(end 2.18 -1.78)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4936ec54-d0e0-4568-b77b-457a44ffc5c2")
+	)
+	(fp_line
+		(start -2.18 1.78)
+		(end 2.18 1.78)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "274a261b-9809-46f2-989d-b16ae47c1193")
+	)
+	(fp_line
+		(start 2.18 -1.78)
+		(end 2.18 1.78)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "630a04ae-c1b6-4844-a7a9-13421412adb1")
+	)
+	(fp_line
+		(start -1.525 -0.8)
+		(end -1.525 1.525)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "e2114baf-6064-4da1-a344-cd02161e0506")
+	)
+	(fp_line
+		(start -1.525 -0.8)
+		(end -0.8 -1.525)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "62329045-5135-4b39-95e2-006cfa507262")
+	)
+	(fp_line
+		(start -1.525 1.525)
+		(end 1.525 1.525)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "15f09170-9ee4-4cd3-a261-21b1eb816c6a")
+	)
+	(fp_line
+		(start -0.8 -1.525)
+		(end 1.525 -1.525)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "8d04b228-6b44-4be0-9f92-014a5bd9fdc7")
+	)
+	(fp_line
+		(start 1.525 -1.525)
+		(end 1.525 1.525)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b12b13f8-cc57-413f-93f5-1f5833adc3b3")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "19a77877-3529-4231-8be2-4d3a3564a7a8")
+		(effects
+			(font
+				(size 0.7 0.7)
+				(thickness 0.105)
+			)
+		)
+	)
+	(pad "1" smd custom
+		(at 0.5575 0)
+		(size 1.725 2.235)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(zone_connect 2)
+		(thermal_bridge_angle 45)
+		(options
+			(clearance outline)
+			(anchor rect)
+		)
+		(primitives
+			(gr_poly
+				(pts
+					(xy 1.3725 -0.7875) (xy 0.8625 -0.7875) (xy 0.8625 -0.5325) (xy 1.3725 -0.5325) (xy 1.3725 -0.1275)
+					(xy 0.8625 -0.1275) (xy 0.8625 0.1275) (xy 1.3725 0.1275) (xy 1.3725 0.5325) (xy 0.8625 0.5325)
+					(xy 0.8625 0.7875) (xy 1.3725 0.7875) (xy 1.3725 1.195) (xy 0.6125 1.195) (xy 0.6125 -1.195) (xy 1.3725 -1.195)
+				)
+				(width 0)
+				(fill yes)
+			)
+		)
+		(uuid "6138acb0-6a93-4e4a-a546-7898c714a702")
+	)
+	(pad "2" smd rect
+		(at -1.435 0.99)
+		(size 0.99 0.405)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "9125d7fb-2d03-43d5-bf03-9ad4bbb75643")
+	)
+	(pad "3" smd rect
+		(at -1.435 -0.99)
+		(size 0.99 0.405)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "42ba8200-279b-45f0-b927-f5b03d3f82cc")
+	)
+	(pad "3" smd rect
+		(at -1.435 -0.33)
+		(size 0.99 0.405)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "e9a2344a-11c8-40cb-9f98-38de7004d16e")
+	)
+	(pad "3" smd rect
+		(at -1.435 0.33)
+		(size 0.99 0.405)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "261c8a56-c3f9-4a91-aa06-4bed3bfdad0f")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/packages3D/Vishay_PowerPAK_1212-8_Single.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
