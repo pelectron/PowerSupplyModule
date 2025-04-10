@@ -7226,17 +7226,6 @@
 		)
 		(uuid "ca6261a0-20ac-4e52-a6d8-ab7860b87708")
 	)
-	(text "Power Supply Requirements:\n  ____________________________________________________________\n|	Name	|	Voltage	|	Amps	|	Usage	|\n| -------------------------------------	|\n|	+5V		|	5V		|	2A		|	Digital	|\n| -------------------------------------	|\n|	+3V3	|	3.3V	|	2A		|	Digital	|\n| -------------------------------------	|\n|	VDDA	| 2.5V - 5V	|	1A		|	Analog	|\n| -------------------------------------	|\n|	VSSA	|-5V - -2.5V |	1A		| 	Analog	|\n| -------------------------------------	|\n|	VDDH	|	10V		|	500mA	|	Analog 	|\n| -------------------------------------	|\n|	VSSH	|	10V		|	500mA	|	Analog 	|\n  ____________________________________________________________\n"
-		(exclude_from_sim no)
-		(at 386.842 395.224 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "d73e893b-11cc-4417-a01d-73f064f64cca")
-	)
 	(text "POWER INPUT"
 		(exclude_from_sim no)
 		(at 84.328 26.924 0)
@@ -13400,6 +13389,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "2"
@@ -13541,7 +13531,7 @@
 	)
 	(symbol
 		(lib_id "Library:MountingHole")
-		(at 354.33 379.73 0)
+		(at 360.68 322.58 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -13550,7 +13540,7 @@
 		(fields_autoplaced yes)
 		(uuid "0800e27d-3553-4b3d-b246-6174422d9861")
 		(property "Reference" "H5"
-			(at 356.87 378.4599 0)
+			(at 363.22 321.3099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13559,7 +13549,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 356.87 380.9999 0)
+			(at 363.22 323.8499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13568,7 +13558,7 @@
 			)
 		)
 		(property "Footprint" "Library:MountingHole_3.5mm"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13577,7 +13567,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13586,7 +13576,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13595,7 +13585,7 @@
 			)
 		)
 		(property "Manufacturer 2" ""
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13604,7 +13594,7 @@
 			)
 		)
 		(property "Manufacturer-Nr. 2" ""
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13613,7 +13603,7 @@
 			)
 		)
 		(property "Manufacturer" "Essentra Components"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13622,7 +13612,7 @@
 			)
 		)
 		(property "Manufacturer-Nr." "CBTS140A"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13631,7 +13621,7 @@
 			)
 		)
 		(property "Manufacturer-2" ""
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13640,7 +13630,7 @@
 			)
 		)
 		(property "Manufacturer-2-Nr." ""
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13649,7 +13639,7 @@
 			)
 		)
 		(property "Digikey-Nr." "RPC1486-ND"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13658,7 +13648,7 @@
 			)
 		)
 		(property "Mouser-Nr." "144-CBTS140A"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13667,7 +13657,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "CBTS140A"
-			(at 354.33 379.73 0)
+			(at 360.68 322.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13930,7 +13920,7 @@
 	)
 	(symbol
 		(lib_id "Library:MountingHole")
-		(at 354.33 386.08 0)
+		(at 360.68 328.93 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -13939,7 +13929,7 @@
 		(fields_autoplaced yes)
 		(uuid "0e26d8e8-2e45-4226-be4b-f7fa24b902c1")
 		(property "Reference" "H1"
-			(at 356.87 384.8099 0)
+			(at 363.22 327.6599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13948,7 +13938,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 356.87 387.3499 0)
+			(at 363.22 330.1999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13957,7 +13947,7 @@
 			)
 		)
 		(property "Footprint" "Library:MountingHole_3.5mm"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13966,7 +13956,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13975,7 +13965,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13984,7 +13974,7 @@
 			)
 		)
 		(property "Manufacturer 2" ""
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13993,7 +13983,7 @@
 			)
 		)
 		(property "Manufacturer-Nr. 2" ""
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14002,7 +13992,7 @@
 			)
 		)
 		(property "Digikey-Nr." "RPC1486-ND"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14011,7 +14001,7 @@
 			)
 		)
 		(property "Manufacturer" "Essentra Components"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14020,7 +14010,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "CBTS140A"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14029,7 +14019,7 @@
 			)
 		)
 		(property "Mouser-Nr." "144-CBTS140A"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14038,11 +14028,12 @@
 			)
 		)
 		(property "Manufacturer-Nr." "CBTS140A"
-			(at 354.33 386.08 0)
+			(at 360.68 328.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(instances
@@ -14062,20 +14053,18 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "0f9d9da7-83e5-496c-9628-a15ad6ed2710")
 		(property "Reference" "R53"
-			(at 309.88 223.5199 0)
+			(at 308.61 223.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Value" "10k"
-			(at 309.88 226.0599 0)
+			(at 308.61 226.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14165,6 +14154,24 @@
 			)
 		)
 		(property "Manufacturer-Nr." "RC0603FR-0710KL"
+			(at 307.34 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer-2" ""
+			(at 307.34 224.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer-2-Nr." ""
 			(at 307.34 224.79 0)
 			(effects
 				(font
@@ -14571,132 +14578,6 @@
 			(project "PSB_V1"
 				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5"
 					(reference "TP47")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Library:MountingHole")
-		(at 354.33 398.78 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "193d9786-6b6f-47d6-90bf-b2368184d6d1")
-		(property "Reference" "H6"
-			(at 356.87 397.5099 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "MountingHole"
-			(at 356.87 400.0499 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Library:MountingHole_3.5mm"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Mounting Hole without connection"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer 2" ""
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-Nr. 2" ""
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Digikey-Nr." "RPC1486-ND"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "Essentra Components"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer Nr." "CBTS140A"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser-Nr." "144-CBTS140A"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-Nr." "CBTS140A"
-			(at 354.33 398.78 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "PSB_V1"
-				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5"
-					(reference "H6")
 					(unit 1)
 				)
 			)
@@ -22403,7 +22284,7 @@
 	)
 	(symbol
 		(lib_id "Library:MountingHole")
-		(at 354.33 392.43 0)
+		(at 360.68 335.28 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -22412,7 +22293,7 @@
 		(fields_autoplaced yes)
 		(uuid "85282d29-f1ff-4b69-bf58-db961d956b1f")
 		(property "Reference" "H3"
-			(at 356.87 391.1599 0)
+			(at 363.22 334.0099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22421,7 +22302,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 356.87 393.6999 0)
+			(at 363.22 336.5499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22430,7 +22311,7 @@
 			)
 		)
 		(property "Footprint" "Library:MountingHole_3.5mm"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22439,7 +22320,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22448,7 +22329,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22457,7 +22338,7 @@
 			)
 		)
 		(property "Manufacturer 2" ""
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22466,7 +22347,7 @@
 			)
 		)
 		(property "Manufacturer-Nr. 2" ""
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22475,7 +22356,7 @@
 			)
 		)
 		(property "Digikey-Nr." "RPC1486-ND"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22484,7 +22365,7 @@
 			)
 		)
 		(property "Manufacturer" "Essentra Components"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22493,7 +22374,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "CBTS140A"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22502,7 +22383,7 @@
 			)
 		)
 		(property "Mouser-Nr." "144-CBTS140A"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22511,11 +22392,12 @@
 			)
 		)
 		(property "Manufacturer-Nr." "CBTS140A"
-			(at 354.33 392.43 0)
+			(at 360.68 335.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(instances
@@ -28360,24 +28242,6 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer-2" ""
-			(at 269.24 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-2-Nr." ""
-			(at 269.24 215.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "3"
 			(uuid "a0854eb9-e095-47c0-bcd6-fe68b8936a07")
 		)
@@ -30911,7 +30775,7 @@
 	)
 	(symbol
 		(lib_id "Library:MountingHole")
-		(at 354.33 373.38 0)
+		(at 360.68 316.23 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -30920,7 +30784,7 @@
 		(fields_autoplaced yes)
 		(uuid "fde408ca-277d-484d-a4a6-4fbe3b03c433")
 		(property "Reference" "H2"
-			(at 356.87 372.1099 0)
+			(at 363.22 314.9599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30929,7 +30793,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 356.87 374.6499 0)
+			(at 363.22 317.4999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30938,7 +30802,7 @@
 			)
 		)
 		(property "Footprint" "Library:MountingHole_3.5mm"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30947,7 +30811,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30956,7 +30820,7 @@
 			)
 		)
 		(property "Description" "Mounting Hole without connection"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30965,7 +30829,7 @@
 			)
 		)
 		(property "Manufacturer 2" ""
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30974,7 +30838,7 @@
 			)
 		)
 		(property "Manufacturer-Nr. 2" ""
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30983,7 +30847,7 @@
 			)
 		)
 		(property "Manufacturer" "Essentra Components"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30992,7 +30856,7 @@
 			)
 		)
 		(property "Manufacturer-Nr." "CBTS140A"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31001,7 +30865,7 @@
 			)
 		)
 		(property "Manufacturer-2" ""
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31010,7 +30874,7 @@
 			)
 		)
 		(property "Manufacturer-2-Nr." ""
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31019,7 +30883,7 @@
 			)
 		)
 		(property "Digikey-Nr." "RPC1486-ND"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31028,7 +30892,7 @@
 			)
 		)
 		(property "Mouser-Nr." "144-CBTS140A"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31037,7 +30901,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "CBTS140A"
-			(at 354.33 373.38 0)
+			(at 360.68 316.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -31152,48 +31016,6 @@
 			(project "PowerSupplyModule"
 				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5"
 					(page "2")
-				)
-			)
-		)
-	)
-	(sheet
-		(at 457.2 335.28)
-		(size 72.39 48.26)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "33b7d8a1-e275-4542-b30d-b5653ae49b53")
-		(property "Sheetname" "buck_boost_converter"
-			(at 457.2 334.5684 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "buck_boost_converter.kicad_sch"
-			(at 457.2 384.1246 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(instances
-			(project "PowerSupplyModule"
-				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5"
-					(page "7")
 				)
 			)
 		)
