@@ -1,11 +1,20 @@
 #ifndef RELAY_HPP
 #define RELAY_HPP
-#include "gpio.hpp"
+#include "hal/gpio.hpp"
+#include <cstdint>
 
 namespace psm {
 
 class Relay {
 public:
+  enum class Id : std::uint8_t {
+    out_en_p = 0,
+    out_en_n = 1,
+    out_select = 2,
+    out_series = 3,
+    invalid = 0xFFu
+  };
+
   enum class State { open = 0, closed = 1 };
 
   /**

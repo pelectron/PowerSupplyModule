@@ -52,20 +52,22 @@ enum class Error {
   crc_error,
   frame_error,
 };
+
 constexpr Error operator|(Error a, Error b) {
   return static_cast<Error>(static_cast<unsigned>(a) |
                             static_cast<unsigned>(b));
 }
+
 struct MasterConfig {
   Id id;
   hal::gpio::Id sclk;
   hal::gpio::Id mosi;
   hal::gpio::Id miso;
   hal::gpio::Id cs;
-  Phase phase;
-  Polarity polarity;
-  Format format;
-  std::uint32_t baudrate;
+  Phase phase = Phase::low;
+  Polarity polarity = Polarity::low;
+  Format format = Format::msb_first;
+  std::uint32_t baudrate = 1'000'000;
   uint8_t data_size = 8;
   bool use_hw_cs = false;
   Crc crc = Crc::none;
@@ -142,10 +144,10 @@ private:
   friend void spi_irq_callback();
   friend void add_operation(Operation *op);
   friend void pop_operation_and_start_next();
-  port_type *port;
-  State state;
-  gpio::Output cs;
-  Operation transaction;
+  port_type *port = nullptr;
+  State state = State::disabled;
+  gpio::Output cs{};
+  Operation transaction{};
 };
 
 ConfigResult<Master> configure(const MasterConfig &cfg);

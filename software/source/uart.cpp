@@ -1,0 +1,194 @@
+#include "hal/uart.hpp"
+#include <cstdint>
+namespace hal::uart {
+
+enum Regs : std::uint32_t {
+  BASE = 0,
+  USART_CR1 = BASE + 0x00,
+  USART_CR2 = BASE + 0x04,
+  USART_CR3 = BASE + 0x08,
+  USART_BRR = BASE + 0x0C,
+  USART_GTPR = BASE + 0x10,
+  USART_RTOR = BASE + 0x14,
+  USART_RQR = BASE + 0x18,
+  UASRT_ISR = BASE + 0x1C,
+  USART_ICR = BASE + 0x20,
+  USART_RDR = BASE + 0x24,
+  USART_TDR = BASE + 0x28,
+  USART_PRESC = BASE + 0x2C,
+};
+
+enum USART_CR1 : std::uint32_t {
+  USART_CR1_RXFFIE = 1u << 31u,
+  USART_CR1_TXFEIE = 1 << 30,
+  USART_CR1_FIFOEN = 1 << 29,
+  USART_CR1_M1 = 1 << 28,
+  USART_CR1_EOBIE = 1 << 27,
+  USART_CR1_RTOIE = 1 << 26,
+  USART_CR1_DEAT = 0x1F << 21,
+  USART_CR1_DEAT_POS = 21,
+  USART_CR1_DEDT = 0x1F << 16,
+  USART_CR1_DEDT_POS = 16,
+  USART_CR1_OVER8 = 1 << 15,
+  USART_CR1_CMIE = 1 << 14,
+  USART_CR1_MME = 1 << 13,
+  USART_CR1_M0 = 1 << 12,
+  USART_CR1_WAKE = 1 << 11,
+  USART_CR1_PCE = 1 << 10,
+  USART_CR1_PS = 1 << 9,
+  USART_CR1_PEIE = 1 << 8,
+  USART_CR1_TXFNFIE = 1 << 7,
+  USART_CR1_TCIE = 1 << 6,
+  USART_CR1_RXFNEIE = 1 << 5,
+  USART_CR1_IDLEIE = 1 << 4,
+  USART_CR1_TE = 1 << 3,
+  USART_CR1_RE = 1 << 2,
+  USART_CR1_UESM = 1 << 1,
+  USART_CR1_UE = 1 << 0
+};
+
+enum USART_CR2 : std::uint32_t {
+  USART_CR2_ADD = 0xFFu << 24,
+  USART_CR2_ADD_POS = 24,
+  USART_CR2_TROEN = 1 << 23,
+  USART_CR2_ABRMOD = 0b11 << 21,
+  USART_CR2_ABRMOD_POS = 21,
+  USART_CR2_ABREN = 1 << 20,
+  USART_CR2_MSBFIRST = 1 << 19,
+  USART_CR2_DATAINV = 1 << 18,
+  USART_CR2_TXINV = 1 << 17,
+  USART_CR2_RXINV = 1 << 16,
+  USART_CR2_SWAP = 1 << 15,
+  USART_CR2_LINEN = 1 << 14,
+  USART_CR2_STOP = 0b11 << 12,
+  USART_CR2_STOP_POS = 12,
+  USART_CR2_CLKEN = 1 << 11,
+  USART_CR2_CPOL = 1 << 10,
+  USART_CR2_SPHA = 1 << 9,
+  USART_CR2_LBCL = 1 << 8,
+  USART_CR2_LBDIE = 1 << 6,
+  USART_CR2_LBDL = 1 << 5,
+  USART_CR2_ADDM7 = 1 << 4,
+  USART_CR2_DIS_NSS = 1 << 3,
+  USART_CR2_SLVEN = 1 << 0
+};
+
+enum USART_CR3 : std::uint32_t {
+  USART_CR3_TXFTCFG = 0b111u << 29,
+  USART_CR3_TXFTCFG_POS = 29,
+  USART_CR3_RXFTIE = 1 << 28,
+  USART_CR3_RXFTCFG = 0b111u << 25,
+  USART_CR3_RXFTCFG_POS = 25,
+  USART_CR3_TCBGTIE = 1 << 24,
+  USART_CR3_TXFTIE = 1 << 23,
+  USART_CR3_WUFIE = 1 << 22,
+  USART_CR3_WUS = 0b11 << 20,
+  USART_CR3_WUS_POS = 20,
+  USART_CR3_SCARCNT = 0b111 << 17,
+  USART_CR3_SCARCNT_POS = 17,
+  USART_CR3_DEP = 1 << 15,
+  USART_CR3_DEM = 1 << 14,
+  USART_CR3_DDRE = 1 << 13,
+  USART_CR3_OVRDIS = 1 << 12,
+  USART_CR3_ONEBIT = 1 << 11,
+  USART_CR3_CTSIE = 1 << 10,
+  USART_CR3_CTSE = 1 << 9,
+  USART_CR3_RTSE = 1 << 8,
+  USART_CR3_DMAT = 1 << 7,
+  USART_CR3_DMAR = 1 << 6,
+  USART_CR3_SCEN = 1 << 5,
+  USART_CR3_NACK = 1 << 4,
+  USART_CR3_HDSEL = 1 << 3,
+  USART_CR3_IRLP = 1 << 2,
+  USART_CR3_IREN = 1 << 1,
+  USART_CR3_EIE = 1 << 0
+};
+
+enum USART_BRR : std::uint32_t { USART_BRR_BRR = 0xFF, USART_BRR_BRR_POS = 0 };
+
+enum USART_GTPR : std::uint32_t {
+  USART_GTPR_GT = 0xFF << 8,
+  USART_GTPR_GT_POS = 8,
+  USART_GTPR_PSC = 0xFF,
+  USART_GTPR_PSC_POS = 0
+};
+
+enum USART_RTOR : std::uint32_t {
+  USART_RTOR_BLEN = 0xFFu << 24,
+  USART_RTOR_BLEN_POS = 24,
+  USART_RTOR_RTO = 0xFFFFFF,
+  USART_RTOR_RTO_POS = 0,
+};
+
+enum USART_RQR : std::uint32_t {
+  USART_RQR_TXFRQ = 1 << 4,
+  USART_RQR_RXFRQ = 1 << 3,
+  USART_RQR_MMRQ = 1 << 2,
+  USART_RQR_SBKRQ = 1 << 1,
+  USART_RQR_ABRQ = 1 << 0
+};
+
+enum USART_ISR : std::uint32_t {
+  USART_ISR_TXFT = 1 << 27,
+  USART_ISR_RXFT = 1 << 26,
+  USART_ISR_TCBGT = 1 << 25,
+  USART_ISR_RXFF = 1 << 24,
+  USART_ISR_TXFE = 1 << 23,
+  USART_ISR_REACK = 1 << 22,
+  USART_ISR_TEACK = 1 << 21,
+  USART_ISR_WUF = 1 << 20,
+  USART_ISR_RWU = 1 << 19,
+  USART_ISR_SBKF = 1 << 18,
+  USART_ISR_CMF = 1 << 17,
+  USART_ISR_BUSY = 1 << 16,
+  USART_ISR_ABRF = 1 << 15,
+  USART_ISR_ABRE = 1 << 14,
+  USART_ISR_UDR = 1 << 13,
+  USART_ISR_EOBF = 1 << 12,
+  USART_ISR_RTOF = 1 << 11,
+  USART_ISR_CTS = 1 << 10,
+  USART_ISR_CTSIF = 1 << 9,
+  USART_ISR_LBDF = 1 << 8,
+  USART_ISR_TXFNF = 1 << 7,
+  USART_ISR_TC = 1 << 6,
+  USART_ISR_RXFNE = 1 << 5,
+  USART_ISR_IDLE = 1 << 4,
+  USART_ISR_ORE = 1 << 3,
+  USART_ISR_NE = 1 << 2,
+  USART_ISR_FE = 1 << 1,
+  USART_ISR_PE = 1 << 0
+};
+
+enum USART_ICR : std::uint32_t {
+  USART_ICR_WUCF = 1 << 20,
+  USART_ICR_CMCF = 1 << 17,
+  USART_ICR_UDRCF = 1 << 13,
+  USART_ICR_EOBCF = 1 << 12,
+  USART_ICR_RTOCF = 1 << 11,
+  USART_ICR_CTSCF = 1 << 10,
+  USART_ICR_LBDCF = 1 << 8,
+  USART_ICR_TCBGTCF = 1 << 7,
+  USART_ICR_TCCF = 1 << 6,
+  USART_ICR_TXFECF = 1 << 5,
+  USART_ICR_IDLECF = 1 << 4,
+  USART_ICR_ORECF = 1 << 3,
+  USART_ICR_NECF = 1 << 2,
+  USART_ICR_FECF = 1 << 1,
+  USART_ICR_PECF = 1 << 0
+};
+
+enum USART_RDR : std::uint32_t {
+  USART_RDR_RDR = 0x1FF,
+};
+
+enum USART_TDR : std::uint32_t {
+  USART_TDR_TDR = 0x1FF,
+};
+
+enum USART_PRESC : std::uint32_t {
+  USART_PRESC_PRESCALER = 0xF,
+};
+
+ConfigResult<Uart> configure(const Config &cfg) {}
+
+} // namespace hal::uart

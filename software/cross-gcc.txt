@@ -14,7 +14,7 @@ common_args = [
     ]
 
 link_args = [
-    '-Wl,-T,@GLOBAL_SOURCE_ROOT@/STM32C031XX_FLASH.ld']
+    '-Wl,-T,@GLOBAL_SOURCE_ROOT@/software/STM32C031XX_FLASH.ld']
 
 [binaries]
 c       = 'arm-none-eabi-gcc'

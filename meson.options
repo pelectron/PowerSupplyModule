@@ -1,0 +1,2 @@
+option('hardware', type: 'boolean', value: true)
+option('software', type: 'boolean', value: true)

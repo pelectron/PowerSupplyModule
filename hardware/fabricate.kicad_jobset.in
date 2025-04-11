@@ -239,7 +239,7 @@
       "id": "037cb34f-fb7c-4bd5-bec6-1d12e5498b08",
       "only": [],
       "settings": {
-        "output_path": "build"
+        "output_path": "@BUILD_ROOT@"
       },
       "type": "folder"
     }

@@ -85,8 +85,8 @@ public:
 
   /// construct from floating point.
   /// @{
-  constexpr explicit unsigned_fixed(float value) noexcept;
-  constexpr explicit unsigned_fixed(double value) noexcept;
+  constexpr unsigned_fixed(float value) noexcept;
+  constexpr unsigned_fixed(double value) noexcept;
   /// @}
 
   /// access the raw value
@@ -154,8 +154,8 @@ public:
 
   /// construct from floating point.
   /// @{
-  constexpr explicit signed_fixed(float value) noexcept;
-  constexpr explicit signed_fixed(double value) noexcept;
+  constexpr signed_fixed(float value) noexcept;
+  constexpr signed_fixed(double value) noexcept;
   /// @}
 
   /// access the fixpoint's raw value (stored in two's complement)

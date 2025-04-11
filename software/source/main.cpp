@@ -1,5 +1,7 @@
 
 #include "cortex/core.hpp"
+#include "psm.hpp"
+
 extern "C" {
 void SystemInit(void) {}
 int _exit(int) {}
@@ -16,4 +18,17 @@ void __glibcxx_assert_fail(char const *, int, char const *,
   }
 }
 } // namespace std
-int main() {}
+
+static constinit psm::PSM module{};
+
+static constinit psm::Hardware hardware{};
+static constinit psm::NonVolatileStorage nvs;
+
+int main() {
+  module.init(nvs);
+
+  while (1) {
+    module.loop();
+  }
+  return 0;
+}

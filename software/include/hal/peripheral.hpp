@@ -14,7 +14,6 @@ enum class Peripheral {
   dmamux,
   nvic,
   exti,
-  crc,
   adc,
   tim1,
   tim2,
@@ -27,13 +26,9 @@ enum class Peripheral {
   iwdg,
   wwdg,
   rtc,
-  i2c1,
-  usart1,
-  usart2,
-  spi1,
-  i2s1,
-  fdcan,
-  usb,
+  i2c,
+  uart,
+  spi,
   dbg
 };
 }

@@ -37,10 +37,12 @@ template <typename Peripheral> struct ConfigResult {
       : error(ConfigError::success), peripheral(std::move(p)) {}
   constexpr ConfigResult &operator=(const ConfigResult &) = default;
   constexpr ConfigResult &operator=(ConfigResult &&) = default;
+  constexpr operator bool() const noexcept {
+    return error == ConfigError::success;
+  }
 
   ConfigError error;
   Peripheral peripheral;
 };
-
 } // namespace hal
 #endif
