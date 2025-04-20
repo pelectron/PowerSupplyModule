@@ -19,7 +19,14 @@ void __glibcxx_assert_fail(char const *, int, char const *,
 }
 } // namespace std
 
-static constinit psm::PSM module{};
+template <char... c> struct string_constant {};
+
+template <typename Char, Char... cs> constexpr auto operator""_sc() {
+  return string_constant<cs...>{};
+}
+constexpr auto s = "hello"_sc;
+
+static psm::PSM module{};
 
 static constinit psm::Hardware hardware{};
 static constinit psm::NonVolatileStorage nvs;

@@ -11,6 +11,7 @@
 #include "psm.hpp"
 #include "type_list/type_list.hpp"
 #include <concepts>
+#include <cstdint>
 #include <cstring>
 #include <span>
 #include <tuple>
@@ -20,9 +21,23 @@
 namespace psm {
 template <char... c> struct string_constant {};
 
-template <char... cs> consteval auto operator""_sc() {
+template <class C, C... cs> consteval auto operator""_sc() {
   return string_constant<cs...>{};
 }
+
+class Cli {
+  static constexpr std::size_t max_num_args = 255;
+  static constexpr std::size_t max_num_commands = 64;
+
+  struct CommandNode {
+    void *data;
+    Result<size_t> (*exec)(void *data, std::span<std::span<const char>> input,
+                           std::span<char> output);
+    CommandNode *next;
+    CommandNode *subcommand;
+  };
+  void (*transmit)(const std::uint8_t *str, std::size_t len);
+};
 
 POLY_METHOD(putc);
 POLY_METHOD(puts);
@@ -264,7 +279,7 @@ public:
 
   template <std::invocable<std::span<const char>> F>
   void add_cmd(std::span<const char> name, F &&function) {
-    commands.insert(name, std::forward<F>(function));
+    // commands.insert(name, std::forward<F>(function));
   }
 
   template <std::invocable F>

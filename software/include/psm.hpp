@@ -1,7 +1,6 @@
 #ifndef PSM_HPP
 #define PSM_HPP
 
-#include "com.hpp"
 #include "converter.hpp"
 #include "fixed_map.hpp"
 #include "fixed_vector.hpp"
@@ -15,13 +14,12 @@
 #include "relay.hpp"
 #include "units.hpp"
 
-#include <chrono>
 #include <cstdint>
 
 namespace psm {
 
 using float_t = float;
-using MilliSeconds = std::chrono::milliseconds;
+using MilliSeconds = std::uint32_t;
 
 enum class CtrlFlags {
   OutputType,
@@ -138,10 +136,11 @@ class PSM : public poly::Struct<
                 poly::type_list<>> {
 public:
   void init(NonVolatileStorage s) {
-    storage = s;
-    storage.load(config_);
+    // storage = s;
+    // storage.load(config_);
   }
-  void loop();
+
+  void loop() {}
 
   Error set_type(OutputType mode);
   OutputType get_type(uint8_t id = 0) const;

@@ -1,0 +1,6 @@
+[wrap-git]
+url=https://github.com/hanickadot/compile-time-regular-expressions.git
+revision=v3.9.0
+method=cmake
+[provide]
+ctre=ctre_dep

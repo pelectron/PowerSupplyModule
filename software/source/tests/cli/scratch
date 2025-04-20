@@ -1,0 +1,16 @@
+    // free functions
+    func("free1"_sc, &free1, arg("param"_sc)) ,
+    // lambdas without templated call operator
+    func("lambda"_sc, 
+         [](int i, char c) {},
+          arg("i"_sc), 
+          arg("c"_sc)),
+    // and any other functor without templated call operator
+    func("functor"_sc, MyFunctor{} /*, optional: arg("i"_sc), arg("c"_sc)*/),
+    // member functions
+    // func("free2"_sc, s, &S::free2)
+    // free parameters 
+    param("enable"_sc,enable),
+    // virtual hierarchies
+    param("virtual"_sc,virtual_,param("enable"_sc, enable_virtual))
+

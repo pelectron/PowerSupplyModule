@@ -369,7 +369,7 @@ ConfigResult<Master> configure(const MasterConfig &cfg) {
 
   // 2. configure CR1
   // a) configure baudrate divisor
-  std::uint32_t clk_rate = hal::clock::frequency(Peripheral::spi1);
+  std::uint32_t clk_rate = hal::clock::frequency(Peripheral::spi);
   if (cfg.baudrate > clk_rate / 2)
     return ConfigError::invalid_baudrate;
 
@@ -445,7 +445,7 @@ ConfigResult<Master> configure(const MasterConfig &cfg) {
   // 5. configure dma
 
   // 6. Enable the clock and actually apply the settings
-  clock::enable(Peripheral::spi1);
+  clock::enable(Peripheral::spi);
   SPI1->CR1 = cr1;
   SPI1->CR2 = cr2;
   SPI1->CRCPR = crcpr;

@@ -7,10 +7,12 @@ common_args = [
     '-specs=nosys.specs',
     '-ffunction-sections',# each function to a seperate section ==> Code-optimization / deletion
     '-fdata-sections',# each variable to a seperate section ==> Code-optimization / deletion
-    '-ffreestanding',
-    '-nostdlib',
+    '-Wno-subobject-linkage',
+    # '-ffreestanding',
+    # '-nostdlib',
     '-nodefaultlibs',
-    '-nostartfiles'
+    '-nostartfiles',
+    '-Wextra',
     ]
 
 link_args = [
@@ -35,6 +37,7 @@ cpu        = 'cortex-m0plus'
 endian     = 'little'
 
 [built-in options]
+warning_level='everything'
 c_args = common_args
 cpp_args = common_args + [
     '-fno-exceptions',

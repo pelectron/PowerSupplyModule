@@ -44,8 +44,9 @@ out/
 ### Meson ###
 # subproject directories
 /subprojects/*
-!/subprojects/*.wrap
 /subprojects/type_list.wrap
+!/subprojects/*.wrap
+!/subprojects/packagefiles
 
 # Meson Directories
 meson-logs
@@ -66,3 +67,4 @@ build.ninja
 compile_commands.json
 
 # End of https://www.toptal.com/developers/gitignore/api/kicad,meson
+*.cache
