@@ -50,7 +50,7 @@ using fixpoint_value_type_t = std::conditional_t<
 template <size_t IntDigits, size_t FracDigits> class unsigned_fixed {
 public:
   /// smallest unsigned integer type with required bit width
-  using value_type = fixpoint_value_type_t<FracDigits + IntDigits>;
+  using raw_value_type = fixpoint_value_type_t<FracDigits + IntDigits>;
 
   static_assert((FracDigits + IntDigits) <= 64,
                 "unsigned_fixed digits error: maximum supported number of "
@@ -64,12 +64,14 @@ public:
   /// total number of bits
   static constexpr size_t num_digits = num_int_digits + num_frac_digits;
   /// mask for fractional part
-  static constexpr value_type fraction_mask =
-      mask<value_type, num_frac_digits>();
+  static constexpr raw_value_type fraction_mask =
+      mask<raw_value_type, num_frac_digits>();
   /// mask for integer part
-  static constexpr value_type integer_mask = mask<value_type, num_int_digits>();
+  static constexpr raw_value_type integer_mask =
+      mask<raw_value_type, num_int_digits>();
   /// mask for whole value
-  static constexpr value_type value_mask = mask<value_type, num_digits>();
+  static constexpr raw_value_type value_mask =
+      mask<raw_value_type, num_digits>();
 
   constexpr unsigned_fixed() = default;
   constexpr unsigned_fixed(const unsigned_fixed &) = default;
@@ -81,7 +83,7 @@ public:
   constexpr unsigned_fixed(unsigned_fixed<I, F> other) noexcept;
 
   /// construct from binary value.
-  constexpr unsigned_fixed(value_type value) noexcept;
+  constexpr unsigned_fixed(raw_value_type value) noexcept;
 
   /// construct from floating point.
   /// @{
@@ -91,7 +93,7 @@ public:
 
   /// access the raw value
   /// @return smallest unsigned integer type with at least num_digits bits
-  [[nodiscard]] constexpr value_type value() const;
+  [[nodiscard]] constexpr raw_value_type value() const;
 
   /// get the raw integer bits
   /// @return smallest unsigned integer with at least num_int_digits bits
@@ -102,7 +104,7 @@ public:
   [[nodiscard]] constexpr fixpoint_value_type_t<FracDigits> fraction() const;
 
 private:
-  value_type value_{0};
+  raw_value_type value_{0};
 };
 
 /**
@@ -120,7 +122,7 @@ private:
 template <size_t IntDigits, size_t FracDigits> class signed_fixed {
 public:
   /// smallest unsigned integer type with required bit width
-  using value_type = fixpoint_value_type_t<FracDigits + IntDigits>;
+  using raw_value_type = fixpoint_value_type_t<FracDigits + IntDigits>;
 
   static_assert((FracDigits + IntDigits) <= 64,
                 "signed_fixed digits error: maximum supported number of digits "
@@ -134,12 +136,14 @@ public:
   /// total number of bits
   static constexpr size_t num_digits = num_int_digits + num_frac_digits;
   /// mask for fractional part
-  static constexpr value_type fraction_mask =
-      mask<value_type, num_frac_digits>();
+  static constexpr raw_value_type fraction_mask =
+      mask<raw_value_type, num_frac_digits>();
   /// mask for integer part
-  static constexpr value_type integer_mask = mask<value_type, num_int_digits>();
+  static constexpr raw_value_type integer_mask =
+      mask<raw_value_type, num_int_digits>();
   /// mask for whole value
-  static constexpr value_type value_mask = mask<value_type, num_digits>();
+  static constexpr raw_value_type value_mask =
+      mask<raw_value_type, num_digits>();
 
   constexpr signed_fixed() = default;
   constexpr signed_fixed(const signed_fixed &) = default;
@@ -150,7 +154,7 @@ public:
   template <size_t I, size_t F>
   constexpr signed_fixed(signed_fixed<I, F> other) noexcept;
   /// construct from binary value.
-  constexpr signed_fixed(value_type value) noexcept;
+  constexpr signed_fixed(raw_value_type value) noexcept;
 
   /// construct from floating point.
   /// @{
@@ -160,9 +164,9 @@ public:
 
   /// access the fixpoint's raw value (stored in two's complement)
   /// @return smallest unsigned integer type with at least num_digits bits
-  [[nodiscard]] constexpr value_type value() const noexcept;
+  [[nodiscard]] constexpr raw_value_type value() const noexcept;
 
-  /// get the raw integer bits
+  /// get the sign extended integer bits
   /// @return smallest unsigned integer with at least num_int_digits bits
   [[nodiscard]] constexpr fixpoint_value_type_t<IntDigits> integer() const;
 
@@ -175,7 +179,8 @@ public:
   [[nodiscard]] constexpr bool is_negative() const noexcept;
 
 private:
-  value_type value_; ///< value in two's complement, regardless of architecture.
+  raw_value_type
+      value_; ///< value in two's complement, regardless of architecture.
 };
 
 /**
@@ -425,6 +430,99 @@ constexpr double to_double(unsigned_fixed<I, F> v) noexcept;
  */
 template <size_t I, size_t F>
 constexpr double to_double(unsigned_fixed<I, F> v) noexcept;
+/**
+ * @brief less than comparison for signed_fixed
+ * @return true if f1 < f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator<(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) {
+  return sign_extended_value(f1) < sign_extended_value(f2);
+}
+
+/**
+ * @brief less than comparison for signed_fixed
+ * @return true if f1 < f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator<=(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) {
+  return sign_extended_value(f1) <= sign_extended_value(f2);
+}
+
+/**
+ * @brief greater than comparison for signed_fixed
+ * @return true if f1 > f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator>(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) {
+  return sign_extended_value(f1) > sign_extended_value(f2);
+}
+
+/**
+ * @brief greater than or equal comparison for signed_fixed
+ * @return true if f1 > f2
+ */
+
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator>=(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) {
+  return sign_extended_value(f1) >= sign_extended_value(f2);
+}
+
+/**
+ * @brief equality comparison for signed_fixed
+ * @return true if f1 and f2 are equal
+ */
+
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator==(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) {
+  return f1.value() == f2.value();
+}
+
+/**
+ * @brief less than comparison for unsigned_fixed
+ * @return true if f1 < f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator<(unsigned_fixed<I1, F1> f1, unsigned_fixed<I2, F2> f2) {
+  return f1.value() < f2.value();
+}
+
+/**
+ * @brief less than or equal comparison for unsigned_fixed
+ * @return true if f1 < f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator<=(unsigned_fixed<I1, F1> f1,
+                          unsigned_fixed<I2, F2> f2) {
+  return f1.value() <= f2.value();
+}
+
+/**
+ * @brief greater than comparison for unsigned_fixed
+ * @return true if f1 > f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator>(unsigned_fixed<I1, F1> f1, unsigned_fixed<I2, F2> f2) {
+  return f1.value() > f2.value();
+}
+/**
+ * @brief greater than or equal comparison for unsigned_fixed
+ * @return true if f1 > f2
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator>=(unsigned_fixed<I1, F1> f1,
+                          unsigned_fixed<I2, F2> f2) {
+  return f1.value() >= f2.value();
+}
+
+/**
+ * @brief equality comparison for unsigned_fixed
+ * @return true if f1 and f2 are equal
+ */
+template <size_t I1, size_t F1, size_t I2, size_t F2>
+constexpr bool operator==(unsigned_fixed<I1, F1> f1,
+                          unsigned_fixed<I2, F2> f2) {
+  return f1.value() == f2.value();
+}
 
 template <typename T> constexpr T mask(size_t msb, size_t lsb) noexcept {
   T val{0};
@@ -440,10 +538,10 @@ static_assert(mask<uint8_t>(7, 4) == 0xF0u);
 
 /// @brief get internal value of f correctly sign extended
 template <size_t I, size_t F>
-typename signed_fixed<I, F>::value_type
+typename signed_fixed<I, F>::raw_value_type
 sign_extended_value(signed_fixed<I, F> f) {
   if (f.is_negative()) {
-    using T = typename signed_fixed<I, F>::value_type;
+    using T = typename signed_fixed<I, F>::raw_value_type;
     // value or'd together with all ones in the 'guard' bits of the value type
     return f.value() | mask<T>(sizeof(T) * 8 - 1, I + F);
   }
@@ -459,19 +557,19 @@ constexpr unsigned_fixed<IntDigits, FracDigits>::unsigned_fixed(
 
 template <size_t IntDigits, size_t FracDigits>
 constexpr unsigned_fixed<IntDigits, FracDigits>::unsigned_fixed(
-    unsigned_fixed<IntDigits, FracDigits>::value_type value) noexcept
+    unsigned_fixed<IntDigits, FracDigits>::raw_value_type value) noexcept
     : value_(value & value_mask) {}
 
 template <size_t IntDigits, size_t FracDigits>
 constexpr unsigned_fixed<IntDigits, FracDigits>::unsigned_fixed(
     float value) noexcept {
 
-  const value_type int_part = (static_cast<value_type>(value) & integer_mask)
-                              << num_frac_digits;
+  const raw_value_type int_part =
+      (static_cast<raw_value_type>(value) & integer_mask) << num_frac_digits;
 
-  const value_type frac_part =
-      static_cast<value_type>((value - static_cast<value_type>(value)) *
-                              gcem::pow(2.0f, num_frac_digits)) &
+  const raw_value_type frac_part =
+      static_cast<raw_value_type>((value - static_cast<raw_value_type>(value)) *
+                                  gcem::pow(2.0f, num_frac_digits)) &
       fraction_mask;
 
   value_ = int_part | frac_part;
@@ -481,19 +579,19 @@ template <size_t IntDigits, size_t FracDigits>
 constexpr unsigned_fixed<IntDigits, FracDigits>::unsigned_fixed(
     double value) noexcept {
 
-  const value_type int_part =
-      ((static_cast<value_type>(value) & integer_mask) << num_frac_digits);
+  const raw_value_type int_part =
+      ((static_cast<raw_value_type>(value) & integer_mask) << num_frac_digits);
 
-  const value_type frac_part =
-      static_cast<value_type>((value - static_cast<value_type>(value)) *
-                              gcem::pow(2.0, num_frac_digits)) &
+  const raw_value_type frac_part =
+      static_cast<raw_value_type>((value - static_cast<raw_value_type>(value)) *
+                                  gcem::pow(2.0, num_frac_digits)) &
       fraction_mask;
 
   value_ = int_part | frac_part;
 }
 
 template <size_t IntDigits, size_t FracDigits>
-constexpr typename unsigned_fixed<IntDigits, FracDigits>::value_type
+constexpr typename unsigned_fixed<IntDigits, FracDigits>::raw_value_type
 unsigned_fixed<IntDigits, FracDigits>::value() const {
   return value_;
 }
@@ -519,7 +617,7 @@ constexpr signed_fixed<IntDigits, FracDigits>::signed_fixed(
 
 template <size_t IntDigits, size_t FracDigits>
 constexpr signed_fixed<IntDigits, FracDigits>::signed_fixed(
-    signed_fixed<IntDigits, FracDigits>::value_type value) noexcept
+    signed_fixed<IntDigits, FracDigits>::raw_value_type value) noexcept
     : value_(value & value_mask) {}
 
 template <size_t IntDigits, size_t FracDigits>
@@ -527,22 +625,25 @@ constexpr signed_fixed<IntDigits, FracDigits>::signed_fixed(
     float value) noexcept {
   if (value < 0.0f) {
     value = -value;
-    const value_type int_part = (static_cast<value_type>(value) & integer_mask)
-                                << num_frac_digits;
+    const raw_value_type int_part =
+        (static_cast<raw_value_type>(value) & integer_mask) << num_frac_digits;
 
-    const value_type frac_part =
-        static_cast<value_type>((value - static_cast<value_type>(value)) *
-                                gcem::pow(2.0f, num_frac_digits)) &
+    const raw_value_type frac_part =
+        static_cast<raw_value_type>(
+            (value - static_cast<raw_value_type>(value)) *
+            gcem::pow(2.0f, num_frac_digits)) &
         fraction_mask;
     value_ = int_part | frac_part;
-    value_ = static_cast<value_type>((~(value_) + 1)) & value_mask;
+    value_ = static_cast<raw_value_type>((~(value_) + 1)) & value_mask;
   } else {
-    const value_type int_part =
-        ((static_cast<value_type>(value) & integer_mask) << num_frac_digits);
+    const raw_value_type int_part =
+        ((static_cast<raw_value_type>(value) & integer_mask)
+         << num_frac_digits);
 
-    const value_type frac_part =
-        static_cast<value_type>((value - static_cast<value_type>(value)) *
-                                gcem::pow(2.0f, num_frac_digits)) &
+    const raw_value_type frac_part =
+        static_cast<raw_value_type>(
+            (value - static_cast<raw_value_type>(value)) *
+            gcem::pow(2.0f, num_frac_digits)) &
         fraction_mask;
 
     value_ = int_part | frac_part;
@@ -554,23 +655,25 @@ constexpr signed_fixed<IntDigits, FracDigits>::signed_fixed(
     double value) noexcept {
   if (value < 0.0) {
     value = -value;
-    const value_type int_part = (static_cast<value_type>(value) & integer_mask)
-                                << num_frac_digits;
+    const raw_value_type int_part =
+        (static_cast<raw_value_type>(value) & integer_mask) << num_frac_digits;
 
-    const value_type frac_part =
-        static_cast<value_type>((value - static_cast<value_type>(value)) *
-                                gcem::pow(2.0, num_frac_digits)) &
+    const raw_value_type frac_part =
+        static_cast<raw_value_type>(
+            (value - static_cast<raw_value_type>(value)) *
+            gcem::pow(2.0, num_frac_digits)) &
         fraction_mask;
 
     value_ = int_part | frac_part;
     value_ = (~(value_) + 1) & value_mask;
   } else {
-    const value_type int_part = (static_cast<value_type>(value) & integer_mask)
-                                << num_frac_digits;
+    const raw_value_type int_part =
+        (static_cast<raw_value_type>(value) & integer_mask) << num_frac_digits;
 
-    const value_type frac_part =
-        static_cast<value_type>((value - static_cast<value_type>(value)) *
-                                gcem::pow(2.0, num_frac_digits)) &
+    const raw_value_type frac_part =
+        static_cast<raw_value_type>(
+            (value - static_cast<raw_value_type>(value)) *
+            gcem::pow(2.0, num_frac_digits)) &
         fraction_mask;
 
     value_ = int_part | frac_part;
@@ -578,9 +681,9 @@ constexpr signed_fixed<IntDigits, FracDigits>::signed_fixed(
 }
 
 template <size_t IntDigits, size_t FracDigits>
-constexpr typename signed_fixed<IntDigits, FracDigits>::value_type
+constexpr typename signed_fixed<IntDigits, FracDigits>::raw_value_type
 signed_fixed<IntDigits, FracDigits>::value() const noexcept {
-  return value_;
+  return value_ & mask<raw_value_type, num_digits>();
 }
 
 template <size_t IntDigits, size_t FracDigits>
@@ -598,8 +701,8 @@ signed_fixed<IntDigits, FracDigits>::fraction() const {
 template <size_t IntDigits, size_t FracDigits>
 constexpr bool
 signed_fixed<IntDigits, FracDigits>::is_negative() const noexcept {
-  return (value_ & value_type{1} << (num_digits - 1)) ==
-         (value_type{1} << (num_digits - 1));
+  return (value_ & raw_value_type{1} << (num_digits - 1)) ==
+         (raw_value_type{1} << (num_digits - 1));
 }
 
 template <size_t I1, size_t F1, size_t I2, size_t F2>
@@ -607,7 +710,7 @@ constexpr unsigned_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>
 operator+(const unsigned_fixed<I1, F1> &f1,
           const unsigned_fixed<I2, F2> &f2) noexcept {
   using result_type = unsigned_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   if constexpr (F1 > F2) {
     return static_cast<value_type>(f1.value()) +
            (static_cast<value_type>(f2.value()) << (F1 - F2));
@@ -625,7 +728,7 @@ constexpr unsigned_fixed<gcem::max(I1, I2), gcem::max(F1, F2)>
 operator-(const unsigned_fixed<I1, F1> &f1,
           const unsigned_fixed<I2, F2> &f2) noexcept {
   using result_type = unsigned_fixed<gcem::max(I1, I2), gcem::max(F1, F2)>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   if constexpr (F1 > F2) {
     return static_cast<value_type>(f1.value()) -
            (static_cast<value_type>(f2.value()) << (F1 - F2));
@@ -647,7 +750,7 @@ operator+(const unsigned_fixed<I, F> &value) noexcept {
 template <size_t I, size_t F>
 constexpr signed_fixed<I + 1, F>
 operator-(const unsigned_fixed<I, F> &value) noexcept {
-  using T = typename signed_fixed<I + 1, F>::value_type;
+  using T = typename signed_fixed<I + 1, F>::raw_value_type;
   return static_cast<T>((~static_cast<T>(value.value()) + 1u) &
                         mask<T, signed_fixed<I + 1, F>::num_digits>());
 }
@@ -657,7 +760,7 @@ constexpr unsigned_fixed<I1 + I2, F1 + F2>
 operator*(const unsigned_fixed<I1, F1> &f1,
           const unsigned_fixed<I2, F2> &f2) noexcept {
   using result_type = unsigned_fixed<I1 + I2, F1 + F2>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   return static_cast<value_type>(f1.value()) *
          static_cast<value_type>(f2.value());
 }
@@ -671,7 +774,7 @@ operator/(const unsigned_fixed<I1, F1> &f1, const unsigned_fixed<I2, F2> &f2) {
   // now x needs to be converted to form: v3* 2^-(F1+I2), which is a left shift
   // by (F1+I2) - (F1-F2) = I2+F2
   using result_type = unsigned_fixed<I1 + F2, I2 + F1>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   return static_cast<value_type>(
       (static_cast<value_type>(f1.value()) << (I2 + F2)) /
       static_cast<value_type>(f2.value()));
@@ -680,12 +783,13 @@ operator/(const unsigned_fixed<I1, F1> &f1, const unsigned_fixed<I2, F2> &f2) {
 template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr unsigned_fixed<I1, F1> resize(unsigned_fixed<I2, F2> value) noexcept {
   if constexpr (F1 > F2) {
-    return static_cast<typename unsigned_fixed<I1, F1>::value_type>(
-        static_cast<typename unsigned_fixed<I1, F1>::value_type>(value.value())
+    return static_cast<typename unsigned_fixed<I1, F1>::raw_value_type>(
+        static_cast<typename unsigned_fixed<I1, F1>::raw_value_type>(
+            value.value())
         << (F1 - F2));
   } else {
-    return static_cast<typename unsigned_fixed<I1, F1>::value_type>(
-        static_cast<typename unsigned_fixed<I1, F1>::value_type>(
+    return static_cast<typename unsigned_fixed<I1, F1>::raw_value_type>(
+        static_cast<typename unsigned_fixed<I1, F1>::raw_value_type>(
             value.value()) >>
         (F2 - F1));
   }
@@ -700,9 +804,10 @@ operator+(const signed_fixed<I, F> &value) noexcept {
 template <size_t I, size_t F>
 constexpr signed_fixed<I, F>
 operator-(const signed_fixed<I, F> &value) noexcept {
-  using T = typename signed_fixed<I, F>::value_type;
-  return static_cast<T>((~static_cast<T>(value.value()) + 1) &
-                        mask<T, signed_fixed<I, F>::num_digits>());
+  using T = typename signed_fixed<I, F>::raw_value_type;
+  return signed_fixed<I, F>(
+      static_cast<T>((~static_cast<T>(value.value()) + 1) &
+                     mask<T, signed_fixed<I, F>::num_digits>()));
 }
 
 template <size_t I1, size_t F1, size_t I2, size_t F2>
@@ -710,7 +815,7 @@ constexpr signed_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>
 operator+(const signed_fixed<I1, F1> &f1,
           const signed_fixed<I2, F2> &f2) noexcept {
   using result_type = signed_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   value_type v1 =
       sign_extended_value(resize<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>(f1));
   value_type v2 =
@@ -722,7 +827,7 @@ template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>
 operator-(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) noexcept {
   using result_type = signed_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   value_type v1 =
       sign_extended_value(resize<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>(f1));
   value_type v2 =
@@ -734,7 +839,7 @@ template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<I1 + I2 - 1, F1 + F2>
 operator*(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) noexcept {
   using result_type = signed_fixed<I1 + I2 - 1, F1 + F2>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   const bool neg_result = f1.is_negative() xor f2.is_negative();
   if (f1.is_negative()) {
     f1 = -f1;
@@ -754,7 +859,7 @@ template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<I1 + F2, I2 + F1> operator/(signed_fixed<I1, F1> f1,
                                                    signed_fixed<I2, F2> f2) {
   using result_type = signed_fixed<I1 + F2, I2 + F1>;
-  using value_type = typename result_type::value_type;
+  using value_type = typename result_type::raw_value_type;
   const bool neg_result = f1.is_negative() xor f2.is_negative();
   if (f1.is_negative()) {
     f1 = -f1;
@@ -774,7 +879,7 @@ constexpr signed_fixed<I1 + F2, I2 + F1> operator/(signed_fixed<I1, F1> f1,
 
 template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<I1, F1> resize(signed_fixed<I2, F2> value) noexcept {
-  using value_type = typename signed_fixed<I1, F1>::value_type;
+  using value_type = typename signed_fixed<I1, F1>::raw_value_type;
   constexpr auto sign_extend_mask =
       mask<value_type>(sizeof(value_type) * 8 - 1, I2 + F1);
   if constexpr (F1 > F2) {
@@ -831,6 +936,7 @@ template <size_t I, size_t F>
 constexpr unsigned_fixed<I, F> to_unsigned(signed_fixed<I, F> v) noexcept {
   return v.value();
 }
+
 } // namespace psm
 
 #endif /* SGL_FIX_POINT_HPP */

@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "cli-test",
+      "type": "codelldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/software/cli-test.exe",
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": true
+    },
+    {
+      "name": "unit-test",
+      "type": "codelldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/software/unit-test.exe",
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": true
+    }
+  ]
+}

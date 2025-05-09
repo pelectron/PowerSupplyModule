@@ -7,6 +7,8 @@ namespace cli {
 enum class Error : std::uint32_t {
   none,
   unimplemented,
+  implementation_error,
+  invalid_argument,
   cant_set_param,
   cant_read_param,
   invalid_cmd,
@@ -18,7 +20,10 @@ enum class Error : std::uint32_t {
   too_many_argments,
   too_few_arguments,
   invalid_esc_seq,
-  invalid_cli_state,
+  invalid_state,
+  expected_value,
+  unexpected_characters_after_closing_paren,
+  expected_rparen,
   // parse errors
   too_few_characters,
   invalid_character,

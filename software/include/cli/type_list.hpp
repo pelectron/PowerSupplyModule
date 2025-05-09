@@ -512,5 +512,12 @@ template <class T, class List>
 TYPELIST_INLINE constexpr bool contains_v = contains<T, List>::value;
 #endif
 } // namespace type_list
+
+namespace cli{
+
+template<class...Ts>
+using TypeList = type_list::TypeList<Ts...>;
+
+}
 #endif
 // clang-format on

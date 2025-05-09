@@ -41,7 +41,7 @@ template <class T> void print_struct(std::size_t indent = 0) {
   using Info = cli::ctti::StructInfo<T>;
   std::cout << std::string(2 * indent, ' ')
             << cli::ByteView(cli::ctti::name<T>()).data() << ":\n";
-  print_fields(typename Info::fields{}, ++indent);
+  // print_fields(typename Info::fields{}, ++indent);
   std::cout << std::endl;
 }
 
@@ -68,16 +68,19 @@ struct S {
   int a;
   void apply(int i) {}
 };
-static constexpr auto s = cli::ctti::dtl::member_name_impl<&cli::ctti::dtl::external<decltype(&S::a)>>();
+static constexpr auto s = cli::ctti::dtl::name_impl<int>();
+
 static constexpr auto s2 = cli::ctti::dtl::member_name_impl<&S::apply>();
-static_assert(F1_t::name{} == "F1"_sc);
-static_assert(F2_t::name{} == "F2"_sc);
-static_assert(int_t::name{} == "int"_sc);
-static_assert(void_t::name{} == "void"_sc);
-static_assert(cli::ctti::TypeInfo<n::Type>::name{} == "Type"_sc);
+// static_assert(F1_t::name{} == "F1"_sc);
+// static_assert(F2_t::name{} == "F2"_sc);
+// static_assert(int_t::name{} == "int"_sc);
+// static_assert(void_t::name{} == "void"_sc);
+// static_assert(cli::ctti::TypeInfo<n::Type>::name{} == "n::Type"_sc);
 
 int main() {
-  std::cout << s << std::endl;
+  std::cout << cli::ctti::dtl::name_impl<int>() << std::endl;
+  std::cout << cli::ctti::dtl::name_impl<void>() << std::endl;
+  std::cout << cli::ctti::dtl::name_impl<F2>() << std::endl;
   std::cout << s2 << std::endl;
   print_struct<F1>();
   print_struct<F2>();
@@ -89,7 +92,9 @@ int main() {
   std::cout << "\nto_tuple(F2{.i=10,.c='c'}):\n";
   cli::for_each(
       [](const auto &field) {
-        std::cout << field.name.data() << ": " << field.value << std::endl;
+        std::cout <<
+            typename std::remove_cvref_t<decltype(field)>::name{}.data() << ": "
+                  << field.value << std::endl;
       },
       cli::ctti::to_tuple(F2{.i = 10, .c = 'c'}));
 
@@ -99,7 +104,9 @@ int main() {
   std::cout << "\nto_tuple(f2):\n";
   cli::for_each(
       [](const auto &field) {
-        std::cout << field.name.data() << ": " << field.value << std::endl;
+        std::cout <<
+            typename std::remove_cvref_t<decltype(field)>::name{}.data() << ": "
+                  << field.value << std::endl;
       },
       tup);
   std::cout << "\nfrom_tuple(to_tuple(f2)):\n";

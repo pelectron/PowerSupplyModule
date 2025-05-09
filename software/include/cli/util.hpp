@@ -4,18 +4,44 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <initializer_list>
+#include <limits>
+#include <memory>
 #include <span>
 #include <string_view>
 #include <type_traits>
 #include <utility>
 
+#include "cli/command.hpp"
 #include "cli/enums.hpp"
+#include "cli/string.hpp"
 #include "cli/type_list.hpp"
 
+#ifdef _MSC_VER
+#define CLI_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
+#else
+#define CLI_NO_UNIQUE_ADDRESS [[no_unique_address]]
+#endif
 namespace cli {
 template <class> inline constexpr bool always_false = false;
+template <auto V>
+using smallest_type_for_value_t = std::conditional_t<
+    V <= std::numeric_limits<uint8_t>::max(), uint8_t,
+    std::conditional_t<
+        V <= std::numeric_limits<uint16_t>::max(), uint16_t,
+        std::conditional_t<V <= std::numeric_limits<uint32_t>::max(), uint32_t,
+                           uint64_t>>>;
 
-using ByteView = std::string_view;
+template <auto V> struct constant {
+  using type = std::remove_cvref_t<decltype(V)>;
+  static constexpr type value{V};
+};
+
+template <auto V> inline constexpr auto constant_v = constant<V>{};
+
+template <class T> struct identity {
+  using type = T;
+};
 
 struct NoDescription {
   constexpr operator ByteView() const noexcept { return ""; }
@@ -29,66 +55,6 @@ template <typename T, typename C>
 concept StringOf = std::constructible_from<const C *, const C *> or
                    std::constructible_from<const C *, std::size_t>;
 
-template <typename... T> using TypeList = type_list::TypeList<T...>;
-
-template <char... c> struct string_constant {
-  static constexpr char value[]{c..., 0};
-  constexpr operator ByteView() const noexcept { return {value, sizeof...(c)}; }
-  constexpr const char *data() const noexcept { return value; }
-  constexpr std::size_t size() const noexcept { return sizeof...(c); }
-};
-
-template <char... C1, char... C2>
-consteval bool operator==(const string_constant<C1...> &,
-                          const string_constant<C2...> &) {
-  return false;
-}
-
-template <char... Cs>
-consteval bool operator==(const string_constant<Cs...> &,
-                          const string_constant<Cs...> &) {
-  return true;
-}
-
-template <char... C1, char... C2>
-consteval bool operator!=(const string_constant<C1...> &,
-                          const string_constant<C2...> &) {
-  return true;
-}
-
-template <char... Cs>
-consteval bool operator!=(const string_constant<Cs...> &,
-                          const string_constant<Cs...> &) {
-  return false;
-}
-
-template <std::size_t N> struct StringLiteral {
-  char s[N]{0};
-  constexpr StringLiteral(char const (&p)[N]) {
-    for (std::size_t i = 0; i < N; ++i) {
-      s[i] = p[i];
-    }
-  }
-
-  template <char... C>
-  constexpr StringLiteral(const auto... cs) : s{cs..., 0} {}
-
-  template <char... Cs>
-  constexpr StringLiteral(string_constant<Cs...>) : s{Cs..., 0} {}
-
-  [[nodiscard]] constexpr auto
-  operator<=>(const StringLiteral &) const = default;
-  [[nodiscard]] constexpr operator ByteView() const { return {s, N - 1}; }
-  [[nodiscard]] constexpr auto size() const -> std::size_t { return N - 1; }
-};
-
-template <std::size_t N> StringLiteral(char const (&p)[N]) -> StringLiteral<N>;
-
-StringLiteral(const auto... cs) -> StringLiteral<sizeof...(cs) + 1>;
-
-template <char... Cs>
-StringLiteral(string_constant<Cs...>) -> StringLiteral<sizeof...(Cs) + 1>;
-
 namespace dtl {
 template <class StringConstant> struct to_lower;
 template <char... Cs> struct to_lower<string_constant<Cs...>> {
@@ -97,37 +63,6 @@ template <char... Cs> struct to_lower<string_constant<Cs...>> {
   }(Cs)...>;
 };
 } // namespace dtl
-template <class T> using to_lower_t = typename dtl::to_lower<T>::type;
-template <char... Cs>
-constexpr to_lower_t<string_constant<Cs...>>
-to_lower(const string_constant<Cs...> &) {
-  return {};
-}
-
-template <char... C1, char... C2>
-constexpr string_constant<C1..., C2...>
-operator+(const string_constant<C1...> &, const string_constant<C2...> &) {
-  return {};
-}
-
-template <char... C1, char... C2>
-constexpr string_constant<C1..., C2...>
-operator+(const string_constant<C1..., 0> &,
-          const string_constant<C2..., 0> &) {
-  return {};
-}
-
-template <char... C1, char... C2>
-constexpr string_constant<C1..., C2...>
-operator+(const string_constant<C1..., 0> &, const string_constant<C2...> &) {
-  return {};
-}
-
-template <char... C1, char... C2>
-constexpr string_constant<C1..., C2...>
-operator+(const string_constant<C1...> &, const string_constant<C2..., 0> &) {
-  return {};
-}
 
 namespace dtl {
 template <StringLiteral S, std::size_t... Is>
@@ -147,12 +82,6 @@ constexpr decltype(auto) apply_impl(Tuple &&t, F &&f,
   return std::forward<F>(f)(std::get<Is>(std::forward<Tuple>(t))...);
 }
 } // namespace dtl
-
-template <StringLiteral S> constexpr auto operator""_sc() {
-  return []<std::size_t... Is>(std::index_sequence<Is...>) {
-    return string_constant<S.s[Is]...>{};
-  }(std::make_index_sequence<S.size()>());
-}
 
 template <class Tuple, class F>
 constexpr decltype(auto) apply(Tuple &&t, F &&f) {
@@ -245,68 +174,6 @@ public:
   constexpr write_iterator output() { return {this, 0}; }
 };
 
-template <typename T> class VecView {
-  T *values_;
-  std::size_t size_;
-  std::size_t capacity_;
-
-public:
-  using value_type = T;
-  using iterator = T *;
-  using const_iterator = const T *;
-
-  constexpr VecView(T *arr, std::size_t capacity)
-      : values_(arr), size_(0), capacity_(capacity) {}
-
-  constexpr bool push_back(const T &t) {
-    if (size_ == capacity_)
-      return false;
-    values_[size_++] = t;
-    return true;
-  }
-
-  constexpr bool push_back(T &&t) {
-    if (size_ == capacity_)
-      return false;
-    values_[size_++] = std::move(t);
-    return true;
-  }
-
-  constexpr void remove_last(size_t n) {
-    if (size_ < n)
-      size_ = 0;
-    else
-      size_ -= n;
-  }
-
-  constexpr void reset() { size_ = 0; }
-
-  constexpr std::size_t size() const { return size_; }
-  constexpr std::size_t capacity() const { return capacity_; }
-
-  constexpr T *data() { return values_; }
-  constexpr const T *data() const { return values_; }
-
-  constexpr T *begin() { return values_; }
-  constexpr const T *begin() const { return values_; }
-
-  constexpr T *end() { return values_ + size_; }
-  constexpr const T *end() const { return values_ + size_; }
-
-  constexpr T &operator[](std::size_t i) { return values_[i]; }
-  constexpr const T &operator[](std::size_t i) const { return values_[i]; }
-};
-
-template <typename T, std::size_t Capacity>
-class FixedSizeVector : public VecView<T> {
-  static_assert(std::is_constructible_v<T>);
-  static_assert(std::is_trivially_destructible_v<T>);
-  T values_[Capacity]{};
-
-public:
-  constexpr FixedSizeVector() : VecView<T>(values_, Capacity) {}
-};
-
 template <typename T, std::size_t Capacity>
 class RingBuffer : public RingBufView<T> {
   static_assert(std::is_constructible_v<T>);
@@ -317,146 +184,9 @@ public:
   constexpr RingBuffer() : RingBufView<T>(values_, Capacity) {}
 };
 
-using ArgVector = VecView<ByteView>;
+using ArgVector = ByteView;
 
 using OutputIterator = RingBufView<uint8_t>::write_iterator;
-
-template <class T>
-concept Name =
-    std::convertible_to<T, ByteView> and not std::is_pointer_v<std::decay_t<T>>;
-
-template <class C>
-concept Command = requires(std::remove_cvref_t<C> &c, ExecType type,
-                           const ArgVector &args, std::span<uint8_t> &out) {
-  { typename std::remove_cvref_t<C>::sub_command_list{} };
-  { std::remove_cvref_t<C>::name } -> Name;
-  { std::remove_cvref_t<C>::description } -> Name;
-  { c.execute(type, args, out) } -> std::same_as<Error>;
-};
-
-struct CommandNode {
-  /// holds the command's name
-  ByteView name{};
-  /// the command's description
-  ByteView description{};
-  /// the commands type as a string, i.e. the value type for parameters and the
-  /// function signatures for functions.
-  ByteView type{};
-  void *this_ = nullptr;
-  Error (*exec_)(void *, ExecType, const ArgVector &,
-                 std::span<uint8_t> &) = nullptr;
-  /// the next sibling command
-  CommandNode *next = nullptr;
-  /// pointers to the firstand last sub command of this
-  CommandNode *subcommand = nullptr;
-  CommandNode *last_subcommand = nullptr;
-
-  Error execute(ExecType exec_type, ArgVector args, std::span<uint8_t> &out) {
-    if (this_ and exec_)
-      return (*exec_)(this_, exec_type, args, out);
-    return Error::invalid_cmd;
-  }
-
-  constexpr void add_sub(CommandNode &c) {
-    c.next = nullptr;
-    c.subcommand = nullptr;
-    c.last_subcommand = nullptr;
-    CommandNode *sub = subcommand;
-    if (sub == nullptr) {
-      // empty
-      subcommand = &c;
-      last_subcommand = &c;
-    } else if (sub->name > c.name) {
-      // c should be inserted as first
-      subcommand = &c;
-      c.next = sub;
-    } else if (last_subcommand->name < c.name) {
-      // c should be inserted as last
-      last_subcommand->next = &c;
-      last_subcommand = &c;
-    } else {
-      // c should be inserted somewhere in the middle
-      CommandNode *last_sub = sub;
-      sub = sub->next;
-      while (sub != nullptr) {
-        if (sub->name > c.name) {
-          last_sub->next = &c;
-          c.next = sub;
-          break;
-        } else {
-          assert(sub->name != c.name);
-          last_sub = sub;
-          sub = sub->next;
-        }
-      }
-    }
-  }
-};
-
-template <class Derived, Name CmdName, Name Description, Name Type,
-          Command... SubCommands>
-class CommandBase {
-public:
-  using sub_command_list = TypeList<SubCommands...>;
-  static constexpr CmdName name{};
-  static constexpr Description description{};
-  static constexpr Type type{};
-
-  CommandBase() = delete;
-  constexpr CommandBase(const CommandBase &) = default;
-  constexpr CommandBase(CommandBase &&) = default;
-  constexpr CommandBase &operator=(const CommandBase &) = default;
-  constexpr CommandBase &operator=(CommandBase &&) = default;
-
-  template <Command... SubCommands_>
-  constexpr CommandBase(SubCommands_ &&...cmds)
-      : subcommands{std::forward<SubCommands_>(cmds)...} {}
-
-  constexpr CommandBase(std::tuple<SubCommands...> &&cmds)
-      : subcommands{std::move(cmds)} {}
-
-  constexpr CommandBase(const std::tuple<SubCommands...> &cmds)
-      : subcommands{cmds} {}
-
-  constexpr Error execute(ExecType type, ArgVector args,
-                          std::span<uint8_t> &out) {
-    return static_cast<Derived *>(this)->execute(type, args, out);
-  }
-
-protected:
-  template <class D, Name C, Name Desc, Name H, Command... SubC>
-  constexpr auto count_cmds(const CommandBase<D, C, Desc, H, SubC...> &c);
-  template <class F, class D, Name C, Name Desc, Name H, Command... SubC,
-            class... Args>
-  friend constexpr void for_each(F &&f, CommandBase<D, C, Desc, H, SubC...> &t,
-                                 Args &&...args);
-  template <class F, class D, Name C, Name Desc, Name H, Command... SubC,
-            class... Args>
-  friend constexpr void
-  for_each(F &&f, const CommandBase<D, C, Desc, H, SubC...> &t, Args &&...args);
-
-  std::tuple<SubCommands...> subcommands{};
-};
-
-template <class Derived, Name CmdName, Name Description, Name Type>
-class CommandBase<Derived, CmdName, Description, Type> {
-public:
-  using sub_command_list = TypeList<>;
-  static constexpr CmdName name{};
-  static constexpr Description description{};
-  static constexpr Type type{};
-
-  constexpr CommandBase() = default;
-  constexpr CommandBase(const CommandBase &) = default;
-  constexpr CommandBase(CommandBase &&) = default;
-  constexpr CommandBase &operator=(const CommandBase &) = default;
-  constexpr CommandBase &operator=(CommandBase &&) = default;
-
-  constexpr Error execute(ExecType type, ArgVector args,
-                          std::span<uint8_t> &out) {
-    return static_cast<Derived *>(this)->execute(type, args, out);
-  }
-};
 
 template <class F, class Tuple, class... Args>
   requires(not Command<Tuple>)
@@ -509,11 +239,42 @@ template <Command C>
 inline constexpr std::size_t num_cmds_v =
     num_cmds<C, typename C::sub_command_list>::value;
 
+template <class T, class L> struct num_levels;
+template <class T, template <class...> class L, class... SubCmds>
+struct num_levels<T, L<SubCmds...>> {
+  static constexpr std::size_t value =
+      1 +
+      std::max(
+          {num_levels<SubCmds, typename SubCmds::sub_command_list>::value...});
+};
+template <class T, template <class...> class L> struct num_levels<T, L<>> {
+  static constexpr std::size_t value = 0;
+};
+
+template <Command C>
+inline constexpr std::size_t num_levels_v =
+    num_cmds<C, typename C::sub_command_list>::value;
+
+template <class T, class L> struct max_name_length;
+template <class T, template <class...> class L, class... SubCmds>
+struct max_name_length<T, L<SubCmds...>> {
+  static constexpr std::size_t value = std::max(
+      {T::name.size(),
+       max_name_length<SubCmds, typename SubCmds::sub_command_list>::value...});
+};
+template <class T, template <class...> class L> struct max_name_length<T, L<>> {
+  static constexpr std::size_t value = T::name.size();
+};
+
+template <Command C>
+inline constexpr std::size_t max_name_length_v =
+    max_name_length<C, typename C::sub_command_list>::value;
+
 template <class D, Name C, Name Desc, Name H, Command... SubC>
 constexpr auto count_cmds(const CommandBase<D, C, Desc, H, SubC...> &c) {
   if constexpr (sizeof...(SubC) > 0) {
     1 + [&c]<std::size_t... Is>(std::index_sequence<Is...>) {
-      return (count_cmds(std::get<Is>(c.subcommand)) + ...);
+      return (count_cmds(std::get<Is>(c.subcommands)) + ...);
     }(std::make_index_sequence<sizeof...(SubC)>());
   } else
     return 1;
@@ -523,7 +284,7 @@ template <class D, Name C, Name Desc, Name H, Command... SubC>
 constexpr auto count_level(const CommandBase<D, C, Desc, H, SubC...> &c) {
   if constexpr (sizeof...(SubC) > 0) {
     1 + [&c]<std::size_t... Is>(std::index_sequence<Is...>) {
-      return std::max(count_level(std::get<Is>(c.subcommand))...);
+      return std::max(count_level(std::get<Is>(c.subcommands))...);
     }(std::make_index_sequence<sizeof...(SubC)>());
   } else
     return 1;
