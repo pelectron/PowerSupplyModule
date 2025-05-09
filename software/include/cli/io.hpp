@@ -3,7 +3,6 @@
 
 #include "cli/enums.hpp"
 #include "cli/util.hpp"
-#include "cpp-terminal/key.hpp"
 #include <cstdint>
 #include <type_traits>
 #include <utility>
@@ -169,22 +168,64 @@ Output(Stream &&) -> Output<AnsiOutputHandler<std::remove_cvref_t<Stream>>>;
  *
  * ```
  * // the cli instance
- * constinit cli::Cli cli(...);
+ * constinit cli::Cli my_cli(...);
  *
  * // the input device
- * constinit cli:io::Input in(cli);
+ * constinit cli:io::Input in(my_cli);
  *
- * // the callback function used by your HAL
+ * // then in the interrupt callback function used by your HAL/BSP
+ * // you need call in's on_char method with the character that was just
+ * // received.
  * void UART_RxCallback(Handle_t* h){
- *   cli::Error error = in.on_char(UART_GetChar(h));
- *   switch(error){
- *      case Error::none: ...
- *      case Error::buffer_overflow: ...
- *      case Error::invalid_esc_seq: ...
- *      default: ...
+ *  cli::Error error = in.on_char(UART_GetChar(h));
+ *  switch(error){
+ *    case Error::none: ...
+ *    case * Error::buffer_overflow: ...
+ *    case Error::invalid_esc_seq: ...
+ *    default: ...
  *   }
  * }
  * ```
+ *
+ * If the input parsing is too expensive for your processor, i.e. characters are
+ * lost because on_char takes too long to execute, then simply read into a
+ * buffer and call on_char in your low priority thread, e.g. your main loop.
+ * This is ideally done just before calling the cli's process method.
+ *
+ * Example:
+ * ```
+ * cli::RingBuffer<volatile char, 256> rx_buf;
+ *
+ * // the cli instance
+ * constinit cli::Cli my_cli(...);
+ *
+ * // the input device
+ * constinit cli:io::Input in(my_cli);
+ *
+ * // then in the interrupt callback function used by your HAL/BSP
+ * // you need call in's on_char method with the character that was just
+ * void UART_RxCallback(Handle_t* h){
+ *  rx_buf.push_back(UART_GetChar(h));
+ * }
+ *
+ * int main(){
+ *
+ *  while(1){
+ *    char c=0;
+ *    while(rx_buf.pop(c)){
+ *      cli::Error err = in.on_char(c);
+ *      switch(err){
+ *        ...
+ *      }
+ *    }
+ *    cli::Error err = cli.process();
+ *    switch(err){
+ *      ...
+ *    }
+ *  }
+ * }
+ * ```
+ *
  */
 class Input {
 public:
