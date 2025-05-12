@@ -91,6 +91,10 @@ public:
   constexpr Device(HandleRef handle, gpio::Output chip_select)
       : handle_(handle), cs(std::move(chip_select)) {}
 
+  constexpr bool is_valid() const noexcept {
+    return static_cast<bool>(handle_);
+  }
+
   constexpr hal::Error write(std::span<const uint8_t> buffer) {
     if (not handle_)
       return hal::Error::invalid_handle;
