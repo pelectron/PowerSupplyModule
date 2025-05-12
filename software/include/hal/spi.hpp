@@ -1,80 +1,31 @@
 #ifndef HAL_SPI_HPP
 #define HAL_SPI_HPP
 
-#include "config.hpp"
+#include "hal/config.hpp"
 #include "hal/gpio.hpp"
-#include <cortex/function.hpp>
+#include "hal/operations.hpp"
+
 #include <span>
+
 namespace hal::spi {
-enum class Id {
-  invalid = 0,
-  A,
-  B,
-  C,
-  D,
-  E,
-  F,
-  G,
-  H,
-  I,
-  J,
-  K,
-  L,
-  M,
-  N,
-  O,
-  P,
-  Q,
-  R,
-  S,
-  T,
-  U,
-  V,
-  W,
-  X,
-  Y,
-  Z
+
+struct NullHandle {
+  constexpr hal::Error write(std::span<const uint8_t>) {
+    return hal::Error::none;
+  }
+
+  constexpr hal::Error read(std::span<uint8_t>) { return hal::Error::none; }
 };
 
-enum class Phase { low, high };
+template <class Storage>
+using Handle = poly::Struct<
+    Storage, poly::type_list<>,
+    poly::type_list<hal::Error(hal::write, std::span<const uint8_t> buffer),
+                    hal::Error(hal::read, std::span<uint8_t> buffer)>>;
 
-enum class Polarity { low, high };
+using HandleOwner = Handle<poly::move_only_local_storage<128>>;
 
-enum class Format { lsb_first, msb_first };
-
-enum class Crc { none, eight_bit, sixteen_bit };
-
-enum class Error {
-  success,
-  busy,
-  rx_overrun,
-  mode_fault,
-  crc_error,
-  frame_error,
-};
-
-constexpr Error operator|(Error a, Error b) {
-  return static_cast<Error>(static_cast<unsigned>(a) |
-                            static_cast<unsigned>(b));
-}
-
-struct MasterConfig {
-  Id id;
-  hal::gpio::Id sclk;
-  hal::gpio::Id mosi;
-  hal::gpio::Id miso;
-  hal::gpio::Id cs;
-  Phase phase = Phase::low;
-  Polarity polarity = Polarity::low;
-  Format format = Format::msb_first;
-  std::uint32_t baudrate = 1'000'000;
-  uint8_t data_size = 8;
-  bool use_hw_cs = false;
-  Crc crc = Crc::none;
-  std::uint32_t crc_polynomial = 0;
-  bool three_wire = false;
-  bool cs_pulse;
-};
+using HandleRef = Handle<poly::ref_storage>;
 
 class BytesRead {
 public:
@@ -107,10 +58,11 @@ enum class State {
   error = 0b111
 };
 
-using Callback = cm::MoveOnlyFunction<uint8_t(Error, BytesRead, BytesWritten),
-                                      16, alignof(void *)>;
+// using Callback = cm::MoveOnlyFunction<uint8_t(Error, BytesRead,
+// BytesWritten),
+//                                       16, alignof(void *)>;
 
-class Master;
+class Device;
 struct Operation {
   enum class Type { none = 0, Read = 0b01, Write = 0b10, ReadWrite = 0b11 };
   constexpr friend Type operator&(Type a, Type b) {
@@ -119,11 +71,11 @@ struct Operation {
   }
 
   void invoke_callback(Error e) {
-    callback(e, BytesRead(read_idx), BytesWritten(write_idx));
+    //  callback(e, BytesRead(read_idx), BytesWritten(write_idx));
   }
 
-  Master *master = nullptr;
-  Callback callback{};
+  Device *master = nullptr;
+  // Callback callback{};
   std::span<const uint8_t> write_buf{};
   std::span<uint8_t> read_buf{};
   volatile size_t read_idx = 0;
@@ -132,25 +84,37 @@ struct Operation {
   Type type = Type::none;
 };
 
-class Master {
+class Device {
 public:
-  void async_write(std::span<const uint8_t> buf, Callback &&cb);
-  void async_read(std::span<uint8_t> buf, Callback &&cb);
-  void async_transceive(std::span<const uint8_t> write_buf,
-                        std::span<uint8_t> read_buf, Callback &&cb);
+  constexpr Device() = default;
+
+  constexpr Device(HandleRef handle, gpio::Output chip_select)
+      : handle_(handle), cs(std::move(chip_select)) {}
+
+  constexpr hal::Error write(std::span<const uint8_t> buffer) {
+    if (not handle_)
+      return hal::Error::invalid_handle;
+    cs.set(gpio::State::reset);
+    auto err = handle_.write(buffer);
+    cs.set(gpio::State::set);
+    return err;
+  }
+
+  constexpr hal::Error read(std::span<uint8_t> buffer) {
+    if (not handle_)
+      return hal::Error::invalid_handle;
+    cs.set(gpio::State::reset);
+    auto err = handle_.read(buffer);
+    cs.set(gpio::State::set);
+    return err;
+  }
 
 private:
-  friend ConfigResult<Master> configure(const MasterConfig &cfg);
-  friend void spi_irq_callback();
-  friend void add_operation(Operation *op);
-  friend void pop_operation_and_start_next();
-  port_type *port = nullptr;
-  State state = State::disabled;
+  HandleRef handle_{};
   gpio::Output cs{};
-  Operation transaction{};
 };
 
-ConfigResult<Master> configure(const MasterConfig &cfg);
+ConfigResult<HandleOwner> configure(const Config &cfg) noexcept;
 } // namespace hal::spi
 
 #endif

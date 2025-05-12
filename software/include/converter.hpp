@@ -18,16 +18,26 @@ POLY_PROPERTY(specs);
 struct Specs {
   Voltage v_min;
   Voltage v_max;
+  Voltage v_granularity;
   Current i_min;
   Current i_max;
+  Current i_granularity;
 };
+
+template <poly::Storage S>
+using Handle = poly::Struct<
+    S,
+    poly::type_list<voltage(Voltage), current(Current), enabled(bool),
+                    const temperature(const Celcius),
+                    const specs(const Specs &)>,
+    poly::type_list<>>;
 
 template <poly::Storage S>
 class BasicConverter
     : public poly::Struct<
           S,
           poly::type_list<voltage(Voltage), current(Current), enabled(bool),
-                          temperature(const Celcius),
+                          const temperature(const Celcius),
                           const specs(const Specs &)>,
           poly::type_list<>> {};
 

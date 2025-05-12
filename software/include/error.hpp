@@ -4,6 +4,7 @@
 namespace psm {
 enum class Error {
   none,
+  invalid_handle,
   unsupported_operation,
   invalid_pin,
   invalid_tip_type,
@@ -42,7 +43,8 @@ enum class Error {
   invalid_format,
   invalid_param,
   out_of_range,
-  invalid_checksum
+  invalid_checksum,
+  hal
 };
 
 constexpr Error operator||(Error e1, Error e2) {

@@ -1,328 +1,164 @@
 #ifndef PSM_COM_HPP
 #define PSM_COM_HPP
 
-#include "cortex/function.hpp"
+#include "cli/enums.hpp"
+#include "cli/io.hpp"
+#include "cli/string.hpp"
 #include "error.hpp"
-#include "fixed_map.hpp"
-#include "parse.hpp"
-#include "poly.hpp"
-#include "poly/storage/ref_storage.hpp"
-#include "poly/traits.hpp"
+
+#include "cli/cli.hpp"
+#include "hal/uart.hpp"
 #include "psm.hpp"
-#include "type_list/type_list.hpp"
-#include <concepts>
-#include <cstdint>
-#include <cstring>
-#include <span>
-#include <tuple>
-#include <type_traits>
-#include <utility>
+#include "relay.hpp"
 
-namespace psm {
-template <char... c> struct string_constant {};
+namespace psm::cli {
 
-template <class C, C... cs> consteval auto operator""_sc() {
-  return string_constant<cs...>{};
+struct UartStream {
+  hal::uart::Device &uart;
+  ::cli::Error operator()(char c) {
+    using enum hal::Error;
+    switch (uart.put(c)) {
+    case none:
+      return ::cli::Error::none;
+    case invalid_handle:
+      return ::cli::Error::implementation_error;
+    // case buffer_overflow:
+    //   return ::cli::Error::buffer_overflow;
+    // case buffer_underflow:
+    //   return ::cli::Error::buffer_underflow;
+    // case io_error:
+    //   return ::cli::Error::io_error;
+    default:
+      return ::cli::Error::unknown;
+    }
+  }
+
+  ::cli::Error operator()(::cli::ByteView s) {
+    using enum hal::Error;
+    switch (uart.put(s.data(), s.size())) {
+    case none:
+      return ::cli::Error::none;
+    case invalid_handle:
+      return ::cli::Error::implementation_error;
+    // case buffer_overflow:
+    //   return ::cli::Error::buffer_overflow;
+    // case buffer_underflow:
+    //   return ::cli::Error::buffer_underflow;
+    // case io_error:
+    //   return ::cli::Error::io_error;
+    default:
+      return ::cli::Error::unknown;
+    }
+  }
+};
+
+template <class S> constexpr auto make_cli(psm::Psm &module, S &&stream) {
+  using namespace ::cli;
+  constexpr auto id = arg<uint8_t, 0u>("id"_sc, "the channel id"_sc);
+  return Cli{
+      ::cli::config{},
+      std::forward<S>(stream),
+      param(
+          "config"_sc, "module configuration parameters"_sc,
+          param(
+              "set"_sc, "set psm module parameters"_sc,
+              func(
+                  "series-support"_sc,
+                  "enable the series output support of the psm. should only be enabled if the hardware actually supports it."_sc,
+                  module, &psm::Psm::set_series_support,
+                  arg("value"_sc,
+                      "if true, enables to series output support. Else it will be disabled."_sc),
+                  id),
+              func(
+                  "num-ldos"_sc,
+                  "set the number of LDOs. should be set to the actual number of LDOs populated."_sc,
+                  module, &psm::Psm::set_num_ldos,
+                  arg("value"_sc, "the number of ldos"_sc), id),
+              func("id"_sc, "set the id of the psm."_sc, module,
+                   &psm::Psm::set_num_ldos,
+                   arg("value"_sc,
+                       "the modules numeric id. This should be zero for "
+                       "PSMs operating as a signular "
+                       "power supply. In a multi PSM configuration "
+                       "this number is used as the channel "
+                       "number and 0 is reserved for the master."_sc),
+                   id)),
+          param("get"_sc, "retrieve psm module parameters"_sc,
+                func("series-support"_sc,
+                     "check if the psm support a series output"_sc, module,
+                     &psm::Psm::get_series_support, id),
+                func("num-ldos"_sc, "get the number of LDOs"_sc, module,
+                     &psm::Psm::get_num_ldos, id),
+                func("id"_sc, "get the id of the psm."_sc, module,
+                     &psm::Psm::set_num_ldos,
+                     arg("value"_sc, "the modules numeric id"_sc), id))),
+      param(
+          "set"_sc, "set psm parameters"_sc,
+          func("enable"_sc, "enable the output of the psm"_sc, module,
+               &psm::Psm::set_enable,
+               arg("value"_sc,
+                   "if true, enables to output. Else disables the output."_sc),
+               id),
+          func("voltage"_sc, "set the output voltage of the psm"_sc, module,
+               &psm::Psm::set_voltage, arg("value"_sc, "the value in volts"_sc),
+               id),
+          func("current"_sc, "set the output current limit of the psm"_sc,
+               module, &psm::Psm::set_current,
+               arg("value"_sc, "the value in amps"_sc), id),
+          func("type"_sc, "set the output type of the psm"_sc, module,
+               &psm::Psm::set_type, arg("value"_sc, "the output type"_sc), id),
+          func("mode"_sc, "set the output mode of the psm"_sc, module,
+               &psm::Psm::set_mode, arg("value"_sc, "the output mode"_sc), id),
+          func("dropout-voltage"_sc,
+               "set the drop output voltage of the LDO stage"_sc, module,
+               &psm::Psm::set_vdrop, arg("value"_sc, "the drop out voltage"_sc),
+               id),
+          func("cable-resistance"_sc,
+               "set the cable resistance compensation"_sc, module,
+               &psm::Psm::set_rcable,
+               arg("value"_sc, "the drop out voltage"_sc), id),
+          func(
+              "series"_sc, "enable the series output of the psm"_sc, module,
+              &psm::Psm::set_enable,
+              arg("enable"_sc,
+                  "if true, enables to series output. Else disables the series output."_sc),
+              id)),
+      param(
+          "get"_sc, "retrieve psm parameters"_sc,
+          func("enable"_sc,
+               "returns true if the output is enabled, else false"_sc, module,
+               &psm::Psm::get_enable, id),
+          func("voltage"_sc, "the output voltage of the psm"_sc, module,
+               &psm::Psm::get_voltage, id),
+          func("current"_sc, "the output current of the psm"_sc, module,
+               &psm::Psm::get_current, id),
+          func("voltage-limit"_sc, "the output voltage limit of the psm"_sc,
+               module, &psm::Psm::get_voltage, id),
+          func("current-limit"_sc, "the output current limit of the psm"_sc,
+               module, &psm::Psm::get_current, id),
+          func("type"_sc, "the output type of the psm"_sc, module,
+               &psm::Psm::get_type, id),
+          func("type"_sc, "the output mode of the psm"_sc, module,
+               &psm::Psm::get_mode, id),
+          func("dropout-voltage"_sc,
+               "the drop output voltage of the LDO stage"_sc, module,
+               &psm::Psm::get_vdrop, id),
+          func("cable-resistance"_sc, "the cable resistance compensation"_sc,
+               module, &psm::Psm::get_rcable, id),
+          func("specs"_sc, "get the output specs for an output type"_sc, module,
+               &psm::Psm::get_specs, id),
+          func(
+              "series"_sc, "enable the series output of the psm"_sc, module,
+              &psm::Psm::set_enable,
+              arg("enable"_sc,
+                  "if true, enables to series output. Else disables the series output."_sc),
+              id)),
+  };
 }
 
-class Cli {
-  static constexpr std::size_t max_num_args = 255;
-  static constexpr std::size_t max_num_commands = 64;
-
-  struct CommandNode {
-    void *data;
-    Result<size_t> (*exec)(void *data, std::span<std::span<const char>> input,
-                           std::span<char> output);
-    CommandNode *next;
-    CommandNode *subcommand;
-  };
-  void (*transmit)(const std::uint8_t *str, std::size_t len);
-};
-
-POLY_METHOD(putc);
-POLY_METHOD(puts);
-
-template <typename F, typename Ret, typename ArgList> struct top_level_adapter;
-template <typename F, typename Ret, template <typename...> typename L,
-          typename... Args>
-struct top_level_adapter<F, Ret, L<Args...>> {
-  Error operator()([[maybe_unused]] std::span<const char> str) {
-    if constexpr (sizeof...(Args) == 0) {
-      if constexpr (std::is_same_v<Ret, void>) {
-        function();
-        return {};
-      } else if constexpr (std::is_same_v<Ret, Error>) {
-        return function();
-      } else {
-        // TODO: static assert false
-        function();
-        return {};
-      }
-    } else {
-      std::tuple<Args...> args;
-      auto error = invoke<0>(str, args);
-      if (error != Error::none) {
-        return error;
-      }
-      if constexpr (std::is_convertible_v<Ret, Error>)
-        return std::apply(function, args);
-      else {
-        std::apply(function, args);
-        return {};
-      }
-    }
-
-    return {};
-  }
-
-  F function;
-
-private:
-  template <size_t I>
-  Error invoke(std::span<const char> str, std::tuple<Args...> &args) {
-    auto res = fmt::parse<cm::type_at_t<I, type_list::TypeList<Args...>>>(str);
-
-    if (not res.value.has_value()) {
-      return res.value.error();
-    }
-
-    std::get<I>(args) = res.value.value();
-
-    if constexpr (sizeof...(Args) == I + 1)
-      return {};
-    else
-      return invoke<I + 1>(str.subspan(res.ptr - str.data()), args);
-  }
-};
-
-template <poly::Storage S, typename Properties, typename Methods>
-class ObjectAdapter;
-
-template <poly::Storage S, template <typename...> typename L1,
-          template <typename...> typename L2,
-          poly::PropertySpecification... Properties,
-          poly::MethodSpecification... Methods>
-class ObjectAdapter<S, L1<Properties...>, L2<Methods...>> {
-  Error operator()([[maybe_unused]] std::span<const char> str,
-                   std::span<char> output) {
-    size_t size = 0;
-    for (const auto &ch : str) {
-      if (ch == ' ' or ch == '\0')
-        break;
-      ++size;
-    }
-
-    auto name = str.subspan(0, size);
-
-    if (name.size() == 0)
-      return Error::invalid_param;
-
-    auto rest = str.subspan(size + 1);
-
-    if (((name == psm::method_name<poly::method_name_t<Methods>>::value) or
-         ...)) {
-      return invoke<0>(name, rest);
-    } else if (memcmp(name.data(), "get", 3) == 0) {
-      size_t size = 0;
-      for (const auto &ch : rest) {
-        if (ch == ' ' or ch == '\0')
-          break;
-        ++size;
-      }
-      auto param_name = rest.subspan(0, size);
-      if (((param_name ==
-            psm::property_name<poly::property_name_t<Properties>>::value) or
-           ...)) {
-        auto res = get_property<0>(param_name, output);
-        if (not res.has_value())
-          return res.error();
-        transmit(res.value());
-        return Error::none;
-      } else {
-        return Error::invalid_param;
-      }
-    } else if (memcmp(name.data(), "set", 3) == 0) {
-      size_t size = 0;
-      for (const auto &ch : rest) {
-        if (ch == ' ' or ch == '\0')
-          break;
-        ++size;
-      }
-      auto param_name = rest.subspan(0, size);
-      auto param_value = rest.subspan(size + 1);
-      if (param_value.size() == 0)
-        return Error::invalid_param;
-      if (((param_name ==
-            psm::property_name<poly::property_name_t<Properties>>::value) or
-           ...)) {
-        return set_property<0>(param_name, param_value);
-      } else {
-        return Error::invalid_param;
-      }
-    } else {
-      return Error::invalid_param;
-    }
-  }
-
-  template <size_t I = 0>
-  Result<uint32_t> get_property(std::span<const char> name,
-                                std::span<char> output) {
-    using props = poly::type_list<Properties...>;
-    using prop = type_list::type_at_t<I, props>;
-    if constexpr (I == sizeof...(Properties)) {
-      return Error::invalid_param;
-    } else {
-
-      if (memcmp(prop::name, name.data(), name.size()) == 0) {
-        return fmt::format_to(output, obj.template get<prop>());
-      } else {
-        return get_property(name, output);
-      }
-    }
-  }
-
-  template <size_t I = 0>
-  Error set_property(const std::span<const char> &name,
-                     const std::span<const char> &value) {
-    if constexpr (I == sizeof...(Properties)) {
-      return Error::invalid_param;
-    } else {
-      using props = poly::type_list<Properties...>;
-      using prop = type_list::type_at_t<I, props>;
-      using value_type = poly::value_type_t<prop>;
-
-      if (memcmp(prop::name, name.data(), name.size()) == 0) {
-        auto res = fmt::parse<value_type>(value);
-        if (not res.value.has_value()) {
-          return res.error;
-        }
-        obj.template set<prop>(res.value.value());
-        return Error::none;
-      } else {
-        return set_property<I + 1>(name, value);
-      }
-    }
-  }
-
-  template <size_t I>
-  Error invoke(std::span<const char> method, std::span<const char> args) {
-    // std::tuple<Args...> args;
-    // auto res = fmt::parse<cm::type_at_t<0,
-    // type_list::TypeList<Args...>>>(str);
-    //
-    // if (not res.value.has_value()) {
-    //   return res.value.error();
-    // }
-    //
-    // std::get<I>(args) = res.value.value();
-    //
-    // if constexpr (sizeof...(Args) == I + 1)
-    //   return {};
-    // else
-    //   return invoke<I + 1>(str.subspan(res.ptr - str.data()), args);
-  }
-
-  void transmit(uint32_t size) {}
-
-  poly::Struct<poly::ref_storage, L1<Properties...>, L2<Methods...>> obj;
-
-  FixedMap<std::span<const char>,
-           cm::MoveOnlyFunction<Error(std::span<const char>), 4, 4>,
-           sizeof...(Methods)>
-      methods;
-  FixedMap<std::span<const char>,
-           cm::MoveOnlyFunction<Error(std::span<const char>, void *), 4, 4>,
-           sizeof...(Methods)>
-      getters;
-  FixedMap<std::span<const char>,
-           cm::MoveOnlyFunction<Error(std::span<const char>), 4, 4>,
-           sizeof...(Methods)>
-      setters;
-};
-
-enum class Delimiter { none, r, n, rn };
-
-struct cmd {
-
-  template <std::invocable<const char *, std::size_t> F>
-  cmd(std::span<const char> name, F &&function) {}
-
-  std::span<const char> name;
-  cm::MoveOnlyFunction<Error(const char *, std::size_t), 32, 4> exec;
-};
-
-template <typename F> struct cmd_exec {
-  Error operator()(const char *, std::size_t) { return {}; }
-  F function;
-};
-
-struct sub {};
-
-class ComSlave {
-public:
-  void init() {
-    add_cmd("get", [this](std::span<const char>) -> Error { return {}; });
-    add_cmd("set", [this](std::span<const char>) -> Error { return {}; });
-  }
-
-  void set_rx_buffer(std::span<std::uint8_t>);
-  void set_tx_buffer(std::span<std::uint8_t>);
-
-  uint32_t put_and_get_tx_size(char c);
-  uint32_t on_receive(const char *str, uint32_t size);
-
-  Delimiter delimiter() const;
-
-  // add a top level command that does not have any sub commands
-  // top level command syntax: "name [args...]"
-  // {
-
-  template <std::invocable<std::span<const char>> F>
-  void add_cmd(std::span<const char> name, F &&function) {
-    // commands.insert(name, std::forward<F>(function));
-  }
-
-  template <std::invocable F>
-  void add_cmd(std::span<const char> name, F &&function) {
-    commands.insert(
-        name, [f = std::forward<F>(function)](std::span<const char>) -> Error {
-          if constexpr (std::is_same_v<std::invoke_result_t<F>, void>) {
-            f();
-            return {};
-          } else if constexpr (std::is_same_v<std::invoke_result_t<F>, Error>) {
-            return f();
-          } else {
-            // TODO: static assert false
-            f();
-            return {};
-          }
-        });
-  }
-
-  template <typename F> void add_cmd(std::span<const char> name, F &&function) {
-    using func = cm::function_traits<F>;
-    using ret = typename func::return_type;
-    using args = typename func::arguments;
-
-    commands.insert(name, top_level_adapter<std::decay_t<F>, ret, args>(
-                              std::forward<F>(function)));
-  }
-  // }
-
-  template <poly::Storage S, poly::PropertySpecification... Properties,
-            poly::MethodSpecification... Methods>
-  void add_obj(const char *name,
-               poly::Interface<S, poly::type_list<Properties...>,
-                               poly::type_list<Methods...>>
-                   obj);
-
-private:
-  using CmdFunc = cm::MoveOnlyFunction<Error(std::span<const char>), 24, 4>;
-  FixedMap<std::span<const char>, CmdFunc, 128> commands{};
-  FixedVec<std::span<const char>, 16> objects;
-  struct Delegate {};
-};
-
-} // namespace psm
+constexpr auto make_cli(psm::Psm &module, hal::uart::Device &uart) {
+  return make_cli(module, UartStream(uart));
+}
+} // namespace psm::cli
 
 #endif

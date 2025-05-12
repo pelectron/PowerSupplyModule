@@ -40,7 +40,7 @@ public:
     using namespace hal;
     using namespace hal::gpio;
     auto res = hal::gpio::configure(hal::gpio::OutputConfig{
-        .id = settings.pin,
+        // .id = settings.pin,
         .mode = Mode::push_pull,
         .speed = Speed::slow,
         .pull = settings.open_state == hal::gpio::State::set ? Pull::up
