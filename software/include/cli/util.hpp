@@ -13,11 +13,9 @@
 #include <utility>
 
 #include "cli/command.hpp"
-#include "cli/enums.hpp"
 #include "cli/ring_buffer.hpp"
 #include "cli/string.hpp"
 #include "cli/type_list.hpp"
-
 
 #ifdef _MSC_VER
 #define CLI_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
@@ -595,12 +593,12 @@ struct MemFunBinder<T, Ret (T::*)(MemFunArgs...) noexcept> {
 };
 
 template <class T, typename Ret, class... MemFunArgs>
-struct MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const> {
-  const T *t;
+struct MemFunBinder<T, Ret (T::*)(MemFunArgs...) const> {
+  const T &t;
   Ret (T::*mem_fun)(MemFunArgs...) const;
 
-  constexpr MemFunBinder(T &t, Ret (T::*mem_fun)(MemFunArgs...) const)
-      : t(&t), mem_fun(mem_fun) {}
+  constexpr MemFunBinder(const T &t, Ret (T::*mem_fun)(MemFunArgs...) const)
+      : t(t), mem_fun(mem_fun) {}
   constexpr MemFunBinder(const MemFunBinder &) = default;
   constexpr MemFunBinder(MemFunBinder &&) = default;
   constexpr MemFunBinder &operator=(const MemFunBinder &) = default;
@@ -609,11 +607,12 @@ struct MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const> {
 };
 
 template <class T, typename Ret, class... MemFunArgs>
-struct MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const noexcept> {
+struct MemFunBinder<T, Ret (T::*)(MemFunArgs...) const noexcept> {
   const T &t;
   Ret (T::*mem_fun)(MemFunArgs...) const noexcept;
 
-  constexpr MemFunBinder(T &t, Ret (T::*mem_fun)(MemFunArgs...) const noexcept)
+  constexpr MemFunBinder(const T &t,
+                         Ret (T::*mem_fun)(MemFunArgs...) const noexcept)
       : t(&t), mem_fun(mem_fun) {}
   constexpr MemFunBinder(const MemFunBinder &) = default;
   constexpr MemFunBinder(MemFunBinder &&) = default;
@@ -626,7 +625,7 @@ struct MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const noexcept> {
 
 template <class T, class MemFunPtr>
 MemFunBinder(T &&, MemFunPtr)
-    -> MemFunBinder<std::remove_reference_t<T>, MemFunPtr>;
+    -> MemFunBinder<std::remove_cvref_t<T>, MemFunPtr>;
 
 struct dummy {};
 } // namespace cli

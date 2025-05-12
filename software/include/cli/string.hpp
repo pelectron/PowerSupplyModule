@@ -5,6 +5,14 @@
 
 namespace cli {
 
+/**
+ * @class ByteView
+ * @brief A std::string_view equivalent. It stores a string non owningly by
+ * storing a const char* to the beginning of a string/character array and its
+ * size.
+ *
+ * TODO: impement instead of inheriting from std::string_view
+ */
 class ByteView : public std::string_view {
 public:
   constexpr ByteView() = default;
@@ -19,11 +27,17 @@ public:
 
 template <std::size_t N> struct StringLiteral;
 
+/**
+ * @brief A string_constant is a compile time string.
+ */
 template <char... c> struct string_constant {
   enum { string_size = sizeof...(c) };
 
   static constexpr char value[]{c..., 0};
-  constexpr operator ByteView() const noexcept { return {value, sizeof...(c)}; }
+  constexpr operator ByteView() const noexcept {
+    return ByteView{value, sizeof...(c)};
+  }
+
   constexpr operator StringLiteral<sizeof...(c) + 1>() const noexcept {
     return {c...};
   }

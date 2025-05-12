@@ -15,7 +15,7 @@ concept Name = std::convertible_to<std::decay_t<T>, ByteView> and
 
 template <class C>
 concept Command = requires(std::remove_cvref_t<C> &c, ExecType type,
-                           const ByteView &args, std::span<uint8_t> &out) {
+                           const ByteView &args, std::span<char> &out) {
   { typename std::remove_cvref_t<C>::sub_command_list{} };
   { std::remove_cvref_t<C>::name } -> Name;
   { std::remove_cvref_t<C>::description } -> Name;
@@ -31,7 +31,7 @@ struct CommandNode {
   /// function signatures for functions.
   ByteView type{};
   void *this_ = nullptr;
-  Error (*exec_)(void *, ExecType, ByteView, std::span<uint8_t> &) = nullptr;
+  Error (*exec_)(void *, ExecType, ByteView, std::span<char> &) = nullptr;
   /// the next sibling command
   CommandNode *next = nullptr;
   /// pointers to the firstand last sub command of this
@@ -73,7 +73,7 @@ struct CommandNode {
   constexpr iterator begin() { return subcommand; }
   constexpr iterator end() const { return nullptr; }
   constexpr const iterator begin() const { return subcommand; }
-  Error execute(ExecType exec_type, ByteView args, std::span<uint8_t> &out) {
+  Error execute(ExecType exec_type, ByteView args, std::span<char> &out) {
     if (this_ and exec_)
       return (*exec_)(this_, exec_type, args, out);
     return Error::invalid_cmd;
@@ -140,8 +140,7 @@ public:
   constexpr CommandBase(const std::tuple<SubCommands...> &cmds)
       : subcommands{cmds} {}
 
-  constexpr Error execute(ExecType type, ByteView args,
-                          std::span<uint8_t> &out) {
+  constexpr Error execute(ExecType type, ByteView args, std::span<char> &out) {
     return static_cast<Derived *>(this)->execute(type, args, out);
   }
 
@@ -174,8 +173,7 @@ public:
   constexpr CommandBase &operator=(const CommandBase &) = default;
   constexpr CommandBase &operator=(CommandBase &&) = default;
 
-  constexpr Error execute(ExecType type, ByteView args,
-                          std::span<uint8_t> &out) {
+  constexpr Error execute(ExecType type, ByteView args, std::span<char> &out) {
     return static_cast<Derived *>(this)->execute(type, args, out);
   }
 };

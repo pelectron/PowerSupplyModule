@@ -5,7 +5,7 @@
 
 TEST_CASE("format::DefaultFormat<bool>") {
   constexpr cli::format::DefaultFormat<bool> format;
-  uint8_t buffer[32]{};
+  char buffer[32]{};
   SECTION("true value") {
     auto res = format(buffer, true);
     REQUIRE(res);

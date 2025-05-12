@@ -27,7 +27,7 @@ TEMPLATE_TEST_CASE("format::Sequence", "[format][sequence]", Seq1, Seq2) {
 
   for (auto &tv : vectors) {
     auto res = cli::format::DefaultFormat<TestType>{}(
-        {(uint8_t *)tv.buffer.data(), tv.buffer.size()}, tv.input);
+        {tv.buffer.data(), tv.buffer.size()}, tv.input);
     CHECK(res);
     CHECK(res.size_written == tv.str.size());
     tv.buffer.resize(res.size_written);

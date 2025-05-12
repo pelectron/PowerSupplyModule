@@ -11,8 +11,7 @@ template <class Enum> struct EnumTestVector {
 
 template <class Enum> void test(EnumTestVector<Enum> &tv) {
   auto res = cli::format::DefaultFormat<Enum>{}(
-      std::span<uint8_t>((uint8_t *)tv.buffer.data(), tv.buffer.size()),
-      tv.input);
+      std::span<char>(tv.buffer.data(), tv.buffer.size()), tv.input);
   REQUIRE(res);
   REQUIRE(res.size_written == tv.str.size());
   tv.buffer.resize(res.size_written);

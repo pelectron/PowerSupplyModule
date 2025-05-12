@@ -188,7 +188,7 @@ public:
 
   // Param(Name /*name*/, const T &value, Get getter, Set setter);
 
-  Error execute(ExecType type, const ArgVector &args, std::span<uint8_t> &out) {
+  Error execute(ExecType type, const ArgVector &args, std::span<char> &out) {
     switch (type) {
     case ExecType::set:
       return set_value(args);
@@ -212,7 +212,7 @@ private:
     return set_(parse_result.value);
   }
 
-  Error get_value(std::span<uint8_t> &out) {
+  Error get_value(std::span<char> &out) {
     value_type t{};
     get_(t);
     auto res = format_(out, t);
@@ -831,12 +831,14 @@ constexpr auto param(T &obj, CommandOrMemberDataOrMemberFunction &&...m) {
                      std::forward<CommandOrMemberDataOrMemberFunction>(m))...};
 }
 
-template <Name CmdName, class MemberPointer, Command... SubCommands>
+template <Name CmdName, Name Description, class MemberPointer,
+          Command... SubCommands>
   requires std::is_member_pointer_v<std::remove_cvref_t<MemberPointer>>
-constexpr auto mem_data(CmdName, MemberPointer f, SubCommands &&...cmds) {
+constexpr auto mem_data(CmdName, Description, MemberPointer f,
+                        SubCommands &&...cmds) {
   using namespace dtl;
   return MemberData{CmdName{},
-                    NoDescription{},
+                    Description{},
                     cli::ctti::name<mem_data_type<MemberPointer>>(),
                     f,
                     parse::DefaultParse<mem_data_type<MemberPointer>>{},
@@ -844,21 +846,30 @@ constexpr auto mem_data(CmdName, MemberPointer f, SubCommands &&...cmds) {
                     validate::DefaultValidate<mem_data_type<MemberPointer>>{},
                     std::forward<SubCommands>(cmds)...};
 }
+template <Name CmdName, class MemberPointer, Command... SubCommands>
+  requires std::is_member_pointer_v<std::remove_cvref_t<MemberPointer>>
+constexpr auto mem_data(CmdName, MemberPointer f, SubCommands &&...cmds) {
+  using namespace dtl;
+  return mem_data(CmdName{}, NoDescription{}, f,
+                  std::forward<SubCommands>(cmds)...);
+}
+
+template <auto MemberPointer, Name Description, Command... SubCommands>
+  requires std::is_member_pointer_v<
+      std::remove_cvref_t<decltype(MemberPointer)>>
+constexpr auto mem_data(Description, SubCommands &&...cmds) {
+  using namespace dtl;
+  return mem_data(ctti::value_name<MemberPointer>(), Description{},
+                  MemberPointer, std::forward<SubCommands>(cmds)...);
+}
 
 template <auto MemberPointer, Command... SubCommands>
   requires std::is_member_pointer_v<
       std::remove_cvref_t<decltype(MemberPointer)>>
 constexpr auto mem_data(SubCommands &&...cmds) {
   using namespace dtl;
-  using T = std::remove_cvref_t<decltype(MemberPointer)>;
-  return MemberData{ctti::value_name<MemberPointer>(),
-                    NoDescription{},
-                    cli::ctti::name<mem_data_type<T>>(),
-                    MemberPointer,
-                    parse::DefaultParse<mem_data_type<T>>{},
-                    format::DefaultFormat<mem_data_type<T>>{},
-                    validate::DefaultValidate<mem_data_type<T>>{},
-                    std::forward<SubCommands>(cmds)...};
+  return mem_data<MemberPointer>(NoDescription{},
+                                 std::forward<SubCommands>(cmds)...);
 }
 
 /**

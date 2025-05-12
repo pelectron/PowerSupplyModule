@@ -1,3 +1,18 @@
+/**
+ * @file cli/function.hpp
+ *
+ * @brief This file defines the utilities to add functions and their arguments
+ * to a cli in the namespace cli::funcs, namely:
+ *
+ * - the literal operator _arg
+ * - various overloads of arg, see also @ref Arguments
+ * - various overloads of func, see also @ref Functions
+ * - various overloads of mem_fun, see also @ref Functions
+ *
+ * The operators and functions are also available in the namespace cli if the
+ * header cli/cli.hpp is included.
+ */
+
 #ifndef CLI_FUNCTION_HPP
 #define CLI_FUNCTION_HPP
 
@@ -115,7 +130,7 @@ FunctionArgWithoutDefault(ArgName, Description, Parse &&, Validate &&)
         ArgName, Description, parse::value_type_t<Parse>,
         std::remove_cvref_t<Parse>, std::remove_cvref_t<Validate>>;
 
-template <Name ArgName, Name Description> struct DeducedArg {
+template <Name ArgName, Name Description> struct UndeducedArg {
   using name = ArgName;
   using description = Description;
   using type = Deduced;
@@ -152,7 +167,7 @@ constexpr auto deduce_arg(const FunctionArg<N, D, T, DV, P, V> &arg) {
 }
 
 template <Callable F, std::size_t I, Name N, Name D>
-constexpr auto deduce_arg(const DeducedArg<N, D> &arg) {
+constexpr auto deduce_arg(const UndeducedArg<N, D> &arg) {
   using args = typename function_traits<F>::arguments;
   using type = std::remove_cvref_t<type_list::type_at_t<I, args>>;
   if constexpr (std::is_same_v<D, string_constant<>> or
@@ -240,16 +255,152 @@ constexpr auto parse_field_from_args(const std::tuple<Args...> &args) {
 }
 } // namespace dtl
 
+/**
+ * @addtogroup Arguments
+ * @{
+ *
+ * Arguments are the elements that describe c++ function arguments.
+ * These argument specifications are then used by Functions to parse the char
+ * input into the specified values and validate them.
+ *
+ * There are two kinds of function arguments:
+ *
+ * - required: these parameters must be specified, else it is an error.
+ * - optional: these parameters can be left out because they have a default
+ * value.
+ *
+ * Arguments are fully specified by their:
+ *
+ * - name: the human readable name
+ * - description: a string that is used by the help functionality
+ * - type: the value type of the argument
+ * - parser: used to parse a value the arguments type
+ * - validator: used to validate a parsed value
+ * - optionally, a default value
+ *
+ * cli::funcs::arg is the templated overload set (sounds horrible, but bear with
+ * it) to use for creating arguments. There are two main templates forms, one
+ * for required and one for optional arguments.
+ *
+ * The base form for an optional arguments is written below:
+ *
+ * ```
+ *  template <class T, // the arguments type, must be explicitly specified
+ *            auto DefaultValue, // the default value, must be explicitly
+ * specified Name ArgName, // deduced Name Description, // deduced parse::Parser
+ * Parse, // deduced validate::Validator Validate // deduced
+ *            >
+ *  constexpr auto arg( ArgName name, // the name
+ *                      Description description, // the description
+ *                      Parse &&parse, // the parser
+ *                      Validate &&validate // the validator
+ *                      )
+ * ```
+ *
+ */
+
+/**
+ * @addtogroup optional-args Optional Arguments
+ * @{
+ */
+
+// clang-format off
+/**
+ * @brief creates an optional argument. The value type of the argument is deduced
+ * from the value type of parse.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *  constexpr int DefaultValue = 1;
+ *  constexpr auto arg = 
+ *    cli::funcs::arg<DefaultValue>("x"_sc, 
+ *                                  "the target x position"_sc, 
+ *                                  cli::parse::DefaultParse<int>{}, 
+ *                                  cli::validate::DefaultValidate<int>{});
+ * ```
+
+ * @tparam DefaultValue the default value of this argument
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @param parse the parser for the argument
+ * @param validate the validator for the argument
+ * @return a FunctionArg
+ */
+// clang-format on
 template <auto DefaultValue, Name ArgName, Name Description,
           parse::Parser Parse, validate::Validator Validate>
-constexpr auto arg(ArgName, Description, Parse &&parse, Validate &&validate) {
+constexpr auto arg(ArgName name, Description description, Parse &&parse,
+                   Validate &&validate) {
+  (void)name;
+  (void)description;
   return FunctionArg{ArgName{}, Description{}, constant<DefaultValue>{},
                      std::forward<Parse>(parse),
                      std::forward<Validate>(validate)};
 }
 
+// clang-format off
+/**
+ * @brief creates an optional argument of type T.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *  constexpr int DefaultValue = 1;
+ *  constexpr auto arg = 
+ *    cli::funcs::arg<double, DefaultValue>("x"_sc, 
+ *                                  "the target x position"_sc, 
+ *                                  cli::parse::DefaultParse<double>{}, 
+ *                                  cli::validate::DefaultValidate<double>{});
+ * ```
+
+ * @tparam T the arguments type
+ * @tparam DefaultValue the default value of this argument
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @param parse the parser for the argument
+ * @param validate the validator for the argument
+ * @return a FunctionArg
+ */
+// clang-format on
+template <class T, auto DefaultValue, Name ArgName, Name Description,
+          parse::ParserOf<T> Parse, validate::ValidatorOf<T> Validate>
+constexpr auto arg(ArgName name, Description description, Parse &&parse,
+                   Validate &&validate) {
+  (void)name;
+  (void)description;
+  return FunctionArg{ArgName{},
+                     Description{},
+                     identity<T>{},
+                     constant<DefaultValue>{},
+                     std::forward<Parse>(parse),
+                     std::forward<Validate>(validate)};
+}
+
+// clang-format off
+/**
+ * @brief creates an optional argument of type T. The default parser and
+ * validator are used.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *  constexpr int DefaultValue = 1;
+ *  constexpr auto arg = 
+ *    cli::funcs::arg<double, DefaultValue>("x"_sc, "the target x position"_sc);
+ * ```
+
+ * @tparam T the arguments type
+ * @tparam DefaultValue the default value of this argument
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @return a FunctionArg
+ */
+// clang-format on
 template <class T, auto DefaultValue, Name ArgName, Name Description>
-constexpr auto arg(ArgName, Description) {
+constexpr auto arg(ArgName name, Description description) {
+  (void)name;
+  (void)description;
   return FunctionArg{ArgName{},
                      Description{},
                      identity<T>{},
@@ -258,8 +409,28 @@ constexpr auto arg(ArgName, Description) {
                      validate::DefaultValidate<T>{}};
 }
 
+// clang-format off
+/**
+ * @brief creates an optional argument of type T. The default parser and
+ * validator are used.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *  constexpr int DefaultValue = 1;
+ *  constexpr auto arg = 
+ *    cli::funcs::arg<double, DefaultValue>("x"_sc);
+ * ```
+
+ * @tparam T the arguments type
+ * @tparam DefaultValue the default value of this argument
+ * @param name the humanreadable name of the argument as a string_constant
+ * @return a FunctionArg
+ */
+// clang-format on
 template <class T, auto DefaultValue, Name ArgName>
-constexpr auto arg(ArgName) {
+constexpr auto arg(ArgName name) {
+  (void)name;
   return FunctionArg{ArgName{},
                      NoDescription{},
                      identity<T>{},
@@ -267,34 +438,101 @@ constexpr auto arg(ArgName) {
                      parse::DefaultParse<T>{},
                      validate::DefaultValidate<T>{}};
 }
+/**
+ * @}
+ */
 
+/**
+ * @addtogroup required-args Required Arguments
+ * @{
+ */
+
+/**
+ * @brief creates a required argument of type T.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *    cli::funcs::arg<int>("x"_sc,
+ *                         "the target x position"_sc,
+ *                         cli::parse::DefaultParse<int>{},
+ *                         cli::validate::DefaultValidate<int>{});
+ * ```
+ * @tparam T the arguments type
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @param parse the parser for the argument
+ * @param validate the validator for the argument
+ * @return a FunctionArg
+ */
 template <class T, Name ArgName, Name Description, parse::ParserOf<T> Parse,
           validate::ValidatorOf<T> Validate>
-constexpr auto arg(ArgName, Description, Parse &&parse, Validate &&validate) {
+constexpr auto arg(ArgName name, Description description, Parse &&parse,
+                   Validate &&validate) {
+  (void)name;
+  (void)description;
   return FunctionArgWithoutDefault{ArgName{}, Description{}, identity<T>{},
                                    std::forward<Parse>(parse),
                                    std::forward<Validate>(validate)};
 }
 
+/**
+ * @brief creates a required argument. Its type will be deduced.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *    cli::funcs::arg("x"_sc,
+ *                    "the target x position"_sc);
+ * ```
+ *
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @return a FunctionArg
+ */
 template <Name ArgName, Name Description>
-constexpr auto arg(ArgName, Description) {
-  return DeducedArg<ArgName, Description>{};
+constexpr auto arg(ArgName name, Description description) {
+  (void)name;
+  (void)description;
+  return UndeducedArg<ArgName, Description>{};
 }
 
-template <Name ArgName> constexpr auto arg(ArgName) {
-  return DeducedArg<ArgName, NoDescription>{};
+/**
+ * @brief creates a required argument. Its type will be deduced.
+ *
+ * Intended usage:
+ * ```
+ *  using cli::operator""_sc;
+ *    cli::funcs::arg("x"_sc,
+ *                    "the target x position"_sc);
+ * ```
+ *
+ * @param name the humanreadable name of the argument as a string_constant
+ * @param description a string_constant that is used by the help functionality
+ * @return a FunctionArg
+ */
+template <Name ArgName> constexpr auto arg(ArgName name) {
+  (void)name;
+  return UndeducedArg<ArgName, NoDescription>{};
 }
 
-template <cli::StringLiteral S> constexpr auto operator""_arg() {
+/**
+ * @brief the literal operator for arguments.
+ * @return arg(Name)
+ */
+template <cli::StringLiteral Name> constexpr auto operator""_arg() {
   return arg([&]<std::size_t... Is>(std::index_sequence<Is...>) {
-    return string_constant<S.s[Is]...>{};
-  }(std::make_index_sequence<S.size()>()));
+    return string_constant<Name.s[Is]...>{};
+  }(std::make_index_sequence<Name.size()>()));
 }
 
-template <Callable F, FuncArg... Args>
-constexpr Error parse_and_call(F &&f, ByteView args, std::span<uint8_t> &out) {
-  return Error::unimplemented;
-}
+/**
+ * @}
+ */
+
+/**
+ * @}
+ */
 
 template <Name FuncName, Name Description, Name Type, Callable F,
           FuncArg... Args>
@@ -335,7 +573,7 @@ public:
       : func_(std::forward<Func>(function)), args(std::move(args)) {}
 
   Error execute(ExecType type, ArgVector args,
-                [[maybe_unused]] std::span<uint8_t> &out) {
+                [[maybe_unused]] std::span<char> &out) {
     using Ret = typename traits::return_type;
 
     if (type != ExecType::call)
@@ -409,7 +647,7 @@ public:
       : func_(std::forward<Func>(function)) {}
 
   Error execute(ExecType type, ArgVector args,
-                [[maybe_unused]] std::span<uint8_t> &out) {
+                [[maybe_unused]] std::span<char> &out) {
     using Ret = typename traits::return_type;
 
     if (type != ExecType::call)
@@ -450,6 +688,11 @@ template <Name FuncName, Name Description, Name Type, Callable F,
 Function(FuncName, Description, Type, F &&, std::tuple<Args...> &&)
     -> Function<FuncName, Description, Type, std::remove_cvref_t<F>, Args...>;
 /**
+ * @addtogroup Functions
+ * @{
+ */
+
+/**
  * @brief
  *
  * @param f
@@ -462,6 +705,23 @@ constexpr auto func(FuncName, Description, Help, F &&f, Args &&...args) {
                   std::decay_t<Args>...>{
       FuncName{}, Description{}, Help{}, std::forward<F>(f),
       dtl::deduce_args<F>(std::forward<Args>(args)...)};
+}
+
+template <Name FuncName, Name Description, Callable F, class... Args>
+constexpr auto func(FuncName, Description, F &&f, Args &&...args) {
+  static_assert(
+      type_list::list_size_v<typename function_traits<F>::arguments> ==
+          sizeof...(Args),
+      "All arguments of F must be named");
+  if constexpr (sizeof...(Args) > 0) {
+    auto deduced = dtl::deduce_args<F>(std::forward<Args>(args)...);
+    return Function{FuncName{}, Description{},
+                    dtl::pretty_signature_name<F>(deduced), std::forward<F>(f),
+                    deduced};
+  } else {
+    return Function{FuncName{}, Description{}, dtl::pretty_signature_name<F>(),
+                    std::forward<F>(f)};
+  }
 }
 
 template <Name FuncName, Callable F, class... Args>
@@ -500,83 +760,77 @@ constexpr auto func(F &&f, Args &&...args) {
   }
 }
 
-template <Name FuncName, class T, typename Ret, class... MemFunArgs,
+template <Name FuncName, Name Description, class T, class MemberFunctionPointer,
           class... Args>
-constexpr auto func(FuncName, T &t, Ret (T::*mem_fun)(MemFunArgs...),
-                    Args &&...args) {
-  static_assert(sizeof...(MemFunArgs) == sizeof...(Args),
-                "All arguments of mem_fun must be named");
-  using Binder = MemFunBinder<T, Ret (T::*)(MemFunArgs...)>;
+  requires std::is_member_function_pointer_v<MemberFunctionPointer>
+constexpr auto func(FuncName name, Description description, T &t,
+                    MemberFunctionPointer mem_fun, Args &&...args) {
+  (void)name;
+  (void)description;
+  static_assert(
+      type_list::list_size_v<
+          typename function_traits<MemberFunctionPointer>::arguments> ==
+          sizeof...(Args),
+      "All arguments of mem_fun must be named");
+
+  using Binder = MemFunBinder<T, MemberFunctionPointer>;
   if constexpr (sizeof...(Args) > 0) {
-    auto deduced = dtl::deduce_args<Binder>(std::forward<Args>(args)...);
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(deduced),
+    auto deduced =
+        dtl::deduce_args<MemberFunctionPointer>(std::forward<Args>(args)...);
+    return Function{FuncName{}, Description{},
+                    dtl::pretty_signature_name<MemberFunctionPointer>(deduced),
                     Binder{t, mem_fun}, deduced};
   } else {
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(),
+    return Function{FuncName{}, Description{},
+                    dtl::pretty_signature_name<MemberFunctionPointer>(),
                     Binder{t, mem_fun}};
   }
 }
 
-template <Name FuncName, class T, typename Ret, class... MemFunArgs,
+template <Name FuncName, Name Description, class T, class MemberFunctionPointer,
           class... Args>
-constexpr auto func(FuncName, T &t, Ret (T::*mem_fun)(MemFunArgs...) noexcept,
-                    Args &&...args) {
-  static_assert(sizeof...(MemFunArgs) == sizeof...(Args),
-                "All arguments of mem_fun must be named");
-  using Binder = MemFunBinder<T, Ret (T::*)(MemFunArgs...) noexcept>;
+  requires std::is_member_function_pointer_v<MemberFunctionPointer>
+constexpr auto func(FuncName name, Description description, const T &t,
+                    MemberFunctionPointer mem_fun, Args &&...args) {
+  (void)name;
+  (void)description;
+  static_assert(
+      type_list::list_size_v<
+          typename function_traits<MemberFunctionPointer>::arguments> ==
+          sizeof...(Args),
+      "All arguments of mem_fun must be named");
+
+  using Binder = MemFunBinder<const T, MemberFunctionPointer>;
   if constexpr (sizeof...(Args) > 0) {
-    auto deduced = dtl::deduce_args<Binder>(std::forward<Args>(args)...);
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(deduced),
+    auto deduced =
+        dtl::deduce_args<MemberFunctionPointer>(std::forward<Args>(args)...);
+    return Function{FuncName{}, Description{},
+                    dtl::pretty_signature_name<MemberFunctionPointer>(deduced),
                     Binder{t, mem_fun}, deduced};
   } else {
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(),
+    return Function{FuncName{}, Description{},
+                    dtl::pretty_signature_name<MemberFunctionPointer>(),
                     Binder{t, mem_fun}};
   }
 }
 
-template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-          class... Args>
-constexpr auto func(FuncName, const T &t,
-                    Ret (T::*mem_fun)(MemFunArgs...) const, Args &&...args) {
-  static_assert(sizeof...(MemFunArgs) == sizeof...(Args),
-                "All arguments of mem_fun must be named");
-  using Binder = MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const>;
-  if constexpr (sizeof...(Args) > 0) {
-    auto deduced = dtl::deduce_args<Binder>(std::forward<Args>(args)...);
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(deduced),
-                    Binder{t, mem_fun}, deduced};
-  } else {
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(),
-                    Binder{t, mem_fun}};
-  }
+template <Name FuncName, class T, class MemberFunctionPointer, class... Args>
+  requires std::is_member_function_pointer_v<MemberFunctionPointer>
+constexpr auto func(FuncName name, T &t, MemberFunctionPointer mem_fun,
+                    Args &&...args) {
+  return func(name, NoDescription{}, t, mem_fun, std::forward<Args>(args)...);
 }
 
-template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-          class... Args>
-constexpr auto func(FuncName, const T &t,
-                    Ret (T::*mem_fun)(MemFunArgs...) const noexcept,
+template <Name FuncName, class T, class MemberFunctionPointer, class... Args>
+  requires std::is_member_function_pointer_v<MemberFunctionPointer>
+constexpr auto func(FuncName name, const T &t, MemberFunctionPointer mem_fun,
                     Args &&...args) {
-  static_assert(sizeof...(MemFunArgs) == sizeof...(Args),
-                "All arguments of mem_fun must be named");
-  using Binder =
-      MemFunBinder<const T, Ret (T::*)(MemFunArgs...) const noexcept>;
-  if constexpr (sizeof...(Args) > 0) {
-    auto deduced = dtl::deduce_args<Binder>(std::forward<Args>(args)...);
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(deduced),
-                    Binder{t, mem_fun}, deduced};
-  } else {
-    return Function{FuncName{}, NoDescription{},
-                    dtl::pretty_signature_name<decltype(mem_fun)>(),
-                    Binder{t, mem_fun}};
-  }
+  return func(name, NoDescription{}, t, mem_fun, std::forward<Args>(args)...);
 }
+
+/**
+ * @}
+ */
 
 template <Name FuncName, Name Description, Name Help, class Function,
           class... Args>
@@ -632,10 +886,49 @@ MemberFunction(FuncName &&, Description &&, Help &&, Function &&)
                       std::remove_cvref_t<Description>,
                       std::remove_cvref_t<Help>, std::remove_cvref_t<Function>>;
 
+/**
+ * @addtogroup Functions
+ * @{
+ */
+
+/**
+ * @brief creates a member function command. This command cannot be used
+ * standalone. Its parent command must be an object that this member function
+ * can be called on.
+ *
+ *
+ * Intended usage:
+ *
+ * ```
+ *  struct Foo{
+ *    void bar(int param);
+ *    int baz();
+ *  };
+ *
+ *  static Foo foo;
+ *
+ *  cli::Cli my_cli(...,
+ *                  cli::param("foo"_sc, foo, // <- foo must be direct parent
+ *                                            // of bar and baz
+ *                             cli::mem_fun("bar"_sc, &Foo::bar, "param"_arg),
+ *                             cli::mem_fun("baz"_sc, &Foo::baz),
+ *                             ... ),
+ *                  ...);
+ * ```
+ *
+ * This is used to avoid repeating the object, i.e. ``foo``, for every
+ * member function added, as would be the case when using cli::func().
+ *
+ * @param name the name of the member function
+ * @param mem_fun pointer to the member function
+ * @param args the arguments, i.e. something created with funcs::arg
+ * @return a partial Command
+ */
 template <Name FuncName, class MemberFunctionPointer, class... Args>
   requires std::is_member_function_pointer_v<MemberFunctionPointer>
-constexpr auto mem_fun(FuncName, MemberFunctionPointer mem_fun,
+constexpr auto mem_fun(FuncName name, MemberFunctionPointer mem_fun,
                        Args &&...args) {
+  (void)name;
   if constexpr (sizeof...(Args) > 0) {
     constexpr auto deduced_args =
         dtl::deduce_args<decltype(mem_fun)>(std::forward<Args>(args)...);
@@ -650,6 +943,42 @@ constexpr auto mem_fun(FuncName, MemberFunctionPointer mem_fun,
   }
 }
 
+/**
+ * @brief creates a member function command. This command cannot be used
+ * standalone. Its parent command must be an object that this member function
+ * can be called on.
+ *
+ *
+ * Intended usage:
+ *
+ * ```
+ *  struct Foo{
+ *    void bar(int param);
+ *    int baz();
+ *  };
+ *
+ *  static Foo foo;
+ *
+ *  cli::Cli my_cli(...,
+ *                  cli::param("foo"_sc, foo, // <- foo must be direct parent
+ *                                            // of bar and baz
+ *                             cli::mem_fun<&Foo::bar>("param"_arg), // name is
+ *                                                                   // deduced
+ *                             cli::mem_fun<&Foo::baz>(), // name is deduced
+ *                             ... ),
+ *                  ...);
+ * ```
+ *
+ * This is used to avoid repeating the object, i.e. ``foo``, for every
+ * member function added, as would be the case when using cli::func().
+ *
+ * Additionally, the name of the function is automatically deduced.
+ *
+ * @param name the name of the member function
+ * @param mem_fun pointer to the member function
+ * @param args the arguments, i.e. something created with funcs::arg
+ * @return a partial Command
+ */
 template <auto MemberFunctionPointer, class... Args>
   requires std::is_member_function_pointer_v<decltype(MemberFunctionPointer)>
 constexpr auto mem_fun(Args &&...args) {
@@ -670,54 +999,9 @@ constexpr auto mem_fun(Args &&...args) {
   }
 }
 
-// template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-//           FuncArg... Args>
-// constexpr auto mem_fun(FuncName, Ret (T::*mem_fun)(MemFunArgs...),
-//                        Args &&...args) {
-//   constexpr auto deduced_args = dtl::deduce_args<decltype(mem_fun)>(
-//       TypeList<std::remove_cvref_t<Args>...>{});
-//   return MemberFunction{
-//       FuncName{}, NoDescription{},
-//       dtl::pretty_signature_name<decltype(mem_fun)>(deduced_args), mem_fun,
-//       deduced_args};
-// }
-//
-// template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-//           FuncArg... Args>
-// constexpr auto mem_fun(FuncName, Ret (T::*mem_fun)(MemFunArgs...) const,
-//                        Args &&...args) {
-//   constexpr auto deduced_args = dtl::deduce_args<decltype(mem_fun)>(
-//       TypeList<std::remove_cvref_t<Args>...>{});
-//   return MemberFunction{
-//       FuncName{}, NoDescription{},
-//       dtl::pretty_signature_name<decltype(mem_fun)>(deduced_args), mem_fun,
-//       deduced_args};
-// }
-//
-// template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-//           FuncArg... Args>
-// constexpr auto mem_fun(FuncName, Ret (T::*mem_fun)(MemFunArgs...) noexcept,
-//                        Args &&...args) {
-//   constexpr auto deduced_args = dtl::deduce_args<decltype(mem_fun)>(
-//       TypeList<std::remove_cvref_t<Args>...>{});
-//   return MemberFunction{
-//       FuncName{}, NoDescription{},
-//       dtl::pretty_signature_name<decltype(mem_fun)>(deduced_args), mem_fun,
-//       deduced_args};
-// }
-//
-// template <Name FuncName, class T, typename Ret, class... MemFunArgs,
-//           FuncArg... Args>
-// constexpr auto mem_fun(FuncName,
-//                        Ret (T::*mem_fun)(MemFunArgs...) const noexcept,
-//                        Args &&...args) {
-//   constexpr auto deduced_args = dtl::deduce_args<decltype(mem_fun)>(
-//       TypeList<std::remove_cvref_t<Args>...>{});
-//   return MemberFunction{
-//       FuncName{}, NoDescription{},
-//       dtl::pretty_signature_name<decltype(mem_fun)>(deduced_args), mem_fun,
-//       deduced_args};
-// }
+/**
+ * @}
+ */
 
 namespace dtl {
 /**

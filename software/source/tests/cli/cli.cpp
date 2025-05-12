@@ -1,10 +1,5 @@
 #include "cli/cli.hpp"
-#include "cli/ctti.hpp"
-#include "cli/enums.hpp"
-#include "cli/function.hpp"
-#include "cli/parse.hpp"
-#include "cli/util.hpp"
-#include <cstdint>
+
 #include <cstdio>
 #include <ostream>
 #include <string>
@@ -84,7 +79,7 @@ constexpr MyCfg my_cfg{};
 // clang-format off
 static  cli::Cli my_cli(
     my_cfg, 
-    cli::io::AnsiOutputHandler{&stream},
+    cli::io::AnsiOutputStream{&stream},
     // functions
     // @{
     // free functions

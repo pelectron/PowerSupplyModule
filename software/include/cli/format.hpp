@@ -7,14 +7,9 @@
 #include "cli/u64.hpp"
 #include "cli/util.hpp"
 
-#include <bit>
-#include <bitset>
 #include <cassert>
 #include <cstdint>
 #include <gcem.hpp>
-#include <iostream>
-#include <limits>
-#include <locale>
 #include <type_traits>
 
 namespace cli::format {
@@ -34,7 +29,7 @@ template <class F> struct formatter_value_type {
 };
 
 template <typename F, typename T>
-concept FormatterOf = requires(F &&f, std::span<uint8_t> buf, const T &t) {
+concept FormatterOf = requires(F &&f, std::span<char> buf, const T &t) {
   { f(buf, t) } -> std::same_as<FormatResult>;
 };
 
@@ -43,37 +38,36 @@ concept Formatter =
     not std::same_as<void, typename formatter_value_type<F>::type>;
 
 template <class T> struct DefaultFormat {
-  constexpr FormatResult operator()(std::span<uint8_t> buf, const T &t) const {
+  constexpr FormatResult operator()(std::span<char> buf, const T &t) const {
     return Error::unimplemented;
   }
 };
 
 struct NullFormat {
-  constexpr FormatResult operator()(std::span<uint8_t> buf,
-                                    const dummy &) const {
+  constexpr FormatResult operator()(std::span<char> buf, const dummy &) const {
     return 0;
   }
 };
 
 template <> struct DefaultFormat<void> {
-  constexpr FormatResult operator()(std::span<uint8_t> buf) const { return 0; }
+  constexpr FormatResult operator()(std::span<char> buf) const { return 0; }
 };
 
 template <> struct DefaultFormat<bool> {
-  constexpr FormatResult operator()(std::span<uint8_t> buf, bool b) const {
+  constexpr FormatResult operator()(std::span<char> buf, bool b) const {
     if (b) {
       if (buf.size() < 4)
         return Error::buffer_overflow;
       std::size_t size = 0;
       for (const auto &ch : "true")
-        buf[size++] = static_cast<uint8_t>(ch);
+        buf[size++] = ch;
       return 4;
     } else {
       if (buf.size() < 5)
         return Error::buffer_overflow;
       std::size_t size = 0;
       for (const auto &ch : "false")
-        buf[size++] = static_cast<uint8_t>(ch);
+        buf[size++] = ch;
       return 5;
     }
   }
@@ -191,7 +185,7 @@ struct Int {
     }
   }
 
-  constexpr FormatResult operator()(std::span<uint8_t> buf, T value) const {
+  constexpr FormatResult operator()(std::span<char> buf, T value) const {
     using traits = traits::integer_traits<T>;
     using UnsignedT = typename traits::unsigned_type;
 
@@ -222,7 +216,7 @@ struct Int {
         }();
         UnsignedT u_value = static_cast<UnsignedT>(value);
         const bool is_negative = value < 0;
-        uint8_t buffer[num_dec_digits()]{};
+        char buffer[num_dec_digits()]{};
         std::size_t size = 0;
         if constexpr (UseSignForPositive) {
           if (value > 0) {
@@ -242,7 +236,7 @@ struct Int {
             break;
         for (; pow10 > 0; pow10 /= 10) {
           const auto digit = u_value / pow10;
-          buffer[size++] = static_cast<uint8_t>(digit + u'0');
+          buffer[size++] = static_cast<char>(digit + u'0');
           u_value = u_value - digit * pow10;
         }
 
@@ -263,7 +257,7 @@ struct Int {
               t = 10u * t;
           return t;
         }();
-        uint8_t buffer[num_dec_digits()]{};
+        char buffer[num_dec_digits()]{};
         std::size_t size = 0;
         if constexpr (UseSignForPositive) {
           buffer[0] = '+';
@@ -277,7 +271,7 @@ struct Int {
 
         for (; pow10 > 0; pow10 /= 10) {
           const auto digit = value / pow10;
-          buffer[size++] = static_cast<uint8_t>(digit + u'0');
+          buffer[size++] = static_cast<char>(digit + u'0');
           value = value - digit * pow10;
         }
 
@@ -292,7 +286,7 @@ struct Int {
     } else if constexpr (Format == Fmt::hex) {
       UnsignedT u_value = static_cast<UnsignedT>(value);
       constexpr std::size_t max_size = 2 + sizeof(UnsignedT) * 2;
-      uint8_t buffer[max_size]{u'0', u'x', 0};
+      char buffer[max_size]{'0', 'x', 0};
       std::size_t size = 2;
       auto nibble = (sizeof(UnsignedT) * 2) - 1u;
       for (; nibble != 0; --nibble) {
@@ -303,11 +297,11 @@ struct Int {
       }
       for (; nibble != 0; --nibble) {
         const auto digit =
-            static_cast<uint8_t>(0x0Fu & (u_value >> (nibble * 4u)));
+            static_cast<char>(0x0Fu & (u_value >> (nibble * 4u)));
         if (digit >= 0 and digit <= 9)
-          buffer[size++] = static_cast<uint8_t>(digit + '0');
+          buffer[size++] = static_cast<char>(digit + '0');
         else if (digit >= 10 and digit <= 15)
-          buffer[size++] = static_cast<uint8_t>(digit + 'A');
+          buffer[size++] = static_cast<char>(digit + 'A');
         else
           assert(false);
         u_value &= (1u << (nibble * 4u)) - 1u;
@@ -323,7 +317,7 @@ struct Int {
     } else if constexpr (Format == Fmt::binary) {
       const UnsignedT u_value = static_cast<UnsignedT>(value);
       constexpr std::size_t max_size = 2 + sizeof(UnsignedT) * 8;
-      uint8_t buffer[max_size]{u'0', u'b', 0};
+      char buffer[max_size]{u'0', u'b', 0};
       std::size_t size = 2;
       auto bit = (sizeof(UnsignedT) * 2) - 1u;
       for (; bit != 0; --bit) {
@@ -334,7 +328,7 @@ struct Int {
       }
       for (; bit != 0; --bit) {
         const auto digit = u_value >> (bit * 8u);
-        buffer[size++] = static_cast<uint8_t>(digit + '0');
+        buffer[size++] = static_cast<char>(digit + '0');
         u_value >>= 1u;
       }
 
@@ -613,7 +607,7 @@ class FixPoint {
   static constexpr auto billion = gcem::pow(10u, 9u);
 
 public:
-  constexpr FormatResult operator()(std::span<uint8_t> buf, T fp) const {
+  constexpr FormatResult operator()(std::span<char> buf, T fp) const {
     if constexpr (Format == Fmt::normal) {
 
       uint32_t int_val = fp.integer();
@@ -761,8 +755,7 @@ template <traits::Sequence T,
           FormatterOf<typename T::value_type> ElementFormatter,
           char Delimiter = ','>
 struct Sequence {
-  constexpr FormatResult operator()(std::span<uint8_t> buf,
-                                    const T &seq) const {
+  constexpr FormatResult operator()(std::span<char> buf, const T &seq) const {
     if (buf.size() < 2)
       return Error::buffer_overflow;
     bool first = true;
@@ -776,8 +769,8 @@ struct Sequence {
       else {
         if (buf.size() < 2)
           return Error::buffer_overflow;
-        buf[0] = static_cast<uint8_t>(Delimiter);
-        buf[1] = static_cast<uint8_t>(' ');
+        buf[0] = Delimiter;
+        buf[1] = ' ';
         buf = buf.subspan(2);
         size += 2;
       }
@@ -804,7 +797,7 @@ template <traits::Sequence T>
 struct DefaultFormat<T> : Sequence<T, DefaultFormat<typename T::value_type>> {};
 
 template <traits::Enum Enum> struct DefaultFormat<Enum> {
-  constexpr FormatResult operator()(std::span<uint8_t> buf, Enum value) const {
+  constexpr FormatResult operator()(std::span<char> buf, Enum value) const {
     if constexpr (traits::FlagEnum<Enum>) {
       std::string_view name{};
       std::size_t written = 0;
@@ -853,8 +846,7 @@ template <traits::Enum Enum> struct DefaultFormat<Enum> {
 };
 
 template <traits::String T, bool UseQuotes = true> struct String {
-  constexpr FormatResult operator()(std::span<uint8_t> buf,
-                                    const T &str) const {
+  constexpr FormatResult operator()(std::span<char> buf, const T &str) const {
     using elem = typename T::value_type;
     constexpr std::size_t size = sizeof(elem);
     static_assert(size == 1,
@@ -872,7 +864,7 @@ template <traits::String T, bool UseQuotes = true> struct String {
     }
 
     for (const auto &ch : str) {
-      buf[pos++] = static_cast<uint8_t>(ch);
+      buf[pos++] = ch;
     }
 
     if constexpr (UseQuotes) {
@@ -889,7 +881,7 @@ template <char Assignment = '=', char MemberSeparator = ',', char Prefix = '{',
           char Postfix = '}', bool UseNames = true, class... Fields>
 class FieldGroup {
 public:
-  constexpr FormatResult operator()(std::span<uint8_t> buf,
+  constexpr FormatResult operator()(std::span<char> buf,
                                     const std::tuple<Fields...> &fields) const {
     if (buf.size() == 0)
       return Error::buffer_overflow;
@@ -985,7 +977,7 @@ class Struct : field_formatter_for<T, Assignment, MemberSeparator, Prefix,
                                             Prefix, Postfix, UseNames>::type;
 
 public:
-  constexpr FormatResult operator()(std::span<uint8_t> buf, const T &t) const {
+  constexpr FormatResult operator()(std::span<char> buf, const T &t) const {
     if (buf.size() == 0)
       return Error::too_few_characters;
 
@@ -1016,7 +1008,7 @@ public:
 template <traits::Struct T> struct DefaultFormat<T> : public Struct<T> {};
 
 template <bool Quoted = true, char QuoteChar = '\''> struct Char {
-  constexpr FormatResult operator()(std::span<uint8_t> buf, char c) const {
+  constexpr FormatResult operator()(std::span<char> buf, char c) const {
     if constexpr (Quoted) {
       if (c < 32 or c > 126) {
         if (buf.size() < 2)

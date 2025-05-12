@@ -1,41 +1,50 @@
 
-#include "cortex/core.hpp"
+#include "cli/cli.hpp"
+#include "com.hpp"
+#include "error.hpp"
+#include "hal/hal.hpp"
 #include "psm.hpp"
 
-extern "C" {
-void SystemInit(void) {}
-int _exit(int) {}
-int _close(int) {}
-int _lseek() {}
-int _read() {}
-int _write(int) {}
-int _sbrk_r() {}
-}
-namespace std {
-void __glibcxx_assert_fail(char const *, int, char const *,
-                           char const *) noexcept {
-  while (1) {
-  }
-}
-} // namespace std
+// extern "C" {
+// void SystemInit(void) {}
+// int _exit(int) {}
+// int _close(int) {}
+// int _lseek() {}
+// int _read() {}
+// int _write(int) {}
+// int _sbrk_r() {}
+// }
+// namespace std {
+// void __glibcxx_assert_fail(char const *, int, char const *,
+//                            char const *) noexcept {
+//   while (1) {
+//   }
+// }
+// } // namespace std
 
-template <char... c> struct string_constant {};
+static constinit psm::Psm module{};
 
-template <typename Char, Char... cs> constexpr auto operator""_sc() {
-  return string_constant<cs...>{};
-}
-constexpr auto s = "hello"_sc;
-
-static psm::PSM module{};
-
-static constinit psm::Hardware hardware{};
-static constinit psm::NonVolatileStorage nvs;
+static auto psm_cli{psm::cli::make_cli(module, module.uart)};
+static constinit cli::io::Input in(psm_cli);
 
 int main() {
-  module.init(nvs);
+
+  psm::Error e =
+      module.init(psm::get_psm(), hal::get_hal(), cli::io::Input(psm_cli));
+
+  if (e != psm::Error::none) {
+    while (1) {
+    }
+  }
+
+  while (e == psm::Error::none) {
+    e = module.loop();
+  }
+
+  module.reset(e);
 
   while (1) {
-    module.loop();
   }
+
   return 0;
 }

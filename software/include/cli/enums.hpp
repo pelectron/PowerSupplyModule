@@ -8,6 +8,7 @@ enum class Error : std::uint32_t {
   none,
   unimplemented,
   implementation_error,
+  io_error,
   invalid_argument,
   cant_set_param,
   cant_read_param,
@@ -28,7 +29,9 @@ enum class Error : std::uint32_t {
   too_few_characters,
   invalid_character,
   unescaped_string,
-  invalid_value
+  invalid_value,
+
+  unknown
 };
 
 enum class ExecType : std::uint8_t { get, set, call };

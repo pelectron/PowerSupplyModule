@@ -15,7 +15,7 @@ template <class Int> struct FmtIntTestVector {
 
 template <class Int> void test1(FmtIntTestVector<Int> &tv) {
   constexpr cli::format::Int<Int, cli::Fmt::normal, false> format;
-  auto res = format({(uint8_t *)tv.buffer.data(), tv.buffer.size()}, tv.input);
+  auto res = format({tv.buffer.data(), tv.buffer.size()}, tv.input);
   REQUIRE(res);
   CHECK(res.size_written == tv.expected_output.size());
   tv.buffer.resize(res.size_written);
@@ -23,7 +23,7 @@ template <class Int> void test1(FmtIntTestVector<Int> &tv) {
 }
 template <class Int> void test2(FmtIntTestVector<Int> &tv) {
   constexpr cli::format::Int<Int, cli::Fmt::normal, true> format;
-  auto res = format({(uint8_t *)tv.buffer.data(), tv.buffer.size()}, tv.input);
+  auto res = format({tv.buffer.data(), tv.buffer.size()}, tv.input);
   REQUIRE(res);
   CHECK(res.size_written == tv.expected_output.size());
   tv.buffer.resize(res.size_written);

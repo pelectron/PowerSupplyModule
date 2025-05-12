@@ -14,7 +14,7 @@ struct FmtFixPointTv {
 template <class FP> void test(const FmtFixPointTv &tv) {
   std::string buffer(256, 0);
   auto res = cli::format::DefaultFormat<FP>{}(
-      {(uint8_t *)buffer.data(), buffer.size()},
+      {buffer.data(), buffer.size()},
       FP(typename FP::raw_value_type(tv.bit_pattern)));
   REQUIRE(res);
   buffer.resize(res.size_written);
@@ -24,7 +24,7 @@ template <class FP, auto Precision, bool PrintTrailingZeros>
 void test(const FmtFixPointTv &tv) {
   std::string buffer(256, 0);
   auto res = cli::format::FixPoint<FP, Precision, PrintTrailingZeros>{}(
-      {(uint8_t *)buffer.data(), buffer.size()},
+      {buffer.data(), buffer.size()},
       FP(typename FP::raw_value_type(tv.bit_pattern)));
   REQUIRE(res);
   buffer.resize(res.size_written);

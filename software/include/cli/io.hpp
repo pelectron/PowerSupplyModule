@@ -2,7 +2,9 @@
 #define CLI_IO_HPP
 
 #include "cli/enums.hpp"
-#include "cli/util.hpp"
+#include "cli/string.hpp"
+
+#include <concepts>
 #include <cstdint>
 #include <type_traits>
 #include <utility>
@@ -26,6 +28,7 @@ enum class Type : uint8_t {
 struct Event {
   Type type;
   uint8_t data[2]{};
+  // TODO: replace final with data byte
   uint8_t final;
 };
 
@@ -38,63 +41,95 @@ template <class T, std::size_t Size> class Queue {
 };
 
 /**
- * @brief A CharDevice is used to write a single character to an unbuffered
+ * @brief A CharStream is used to write a single character to an unbuffered
  * output stream.
- * It is a callable that takes a uint8_t character and returns a cli::Error to
- * indicate write success.
  *
- * @tparam D the device type
+ * It is a callable that takes a uint8_t character as input and returns a
+ * cli::Error to indicate write success/failure.
+ *
+ * Example for an embedded target with UART:
+ *
+ * ```
+ * cli::Error my_char_stream(uint8_t c){
+ *   HAL_Status status = HAL_UART_Transmit(c);
+ *   return status_to_cli_err(status);
+ * }
+ *
+ * static_assert(cli::CharStream<decltype(&my_char_stream)>);
+ * ```
+ *
+ * @tparam S the stream type
  */
-template <class D>
-concept CharStream = requires(std::remove_cvref_t<D> &dev, uint8_t c) {
-  { std::invoke(dev, c) } -> std::same_as<Error>;
+template <class S>
+concept CharStream = requires(std::remove_cvref_t<S> &stream, uint8_t c) {
+  { std::invoke(stream, c) } -> std::same_as<Error>;
 };
 
 /**
- * @brief A StringDevice is used to write a string of characters to an
- * unbuffered output stream. It is a callable that takes a cli::ByteView
- * character and returns a cli::Error to indicate write success.
+ * @brief A StringStream is used to write a string of characters to an
+ * unbuffered output stream.
  *
- * @tparam D the device type
+ * It is a callable that takes a cli::ByteView as input and returns a cli::Error
+ * to indicate write success.
+ *
+ * Example for an embedded target with UART:
+ *
+ * ```
+ * cli::Error my_string_stream(cli::ByteView str){
+ *   for(const char&c:str){
+ *     HAL_Status status = HAL_UART_Transmit(c);
+ *     if(status !=HAL_STAUS_OK)
+ *       return status_to_cli_err(status);
+ *   }
+ *   return Error::none;
+ * }
+ *
+ * static_assert(cli::StringStream<decltype(&my_string_stream)>);
+ * ```
+ *
+ * @tparam S the stream type
  */
-template <class D>
-concept StringStream = requires(std::remove_cvref_t<D> &dev, ByteView s) {
-  { std::invoke(dev, s) } -> std::same_as<Error>;
+template <class S>
+concept StringStream = requires(std::remove_cvref_t<S> &stream, ByteView s) {
+  { std::invoke(stream, s) } -> std::same_as<Error>;
 };
 
 /**
- * @brief A BasicOutputDevice is used to write raw characters to an unbuffered
- * output stream.
+ * @brief A BasicOutputStream is used to write raw characters to an unbuffered
+ * output stream. A BasicOutputStream must satisfy the CharStream or the
+ * StringStream concept, or both.
  *
- * @tparam D the device type
+ * @tparam S the stream type
  */
-template <class D>
-concept BasicOutputStream = CharStream<D> or StringStream<D>;
+template <class S>
+concept BasicOutputStream = CharStream<S> or StringStream<S>;
 
 /**
- * @brief An OutputDevice is the interface cli::io::Output uses to write
+ * @brief An OutputStream is the interface cli::io::Output uses to write
  * to an unbuffered output stream.
  *
- * See cli::io::AnsiOutputHandler for an example of an OutputHandler.
+ * See cli::io::AnsiOutputStream for an example of an OutputStream.
  *
- * @tparam H
+ * @tparam S teh stream type
  */
 template <class S>
 concept OutputStream = requires(std::remove_cvref_t<S> &s, uint8_t c,
                                 ByteView str, const Event &ev) {
+  // writes a raw character c
   { s.write(c) } -> std::same_as<Error>;
+  // writes the raw string str
   { s.write(str) } -> std::same_as<Error>;
+  // "writes" an event
   { s.event(ev) } -> std::same_as<Error>;
 };
 
 /**
- * @brief The output device for ansi terminals
- *
- * @tparam Error
- * @param c
- * @return
+ * @brief The output device for ansi terminals. It relies on a BasicOutputStream
+ * to actually output characters. Next to passing through character and string
+ * writes, AnsiOutputStream transforms special events, such as backspace,
+ * cursor movement, etc., into ansi escape sequences.
  */
-template <BasicOutputStream Stream> struct AnsiOutputHandler {
+template <BasicOutputStream Stream> struct AnsiOutputStream {
   Stream stream;
 
   constexpr Error write(uint8_t c);
@@ -103,11 +138,11 @@ template <BasicOutputStream Stream> struct AnsiOutputHandler {
 };
 
 template <BasicOutputStream Stream>
-AnsiOutputHandler(Stream &&) -> AnsiOutputHandler<std::remove_cvref_t<Stream>>;
+AnsiOutputStream(Stream &&) -> AnsiOutputStream<std::remove_cvref_t<Stream>>;
 
 /**
  * @brief This class is the interface used by the cli to control the output
- * @tparam Handler
+ * @tparam Stream the actual output stream
  */
 template <OutputStream Stream> class Output {
 public:
@@ -147,15 +182,14 @@ template <OutputStream Stream>
 Output(Stream &&) -> Output<std::remove_cvref_t<Stream>>;
 
 template <BasicOutputStream Stream>
-Output(Stream &&) -> Output<AnsiOutputHandler<std::remove_cvref_t<Stream>>>;
+Output(Stream &&) -> Output<AnsiOutputStream<std::remove_cvref_t<Stream>>>;
 
 /**
  * @class Input
- * @brief This class represents an input device, e.g. a keyboard or UART input
- * stream, and is used to send events to the cli.
+ * @brief This class represents an ansi input device, e.g. a keyboard or UART
+ * input stream, and is used to send events to the cli.
  *
- * It processes data character by character and calls the clis put_event()
- * function.
+ * It processes data character by character.
  *
  * Function:
  * - handle special ascii characters (DEL/BS/ESC/tabs/feeds)
@@ -180,7 +214,7 @@ Output(Stream &&) -> Output<AnsiOutputHandler<std::remove_cvref_t<Stream>>>;
  *  cli::Error error = in.on_char(UART_GetChar(h));
  *  switch(error){
  *    case Error::none: ...
- *    case * Error::buffer_overflow: ...
+ *    case Error::buffer_overflow: ...
  *    case Error::invalid_esc_seq: ...
  *    default: ...
  *   }
@@ -225,11 +259,16 @@ Output(Stream &&) -> Output<AnsiOutputHandler<std::remove_cvref_t<Stream>>>;
  *  }
  * }
  * ```
- *
  */
 class Input {
 public:
+  constexpr Input(const Input &) = default;
+  constexpr Input(Input &&) = default;
+  constexpr Input &operator=(const Input &) = default;
+  constexpr Input &operator=(Input &&) = default;
+
   template <class Cli>
+    requires(not std::same_as<Cli, Input>)
   constexpr Input(Cli &cli)
       : cli(&cli), put_event_(+[](void *cli, const Event &ev) {
           return static_cast<Cli *>(cli)->put_event(ev);
@@ -335,7 +374,7 @@ constexpr Error Output<OutputStream>::scroll_down(uint8_t n) {
 }
 
 template <BasicOutputStream Device>
-constexpr Error AnsiOutputHandler<Device>::write(uint8_t c) {
+constexpr Error AnsiOutputStream<Device>::write(uint8_t c) {
   if constexpr (StringStream<Device>) {
     const char ch[1] = {static_cast<char>(c)};
     return stream(ByteView(ch, 1));
@@ -345,7 +384,7 @@ constexpr Error AnsiOutputHandler<Device>::write(uint8_t c) {
 }
 
 template <BasicOutputStream Device>
-constexpr Error AnsiOutputHandler<Device>::write(ByteView s) {
+constexpr Error AnsiOutputStream<Device>::write(ByteView s) {
   if constexpr (StringStream<Device>) {
     return stream(s);
   } else {
@@ -357,7 +396,7 @@ constexpr Error AnsiOutputHandler<Device>::write(ByteView s) {
 }
 
 template <BasicOutputStream Device>
-constexpr Error AnsiOutputHandler<Device>::event(const Event &e) {
+constexpr Error AnsiOutputStream<Device>::event(const Event &e) {
   switch (e.type) {
   case Type::AutoComplete:
     return Error::invalid_argument;

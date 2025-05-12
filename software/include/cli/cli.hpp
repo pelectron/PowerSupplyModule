@@ -37,25 +37,19 @@
 #define CLI_CLI_HPP
 #include "cli/ctti.hpp"
 #include "cli/enums.hpp"
-#include "cli/format.hpp"
 #include "cli/function.hpp"
 #include "cli/help.hpp"
 #include "cli/io.hpp"
 #include "cli/param.hpp"
 #include "cli/tracker.hpp"
 #include "cli/util.hpp"
-#include "cpp-terminal/cursor.hpp"
-#include "cpp-terminal/iostream.hpp"
-#include "cpp-terminal/terminfo.hpp"
 
 #include <array>
 #include <cassert>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <span>
-#include <string>
 #include <string_view>
 #include <tuple>
 #include <type_traits>
@@ -136,7 +130,7 @@ template <class Name> struct DummyParam : public CommandNode {
 
   constexpr DummyParam(Name) : CommandNode(*this) {}
 
-  Error execute(ExecType, const ArgVector &, std::span<uint8_t> &) {
+  Error execute(ExecType, const ArgVector &, std::span<char> &) {
     return Error::none;
   }
 };
@@ -215,11 +209,6 @@ struct config {
   static constexpr std::size_t max_num_commands = 64;
   static constexpr std::size_t max_cmd_level = 5;
   static constexpr std::size_t max_line_length = 80;
-
-  static Error transmit(uint8_t c) {
-    std::cout << (char)c;
-    return Error::none;
-  }
 };
 
 struct ControlSequence {
@@ -244,19 +233,29 @@ enum class State {
   set_params,
 };
 
+/**
+ * @brief
+ *
+ * @tparam Cfg
+ * @tparam Stream
+ * @tparam Commands
+ */
 template <Config Cfg, io::OutputStream Stream, Command... Commands> class Cli {
 public:
   using enum State;
+
   template <Config Cfg_, io::OutputStream S, Command... Cmds>
   constexpr Cli(Cfg_ &&cfg, S &&stream, Cmds &&...cmds)
       : config_{std::forward<Cfg_>(cfg)},
         commands_{std::forward<Cmds>(cmds)...}, out_(std::forward<S>(stream)) {
     init_tree();
   }
+
   template <Config Cfg_, io::BasicOutputStream S, Command... Cmds>
   constexpr Cli(Cfg_ &&cfg, S &&stream, Cmds &&...cmds)
       : config_{std::forward<Cfg_>(cfg)},
-        commands_{std::forward<Cmds>(cmds)...}, out_(std::forward<S>(stream)) {
+        commands_{std::forward<Cmds>(cmds)...},
+        out_(io::AnsiOutputStream{std::forward<S>(stream)}) {
     init_tree();
   }
 
@@ -301,6 +300,27 @@ public:
     return *this;
   }
 
+  Error put_event(const io::Event &ev) {
+    if (not rx_buf.push_back(ev))
+      return Error::buffer_overflow;
+    return Error::none;
+  }
+
+  Error process() {
+    while (1) {
+      Error e = process_one();
+      if (e == Error::none)
+        continue;
+      else if (e == Error::buffer_underflow)
+        return Error::none;
+      else
+        return e;
+    }
+  }
+
+  void print() { print(root(), 0); }
+
+private:
   template <Command Cmd>
   static constexpr void init_cmd(Cli &cli, std::size_t &index,
                                  CommandNode &parent, Cmd &cmd) {
@@ -311,7 +331,7 @@ public:
     node.type = Cmd::type;
     node.this_ = &cmd;
     node.exec_ = +[](void *this_, ExecType type, ArgVector args,
-                     std::span<uint8_t> &out) -> Error {
+                     std::span<char> &out) -> Error {
       return static_cast<Cmd *>(this_)->execute(type, args, out);
     };
     // add the node to the parent
@@ -335,49 +355,10 @@ public:
                   commands_);
   }
 
-  Error put_event(const io::Event &ev) {
-    if (not rx_buf.push_back(ev))
-      return Error::buffer_overflow;
-    return Error::none;
-  }
-
-  /** state machine handlers
-   * @{
-   */
   constexpr Error autocomplete() {
     const auto str = tracker_.on_autocomplete();
     out_.write(str);
     return Error::none;
-  }
-
-  void print_state() {
-    std::cout << "state: " << ctti::enum_name(state_) << "\ncmd: "
-              << (current_cmd == nullptr ? ByteView("null")
-                                         : ByteView(current_cmd->name))
-              << "\nnext_cmd: "
-              << (next_cmd == nullptr ? ByteView("null") : next_cmd->name)
-              << std::endl;
-  }
-
-  constexpr Error handle_active_params_call(uint8_t c) { return Error::none; }
-
-  constexpr Error handle_active_params(uint8_t c) { return Error::none; }
-  /// @}
-
-  static constexpr bool is_partial_substring(ByteView str, ByteView sub) {
-    if (str.size() == 0 or sub.size() == 0)
-      return false;
-
-    if (sub.size() > str.size()) {
-      return sub.starts_with(str);
-    }
-
-    for (std::size_t i = 0; i < sub.size(); ++i) {
-      if (str.ends_with(sub.substr(i)))
-        return true;
-    }
-
-    return false;
   }
 
   constexpr Error write_char(uint8_t c) {
@@ -514,17 +495,7 @@ public:
     }
     return out_.backspace(n);
   }
-  Error process() {
-    while (1) {
-      Error e = process_one();
-      if (e == Error::none)
-        continue;
-      else if (e == Error::buffer_underflow)
-        return Error::none;
-      else
-        return e;
-    }
-  }
+
   Error process_one() {
     io::Event ev{};
     if (not rx_buf.pop(ev))
@@ -560,7 +531,6 @@ public:
       return Error::invalid_argument;
     }
   }
-  void print() { print(root(), 0); }
 
   void print(const CommandNode &c, std::size_t indent) {
     for (std::size_t i = 0; i < 2 * indent; ++i)
@@ -618,7 +588,6 @@ public:
     }
   }
 
-  // the root is the "entry point" into the cli.
   constexpr CommandNode &root() noexcept { return cmds_[0]; }
   constexpr const CommandNode &root() const noexcept { return cmds_[0]; }
 
@@ -641,8 +610,8 @@ public:
       return err;
     return error;
   }
-  /*constexpr*/ Error process_get_param() {
-    std::span<uint8_t> out{output_line_.data(), output_line_.size()};
+  constexpr Error process_get_param() {
+    std::span<char> out{output_line_.data(), output_line_.size()};
     auto cmd = tracker_.cmd();
 
     if (auto err = out_.newline(); err != Error::none)
@@ -658,7 +627,7 @@ public:
       return return_to_idle(error);
     }
 
-    if (auto err = out_.write(ByteView((const char *)out.data(), out.size()));
+    if (auto err = out_.write(ByteView(out.data(), out.size()));
         err != Error::none)
       return err;
 
@@ -669,21 +638,15 @@ public:
     return error;
   }
 
-  /*constexpr*/ Error process_set_param(ByteView args) {
-    std::span<uint8_t> out{output_line_.data(), output_line_.size()};
+  constexpr Error process_set_param(ByteView args) {
+    std::span<char> out{output_line_.data(), output_line_.size()};
     auto cmd = tracker_.cmd();
 
     if (auto err = out_.newline(); err != Error::none)
       return err;
 
     if (cmd == nullptr) {
-      if (auto err = out_.write("Error: "); err != Error::none)
-        return err;
-      if (auto err = out_.write(ctti::enum_name(Error::invalid_cmd));
-          err != Error::none)
-        return err;
-      return_to_idle();
-      return out_.newline();
+      return return_to_idle(Error::invalid_cmd);
     }
 
     const auto error = cmd->execute(ExecType::set, args, out);
@@ -691,8 +654,8 @@ public:
     return return_to_idle(error);
   }
 
-  /*constexpr*/ Error process_call(ByteView args) {
-    std::span<uint8_t> out{output_line_.data(), output_line_.size()};
+  constexpr Error process_call(ByteView args) {
+    std::span<char> out{output_line_.data(), output_line_.size()};
     auto cmd = tracker_.cmd();
 
     if (auto err = out_.newline(); err != Error::none)
@@ -707,7 +670,7 @@ public:
       return return_to_idle(error);
     }
 
-    if (auto err = out_.write(ByteView((char *)out.data(), out.size()));
+    if (auto err = out_.write(ByteView(out.data(), out.size()));
         err != Error::none)
       return err;
 
@@ -761,6 +724,7 @@ public:
   CommandNode *next_cmd = nullptr;
 
   std::tuple<Commands...> commands_{};
+  template <class, class> friend struct Help;
   using HelpCmd = decltype(funcs::func(
       "help"_sc,
       cli::Help<Cli<Cfg, Stream, Commands...>, Cfg>{std::declval<Cli &>()},
@@ -775,7 +739,7 @@ public:
   RingBuffer<io::Event, Cfg::rx_size> rx_buf{};
 
   FixedSizeVector<char, Cfg::max_line_length> current_line_{};
-  std::array<uint8_t, Cfg::max_line_length> output_line_{};
+  std::array<char, Cfg::max_line_length> output_line_{};
   const char *start_of_args = nullptr;
   State state_ = active;
   std::size_t esc_seq_index = 0;
@@ -802,7 +766,7 @@ Cli(Cfg &&, Stream &&, Commands &&...)
 template <Config Cfg, io::BasicOutputStream Stream, Command... Commands>
 Cli(Cfg &&, Stream &&, Commands &&...)
     -> Cli<std::remove_cvref_t<Cfg>,
-           io::AnsiOutputHandler<std::remove_cvref_t<Stream>>,
+           io::AnsiOutputStream<std::remove_cvref_t<Stream>>,
            std::remove_cvref_t<Commands>...>;
 } // namespace cli
 #endif

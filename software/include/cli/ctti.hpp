@@ -3,6 +3,7 @@
 #include "cli/traits.hpp"
 #include "cli/util.hpp"
 
+#include <array>
 #include <source_location>
 #include <string_view>
 #include <type_traits>
@@ -214,6 +215,7 @@ consteval std::size_t generate_enum_names_size(std::index_sequence<Is...>) {
   }
   return size;
 }
+
 template <class E, std::size_t... Is>
 consteval auto generate_enum_names(std::index_sequence<Is...>) {
   std::array<std::pair<E, std::string_view>, sizeof...(Is)> strings{std::pair<

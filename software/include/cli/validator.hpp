@@ -1,7 +1,6 @@
 #ifndef CLI_VALIDATE_HPP
 #define CLI_VALIDATE_HPP
 #include "cli/util.hpp"
-#include "ctre.hpp"
 #include <concepts>
 #include <string_view>
 #include <type_traits>
@@ -33,13 +32,6 @@ template <class T> struct DefaultValidate {
 
 struct NullValidate {
   constexpr cli::Error operator()(const dummy &) const { return Error::none; }
-};
-
-template <StringLiteral S> struct regex {
-  constexpr auto operator()(std::string_view subject) const noexcept
-  /* -> ctre::regex_results */ {
-    return ctre::match<S>(subject);
-  }
 };
 } // namespace cli::validate
 #endif

@@ -12,11 +12,12 @@ namespace cli {
  *
  * Thsi class only tracks command names, but not values (in case of params) or
  * arguments (in case of functions)
+ *
  * @tparam Depth the command tree depth
- * @tparam Depth the maximum length of any command name contained
+ * @tparam Depth the maximum length of any command name in the tree
  * @tparam AccessSeparator the character used to separate individual command
  * names
- * @tparam UseAutoComplete if true, autocomplete is enabled, else disabled
+ * @tparam UseAutoComplete if true, autocomplete is enabled, else it is disabled
  */
 template <std::size_t Depth, std::size_t MaxNameLength,
           char AccessSeparator = '.', bool UseAutoComplete = true>
