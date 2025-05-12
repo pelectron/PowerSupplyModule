@@ -993,38 +993,7 @@ private:
   }
 
   constexpr hal::Error write_reg(Reg reg, uint16_t value) {
-    std::size_t write_size = 2;
-    switch (reg) {
-    case Reg::REF:
-      value &= VREF;
-      register_map_.ref = value;
-      write_size = 3;
-      break;
-    case Reg::IOUT_LIMIT:
-      register_map_.iout_limit = value;
-      break;
-    case Reg::VOUT_SR:
-      value &= VOUT_SR_RESET_MASK;
-      register_map_.vout_sr = value;
-      break;
-    case Reg::VOUT_FS:
-      value &= VOUT_FS_RESET_MASK;
-      register_map_.vout_fs = value;
-      break;
-    case Reg::CDC:
-      value &= CDC_RESET_MASK;
-      register_map_.cdc = value;
-      break;
-    case Reg::MODE:
-      register_map_.mode = value;
-      break;
-    case Reg::STATUS:
-      value &= STATUS_RESET_MASK;
-      register_map_.status = value;
-      break;
-    default:
-      return hal::Error::invalid_param;
-    }
+    std::size_t write_size = reg == Reg::REF ? 3 : 2;
 
     const uint8_t buf[3]{static_cast<uint8_t>(reg), static_cast<uint8_t>(value),
                          static_cast<uint8_t>(value >> 8)};
