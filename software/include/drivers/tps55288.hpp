@@ -12,58 +12,159 @@
 #include "hal/gpio.hpp"
 #include "hal/hal.hpp"
 #include "hal/i2c.hpp"
-#include <csignal>
+
 #include <cstdint>
 
 namespace tps55288 {
 
+namespace {
+enum class Reg : std::uint8_t {
+  REF = 0x0,
+  IOUT_LIMIT = 0x2,
+  VOUT_SR = 0x3,
+  VOUT_FS = 0x4,
+  CDC = 0x5,
+  MODE = 0x6,
+  STATUS = 0x7
+};
+
+enum Ref : std::uint16_t {
+  VREF = 0b1111111111u,
+  VREF_RESET_VALUE = 0b11010010u
+};
+
+enum IoutLImit : std::uint8_t {
+  Current_Limit_EN = 1 << 7,
+  Current_Limit_Setting = 0b1111111u,
+  IOUT_LIMIT_RESET_VALUE = 0b11100100u
+};
+
+enum VoutSr : std::uint8_t {
+  OCP_DELAY = 0b11 << 4,
+  OCP_DELAY_POS = 4,
+  SR = 0b11,
+  SR_POS = 0,
+  VOUT_SR_RESET_MASK = 0b110011u,
+  VOUT_SR_RESET_VALUE = 0b00000001u
+};
+
+enum VoutFs : std::uint8_t {
+  FB = 1 << 7,
+  INTFB = 0b11,
+  INTFB_POS = 0,
+  VOUT_FS_RESET_MASK = 0b10000011u,
+  VOUT_FS_RESET_VALUE = 0b00000011u
+};
+
+enum Cdc : std::uint8_t {
+  SC_MASK = 1 << 7,
+  OCP_MASK = 1 << 6,
+  OVP_MASK = 1 << 5,
+  CDC_OPTION = 1 << 3,
+  CDC = 0b1111u,
+  CDC_POS = 0,
+  CDC_RESET_MASK = 0b11101111u,
+  CDC_RESET_VALUE = 0b11100000u
+};
+
+enum Mode : std::uint8_t {
+  OE = 1 << 7,
+  FSWDBL = 1 << 6,
+  HICCUP = 1 << 5,
+  DISCHG = 1 << 4,
+  VCC = 1 << 3,
+  I2CADD = 1 << 2,
+  PFM = 1 << 1,
+  MODE = 1 << 0,
+  MODE_RESET_VALUE = 0b00100000u
+};
+
+enum Status : std::uint8_t {
+  SCP = 1 << 7,
+  OCP = 1 << 6,
+  OVP = 1 << 5,
+  STATUS = 0b11,
+  STATUS_POS = 0,
+  STATUS_RESET_MASK = 0b11100011u,
+  STATUS_RESET_VALUE = 0b00000011u
+};
+
+} // namespace
+
+/// Over Current Protection Delay
 enum class OcpDelay : std::uint8_t {
-  delay_128us = 0,
-  delay_3ms = 1,
-  delay_6ms = 2,
-  delay_12ms = 3
+  delay_128us = 0, //< 128 microseconds (Default)
+  delay_3ms = 1,   //< 3 * 1.024 milliseconds
+  delay_6ms = 2,   //< 6 * 1.024 milliseconds
+  delay_12ms = 3   //< 12 * 1.024 milliseconds
 };
 
+/// Output Slew Rate
 enum class SlewRate : std::uint8_t {
-  slew_1_25mV = 0,
-  slew_2_5mV = 1,
-  slew_5mV = 2,
-  slew_10mV = 3,
+  slew_1_25mV = 0, //< 1.25 mV/us
+  slew_2_5mV = 1,  //< 2.5 mV/us (Default)
+  slew_5mV = 2,    //< 5 mV/us
+  slew_10mV = 3,   //< 10 mV/us
 };
 
+/// Internal Feedback Divider Ratio
 enum class FeedbackRatio : std::uint8_t {
   fb_0_2256 = 0, //< 0.2256
   fb_0_1128 = 1, //< 0.1128
   fb_0_0752 = 2, //< 0.0752
-  fb_0_0564 = 3  //< 0.0564
+  fb_0_0564 = 3  //< 0.0564 (Default)
 };
 
-enum class Errors : std::uint8_t {
+/**
+ * When an indicator for an event is enabled, then its activation, for example
+ * short circuit, will set the corresponding bit in the status and assert the
+ * FB/INT pin when using internal feedback. When the indicator is disabled, then
+ * the corresponding bit will not be set and the FB/INT pin will not be
+ * asserted, even if its event is active.
+ */
+enum class Indicator : std::uint8_t {
   short_circuit = 1 << 2,
   overcurrent = 1 << 1,
   overvoltage = 1 << 0
 };
 
-constexpr Errors operator|(Errors f1, Errors f2) noexcept {
-  return static_cast<Errors>(static_cast<std::uint8_t>(f1) |
-                             static_cast<std::uint8_t>(f2));
+constexpr Indicator operator|(Indicator f1, Indicator f2) noexcept {
+  return static_cast<Indicator>(static_cast<std::uint8_t>(f1) |
+                                static_cast<std::uint8_t>(f2));
 }
 
+constexpr Indicator operator&(Indicator f1, Indicator f2) noexcept {
+  return static_cast<Indicator>(static_cast<std::uint8_t>(f1) &
+                                static_cast<std::uint8_t>(f2));
+}
+
+/// I2CADD bit
 enum class Address : std::uint8_t {
   address_0x74,
   address_0x75,
 };
 
+/**
+ * In light load condition, the TPS55288 can work in PFM or forced PWM mode to
+ * meet different application requirements. The PFM mode decreases switching
+ * frequency to reduce the switching loss thus it gets high efficiency at light
+ * load condition. The FPWM mode keeps the switching frequency unchanged to
+ * avoid undesired low switching frequency but the efficiency becomes lower than
+ * that of PFM mode.
+ */
 enum class LightLoadMode : std::uint8_t { PFM = 0, FPWM = 1 };
 
-enum class ModeControl { external_resistor, internal_register };
+/// how the VCC, I2CADD and PFM bits of the mode register are set
+enum class ModeControl : std::uint8_t { external_resistor, internal_register };
 
+/// the operation mode of the converter
 enum class OperatingMode : std::uint8_t { boost = 0, buck = 1, buck_boost = 2 };
 
+/// error flags of the status register.
 enum class StatusFlags : std::uint8_t {
-  short_circuit,
-  overcurrent,
-  overvoltage
+  short_circuit = 1 << 2,
+  overcurrent = 1 << 1,
+  overvoltage = 1 << 0
 };
 
 constexpr StatusFlags operator|(StatusFlags f1, StatusFlags f2) noexcept {
@@ -76,53 +177,277 @@ constexpr StatusFlags operator&(StatusFlags f1, StatusFlags f2) noexcept {
                                   static_cast<std::uint8_t>(f2));
 }
 
+/**
+ * opaque enum for the status register. Use get_flags and get_mode to get the
+ * StatusFlags and OperatingMode in the status. StatusCode::invalid is returned
+ * in case an error occurred when reading the status register.
+ */
 enum class StatusCode : std::uint8_t { invalid = 0b11100u };
 
-constexpr StatusFlags get_flags(StatusCode code) {
-  return static_cast<StatusFlags>(static_cast<std::uint8_t>(code) >> 5);
+/**
+ * @brief returns the StatusFlags of status
+ *
+ * @param status the status code
+ */
+constexpr StatusFlags get_flags(StatusCode status) noexcept {
+  return static_cast<StatusFlags>(static_cast<std::uint8_t>(status) >> 5);
 }
 
-constexpr OperatingMode get_mode(StatusCode code) {
-  return static_cast<OperatingMode>(static_cast<std::uint8_t>(code) & 0b11u);
+/**
+ * @brief returns the OperatingMode of status
+ *
+ * @param status the status code
+ */
+constexpr OperatingMode get_mode(StatusCode status) noexcept {
+  return static_cast<OperatingMode>(static_cast<std::uint8_t>(status) & 0b11u);
 }
 
-enum class Mode : std::uint8_t {
-  output_enable = 1 << 7,
-  fsw_double = 1 << 6,
-  hiccup = 1 << 5,
-  output_discharge = 1 << 4,
-  external_vcc = 1 << 3,
-  i2c_address_0x75 = 1 << 2,
-  PFM = 1 << 1,
-  MODE = 1 << 0,
-  MODE_RESET_VALUE = 0b00100000u
-};
+/**
+ * @brief The memory/register map of the TPS55288. A default constructed
+ * instance will hold the register reset values.
+ *
+ * The struct only contains the raw register values. To set and access
+ * individual fields, use the member functions.
+ *
+ * For a detailed description of the fields, see the TPS55288 driver class and
+ * datasheet.
+ */
+struct RegisterMap {
+  std::uint16_t ref = 0b11010010u;
+  std::uint8_t iout_limit = 0b11100100u;
+  std::uint8_t vout_sr = 0b00000001u;
+  std::uint8_t vout_fs = 0b00000011u;
+  std::uint8_t cdc = 0b11100000u;
+  std::uint8_t mode = 0b00100000u;
+  std::uint8_t status = 0b00000011;
 
-struct MemoryMap {
-  uint16_t ref = 0b11010010u;
-  uint8_t iout_limit = 0b11100100u;
-  uint8_t vout_sr = 0b00000001u;
-  uint8_t vout_fs = 0b00000011u;
-  uint8_t cdc = 0b11100000u;
-  uint8_t mode = 0b00100000u;
-  uint8_t status = 0b00000011;
-  constexpr auto operator<=>(const MemoryMap &) const = default;
+  constexpr auto operator<=>(const RegisterMap &) const = default;
+
+  constexpr void vref(std::uint16_t value) noexcept { ref = value & VREF; }
+
+  constexpr void ilim_enable(bool enable) noexcept {
+    if (enable)
+      iout_limit |= Current_Limit_EN;
+    else
+      iout_limit &= ~Current_Limit_EN;
+  }
+
+  constexpr void ilim(std::uint8_t code) noexcept {
+    iout_limit =
+        (iout_limit & ~Current_Limit_Setting) | (code & Current_Limit_Setting);
+  }
+
+  constexpr void ocp_delay(OcpDelay delay) noexcept {
+    vout_sr = (vout_sr & ~OCP_DELAY) | (static_cast<std::uint8_t>(delay) << 5u);
+  }
+
+  constexpr void slew_rate(SlewRate rate) noexcept {
+    vout_sr = (vout_sr & ~SR) | (static_cast<std::uint8_t>(rate) & SR);
+  }
+
+  constexpr void external_feedback(bool enable) noexcept {
+    if (enable)
+      vout_fs |= FB;
+    else
+      vout_fs &= ~FB;
+  }
+
+  constexpr void feedback_ratio(FeedbackRatio ratio) noexcept {
+    vout_fs = (vout_fs & ~INTFB) | (static_cast<std::uint8_t>(ratio) & INTFB);
+  }
+
+  constexpr void enable_indicators(Indicator indicators) noexcept {
+    cdc = (cdc & ~(SC_MASK | OVP_MASK | OCP_MASK)) |
+          (static_cast<std::uint8_t>(indicators) << 5);
+  }
+
+  constexpr void disable_indicators(Indicator indicators) noexcept {
+    cdc &= ~(static_cast<std::uint8_t>(indicators) << 5);
+  }
+
+  constexpr void external_cable_drop_compensation(bool enable) noexcept {
+    if (enable)
+      cdc |= CDC_OPTION;
+    else
+      cdc &= ~CDC_OPTION;
+  }
+
+  constexpr void cable_drop_compensation_voltage(uint8_t code) noexcept {
+    cdc = (cdc & ~CDC) | (code & CDC);
+  }
+
+  constexpr void output_enable(bool enable) noexcept {
+    if (enable)
+      mode |= OE;
+    else
+      mode &= ~OE;
+  }
+
+  constexpr void fsw_double(bool enable) noexcept {
+    if (enable)
+      mode |= FSWDBL;
+    else
+      mode &= ~FSWDBL;
+  }
+
+  constexpr void hiccup(bool enable) noexcept {
+    if (enable)
+      mode |= HICCUP;
+    else
+      mode &= ~HICCUP;
+  }
+
+  constexpr void output_discharge(bool enable) noexcept {
+    if (enable)
+      mode |= DISCHG;
+    else
+      mode &= ~DISCHG;
+  }
+
+  constexpr void external_vcc(bool enable) noexcept {
+    if (enable)
+      mode |= VCC;
+    else
+      mode &= ~VCC;
+  }
+
+  constexpr void i2c_address(Address addr) noexcept {
+    switch (addr) {
+    case Address::address_0x74:
+      mode &= ~I2CADD;
+      break;
+    case Address::address_0x75:
+      mode |= I2CADD;
+      break;
+    }
+  }
+
+  constexpr void light_load_mode(LightLoadMode ll_mode) noexcept {
+    switch (ll_mode) {
+    case LightLoadMode::PFM:
+      mode &= ~PFM;
+      break;
+    case LightLoadMode::FPWM:
+      mode |= PFM;
+      break;
+    }
+  }
+
+  constexpr void mode_control(ModeControl ctrl) noexcept {
+    switch (ctrl) {
+    case ModeControl::external_resistor:
+      mode &= ~MODE;
+      break;
+    case ModeControl::internal_register:
+      mode |= MODE;
+      break;
+    }
+  }
+
+  constexpr uint16_t vref() const noexcept { return ref; }
+
+  constexpr bool ilim_enabled() const noexcept {
+    return (iout_limit & Current_Limit_EN) != 0;
+  }
+
+  constexpr uint8_t ilim() const noexcept {
+    return iout_limit & Current_Limit_Setting;
+  }
+
+  constexpr OcpDelay ocp_delay() const noexcept {
+    return static_cast<OcpDelay>(vout_sr >> OCP_DELAY_POS);
+  }
+
+  constexpr SlewRate slew_rate() const noexcept {
+    return static_cast<SlewRate>(vout_sr & SR);
+  }
+
+  constexpr bool external_feedback() const noexcept {
+    return (vout_fs & FB) != 0;
+  }
+
+  constexpr FeedbackRatio feedback_ratio() const noexcept {
+    return static_cast<FeedbackRatio>(vout_fs & INTFB);
+  }
+
+  constexpr Indicator enabled_indicators() const noexcept {
+    return static_cast<Indicator>(cdc >> 5);
+  }
+
+  constexpr bool external_cable_drop_compensation() const noexcept {
+    return (cdc & CDC_OPTION) != 0;
+  }
+
+  constexpr uint8_t cable_drop_compensation_voltage() const noexcept {
+    return cdc & CDC;
+  }
+
+  constexpr bool output_enabled() const noexcept { return (mode & OE) != 0; }
+
+  constexpr bool fsw_double() const noexcept { return (mode & FSWDBL) != 0; }
+
+  constexpr bool hiccup() const noexcept { return (mode & HICCUP) != 0; }
+
+  constexpr bool output_discharge() const noexcept {
+    return (mode & DISCHG) != 0;
+  }
+
+  constexpr bool external_vcc() const noexcept { return (mode & VCC) != 0; }
+
+  constexpr Address i2c_address() const noexcept {
+    return (mode & VCC) == 0 ? Address::address_0x74 : Address::address_0x75;
+  }
+
+  constexpr LightLoadMode light_load_mode() const noexcept {
+    return (mode & PFM) == 0 ? LightLoadMode::PFM : LightLoadMode::FPWM;
+  }
+
+  constexpr ModeControl mode_control() const noexcept {
+    return (mode & MODE) == 0 ? ModeControl::external_resistor
+                              : ModeControl::internal_register;
+  }
+
+  constexpr StatusCode status_code() const noexcept {
+    return static_cast<StatusCode>(status);
+  }
 };
 
 struct Settings {
   hal::i2c::Config i2c;
   hal::gpio::Config enable;
-  MemoryMap device_settings;
+  RegisterMap device_settings;
   constexpr auto operator<=>(const Settings &) const = default;
 };
 
-static_assert(sizeof(MemoryMap) == 8);
+static_assert(sizeof(RegisterMap) == 8);
 
-inline constexpr MemoryMap default_memory_map{};
+inline constexpr RegisterMap default_memory_map{};
 
+/**
+ * @class TPS55288
+ * @brief This is a driver for the TPS55288 buck boost converter IC from TI.
+ *
+ * It uses a hal:i2c::Device for communication and an optional hal::gpio::Pin.
+ * Additionally, it uses a cached register map to reduce io operations.
+ * All operations that can fail because of io return a hal::Error
+ * value. The only exception is status(),which returns StatusCode::invalid in
+ * case of an io error.
+ */
 class TPS55288 {
 public:
+  /**
+   * @brief This will construct the driver with an invalid i2c device. One of
+   * the init() overloads must be called before using the driver.
+   */
   constexpr TPS55288() = default;
+
+  /**
+   * @brief constructs a new driver. i2c must be a valid device, else one of the
+   * init() overloads must be called.
+   *
+   * @param i2c the I2C device used for communication
+   * @param enable the gpio controlling the enable pin. Can be invalid.
+   */
   constexpr TPS55288(hal::i2c::Device i2c, hal::gpio::Pin enable)
       : i2c_(std::move(i2c)), enable_(std::move(enable)) {
     i2c_.set_address(0x74u);
@@ -130,6 +455,13 @@ public:
       enable_ = hal::gpio::nullpin;
   }
 
+  /**
+   * @brief initialize an invalid driver. If hal::Error::none is returned, the
+   * driver can be used.
+   *
+   * @param hal the hal object
+   * @param settings TPS55288 settings
+   */
   constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
     hal::Error error = hal.configure(settings.i2c);
     if (error != hal::Error::none)
@@ -140,28 +472,41 @@ public:
       return error;
 
     i2c_ = hal.create(settings.i2c.id, 0x74u);
+
     enable_ = hal.create(settings.enable.port, settings.enable.pins);
+
     if (not i2c_.is_valid())
       return hal::Error::invalid_handle;
-    if (not enable_.is_valid())
-      return hal::Error::invalid_handle;
 
-    enable();
-    error = write_memory_map(settings.device_settings);
-    disable();
+    if (not enable_.is_valid())
+      enable_ = hal::gpio::nullpin;
+
     return error;
   }
 
-  constexpr void init(hal::i2c::Device i2c, hal::gpio::Pin enable) {
+  /**
+   * @brief initialize an invalid driver. If hal::Error::none is returned, the
+   * driver can be used.
+   *
+   * @param i2c the I2C device used for communication
+   * @param enable the gpio controlling the enable pin. Can be invalid.
+   */
+  constexpr hal::Error init(hal::i2c::Device i2c, hal::gpio::Pin enable) {
     i2c_ = std::move(i2c);
+
+    if (not i2c_.is_valid())
+      return hal::Error::invalid_handle;
+
     i2c_.set_address(0x74u);
 
-    if (enable.is_valid())
-      enable_ = std::move(enable);
-    else
+    enable_ = std::move(enable);
+
+    if (not enable_.is_valid())
       enable_ = hal::gpio::nullpin;
 
-    memory_map = default_memory_map;
+    register_map_ = default_memory_map;
+
+    return hal::Error::none;
   }
 
   /**
@@ -173,7 +518,7 @@ public:
     if (is_enabled())
       return hal::Error::none;
     enable_.set(hal::gpio::State::set);
-    return write_memory_map(memory_map);
+    return write_register_map(register_map_);
   }
 
   /**
@@ -192,7 +537,7 @@ public:
    * @param map pointer to the memory map to store the results in. If map is
    * nullptr, the results are only stored in the drivers internal memory map.
    */
-  constexpr hal::Error read_memory_map(MemoryMap *map) {
+  constexpr hal::Error read_register_map(RegisterMap *map) {
     std::uint8_t buf[8]{0};
     auto error = i2c_.write({buf, 0});
     if (error != hal::Error::none)
@@ -200,14 +545,14 @@ public:
     error = i2c_.read({buf, 8});
     if (error != hal::Error::none)
       return error;
-    memory_map.ref = buf[0] | (static_cast<uint16_t>(buf[1]) << 8);
-    memory_map.iout_limit = buf[2];
-    memory_map.vout_sr = buf[3];
-    memory_map.vout_fs = buf[4];
-    memory_map.cdc = buf[5];
-    memory_map.mode = buf[6];
-    memory_map.status = buf[7];
-    *map = memory_map;
+    register_map_.ref = buf[0] | (static_cast<uint16_t>(buf[1]) << 8);
+    register_map_.iout_limit = buf[2];
+    register_map_.vout_sr = buf[3];
+    register_map_.vout_fs = buf[4];
+    register_map_.cdc = buf[5];
+    register_map_.mode = buf[6];
+    register_map_.status = buf[7];
+    *map = register_map_;
     return hal::Error::none;
   }
 
@@ -215,9 +560,9 @@ public:
    * @brief writes map to the converter. Useful for quickly setting up a
    * converter.
    *
-   * @param map the memory map to write
+   * @param map the register map to write
    */
-  constexpr hal::Error write_memory_map(const MemoryMap &map) {
+  constexpr hal::Error write_register_map(const RegisterMap &map) {
     const uint8_t buf[8]{
         0,
         static_cast<uint8_t>(map.ref),
@@ -243,9 +588,12 @@ public:
     } else {
       i2c_.set_address(0x74u);
     }
-    memory_map = map;
+
     return hal::Error::none;
   }
+
+  /// @brief returns the cached register map
+  constexpr RegisterMap register_map() const { return register_map_; }
 
   /**
    * @brief sets the internal reference voltage of the TPS55288 by setting the
@@ -265,7 +613,7 @@ public:
 
   ///  Enable or disable current limit
   constexpr hal::Error enable_ilim(bool enable) {
-    bool enabled = (memory_map.iout_limit & Current_Limit_EN) != 0;
+    bool enabled = register_map_.ilim_enabled();
 
     if (enabled == enable)
       return hal::Error::none;
@@ -273,26 +621,25 @@ public:
     if (enable) {
       bool ocp_enabled = false;
       hal::Error error = hal::Error::none;
-      if (memory_map.cdc & OCP_MASK) {
+      if ((register_map_.enabled_indicators() & Indicator::overcurrent) ==
+          Indicator::overcurrent) {
         ocp_enabled = true;
-        error = disable_errors(Errors::overcurrent);
+        error = disable_indicators(Indicator::overcurrent);
         if (error != hal::Error::none)
           return error;
       }
 
-      error = write_reg(Reg::IOUT_LIMIT,
-                        (memory_map.iout_limit | Current_Limit_EN));
+      error = write_reg(Reg::IOUT_LIMIT, register_map_.iout_limit);
 
       if (error != hal::Error::none)
         return error;
 
       if (ocp_enabled)
-        return enable_errors(Errors::overcurrent);
+        return enable_indicators(Indicator::overcurrent);
       else
         return hal::Error::none;
     } else {
-      return write_reg(Reg::IOUT_LIMIT,
-                       (memory_map.iout_limit & ~Current_Limit_EN));
+      return write_reg(Reg::IOUT_LIMIT, register_map_.iout_limit);
     }
   }
 
@@ -301,27 +648,25 @@ public:
    * ISN pin.
    *
    * One LSB stands for 0.5 mV. The default value is 0b11100100 (=50 mV).
-   * 0b1111111, the maximum code, stands for 63.5 mV
+   * 0b1111111, the maximum code, stands for 63.5 mV.
    *
    * @param code a 7 bit value
    */
   constexpr hal::Error ilim(uint8_t code) {
-    return write_reg(Reg::IOUT_LIMIT,
-                     (memory_map.iout_limit & ~Current_Limit_Setting) |
-                         (code & Current_Limit_Setting));
+    register_map_.ilim(code);
+    return write_reg(Reg::IOUT_LIMIT, register_map_.iout_limit);
   }
 
   /**
    * @brief Sets the response time of the device when the output overcurrent
-   * limit is reached. Can be 128 microseconds, 3 millieconds, 6 milliseconds,
+   * limit is reached. Can be 128 microseconds, 3 milliseconds, 6 milliseconds,
    * or 12 milliseconds.
    *
    * @param delay the delay
    */
   constexpr hal::Error ocp_delay(OcpDelay delay) {
-    return write_reg(Reg::VOUT_SR,
-                     (memory_map.vout_sr & ~OCP_DELAY) |
-                         (static_cast<uint8_t>(delay) << OCP_DELAY_POS));
+    register_map_.ocp_delay(delay);
+    return write_reg(Reg::VOUT_SR, register_map_.vout_sr);
   }
 
   /**
@@ -335,9 +680,9 @@ public:
    *
    * @param slew_rate the slew rate
    */
-  constexpr hal::Error slew_rate(SlewRate slew_rate) {
-    return write_reg(Reg::VOUT_SR, (memory_map.vout_sr & ~SR) |
-                                       (static_cast<uint8_t>(slew_rate) & SR));
+  constexpr hal::Error slew_rate(SlewRate rate) {
+    register_map_.slew_rate(rate);
+    return write_reg(Reg::VOUT_SR, register_map_.vout_sr);
   }
 
   /**
@@ -355,10 +700,8 @@ public:
    * @param enable if true, enables external voltage feedback, else disables it
    */
   constexpr hal::Error external_feedback(bool enable) {
-    if (enable)
-      return write_reg(Reg::VOUT_FS, (memory_map.vout_fs | FB));
-    else
-      return write_reg(Reg::VOUT_FS, (memory_map.vout_fs & ~FB));
+    register_map_.external_feedback(enable);
+    return write_reg(Reg::VOUT_FS, register_map_.vout_fs);
   }
 
   /**
@@ -375,8 +718,8 @@ public:
    * @return
    */
   constexpr hal::Error feedback_ratio(FeedbackRatio ratio) {
-    return write_reg(Reg::VOUT_FS, (memory_map.vout_fs & ~INTFB) |
-                                       (static_cast<uint8_t>(ratio) & INTFB));
+    register_map_.feedback_ratio(ratio);
+    return write_reg(Reg::VOUT_FS, register_map_.vout_fs);
   }
 
   /**
@@ -391,9 +734,9 @@ public:
    *
    * @param errors the errors to enable
    */
-  constexpr hal::Error enable_errors(Errors errors) {
-    return write_reg(Reg::CDC,
-                     memory_map.cdc | (static_cast<uint8_t>(errors) << 5));
+  constexpr hal::Error enable_indicators(Indicator indicators) {
+    register_map_.enable_indicators(indicators);
+    return write_reg(Reg::CDC, register_map_.cdc);
   }
 
   /**
@@ -408,9 +751,9 @@ public:
    *
    * @param errors the errors to enable
    */
-  constexpr hal::Error disable_errors(Errors errors) {
-    return write_reg(Reg::CDC,
-                     memory_map.cdc & ~(static_cast<uint8_t>(errors) << 5));
+  constexpr hal::Error disable_indicators(Indicator indicators) {
+    register_map_.disable_indicators(indicators);
+    return write_reg(Reg::CDC, register_map_.cdc);
   }
 
   /**
@@ -423,10 +766,8 @@ public:
    * @param enable if true, use external compensation, else internal
    */
   constexpr hal::Error external_cable_drop_compensation(bool enable) {
-    if (enable)
-      return write_reg(Reg::CDC, (memory_map.cdc | CDC_OPTION));
-    else
-      return write_reg(Reg::CDC, (memory_map.cdc & ~CDC_OPTION));
+    register_map_.external_cable_drop_compensation(enable);
+    return write_reg(Reg::CDC, register_map_.cdc);
   }
 
   /**
@@ -445,8 +786,8 @@ public:
    * @param code a 3 bit number
    */
   constexpr hal::Error cable_drop_compensation_voltage(uint8_t code) {
-    return write_reg(Reg::CDC, (memory_map.cdc & ~CDC) |
-                                   (static_cast<uint8_t>(code) & CDC));
+    register_map_.cable_drop_compensation_voltage(code);
+    return write_reg(Reg::CDC, register_map_.cdc);
   }
 
   /**
@@ -458,31 +799,34 @@ public:
    * @param enable if true, enables the output, else disables it.
    */
   constexpr hal::Error output_enable(bool enable) {
-    bool enabled = (memory_map.mode & OE) != 0;
+    bool enabled = register_map_.output_enabled();
     if (enabled == enable)
       return hal::Error::none;
+
+    register_map_.output_enable(enable);
 
     if (enable) {
       bool ocp_enabled = false;
       hal::Error error = hal::Error::none;
-      if (memory_map.cdc & OCP_MASK) {
+      if ((register_map_.enabled_indicators() & Indicator::overcurrent) ==
+          Indicator::overcurrent) {
         ocp_enabled = true;
-        error = disable_errors(Errors::overcurrent);
+        error = disable_indicators(Indicator::overcurrent);
         if (error != hal::Error::none)
           return error;
       }
 
-      error = write_reg(Reg::MODE, (memory_map.mode | OE));
+      error = write_reg(Reg::MODE, register_map_.mode);
 
       if (error != hal::Error::none)
         return error;
 
       if (ocp_enabled)
-        return enable_errors(Errors::overcurrent);
+        return enable_indicators(Indicator::overcurrent);
       else
         return hal::Error::none;
     } else {
-      return write_reg(Reg::MODE, (memory_map.mode & ~OE));
+      return write_reg(Reg::MODE, register_map_.mode);
     }
   }
 
@@ -496,10 +840,8 @@ public:
    * mode, else keep it unchanged.
    */
   constexpr hal::Error fsw_double(bool enable) {
-    if (enable)
-      return write_reg(Reg::MODE, (memory_map.mode | FSWDBL));
-    else
-      return write_reg(Reg::MODE, (memory_map.mode & ~FSWDBL));
+    register_map_.fsw_double(enable);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
   /**
@@ -509,10 +851,8 @@ public:
    * protection.
    */
   constexpr hal::Error hiccup(bool enable) {
-    if (enable)
-      return write_reg(Reg::MODE, (memory_map.mode | HICCUP));
-    else
-      return write_reg(Reg::MODE, (memory_map.mode & ~HICCUP));
+    register_map_.hiccup(enable);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
   /**
@@ -526,10 +866,8 @@ public:
    * @param enable if true, enables output discharge during shutdown.
    */
   constexpr hal::Error output_discharge(bool enable) {
-    if (enable)
-      return write_reg(Reg::MODE, (memory_map.mode | DISCHG));
-    else
-      return write_reg(Reg::MODE, (memory_map.mode & ~DISCHG));
+    register_map_.output_discharge(enable);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
   /**
@@ -540,10 +878,8 @@ public:
    * the internal LDO.
    */
   constexpr hal::Error external_vcc(bool enable) {
-    if (enable)
-      return write_reg(Reg::MODE, (memory_map.mode | VCC));
-    else
-      return write_reg(Reg::MODE, (memory_map.mode & ~VCC));
+    register_map_.external_vcc(enable);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
   /**
@@ -552,22 +888,19 @@ public:
    * @param addr the address
    */
   constexpr hal::Error i2c_address(Address addr) {
+    register_map_.i2c_address(addr);
+    auto err = write_reg(Reg::MODE, register_map_.mode);
     switch (addr) {
     case Address::address_0x74:
-      if (auto err = write_reg(Reg::MODE, memory_map.mode & ~I2CADD);
-          err != hal::Error::none)
-        return err;
       i2c_.set_address(0x74u);
-      return hal::Error::none;
+      break;
     case Address::address_0x75:
-      if (auto err = write_reg(Reg::MODE, memory_map.mode | I2CADD);
-          err != hal::Error::none)
-        return err;
       i2c_.set_address(0x75u);
-      return hal::Error::none;
+      break;
     default:
       return hal::Error::invalid_param;
     }
+    return err;
   }
 
   /**
@@ -580,14 +913,8 @@ public:
    * @param mode the mode
    */
   constexpr hal::Error light_load_mode(LightLoadMode mode) {
-    switch (mode) {
-    case LightLoadMode::PFM:
-      return write_reg(Reg::MODE, memory_map.mode & ~PFM);
-    case LightLoadMode::FPWM:
-      return write_reg(Reg::MODE, memory_map.mode | PFM);
-    default:
-      return hal::Error::invalid_param;
-    }
+    register_map_.light_load_mode(mode);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
   /**
@@ -601,97 +928,29 @@ public:
    *
    * @param ctrl the control approach
    */
-  constexpr hal::Error internal_mode_control(ModeControl ctrl) {
-    switch (ctrl) {
-    case ModeControl::external_resistor:
-      return write_reg(Reg::MODE, memory_map.mode & ~MODE);
-    case ModeControl::internal_register:
-      return write_reg(Reg::MODE, memory_map.mode & ~MODE);
-    default:
-      return hal::Error::invalid_param;
-    }
+  constexpr hal::Error mode_control(ModeControl ctrl) {
+    register_map_.mode_control(ctrl);
+    return write_reg(Reg::MODE, register_map_.mode);
   }
 
+  /**
+   * @brief return the StatusCode of the converter, or StatusCode::invalid if an
+   * error occurred during communication. The status is made up of StatusFlags
+   * and an OperatingMode. Use get_flags(status) and get_mode(status) to access
+   * the flags and mode.
+   *
+   * @return the StatusCode or StatusCode::invalid if an error occurred.
+   */
   constexpr StatusCode status() {
     uint16_t value = 0;
     hal::Error error = read_reg(Reg::STATUS, value);
     if (error != hal::Error::none)
       return StatusCode::invalid;
+    register_map_.status = value;
     return static_cast<StatusCode>(static_cast<uint8_t>(value));
   }
 
 private:
-  enum class Reg : std::uint8_t {
-    REF = 0x0,
-    IOUT_LIMIT = 0x2,
-    VOUT_SR = 0x3,
-    VOUT_FS = 0x4,
-    CDC = 0x5,
-    MODE = 0x6,
-    STATUS = 0x7
-  };
-
-  enum Ref : std::uint16_t {
-    VREF = 0b1111111111u,
-    VREF_RESET_VALUE = 0b11010010u
-  };
-
-  enum IoutLImit : std::uint8_t {
-    Current_Limit_EN = 1 << 7,
-    Current_Limit_Setting = 0b1111111u,
-    IOUT_LIMIT_RESET_VALUE = 0b11100100u
-  };
-
-  enum VoutSr : std::uint8_t {
-    OCP_DELAY = 0b11 << 4,
-    OCP_DELAY_POS = 4,
-    SR = 0b11,
-    SR_POS = 0,
-    VOUT_SR_RESET_MASK = 0b110011u,
-    VOUT_SR_RESET_VALUE = 0b00000001u
-  };
-
-  enum VoutFs : std::uint8_t {
-    FB = 1 << 7,
-    INTFB = 0b11,
-    INTFB_POS = 0,
-    VOUT_FS_RESET_MASK = 0b10000011u,
-    VOUT_FS_RESET_VALUE = 0b00000011u
-  };
-
-  enum Cdc : std::uint8_t {
-    SC_MASK = 1 << 7,
-    OCP_MASK = 1 << 6,
-    OVP_MASK = 1 << 5,
-    CDC_OPTION = 1 << 3,
-    CDC = 0b1111u,
-    CDC_POS = 0,
-    CDC_RESET_MASK = 0b11101111u,
-    CDC_RESET_VALUE = 0b11100000u
-  };
-
-  enum Mode : std::uint8_t {
-    OE = 1 << 7,
-    FSWDBL = 1 << 6,
-    HICCUP = 1 << 5,
-    DISCHG = 1 << 4,
-    VCC = 1 << 3,
-    I2CADD = 1 << 2,
-    PFM = 1 << 1,
-    MODE = 1 << 0,
-    MODE_RESET_VALUE = 0b00100000u
-  };
-
-  enum Status : std::uint8_t {
-    SCP = 1 << 7,
-    OCP = 1 << 6,
-    OVP = 1 << 5,
-    STATUS = 0b11,
-    STATUS_POS = 0,
-    STATUS_RESET_MASK = 0b11100011u,
-    STATUS_RESET_VALUE = 0b00000011u
-  };
-
   constexpr hal::Error read_reg(Reg reg, uint16_t &value) {
     uint8_t buf[2]{static_cast<uint8_t>(reg), 0};
     std::size_t read_size = 1;
@@ -715,19 +974,19 @@ private:
     switch (reg) {
     case Reg::REF:
       read_size = 2;
-      return do_read_reg(memory_map.ref, VREF);
+      return do_read_reg(register_map_.ref, VREF);
     case Reg::IOUT_LIMIT:
-      return do_read_reg(memory_map.iout_limit, 0xFFu);
+      return do_read_reg(register_map_.iout_limit, 0xFFu);
     case Reg::VOUT_SR:
-      return do_read_reg(memory_map.vout_sr, VOUT_SR_RESET_MASK);
+      return do_read_reg(register_map_.vout_sr, VOUT_SR_RESET_MASK);
     case Reg::VOUT_FS:
-      return do_read_reg(memory_map.vout_fs, VOUT_FS_RESET_MASK);
+      return do_read_reg(register_map_.vout_fs, VOUT_FS_RESET_MASK);
     case Reg::CDC:
-      return do_read_reg(memory_map.cdc, CDC_RESET_MASK);
+      return do_read_reg(register_map_.cdc, CDC_RESET_MASK);
     case Reg::MODE:
-      return do_read_reg(memory_map.mode, 0xFFu);
+      return do_read_reg(register_map_.mode, 0xFFu);
     case Reg::STATUS:
-      return do_read_reg(memory_map.status, STATUS_RESET_MASK);
+      return do_read_reg(register_map_.status, STATUS_RESET_MASK);
     default:
       return hal::Error::invalid_param;
     }
@@ -738,30 +997,30 @@ private:
     switch (reg) {
     case Reg::REF:
       value &= VREF;
-      memory_map.ref = value;
+      register_map_.ref = value;
       write_size = 3;
       break;
     case Reg::IOUT_LIMIT:
-      memory_map.iout_limit = value;
+      register_map_.iout_limit = value;
       break;
     case Reg::VOUT_SR:
       value &= VOUT_SR_RESET_MASK;
-      memory_map.vout_sr = value;
+      register_map_.vout_sr = value;
       break;
     case Reg::VOUT_FS:
       value &= VOUT_FS_RESET_MASK;
-      memory_map.vout_fs = value;
+      register_map_.vout_fs = value;
       break;
     case Reg::CDC:
       value &= CDC_RESET_MASK;
-      memory_map.cdc = value;
+      register_map_.cdc = value;
       break;
     case Reg::MODE:
-      memory_map.mode = value;
+      register_map_.mode = value;
       break;
     case Reg::STATUS:
       value &= STATUS_RESET_MASK;
-      memory_map.status = value;
+      register_map_.status = value;
       break;
     default:
       return hal::Error::invalid_param;
@@ -774,8 +1033,8 @@ private:
   }
 
   hal::i2c::Device i2c_{};
-  hal::gpio::Pin enable_{hal::gpio::nullpin};
-  MemoryMap memory_map{};
+  hal::gpio::Pin enable_{};
+  RegisterMap register_map_{};
 };
 
 } // namespace tps55288
