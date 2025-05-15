@@ -35,8 +35,6 @@ class Device {
 public:
   constexpr Device() = default;
 
-  constexpr Device(HandleRef handle) : handle_(handle) {}
-
   constexpr Device(HandleRef handle, uint8_t address)
       : handle_(handle), address_(address) {}
 

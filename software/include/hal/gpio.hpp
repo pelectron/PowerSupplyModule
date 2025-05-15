@@ -24,7 +24,7 @@ struct NullHandle {
   void toggle_state(unsigned) {}
 };
 
-using Handle =
+using HandleRef =
     poly::Struct<poly::ref_storage, poly::type_list<>,
                  poly::type_list<State(get_state, unsigned pin_mask),
                                  void(set_state, unsigned pin_mask, State),
@@ -47,8 +47,8 @@ struct port_type;
 class Pin {
 public:
   constexpr Pin() noexcept = default;
-  constexpr Pin(Handle &&handle, uint32_t pin_mask)
-      : handle_(std::move(handle)), pin_mask_(pin_mask) {}
+  constexpr Pin(HandleRef handle, uint32_t pin_mask)
+      : handle_(handle), pin_mask_(pin_mask) {}
   constexpr Pin(const Pin &) = default;
   constexpr Pin(Pin &&other) = default;
   constexpr Pin &operator=(const Pin &) = default;
@@ -81,7 +81,7 @@ private:
   friend class Input;
   friend ConfigResult<Pin> configure(const Config &cfg) noexcept;
 
-  Handle handle_{};
+  HandleRef handle_{};
   uint32_t pin_mask_ = 0;
 };
 

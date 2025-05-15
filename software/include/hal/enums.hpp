@@ -14,7 +14,8 @@ enum class Error {
   invalid_handle,
   config,
   callback_already_registered,
-  invalid_param
+  invalid_param,
+  not_implemented,
 };
 
 enum class ConfigError : std::uint32_t {

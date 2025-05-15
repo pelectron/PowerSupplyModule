@@ -118,7 +118,7 @@ public:
    * R_wb = code / 1024 * R_ab
    * R_wa = (1024 - code) * R_ab
    */
-  constexpr hal::Error code(uint16_t code) {
+  constexpr hal::Error wiper(std::uint16_t code) {
     code &= code_mask;
     code |= WRITE_RDAC;
     if (auto err = write(code); err != hal::Error::none)
@@ -139,10 +139,10 @@ public:
   constexpr bool write_protection() const { return (control_ & (1 << 1)) == 0; }
 
   /// returns the current wiper position
-  constexpr uint16_t code() const { return code_; }
+  constexpr std::uint16_t wiper() const { return code_; }
 
 private:
-  hal::Error write(uint16_t value) {
+  hal::Error write(std::uint16_t value) {
     std::uint8_t buf[2]{static_cast<std::uint8_t>(value >> 8),
                         static_cast<std::uint8_t>(value)};
     return spi_.write(buf);
@@ -161,8 +161,8 @@ private:
   enum { code_mask = 0b1111111111u };
 
   hal::spi::Device spi_;
-  uint8_t control_ = 0;
-  uint16_t code_ = 512;
+  std::uint8_t control_ = 0;
+  std::uint16_t code_ = 512;
 };
 } // namespace ad5293
 #endif

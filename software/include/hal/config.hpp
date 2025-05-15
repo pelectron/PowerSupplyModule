@@ -99,6 +99,7 @@ namespace i2c {
 
 struct Config {
   Id id;
+  uint8_t address;
   hal::gpio::Id scl;
   hal::gpio::Id sda;
   constexpr auto operator<=>(const Config &) const = default;

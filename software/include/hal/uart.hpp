@@ -38,15 +38,15 @@ using Handle = poly::Struct<
                     hal::Error(hal::register_callback, Device *device,
                                ListenerFunction callback)>>;
 
-using HandleOwner = Handle<poly::local_storage<72>>;
+using HandleOwner = Handle<poly::move_only_local_storage<72>>;
 
 using HandleRef = Handle<poly::ref_storage>;
 
 class Device {
 public:
-  constexpr Device(HandleRef handle) : handle_(handle) {}
   constexpr Device() = default;
   constexpr Device(Device &&) = default;
+  constexpr explicit Device(HandleRef handle, int = 0) : handle_(handle) {}
   constexpr Device &operator=(Device &&) = default;
 
   enum Error {

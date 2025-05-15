@@ -8,6 +8,7 @@
 #include "hal/uart.hpp"
 
 #include "poly.hpp"
+#include "tl/expected.hpp"
 
 namespace hal {
 
@@ -18,42 +19,41 @@ using Handle = poly::Struct<
   poly::type_list<>,
   poly::type_list<
     Error (init),
-    Error (configure, const gpio::Config &cfg),
-    Error (configure, const i2c::Config &cfg),
-    Error (configure, const spi::Config &cfg),
-    Error (configure, const uart::Config &cfg),
+    tl::expected<gpio::Pin, Error> (configure, const gpio::Config &cfg),
+    tl::expected<i2c::Device, Error> (configure, const i2c::Config &cfg),
+    tl::expected<spi::Device, Error> (configure, const spi::Config &cfg),
+    tl::expected<uart::Device, Error> (configure, const uart::Config &cfg),
     gpio::Pin (create, gpio::Port port, uint32_t pins),
     i2c::Device (create, i2c::Id id, uint8_t address),
     spi::Device (create, spi::Id id, gpio::Pin chip_select),
-    uart::Device (create, uart::Id id) 
+    uart::Device (create, uart::Id id)
 >>;
 // clang-format on
 
 using HandleRef = Handle<poly::ref_storage>;
 
-struct NullHandle {
+struct NullHal {
 
   constexpr Error init() noexcept { return hal::Error::none; }
 
-  constexpr Error configure(const gpio::Config &) noexcept {
-    return hal::Error::none;
+  constexpr tl::expected<gpio::Pin, Error>
+  configure(const gpio::Config &) noexcept {
+    return tl::unexpected(hal::Error::not_implemented);
   }
 
-  constexpr Error configure(const i2c::Config &) noexcept {
-    return hal::Error::none;
+  tl::expected<i2c::Device, Error> configure(const i2c::Config &) noexcept {
+    return tl::unexpected<Error>(hal::Error::not_implemented);
   }
 
-  constexpr Error configure(const spi::Config &) noexcept {
-    return hal::Error::none;
+  tl::expected<spi::Device, Error> configure(const spi::Config &) noexcept {
+    return tl::unexpected(hal::Error::not_implemented);
   }
 
-  constexpr Error configure(const uart::Config &) noexcept {
-    return hal::Error::none;
+  tl::expected<uart::Device, Error> configure(const uart::Config &) noexcept {
+    return tl::unexpected(hal::Error::not_implemented);
   }
 
-  constexpr gpio::Pin create(gpio::Port, uint32_t pins) noexcept {
-    return {gpio, pins};
-  }
+  gpio::Pin create(gpio::Port, uint32_t pins) noexcept { return {gpio, pins}; }
 
   constexpr i2c::Device create(i2c::Id, uint8_t address) noexcept {
     return {i2c, address};
@@ -64,7 +64,7 @@ struct NullHandle {
   }
 
   constexpr uart::Device create(uart::Id) noexcept {
-    return uart::HandleRef(uart);
+    return uart::Device(uart);
   }
 
   static inline constinit gpio::NullHandle gpio{};
@@ -86,19 +86,23 @@ public:
 
   constexpr Error init() { return handle_.init(); }
 
-  constexpr Error configure(const gpio::Config &cfg) noexcept {
+  constexpr tl::expected<gpio::Pin, Error>
+  configure(const gpio::Config &cfg) noexcept {
     return handle_.configure(cfg);
   }
 
-  constexpr Error configure(const i2c::Config &cfg) noexcept {
+  constexpr tl::expected<i2c::Device, Error>
+  configure(const i2c::Config &cfg) noexcept {
     return handle_.configure(cfg);
   }
 
-  constexpr Error configure(const spi::Config &cfg) noexcept {
+  constexpr tl::expected<spi::Device, Error>
+  configure(const spi::Config &cfg) noexcept {
     return handle_.configure(cfg);
   }
 
-  constexpr Error configure(const uart::Config &cfg) noexcept {
+  tl::expected<uart::Device, Error>
+  configure(const uart::Config &cfg) noexcept {
     return handle_.configure(cfg);
   }
 
