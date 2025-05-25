@@ -11,34 +11,20 @@ namespace hal::i2c {
 struct MockHandle {
 
   hal::Error write(uint8_t address, std::span<const uint8_t> buffer) {
-    std::cout << "i2c-write [" << cli::ctti::enum_name(config.id)
-              << "] addr: " << unsigned{address} << " size: " << buffer.size()
-              << " data: [";
+    write_input.resize(buffer.size() + 1, 0);
+    write_input[0] = address << 1;
     for (std::size_t i = 0; i < buffer.size(); ++i) {
-      write_input[i] = buffer[i];
-      std::cout << unsigned{read_response[i]};
-      if (i != buffer.size() - 1)
-        std::cout << ", ";
+      write_input[i + 1] = buffer[i];
     }
-    std::cout << "]" << std::endl;
     return hal::Error::none;
   }
 
   hal::Error read(uint8_t address, std::span<uint8_t> buffer) {
-    std::cout << "i2c-read [" << cli::ctti::enum_name(config.id)
-              << "] addr: " << unsigned{address} << " size: " << buffer.size()
-              << " data: [";
-
-    if (buffer.size() > read_response.size())
-      read_response.resize(buffer.size(), 0);
+    read_response.resize(buffer.size(), 0);
 
     for (std::size_t i = 0; i < buffer.size(); ++i) {
       buffer[i] = read_response[i];
-      std::cout << unsigned{read_response[i]};
-      if (i != buffer.size() - 1)
-        std::cout << ", ";
     }
-    std::cout << "]" << std::endl;
 
     return hal::Error::none;
   }

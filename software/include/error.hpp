@@ -1,5 +1,6 @@
 #ifndef PSM_ERROR_HPP
 #define PSM_ERROR_HPP
+#include "hal/enums.hpp"
 
 namespace psm {
 enum class Error {
@@ -51,6 +52,12 @@ constexpr Error operator||(Error e1, Error e2) {
   return e1 == Error::none ? e2 : e1;
 }
 
+// TODO: properly map hal::Error
+constexpr Error from_hal_error(hal::Error e) {
+  if (e == hal::Error::none)
+    return Error::none;
+  return Error::hal;
+}
 } // namespace psm
 
 #endif

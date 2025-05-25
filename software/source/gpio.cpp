@@ -33,8 +33,8 @@ struct port_type {
       BRR; /*!< GPIO Bit Reset register,               Address offset: 0x28 */
 };
 
-port_type *port_io(Id id) {
-  switch (port(id)) {
+port_type *port_io(Port port) {
+  switch (port) {
   case Port::A:
     return reinterpret_cast<port_type *>(GPIOA);
   case Port::B:
@@ -74,16 +74,25 @@ ConfigResult<Pin> configure(const Config &cfg) noexcept {
   if (not pin_exists(cfg.id))
     return ConfigError::invalid_id;
 
-  port_type *const port = port_io(cfg.id);
+  unsigned pins[16] = {16};
+  unsigned num_pins = 0;
+  for (unsigned i = 0; i < 16; ++i) {
+    if ((1u << i) & cfg.pins) {
+      pins[num_pins++] = i;
+    }
+  }
+
+  port_type *const port = port_io(cfg.port);
+  if (port == nullptr)
+    return ConfigError::invalid_port;
+
   // mask and position for single bit fields
   const std::uint32_t nr = pin_nr(cfg.id);
-  const std::uint32_t mask = 1 << nr;
+  const std::uint32_t mask = cfg.pins;
   // position and mask for 2 bit wide fields
   const std::uint32_t pos2 = 2 * nr;
   const std::uint32_t mask2 = 0b11 << pos2;
 
-  if (port == nullptr)
-    return ConfigError::invalid_port;
 
   if (nr > 15)
     return ConfigError::invalid_pin_nr;

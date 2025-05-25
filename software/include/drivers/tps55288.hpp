@@ -12,6 +12,7 @@
 #include "hal/gpio.hpp"
 #include "hal/hal.hpp"
 #include "hal/i2c.hpp"
+#include "tl/expected.hpp"
 
 #include <cstdint>
 
@@ -463,25 +464,29 @@ public:
    * @param settings TPS55288 settings
    */
   constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
-    hal::Error error = hal.configure(settings.i2c);
-    if (error != hal::Error::none)
-      return error;
+    auto res = hal.configure(settings.i2c)
+                   .and_then([this, &settings, &hal](hal::i2c::Device i2c)
+                                 -> tl::expected<void, hal::Error> {
+                     if (not i2c.is_valid())
+                       return tl::unexpected(hal::Error::invalid_handle);
 
-    error = hal.configure(settings.enable);
-    if (error != hal::Error::none)
-      return error;
-
-    i2c_ = hal.create(settings.i2c.id, 0x74u);
-
-    enable_ = hal.create(settings.enable.port, settings.enable.pins);
-
-    if (not i2c_.is_valid())
-      return hal::Error::invalid_handle;
-
-    if (not enable_.is_valid())
-      enable_ = hal::gpio::nullpin;
-
-    return error;
+                     i2c_ = std::move(i2c);
+                     i2c_.set_address(0x74u);
+                     return hal.configure(settings.enable)
+                         .and_then([this](hal::gpio::Pin pin)
+                                       -> tl::expected<void, hal::Error> {
+                           if (not pin.is_valid())
+                             enable_ = hal::gpio::nullpin;
+                           else
+                             enable_ = std::move(pin);
+                           return {};
+                         });
+                   });
+    register_map_ = default_memory_map;
+    if (res)
+      return hal::Error::none;
+    else
+      return res.error();
   }
 
   /**
@@ -948,6 +953,76 @@ public:
       return StatusCode::invalid;
     register_map_.status = value;
     return static_cast<StatusCode>(static_cast<uint8_t>(value));
+  }
+
+  constexpr uint16_t vref() const noexcept { return register_map_.vref(); }
+
+  constexpr bool ilim_enabled() const noexcept {
+    return register_map_.ilim_enabled();
+  }
+
+  constexpr uint8_t ilim() const noexcept { return register_map_.ilim(); }
+
+  constexpr OcpDelay ocp_delay() const noexcept {
+    return register_map_.ocp_delay();
+  }
+
+  constexpr SlewRate slew_rate() const noexcept {
+    return register_map_.slew_rate();
+  }
+
+  constexpr bool external_feedback() const noexcept {
+    return register_map_.external_feedback();
+  }
+
+  constexpr FeedbackRatio feedback_ratio() const noexcept {
+    return register_map_.feedback_ratio();
+  }
+
+  constexpr Indicator enabled_indicators() const noexcept {
+    return register_map_.enabled_indicators();
+  }
+
+  constexpr bool external_cable_drop_compensation() const noexcept {
+    return register_map_.external_cable_drop_compensation();
+  }
+
+  constexpr uint8_t cable_drop_compensation_voltage() const noexcept {
+    return register_map_.cable_drop_compensation_voltage();
+  }
+
+  constexpr bool output_enabled() const noexcept {
+    return register_map_.output_enabled();
+  }
+
+  constexpr bool fsw_double() const noexcept {
+    return register_map_.fsw_double();
+  }
+
+  constexpr bool hiccup() const noexcept { return register_map_.hiccup(); }
+
+  constexpr bool output_discharge() const noexcept {
+    return register_map_.output_discharge();
+  }
+
+  constexpr bool external_vcc() const noexcept {
+    return register_map_.external_vcc();
+  }
+
+  constexpr Address i2c_address() const noexcept {
+    return register_map_.i2c_address();
+  }
+
+  constexpr LightLoadMode light_load_mode() const noexcept {
+    return register_map_.light_load_mode();
+  }
+
+  constexpr ModeControl mode_control() const noexcept {
+    return register_map_.mode_control();
+  }
+
+  constexpr StatusCode status_code() const noexcept {
+    return register_map_.status_code();
   }
 
 private:

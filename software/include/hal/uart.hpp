@@ -46,7 +46,7 @@ class Device {
 public:
   constexpr Device() = default;
   constexpr Device(Device &&) = default;
-  constexpr explicit Device(HandleRef handle, int = 0) : handle_(handle) {}
+  constexpr explicit Device(HandleRef handle, int) : handle_(handle) {}
   constexpr Device &operator=(Device &&) = default;
 
   enum Error {
@@ -98,7 +98,7 @@ private:
   poly::move_only_local_storage<32> callback;
 };
 
-ConfigResult<HandleOwner> configure(const Config &cfg) noexcept;
+ConfigResult<Device> configure(const Config &cfg) noexcept;
 } // namespace hal::uart
 
 #endif

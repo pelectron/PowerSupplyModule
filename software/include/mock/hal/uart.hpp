@@ -28,7 +28,7 @@ struct MockHandle {
               << "] size: " << buffer.size() << " data: [";
     for (std::size_t i = 0; i < buffer.size(); ++i) {
       write_input[i] = buffer[i];
-      std::cout << unsigned{read_response[i]};
+      std::cout << unsigned{write_input[i]};
       if (i != buffer.size() - 1)
         std::cout << ", ";
     }

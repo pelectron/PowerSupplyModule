@@ -5,12 +5,30 @@
 #ifndef STM32C0_HAL_CLOCK_HPP
 #define STM32C0_HAL_CLOCK_HPP
 
-#include "cortex/common.hpp"
-#include "peripheral.hpp"
+#include "hal/enums.hpp"
+#include "units.hpp"
 #include <cstdint>
 
 namespace hal {
 namespace clock {
+
+/**
+ * @brief set the system clock to an internal source
+ *
+ * @param source an internal clock source
+ */
+hal::Error set_system_clock(Source source, std::uint32_t div = 1);
+
+/**
+ * @brief set the system clock to an internal source
+ *
+ * @param source an internal clock source
+ */
+hal::Error set_system_clock(Source source, Frequency f, std::uint32_t div = 1);
+
+Frequency get_system_clock();
+
+Frequency frequency(Peripheral p);
 
 enum class Error { none, operation_unsupported, invalid_parameter };
 
@@ -639,7 +657,6 @@ Error set_source(Clock clock, Clock source);
 // Error calibrate(Clock clock);
 
 std::uint32_t frequency(Clock clock);
-std::uint32_t frequency(Peripheral p);
 Error set_frequency(Clock clock, unsigned f);
 
 } // namespace clock

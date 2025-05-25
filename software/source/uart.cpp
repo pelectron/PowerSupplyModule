@@ -1,6 +1,7 @@
 #include "hal/uart.hpp"
+#include "hal/enums.hpp"
 #include <cstdint>
-namespace hal::uart {
+namespace stm32c031xx {
 
 enum Regs : std::uint32_t {
   BASE = 0,
@@ -189,6 +190,101 @@ enum USART_PRESC : std::uint32_t {
   USART_PRESC_PRESCALER = 0xF,
 };
 
-ConfigResult<Uart> configure(const Config &cfg) {}
+struct Usart {
+  volatile std::uint32_t CR1;
+  volatile std::uint32_t CR2;
+  volatile std::uint32_t CR3;
+  volatile std::uint32_t BRR;
+  volatile std::uint32_t GPTR;
+  volatile std::uint32_t RTOR;
+  volatile std::uint32_t RQR;
+  volatile std::uint32_t ISR;
+  volatile std::uint32_t ICR;
+  volatile std::uint32_t RDR;
+  volatile std::uint32_t TDR;
+  volatile std::uint32_t PRESC;
+};
 
-} // namespace hal::uart
+} // namespace stm32c031xx
+
+hal::ConfigResult<hal::uart::Device>
+hal::uart::configure(const hal::uart::Config &cfg) noexcept {
+  using namespace stm32c031xx;
+  using namespace hal::uart;
+  std::uint32_t CR1{};
+  std::uint32_t CR2{};
+  std::uint32_t CR3{};
+  std::uint32_t BRR{};
+  std::uint32_t GPTR{};
+  std::uint32_t RTOR{};
+  std::uint32_t RQR{};
+  std::uint32_t ISR{};
+  std::uint32_t ICR{};
+  std::uint32_t RDR{};
+  std::uint32_t TDR{};
+  std::uint32_t PRESC{};
+
+  CR1 |= USART_CR1_FIFOEN;
+
+  switch (cfg.bits) {
+  case Bits::seven:
+    CR1 |= USART_CR1_M1;
+    break;
+  case Bits::eight:
+    break;
+  case Bits::nine:
+    CR1 |= USART_CR1_M0;
+    break;
+  default:
+    return ConfigError::invalid_data_size;
+  }
+
+  switch (cfg.parity) {
+  case Parity::none:
+    break;
+  case Parity::even:
+    CR1 |= USART_CR1_PCE;
+    break;
+  case Parity::odd:
+    CR1 |= USART_CR1_PCE | USART_CR1_PS;
+  default:
+    return ConfigError::invalid_parity;
+  }
+
+  switch (cfg.stop_bits) {
+  case StopBits::one:
+    break;
+  case StopBits::one_and_a_half:
+    CR2 |= 0b11u << USART_CR2_STOP_POS;
+    break;
+  case StopBits::two:
+    CR2 |= 0b10u << USART_CR2_STOP_POS;
+    break;
+  default:
+    return ConfigError::invalid_stop_bits;
+  }
+
+  if (cfg.has_feature(Feature::msb_first))
+    CR2 |= USART_CR2_MSBFIRST;
+
+  if (cfg.has_feature(Feature::auto_baudrate))
+    CR2 |= USART_CR2_ABREN;
+
+  if (cfg.has_feature(Feature::data_inversion))
+    CR2 |= USART_CR2_DATAINV;
+
+  if (cfg.has_feature(Feature::tx_inversion))
+    CR2 |= USART_CR2_TXINV;
+
+  if (cfg.has_feature(Feature::rx_inversion))
+    CR2 |= USART_CR2_RXINV;
+
+  if (cfg.has_feature(Feature::tx_rx_swap))
+    CR2 |= USART_CR2_SWAP;
+
+  if (cfg.has_feature(Feature::wakeup)) {
+  }
+
+  // DMA Disable on reception error and Error interrupt enable
+  CR3 |= USART_CR3_DDRE | USART_CR3_EIE;
+}

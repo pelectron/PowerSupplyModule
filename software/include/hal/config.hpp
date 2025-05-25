@@ -2,7 +2,9 @@
 #define HAL_CONFIG_HPP
 
 #include "hal/enums.hpp"
+#include "units.hpp"
 
+#include <array>
 #include <utility>
 
 namespace hal {
@@ -24,15 +26,42 @@ template <typename Peripheral> struct ConfigResult {
   Peripheral peripheral;
 };
 
+namespace adc {
+
+struct ChannelConfig {
+  ChannelId channel = ChannelId::invalid;
+  gpio::Id inp = gpio::Id::invalid;
+  gpio::Id inn = gpio::Id::invalid;
+  Voltage offset{};
+  signed_fixed<16, 16> gain{1_sf};
+};
+
+struct Config {
+  Id id{};
+  ChannelId channels = ChannelId::invalid;
+  Options options{};
+  uint8_t num_bits{};
+  uint32_t clock_rate{};
+  uint32_t oversampling{};
+  std::array<ChannelConfig, 16> channel_configs{};
+};
+} // namespace adc
+
+namespace clock {
+struct Config {
+  Source source;
+  Frequency frequency;
+};
+} // namespace clock
+
 namespace gpio {
 
 /// general gpio configuration structure
 struct Config {
-  Port port;
-  uint16_t pins;
+  Id pins;           // specifies the pins to be configured.
   Function function; //< specifies input, output, or alternate
   Mode mode;         //< specifies driver mode when output
-  Speed speed;       //< specifies drive strength or acquisition speed
+  Speed speed;       //< specifies drive strength
   Pull pull;         //< specifies pull up, pull down or no pull up
   State state;       //< initial state of the pin
   unsigned alternate{0};
@@ -42,14 +71,13 @@ struct Config {
 /// gpio input configuration structure. Defaults to slow input without pull up
 /// or pull down. Converts implicitly to gpio::Config.
 struct InputConfig {
-  Port port;
-  uint16_t pins;
+  Id pins;               // specifies the pins to be configured.
   Pull pull{Pull::none}; //< specifies pull up, pull down or no pull up
   unsigned alternate{0};
 
   constexpr operator Config() const {
-    return {port,        pins, Function::input, Mode::none,
-            Speed::none, pull, State::x,        0};
+    return {pins, Function::input, Mode::none, Speed::none,
+            pull, State::x,        alternate};
   }
 };
 
@@ -57,8 +85,7 @@ struct InputConfig {
 /// without pull up/down resistor and reset initial state (0V). Converts
 /// implicitly to gpio::Config.
 struct OutputConfig {
-  Port port;
-  uint16_t pins;
+  Id pins;                    // specifies the pins to be configured.
   Mode mode{Mode::push_pull}; //< specifies driver mode
   Speed speed{Speed::slow};   //< specifies drive strength
   Pull pull{Pull::none};      //< specifies pull up/down or no pull up
@@ -66,7 +93,7 @@ struct OutputConfig {
   unsigned alternate{0};
 
   constexpr operator Config() const {
-    return {port, pins, Function::output, mode, speed, pull, state, 0};
+    return {pins, Function::output, mode, speed, pull, state, alternate};
   }
 };
 
@@ -83,7 +110,7 @@ struct Config {
   Phase phase = Phase::low;
   Polarity polarity = Polarity::low;
   Format format = Format::msb_first;
-  std::uint32_t baudrate = 1'000'000;
+  Frequency baudrate = au::hertz(1'000'000u);
   uint8_t data_size = 8;
   bool use_hw_cs = false;
   Crc crc = Crc::none;
@@ -115,6 +142,12 @@ struct Config {
   Bits bits;
   StopBits stop_bits;
   Parity parity;
+  Feature features;
+
+  constexpr bool has_feature(Feature f) const noexcept {
+    return (features & f) == f;
+  }
+
   constexpr auto operator<=>(const Config &) const = default;
 };
 

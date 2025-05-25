@@ -8,11 +8,11 @@
  */
 #ifndef PSM_FIX_POINT_HPP
 #define PSM_FIX_POINT_HPP
+#include <concepts>
 #include <cstdint>
 #include <gcem.hpp>
 #include <type_traits>
 
-namespace psm {
 /// @cond
 template <typename T, size_t num_digits> constexpr T mask() noexcept {
   T val{0};
@@ -823,6 +823,37 @@ operator+(const signed_fixed<I1, F1> &f1,
   return v1 + v2;
 }
 
+template <size_t I, size_t F>
+constexpr signed_fixed<I, F> operator+(const signed_fixed<I, F> &f1,
+                                       const signed_fixed<I, F> &f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v1 = sign_extended_value(f1);
+  value_type v2 = sign_extended_value(f2);
+  return v1 + v2;
+}
+
+template <size_t I, size_t F, std::integral T>
+constexpr signed_fixed<I, F> operator+(const signed_fixed<I, F> &f1,
+                                       const T &f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v1 = sign_extended_value(f1);
+  value_type v2 =
+      sign_extended_value(result_type(static_cast<value_type>(f2 << F)));
+  return v1 + v2;
+}
+template <size_t I, size_t F, std::integral T>
+constexpr signed_fixed<I, F> operator+(const T &f1,
+                                       const signed_fixed<I, F> &f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v1 =
+      sign_extended_value(result_type(static_cast<value_type>(f1 << F)));
+  value_type v2 = sign_extended_value(f2);
+  return v1 + v2;
+}
+
 template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>
 operator-(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) noexcept {
@@ -832,6 +863,38 @@ operator-(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) noexcept {
       sign_extended_value(resize<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>(f1));
   value_type v2 =
       sign_extended_value(resize<gcem::max(I1, I2) + 1, gcem::max(F1, F2)>(f2));
+  return v1 - v2;
+}
+
+template <size_t I, size_t F>
+constexpr signed_fixed<I, F> operator-(signed_fixed<I, F> f1,
+                                       signed_fixed<I, F> f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v1 = sign_extended_value(f1);
+  value_type v2 = sign_extended_value(f2);
+  return v1 - v2;
+}
+
+template <size_t I, size_t F, std::integral T>
+constexpr signed_fixed<I, F> operator-(const signed_fixed<I, F> &f1,
+                                       const T &f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v1 = sign_extended_value(f1);
+  value_type v2 =
+      sign_extended_value(result_type(static_cast<value_type>(f2 << F)));
+  return v1 - v2;
+}
+
+template <size_t I, size_t F, std::integral T>
+constexpr signed_fixed<I, F> operator-(const T &f1,
+                                       const signed_fixed<I, F> &f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  value_type v2 = sign_extended_value(f2);
+  value_type v1 =
+      sign_extended_value(result_type(static_cast<value_type>(f1 << F)));
   return v1 - v2;
 }
 
@@ -855,6 +918,43 @@ operator*(signed_fixed<I1, F1> f1, signed_fixed<I2, F2> f2) noexcept {
          static_cast<value_type>(f2.value());
 }
 
+template <size_t I, size_t F>
+constexpr signed_fixed<I, F> operator*(signed_fixed<I, F> f1,
+                                       signed_fixed<I, F> f2) noexcept {
+  using result_type = signed_fixed<I + I - 1, F + F>;
+  using value_type = typename result_type::raw_value_type;
+  const bool neg_result = f1.is_negative() xor f2.is_negative();
+  if (f1.is_negative()) {
+    f1 = -f1;
+  }
+  if (f2.is_negative()) {
+    f2 = -f2;
+  }
+  if (neg_result) {
+    return resize<I, F>(-result_type{static_cast<value_type>(f1.value()) *
+                                     static_cast<value_type>(f2.value())});
+  }
+  return resize<I, F>(result_type(static_cast<value_type>(f1.value()) *
+                                  static_cast<value_type>(f2.value())));
+}
+
+template <size_t I, size_t F, std::integral T>
+constexpr signed_fixed<I, F> operator*(signed_fixed<I, F> f1, T f2) noexcept {
+  using result_type = signed_fixed<I, F>;
+  using value_type = typename result_type::raw_value_type;
+  const bool neg_result = f1.is_negative() xor f2 < 0;
+  if (f1.is_negative()) {
+    f1 = -f1;
+  }
+  if (f2 < 0) {
+    f2 = -f2;
+  }
+  if (neg_result) {
+    return resize<I, F>(-result_type{static_cast<value_type>(f1.value() * f2)});
+  }
+  return resize<I, F>(result_type(static_cast<value_type>(f1.value() * f2)));
+}
+
 template <size_t I1, size_t F1, size_t I2, size_t F2>
 constexpr signed_fixed<I1 + F2, I2 + F1> operator/(signed_fixed<I1, F1> f1,
                                                    signed_fixed<I2, F2> f2) {
@@ -875,6 +975,28 @@ constexpr signed_fixed<I1 + F2, I2 + F1> operator/(signed_fixed<I1, F1> f1,
   return static_cast<value_type>(
       (static_cast<value_type>(f1.value()) << (I2 + F2)) /
       static_cast<value_type>(f2.value()));
+}
+
+template <size_t I, size_t F>
+constexpr signed_fixed<I, F> operator/(signed_fixed<I, F> f1,
+                                       signed_fixed<I, F> f2) {
+  using result_type = signed_fixed<I + F, I + F>;
+  using value_type = typename result_type::raw_value_type;
+  const bool neg_result = f1.is_negative() xor f2.is_negative();
+  if (f1.is_negative()) {
+    f1 = -f1;
+  }
+  if (f2.is_negative()) {
+    f2 = -f2;
+  }
+  if (neg_result) {
+    return resize<I, F>(result_type(-result_type{static_cast<value_type>(
+        (static_cast<value_type>(f1.value()) << (I + F)) /
+        static_cast<value_type>(f2.value()))}));
+  }
+  return resize<I, F>(result_type(
+      static_cast<value_type>((static_cast<value_type>(f1.value()) << (I + F)) /
+                              static_cast<value_type>(f2.value()))));
 }
 
 template <size_t I1, size_t F1, size_t I2, size_t F2>
@@ -936,7 +1058,5 @@ template <size_t I, size_t F>
 constexpr unsigned_fixed<I, F> to_unsigned(signed_fixed<I, F> v) noexcept {
   return v.value();
 }
-
-} // namespace psm
 
 #endif /* SGL_FIX_POINT_HPP */

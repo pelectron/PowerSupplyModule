@@ -21,7 +21,10 @@ template <class Storage>
 using Handle = poly::Struct<
     Storage, poly::type_list<>,
     poly::type_list<hal::Error(hal::write, std::span<const uint8_t> buffer),
-                    hal::Error(hal::read, std::span<uint8_t> buffer)>>;
+                    hal::Error(hal::read, std::span<uint8_t> buffer),
+                    hal::Error(hal::transceive,
+                               std::span<const uint8_t> write_buf,
+                               std::span<uint8_t> read_buf)>>;
 
 using HandleOwner = Handle<poly::move_only_local_storage<128>>;
 
@@ -88,7 +91,7 @@ class Device {
 public:
   constexpr Device() = default;
 
-  constexpr Device(HandleRef handle, gpio::Output chip_select)
+  constexpr Device(HandleRef handle, gpio::Pin chip_select)
       : handle_(handle), cs(std::move(chip_select)) {}
 
   constexpr bool is_valid() const noexcept {
@@ -99,7 +102,7 @@ public:
     if (not handle_)
       return hal::Error::invalid_handle;
     cs.set(gpio::State::reset);
-    auto err = handle_.write(buffer);
+    hal::Error err = handle_.write(buffer);
     cs.set(gpio::State::set);
     return err;
   }
@@ -108,17 +111,27 @@ public:
     if (not handle_)
       return hal::Error::invalid_handle;
     cs.set(gpio::State::reset);
-    auto err = handle_.read(buffer);
+    hal::Error err = handle_.read(buffer);
+    cs.set(gpio::State::set);
+    return err;
+  }
+
+  constexpr hal::Error transceive(std::span<const uint8_t> write_buf,
+                                  std::span<uint8_t> read_buf) {
+    if (not handle_)
+      return hal::Error::invalid_handle;
+    cs.set(gpio::State::reset);
+    hal::Error err = handle_.transceive(write_buf, read_buf);
     cs.set(gpio::State::set);
     return err;
   }
 
 private:
   HandleRef handle_{};
-  gpio::Output cs{};
+  gpio::Pin cs{};
 };
 
-ConfigResult<HandleOwner> configure(const Config &cfg) noexcept;
+ConfigResult<Device> configure(const Config &cfg) noexcept;
 } // namespace hal::spi
 
 #endif

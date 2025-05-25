@@ -17,7 +17,7 @@ POLY_METHOD(set_state)
 POLY_METHOD(toggle_state)
 
 struct NullHandle {
-  State get_state(unsigned) { return State::reset; }
+  std::uint32_t get_state(unsigned) { return 0; }
 
   void set_state(unsigned, State) {}
 
@@ -26,9 +26,9 @@ struct NullHandle {
 
 using HandleRef =
     poly::Struct<poly::ref_storage, poly::type_list<>,
-                 poly::type_list<State(get_state, unsigned pin_mask),
-                                 void(set_state, unsigned pin_mask, State),
-                                 void(toggle_state, unsigned pin_mask)>>;
+                 poly::type_list<std::uint32_t(get_state, unsigned pins),
+                                 void(set_state, unsigned pins, State state),
+                                 void(toggle_state, unsigned pins)>>;
 
 using InputHandle =
     poly::Struct<poly::ref_storage, poly::type_list<>,
@@ -63,17 +63,19 @@ public:
    * sets the state of a pin configured as output.
    * @param state State::set or State::reset
    */
-  void set(State state) { handle_.set_state(pin_mask_, state); }
+  constexpr void set(State state) { handle_.set_state(pin_mask_, state); }
 
   /**
    * toggle the state of a pin configured as output.
    */
-  void toggle() { handle_.toggle_state(pin_mask_); }
+  constexpr void toggle() { handle_.toggle_state(pin_mask_); }
 
   /**
    * get the state of a pin.
    */
-  State get() { return handle_.get_state(pin_mask_); }
+  constexpr State get() {
+    return handle_.get_state(pin_mask_) == 0 ? State::reset : State::set;
+  }
 
 private:
   friend struct port_type;

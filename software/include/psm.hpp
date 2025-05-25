@@ -3,12 +3,14 @@
 
 #include "cli/cli.hpp"
 #include "converter.hpp"
+#include "cpp-terminal/private/file.hpp"
 #include "error.hpp"
 #include "fixed_map.hpp"
 #include "fixed_vector.hpp"
 #include "hal/hal.hpp"
 #include "poly.hpp"
 #include "relay.hpp"
+#include "tl/expected.hpp"
 #include "units.hpp"
 
 #include <cstdint>
@@ -38,7 +40,9 @@ using VoltageCalib = OffsetGainCalib<Voltage>;
 
 using CurrentCalib = OffsetGainCalib<Current>;
 
-struct Calibration {};
+struct Calibration {
+  Current ldo_current_offset;
+};
 
 struct ModuleConfig {
   /**
@@ -441,104 +445,256 @@ struct Psm {
  * @class PSM
  * @brief The PSM class acts as the API to a single PowerSupplyModule
  */
-// class PSM {
-// #define PSM_CHECK_ID(id) \
-//   if (id != config_.id) \
-//     return Error::invalid_id;
-//   void apply_settings() {}
-//
-// public:
-//   void init(NonVolatileStorage s) {
-//     // storage = s;
-//     // storage.load(config_);
-//   }
-//
-//   void loop() {}
-//
-//   Error set_enable(bool enable, uint8_t id = 0) {
-//     PSM_CHECK_ID(id);
-//     if (enabled_ == enable)
-//       return Error::none;
-//     enabled_ = enable;
-//     if (enabled_) {
-//       buck_boost.enabled = true;
-//       if (settings_.type == OutputType::LDO)
-//         ldo.enabled = true;
-//     } else {
-//       if (settings_.type == OutputType::LDO)
-//         ldo.enabled = false;
-//       buck_boost.enabled = false;
-//     }
-//   }
-//
-//   bool get_enable(uint8_t id = 0) const;
-//
-//   Error set_mode(OutputMode mode, uint8_t id = 0);
-//   OutputMode get_mode(uint8_t id = 0) const;
-//
-//   Error set_voltage(Voltage volts, uint8_t id = 0);
-//   Voltage get_voltage(uint8_t id = 0) const;
-//
-//   Error set_current(Current amps, uint8_t id = 0);
-//   Current get_current(uint8_t id = 0) const;
-//
-//   Error set_type(OutputType type, uint8_t id = 0);
-//   OutputType get_type(uint8_t id = 0) const;
-//
-//   Error set_series(bool enable, uint8_t id = 0);
-//   bool get_series(uint8_t id = 0) const;
-//
-//   Error set_config(const ModuleConfig &c, uint8_t id = 0);
-//   ModuleConfig get_config(uint8_t id = 0) const;
-//
-//   Error set_series_support(bool supported, uint8_t id = 0);
-//   bool get_series_support(uint8_t id = 0) const;
-//
-//   Error set_num_ldos(uint8_t n, uint8_t id = 0);
-//   uint8_t get_num_ldos(uint8_t id = 0) const;
-//
-//   Error set_id(uint8_t id);
-//   uint8_t get_id() const;
-//
-//   Error set_settings(const Settings &s, uint8_t id = 0);
-//   Settings get_settings(uint8_t id = 0) const;
-//
-//   Error set_vdrop(Voltage volts, uint8_t id = 0);
-//   Voltage get_vdrop(uint8_t id = 0);
-//
-//   Error set_rcable(Resistance r, uint8_t id = 0);
-//   Voltage get_rcable(uint8_t id = 0);
-//
-//   Error set_specs(const Specs &specs, OutputType type, uint8_t id = 0);
-//   Specs get_specs(OutputType type, uint8_t id = 0);
-//
-//   void reset();
-//
-// private:
-//   struct {
-//     ModuleConfig config_{};
-//     Settings settings_{};
-//     Calibration calib_{};
-//   } sys_data{};
-//   bool enabled_ = false;
-//   ModuleConfig config_{};
-//   Settings settings_{};
-//   Calibration calib_{};
-//   NonVolatileStorage storage{};
-//   hal::spi::Device spi{};
-//   hal::i2c::Device i2c{};
-//   hal::gpio::Output wlat{};
-//   hal::gpio::Output shdn{};
-//   hal::gpio::Output en_bb{};
-//   hal::gpio::Pin cdc{};
-//   conv::BasicConverter<poly::move_only_local_storage<64>> ldo;
-//   conv::BasicConverter<poly::move_only_local_storage<64>> buck_boost;
-//   Relay out_p{};
-//   Relay out_n{};
-//   Relay out_series{};
-//   Relay out_select{};
-//   hal::gpio::Config gpios[29];
-// };
-// #undef PSM_CHECK_ID
+class PSM {
+#define PSM_CHECK_ID(id)                                                       \
+  if (id != config_.id)                                                        \
+    return Error::invalid_id;
+
+  void apply_settings() {}
+
+public:
+  void init(NonVolatileStorage s) {
+    // storage = s;
+    // storage.load(config_);
+  }
+
+  void loop() {}
+
+  Error set_enable(bool enable, uint8_t /* id */ = 0) {
+    if (enabled_ == enable)
+      return Error::none;
+    enabled_ = enable;
+    if (enabled_) {
+      if (auto e = buck_boost.enable(true); e != Error::none)
+        return e;
+      if (settings_.type == OutputType::LDO)
+        if (auto e = ldo.enable(true); e != Error::none) {
+          buck_boost.enable(false);
+          return e;
+        }
+    } else {
+      if (settings_.type == OutputType::LDO)
+        ldo.enable(false);
+      buck_boost.enable(false);
+      out_n.open();
+      out_p.open();
+    }
+    return Error::none;
+  }
+
+  bool get_enable(uint8_t /* id */ = 0) const { return enabled_; }
+
+  Error set_mode(OutputMode mode, uint8_t /* id */ = 0) {
+    if (enabled_)
+      return Error::unsupported_operation;
+    settings_.mode = mode;
+    return Error::none;
+  }
+
+  OutputMode get_mode(uint8_t id = 0) const { return settings_.mode; }
+
+  Error set_voltage(Voltage volts, uint8_t id = 0) {
+    Error e = Error::none;
+    switch (settings_.type) {
+    case psm::OutputType::BUCK_BOOST:
+      e = buck_boost.set_voltage(volts);
+      break;
+    case psm::OutputType::LDO:
+      e = buck_boost.set_voltage(volts + settings_.vdrop);
+      if (e != Error::none)
+        break;
+      e = ldo.set_voltage(volts);
+      if (e != Error::none) {
+        buck_boost.set_voltage(settings_.vset);
+      }
+    default:
+      return Error::invalid_param;
+    }
+
+    if (e != Error::none)
+      settings_.vset = volts;
+    return e;
+  }
+
+  Voltage get_voltage(uint8_t id = 0) {
+    // if (not enabled_)
+    //   return Error::unsupported_operation;
+    switch (settings_.type) {
+    case psm::OutputType::BUCK_BOOST:
+      return buck_boost.get_voltage().value();
+    case psm::OutputType::LDO:
+      return ldo.get_voltage().value();
+    }
+  }
+
+  Error set_current(Current amps, uint8_t id = 0) {
+    Error e = Error::none;
+    switch (settings_.type) {
+    case psm::OutputType::BUCK_BOOST:
+      e = buck_boost.set_current(amps);
+      break;
+    case psm::OutputType::LDO:
+      e = buck_boost.set_current(amps + calib_.ldo_current_offset);
+      if (e != Error::none)
+        break;
+      e = ldo.set_current(amps);
+      break;
+    }
+    if (e == Error::none)
+      settings_.iset = amps;
+    return e;
+  }
+
+  Current get_current(uint8_t id = 0) {
+    // if (not enabled_)
+    //   return Error::unsupported_operation;
+    switch (settings_.type) {
+    case psm::OutputType::BUCK_BOOST:
+      return buck_boost.get_current().value();
+    case psm::OutputType::LDO:
+      return ldo.get_current().value();
+    }
+  }
+
+  Error set_type(OutputType type, uint8_t id = 0) {
+    if (enabled_) {
+      return Error::unsupported_operation;
+    }
+    settings_.type = type;
+    return Error::none;
+  }
+
+  OutputType get_type(uint8_t id = 0) const { return settings_.type; }
+
+  Error set_series(bool enable, uint8_t id = 0) {
+    if (not config_.has_series_support)
+      return Error::unsupported_operation;
+    if (enable)
+      out_series.close();
+    else
+      out_series.open();
+    settings_.series_output = enable;
+    return Error::none;
+  }
+
+  bool get_series(uint8_t id = 0) const { return settings_.series_output; }
+
+  Error set_config(const ModuleConfig &c, uint8_t id = 0) {
+    config_ = c;
+    return Error::none;
+  }
+
+  ModuleConfig get_config(uint8_t id = 0) const { return config_; }
+
+  Error set_series_support(bool supported, uint8_t id = 0) {
+    config_.has_series_support = supported;
+    return Error::none;
+  }
+
+  bool get_series_support(uint8_t id = 0) const {
+    return config_.has_series_support;
+  }
+
+  Error set_num_ldos(uint8_t n, uint8_t id = 0) {
+    config_.number_of_ldos = n;
+    ldo.set_num_ldos(n);
+    return Error::none;
+  }
+
+  uint8_t get_num_ldos(uint8_t id = 0) const { return config_.number_of_ldos; }
+
+  Error set_id(uint8_t id) {
+    config_.id = id;
+    return Error::none;
+  }
+
+  uint8_t get_id() const { return config_.id; }
+
+  Error set_settings(const Settings &s, uint8_t id = 0) {
+    if (enabled_)
+      return Error::unsupported_operation;
+    settings_ = s;
+    return Error::none;
+  }
+
+  Settings get_settings(uint8_t id = 0) const { return settings_; }
+
+  Error set_vdrop(Voltage volts, uint8_t id = 0) {
+    if (volts > 2_V)
+      return Error::out_of_range;
+
+    if (enabled_) {
+      if (settings_.type == OutputType::LDO)
+        if (auto err = buck_boost.set_voltage(settings_.vset + volts);
+            err != Error::none)
+          return err;
+    }
+    settings_.vdrop = volts;
+    return Error::none;
+  }
+
+  Voltage get_vdrop(uint8_t id = 0) { return settings_.vdrop; }
+
+  Error set_rcable(Resistance r, uint8_t id = 0) {
+    Error e = buck_boost.cable_drop_compensation(r);
+    if (e != Error::none)
+      return e;
+    settings_.rcable = r;
+    if (not enabled_)
+      return Error::none;
+    switch (settings_.type) {
+    case psm::OutputType::LDO: {
+      auto res = ldo.get_current().and_then(
+          [this](Current c) -> tl::expected<void, Error> {
+            Error e =
+                ldo.set_voltage((settings_.vset + settings_.rcable * c)
+                                    .as<std::uint32_t>(au::micro(au::volts)));
+            if (e != Error::none)
+              return tl::unexpected(e);
+            return {};
+          });
+      if (res)
+        break;
+      return res.error();
+    }
+    default:
+      break;
+    }
+    return Error::none;
+  }
+
+  Resistance get_rcable(uint8_t id = 0) { return settings_.rcable; }
+
+  Error set_specs(const Specs &specs, OutputType type, uint8_t id = 0);
+  Specs get_specs(OutputType type, uint8_t id = 0);
+
+  void reset();
+
+private:
+  struct {
+    ModuleConfig config_{};
+    Settings settings_{};
+    Calibration calib_{};
+  } sys_data{};
+  bool enabled_ = false;
+  ModuleConfig config_{};
+  Settings settings_{};
+  Calibration calib_{};
+  NonVolatileStorage storage{};
+  hal::spi::Device spi{};
+  hal::i2c::Device i2c{};
+  hal::gpio::Output wlat{};
+  hal::gpio::Output shdn{};
+  hal::gpio::Output en_bb{};
+  hal::gpio::Pin cdc{};
+  LdoStage ldo;
+  BuckBoostStage buck_boost;
+  Relay out_p{};
+  Relay out_n{};
+  Relay out_series{};
+  Relay out_select{};
+  hal::gpio::Config gpios[29];
+};
+#undef PSM_CHECK_ID
 } // namespace psm
 #endif

@@ -8,14 +8,24 @@
 #define AD5293_HPP
 
 #include "hal/enums.hpp"
+#include "hal/hal.hpp"
 #include "hal/spi.hpp"
+#include "tl/expected.hpp"
 #include <cstdint>
+
 namespace ad5293 {
 
 /// mode enumeration
 enum class Mode {
   performance = 0, //< performance mode (default)
   normal = 1       //< normal mode
+};
+
+struct Settings {
+  hal::spi::Config spi;
+  std::uint16_t wiper;
+  bool normal_mode = false;
+  bool write_protection = false;
 };
 
 /**
@@ -49,15 +59,47 @@ public:
    * @param spi the spi device to use for communication.
    */
   constexpr hal::Error init(hal::spi::Device spi) {
-    spi_ = std::move(spi);
-    if (not spi_.is_valid())
+    if (not spi.is_valid())
       return hal::Error::invalid_handle;
 
+    spi_ = std::move(spi);
     control_ = 0;
     code_ = 512;
     return disable();
   }
 
+  constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
+    auto res =
+        hal.configure(settings.spi)
+            .and_then(
+                [this](hal::spi::Device spi) -> tl::expected<void, hal::Error> {
+                  if (not spi.is_valid())
+                    return tl::unexpected(hal::Error::invalid_handle);
+                  spi_ = std::move(spi);
+                  return {};
+                })
+            .and_then([this, &settings]() -> tl::expected<void, hal::Error> {
+              hal::Error e = enable();
+              if (e != hal::Error::none)
+                return tl::unexpected(e);
+
+              e = wiper(settings.wiper);
+              if (e != hal::Error::none) {
+                disable();
+                return tl::unexpected(e);
+              }
+              e = write_protection(settings.write_protection);
+              disable();
+              if (e != hal::Error::none)
+                return tl::unexpected(e);
+              else
+                return {};
+            });
+    if (not res)
+      return res.error();
+    else
+      return hal::Error::none;
+  }
   /// @brief enable the device. This will also release the write protection of
   /// the device.
   constexpr hal::Error enable() {
@@ -142,7 +184,7 @@ public:
   constexpr std::uint16_t wiper() const { return code_; }
 
 private:
-  hal::Error write(std::uint16_t value) {
+  constexpr hal::Error write(std::uint16_t value) {
     std::uint8_t buf[2]{static_cast<std::uint8_t>(value >> 8),
                         static_cast<std::uint8_t>(value)};
     return spi_.write(buf);

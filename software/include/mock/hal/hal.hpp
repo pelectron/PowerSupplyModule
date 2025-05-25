@@ -12,9 +12,20 @@
 #include <map>
 namespace hal {
 
-struct MockHandle {
+struct MockHal {
 
   constexpr Error init() noexcept { return hal::Error::none; }
+
+  constexpr void deinit() noexcept {
+    gpio_handles.clear();
+    i2c_handles.clear();
+    spi_handles.clear();
+    uart_handles.clear();
+  }
+
+  tl::expected<adc::Adc, Error> configure(const adc::Config &) noexcept {
+    return tl::unexpected(hal::Error::not_implemented);
+  }
 
   tl::expected<gpio::Pin, Error> configure(const gpio::Config &cfg) noexcept {
     return gpio::Pin(gpio_handles[cfg.port] = gpio::MockHandle{cfg.port, 0},
@@ -38,31 +49,7 @@ struct MockHandle {
 
   tl::expected<uart::Device, Error>
   configure(const uart::Config &cfg) noexcept {
-    return uart::Device(uart_handles[cfg.id] = uart::MockHandle{cfg});
-  }
-
-  gpio::Pin create(gpio::Port port, uint32_t pins) noexcept {
-    if (not gpio_handles.contains(port))
-      return {};
-    return gpio::Pin(gpio_handles[port], pins);
-  }
-
-  i2c::Device create(i2c::Id id, uint8_t address) noexcept {
-    if (not i2c_handles.contains(id))
-      return {};
-    return {i2c_handles[id], address};
-  }
-
-  spi::Device create(spi::Id id, gpio::Pin pin) noexcept {
-    if (not spi_handles.contains(id))
-      return {};
-    return {spi_handles[id], std::move(pin)};
-  }
-
-  uart::Device create(uart::Id id) noexcept {
-    if (not uart_handles.contains(id))
-      return {};
-    return uart::Device{uart_handles[id]};
+    return uart::Device(uart_handles[cfg.id] = uart::MockHandle{cfg}, 0);
   }
 
   std::map<gpio::Port, gpio::MockHandle> gpio_handles;

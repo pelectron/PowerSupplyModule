@@ -3,7 +3,7 @@
 namespace hal {
 
 Hal get_hal() noexcept {
-  static MockHandle handle{};
+  static MockHal handle{};
   return {handle};
 }
 } // namespace hal
