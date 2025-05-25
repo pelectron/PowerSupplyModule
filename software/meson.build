@@ -1,8 +1,41 @@
 inc = include_directories('include')
 
-gcem_dep = dependency('gcem')
+native_deps = [
+  dependency('gcem', native:true),
+  dependency('poly', native:true, default_options: ['tests=false']),
+  dependency('tl-expected', native:true)
+]
 
-poly_dep = dependency('poly', default_options: ['tests=false'])
+deps = [
+  dependency('gcem', native:false),
+  dependency('poly', native:false, default_options: ['tests=false']),
+  dependency('tl-expected', native:false)
+]
+
+if(meson.is_cross_build())
+  executable(
+    'main',
+    'source/main.cpp',
+    include_directories: inc,
+    dependencies: hal_dep,
+    native:false
+  )
+else if(target=='mock')
+  executable(
+    'main',
+    'source/main.cpp',
+    include_directories: inc,
+    dependencies: hal_dep,
+    native:true
+  )
+else
+  warning('Cannot build a main executable because this is a native build without moch hal selected')
+endif
+
+target = get_option('target').to_lower()
+
+subdir('source' / 'hal' / target)
+# hal_dep is now available
 
 if (meson.is_cross_build())
   #   deps = [poly_dep, cm_dep, gcem_dep]
@@ -46,39 +79,7 @@ else
     fallback: ['catch2', 'catch2_with_main_dep'],
     version: '>=3.4.0',
     required: true,
-  )
-
-  term_dep = dependency(
-    'cpp-terminal',
-    fallback: ['cpp-terminal', 'cpp_terminal_dep'],
-    static: true,
-    native: true,
-  )
-
-  expected_dep = dependency('tl-expected')
-
-  mock_src = [
-    'source/mock/hal/gpio.cpp',
-    'source/mock/hal/hal.cpp',
-    'source/mock/hal/i2c.cpp',
-    'source/mock/hal/spi.cpp',
-    'source/mock/hal/uart.cpp',
-    'source/mock/psm.cpp',
-  ]
-
-  deps = [gcem_dep, term_dep, poly_dep, expected_dep]
-  mock_lib = static_library(
-    'psm-mock',
-    mock_src,
-    include_directories: inc,
-    dependencies: deps,
-    native: true,
-  )
-
-  mock_dep = declare_dependency(
-    link_with: mock_lib,
-    include_directories: inc,
-    dependencies: deps,
+    native:true,
   )
 
   executable(
@@ -86,15 +87,9 @@ else
     'source/tests/cli/cli.cpp',
     include_directories: inc,
     native: true,
-    dependencies: [gcem_dep, term_dep],
+    dependencies: native_deps,
   )
-  # executable(
-  #   'ctti-test',
-  #   'source/tests/cli/ctti.cpp',
-  #   include_directories: inc,
-  #   native: true,
-  #   dependencies: ctre_dep,
-  # )
+
   executable(
     'unit-test',
     'source/tests/cli/format/bool.cpp',
@@ -113,12 +108,5 @@ else
     'source/tests/cli/parse/struct.cpp',
     include_directories: [inc, include_directories('source/tests/cli')],
     dependencies: [catch_dep, gcem_dep],
-  )
-  executable(
-    'main',
-    'source/main.cpp',
-    include_directories: inc,
-    native: true,
-    dependencies: [poly_dep, gcem_dep, mock_dep],
   )
 endif

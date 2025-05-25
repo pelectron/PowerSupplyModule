@@ -1,2 +1,3 @@
 option('hardware', type: 'boolean', value: true)
 option('software', type: 'boolean', value: true)
+option('target', type: 'string', value: 'STM32C031XX')
