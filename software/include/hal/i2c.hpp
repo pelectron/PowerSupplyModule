@@ -55,11 +55,11 @@ public:
   constexpr bool is_valid() const { return static_cast<bool>(handle_); }
 
 private:
-  HandleRef handle_;
-  uint8_t address_;
+  HandleRef handle_{};
+  uint8_t address_{};
 };
 
-ConfigResult<HandleOwner> configure(const Config &cfg) noexcept;
+ConfigResult<HandleRef> configure(const Config &cfg) noexcept;
 } // namespace hal::i2c
 
 #endif

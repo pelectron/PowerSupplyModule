@@ -449,6 +449,7 @@ void ClockTree::update() noexcept {
   }();
 
   this->hsisys = hsisys_;
+  this->sysclk = sysclk_;
   this->hclk = hclk_;
   this->hclk8 = hclk8_;
   this->pclk = pclk_;

@@ -5,185 +5,6 @@
 	(uuid "3249a57a-30ff-4e89-972d-6f39871ce2f6")
 	(paper "A3")
 	(lib_symbols
-		(symbol "Library:+5V"
-			(power)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR03"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "+5V"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+5V\""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Digikey-Nr." ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer-2" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer-2-Nr." ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Manufacturer-Nr." ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Mouser-Nr." ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "+5V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+5V_1_1"
-				(pin power_out line
-					(at 0 0 90)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Library:C_Small"
 			(pin_numbers
 				(hide yes)
@@ -2294,22 +2115,10 @@
 		(uuid "1522b9c6-0e0f-4a6e-882c-11dbf5f7228b")
 	)
 	(junction
-		(at 332.74 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1893be38-301b-46fa-8f1d-15677ef798dc")
-	)
-	(junction
 		(at 283.21 58.42)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "192899da-9ef3-469d-9103-be50119aa604")
-	)
-	(junction
-		(at 332.74 48.26)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1aab4072-2422-4511-ab16-ff13fd9d651d")
 	)
 	(junction
 		(at 283.21 48.26)
@@ -2384,12 +2193,6 @@
 		(uuid "4a4a402c-8077-4fbd-add5-f5ab9c031d3a")
 	)
 	(junction
-		(at 167.64 137.16)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4bce4ea7-8113-4625-8f41-fc6775c5455e")
-	)
-	(junction
 		(at 275.59 48.26)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2432,10 +2235,16 @@
 		(uuid "8844c357-4f3a-4efb-bd10-384d9a2ebd88")
 	)
 	(junction
-		(at 158.75 137.16)
+		(at 332.74 48.26)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "89e56326-678d-4332-acb8-5ff8f832c312")
+		(uuid "888d543a-74ba-4a0f-b5df-91e31d8f0d05")
+	)
+	(junction
+		(at 332.74 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8d77f0e4-340a-4ee1-ba59-99f383c06c63")
 	)
 	(junction
 		(at 165.1 62.23)
@@ -2510,16 +2319,16 @@
 		(uuid "ccbf2898-f8a5-4814-8e58-7790598222bb")
 	)
 	(junction
+		(at 234.95 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ce751dc6-a6b1-42be-8e89-51009e22461e")
+	)
+	(junction
 		(at 194.31 55.88)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d01c22e2-573e-4d24-a885-52198f35871f")
-	)
-	(junction
-		(at 234.95 142.24)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d1d0cc02-7363-4559-8bdc-91edc7ddf80f")
 	)
 	(junction
 		(at 153.67 137.16)
@@ -2550,12 +2359,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "db2b2d9e-b9e0-43b2-912b-b4fcce0308fa")
-	)
-	(junction
-		(at 234.95 137.16)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "dc4868ff-33c4-4008-9e82-d8f57311500e")
 	)
 	(junction
 		(at 293.37 58.42)
@@ -2592,6 +2395,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f068c0e0-149e-4a4b-a884-ee881330cc7c")
+	)
+	(junction
+		(at 234.95 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f0f19c72-1bd1-42f1-91a6-716b7aff971f")
 	)
 	(junction
 		(at 185.42 48.26)
@@ -2889,16 +2698,6 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 133.35) (xy 167.64 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c29982f-198c-4c4a-8734-270f92d2b75c")
-	)
-	(wire
-		(pts
 			(xy 41.91 132.08) (xy 41.91 134.62)
 		)
 		(stroke
@@ -2989,16 +2788,6 @@
 	)
 	(wire
 		(pts
-			(xy 234.95 137.16) (xy 250.19 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "27aef20c-6ed3-4a56-9458-49fe1842810b")
-	)
-	(wire
-		(pts
 			(xy 275.59 48.26) (xy 283.21 48.26)
 		)
 		(stroke
@@ -3086,16 +2875,6 @@
 			(type default)
 		)
 		(uuid "33c4fdd2-23e2-4191-9728-ecd635a80463")
-	)
-	(wire
-		(pts
-			(xy 158.75 121.92) (xy 158.75 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "35167c50-7689-4b01-8d82-fa5696900016")
 	)
 	(wire
 		(pts
@@ -3289,16 +3068,6 @@
 	)
 	(wire
 		(pts
-			(xy 332.74 48.26) (xy 347.98 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5628f0ec-903e-4836-a30d-9c5b5076d8fe")
-	)
-	(wire
-		(pts
 			(xy 107.95 149.86) (xy 107.95 154.94)
 		)
 		(stroke
@@ -3376,16 +3145,6 @@
 			(type default)
 		)
 		(uuid "5f0bc256-18db-49e1-9e2e-c5633594469b")
-	)
-	(wire
-		(pts
-			(xy 158.75 121.92) (xy 392.43 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5f11ddc9-e33e-48bd-8cb3-106f80812163")
 	)
 	(wire
 		(pts
@@ -3609,6 +3368,16 @@
 	)
 	(wire
 		(pts
+			(xy 332.74 48.26) (xy 347.98 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "72befa18-8d5a-42ca-b72c-17f92da9a2f4")
+	)
+	(wire
+		(pts
 			(xy 43.18 46.99) (xy 43.18 55.88)
 		)
 		(stroke
@@ -3689,7 +3458,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 137.16) (xy 167.64 137.16)
+			(xy 153.67 137.16) (xy 179.07 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3996,16 +3765,6 @@
 			(type default)
 		)
 		(uuid "aecfcd23-d49f-448f-8a64-2bc48aefe542")
-	)
-	(wire
-		(pts
-			(xy 167.64 137.16) (xy 179.07 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "aee92709-c406-4261-bafe-f625eb35e839")
 	)
 	(wire
 		(pts
@@ -4379,16 +4138,6 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 137.16) (xy 158.75 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e0969e49-ff78-452e-814e-12fade5c4cbe")
-	)
-	(wire
-		(pts
 			(xy 358.14 48.26) (xy 392.43 48.26)
 		)
 		(stroke
@@ -4506,6 +4255,16 @@
 			(type default)
 		)
 		(uuid "e75db924-f564-4346-a7b1-4dce51ac8ad3")
+	)
+	(wire
+		(pts
+			(xy 234.95 137.16) (xy 250.19 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7eb80bf-5ed8-4ed4-aec3-eb2976bb33de")
 	)
 	(wire
 		(pts
@@ -5266,17 +5025,6 @@
 			(justify left bottom)
 		)
 		(uuid "f255e596-d4cb-4a4e-8f9a-290f2af13e8f")
-	)
-	(hierarchical_label "5V"
-		(shape output)
-		(at 392.43 121.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "19a4e0a5-1b52-4964-9742-b9404e4c89a8")
 	)
 	(hierarchical_label "VIN"
 		(shape input)
@@ -7466,6 +7214,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer-2" ""
+			(at 312.42 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer-2-Nr." ""
+			(at 312.42 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "5"
 			(uuid "3ec8cf23-865f-4531-bc00-f0d8281208f3")
 		)
@@ -9135,7 +8901,7 @@
 	)
 	(symbol
 		(lib_id "Library:R_Small")
-		(at 234.95 139.7 0)
+		(at 332.74 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9144,7 +8910,7 @@
 		(fields_autoplaced yes)
 		(uuid "5b208614-7320-4616-9fac-5a753111edbc")
 		(property "Reference" "R24"
-			(at 237.49 138.4299 0)
+			(at 335.28 49.5299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9153,7 +8919,7 @@
 			)
 		)
 		(property "Value" "140k"
-			(at 237.49 140.9699 0)
+			(at 335.28 52.0699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9162,7 +8928,7 @@
 			)
 		)
 		(property "Footprint" "Library:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9171,7 +8937,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9180,7 +8946,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9189,7 +8955,7 @@
 			)
 		)
 		(property "Manufacturer" "YAGEO"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9198,7 +8964,7 @@
 			)
 		)
 		(property "Manufacturer-Nr." "RC0603FR-07140KL"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9207,7 +8973,7 @@
 			)
 		)
 		(property "Manufacturer-2" ""
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9216,7 +8982,7 @@
 			)
 		)
 		(property "Manufacturer-2-Nr." ""
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9225,7 +8991,7 @@
 			)
 		)
 		(property "Digikey-Nr." "311-140KHRCT-ND"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9234,7 +9000,7 @@
 			)
 		)
 		(property "Mouser-Nr." "603-RC0603FR-07140KL"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9243,7 +9009,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "RC0603FR-07140KL"
-			(at 234.95 139.7 0)
+			(at 332.74 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11620,7 +11386,7 @@
 	)
 	(symbol
 		(lib_id "Library:R_Small")
-		(at 332.74 50.8 0)
+		(at 234.95 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11629,7 +11395,7 @@
 		(fields_autoplaced yes)
 		(uuid "c2204614-29c8-4cbc-b434-cb1159363cf8")
 		(property "Reference" "R27"
-			(at 335.28 49.5299 0)
+			(at 237.49 138.4299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11638,7 +11404,7 @@
 			)
 		)
 		(property "Value" "13.5k"
-			(at 335.28 52.0699 0)
+			(at 237.49 140.9699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11647,7 +11413,7 @@
 			)
 		)
 		(property "Footprint" "Library:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11656,7 +11422,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11665,7 +11431,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11674,7 +11440,7 @@
 			)
 		)
 		(property "Manufacturer" "YAGEO"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11683,7 +11449,7 @@
 			)
 		)
 		(property "Manufacturer-Nr." "RT0603BRD0713K5L"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11692,7 +11458,7 @@
 			)
 		)
 		(property "Manufacturer-2" ""
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11701,7 +11467,7 @@
 			)
 		)
 		(property "Manufacturer-2-Nr." ""
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11710,7 +11476,7 @@
 			)
 		)
 		(property "Digikey-Nr." "13-RT0603BRD0713K5LCT-ND"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11719,7 +11485,7 @@
 			)
 		)
 		(property "Mouser-Nr." "603-RT0603BRD0713K5L"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11728,7 +11494,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "RT0603BRD0713K5L"
-			(at 332.74 50.8 0)
+			(at 234.95 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12147,126 +11913,6 @@
 			(project "PSB_V1"
 				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5/0b340855-f4f5-4b26-93ea-8d75423ea39a"
 					(reference "C26")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Library:+5V")
-		(at 167.64 133.35 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d52faab8-2189-4e3f-a816-37f68fc2c65e")
-		(property "Reference" "#PWR03"
-			(at 167.64 137.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 167.64 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-Nr." ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-2" ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-2-Nr." ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Digikey-Nr." ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser-Nr." ""
-			(at 167.64 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "273161a8-a478-4150-bacd-a0be6bf4f9bb")
-		)
-		(instances
-			(project "PSB_V1"
-				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5/0b340855-f4f5-4b26-93ea-8d75423ea39a"
-					(reference "#PWR03")
 					(unit 1)
 				)
 			)

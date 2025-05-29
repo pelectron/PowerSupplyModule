@@ -2,8 +2,8 @@ hal_src = files(
   'clocks.cpp',
   'gpio.cpp',
   # 'hal.cpp',
-  # 'i2c.cpp',
-  # 'spi.cpp',
+  'i2c.cpp',
+  'spi.cpp',
   'startup_stm32c031xx.s',
   'uart.cpp',
 )

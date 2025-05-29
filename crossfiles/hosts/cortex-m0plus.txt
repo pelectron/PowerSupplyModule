@@ -1,0 +1,23 @@
+[constants]
+mcu_args = [
+    '-mthumb',                   
+    '-mcpu=cortex-m0plus',
+    '-mfloat-abi=soft',
+    ]
+
+[host_machine]
+system     = 'none'
+cpu_family = 'arm'
+cpu        = 'cortex-m0plus'
+endian     = 'little'
+
+[built-in options]
+c_args        = common_args + mcu_args
+cpp_args      = common_args + mcu_args
+c_link_args   = c_args + [
+    # '-nostdlib',
+    # '-nostdlib++',
+    # '-nodefaultlibs',
+    # '-nostartfiles',
+    '-static']
+cpp_link_args = c_link_args

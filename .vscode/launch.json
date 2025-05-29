@@ -16,6 +16,54 @@
       "program": "${workspaceFolder}/build/software/unit-test.exe",
       "cwd": "${workspaceFolder}",
       "stopAtEntry": true
+    },
+    {
+      "name": "main",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/software/main.elf",
+      "cwd": "${workspaceFolder}",
+      "MIMode": "gdb",
+      "stopAtEntry": true,
+      "miDebuggerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/bin/arm-none-eabi-gdb.exe",
+      "hardwareBreakpoints": {
+        "require": true,
+        "max": 4
+      },
+      "debugServerPath": "C:/Program Files/SEGGER/JLink_V796c/JLinkGDBServerCL.exe",
+      "debugServerArgs": "-If SWD -Speed 800 -Device STM32C031K4 -s",
+      "miDebuggerServerAddress": "localhost:2331",
+      "customLaunchSetupCommands": [
+        {
+          "text": "set architecture auto"
+        },
+        {
+          "text": "file C:/Users/pelec/Documents/PowerSupplyModule/build-arm/software/main.elf",
+          "description": "loading elf",
+          "ignoreFailures": false
+        },
+        {
+          "text": "target remote localhost:2331",
+          "description": "connect to remote",
+          "ignoreFailures": false
+        },
+        {
+          "text": "monitor reset",
+          "description": "reset",
+          "ignoreFailures": false
+        },
+        {
+          "text": "load",
+          "description": "load",
+          "ignoreFailures": false
+        },
+        {
+          "text": "break main",
+          "description": "set breakpoint at Reset_Handler",
+          "ignoreFailures": false
+        }
+      ],
+      "targetArchitecture": "arm"
     }
   ]
 }

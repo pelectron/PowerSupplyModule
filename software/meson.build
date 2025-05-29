@@ -1,41 +1,44 @@
 inc = include_directories('include')
 
 native_deps = [
-  dependency('gcem', native:true),
-  dependency('poly', native:true, default_options: ['tests=false']),
-  dependency('tl-expected', native:true)
+  dependency('gcem', native: true),
+  dependency('poly', native: true, default_options: ['tests=false']),
+  dependency('tl-expected', native: true),
 ]
 
 deps = [
-  dependency('gcem', native:false),
-  dependency('poly', native:false, default_options: ['tests=false']),
-  dependency('tl-expected', native:false)
+  dependency('gcem', native: false),
+  dependency('poly', native: false, default_options: ['tests=false']),
+  dependency('tl-expected', native: false),
 ]
 
-if(meson.is_cross_build())
-  executable(
-    'main',
-    'source/main.cpp',
-    include_directories: inc,
-    dependencies: hal_dep,
-    native:false
-  )
-else if(target=='mock')
-  executable(
-    'main',
-    'source/main.cpp',
-    include_directories: inc,
-    dependencies: hal_dep,
-    native:true
-  )
-else
-  warning('Cannot build a main executable because this is a native build without moch hal selected')
-endif
-
 target = get_option('target').to_lower()
-
 subdir('source' / 'hal' / target)
 # hal_dep is now available
+
+if (meson.is_cross_build())
+  executable(
+    'main.elf',
+    'source/main.cpp',
+    hal_src,
+    include_directories: inc,
+    dependencies: deps,
+    link_args: linker_args,
+    native: false,
+  )
+elif (target == 'mock')
+  executable(
+    'main',
+    'source/main.cpp',
+    include_directories: inc,
+    dependencies: hal_dep,
+    native: true,
+  )
+else
+  warning(
+    'Cannot build a main executable because this is a native build without moch hal selected',
+  )
+endif
 
 if (meson.is_cross_build())
   #   deps = [poly_dep, cm_dep, gcem_dep]
@@ -79,7 +82,7 @@ else
     fallback: ['catch2', 'catch2_with_main_dep'],
     version: '>=3.4.0',
     required: true,
-    native:true,
+    native: true,
   )
 
   executable(

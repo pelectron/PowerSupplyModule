@@ -1,5 +1,6 @@
 #ifndef CLI_UTIL_HPP
 #define CLI_UTIL_HPP
+#include <algorithm>
 #include <cassert>
 #include <concepts>
 #include <cstddef>

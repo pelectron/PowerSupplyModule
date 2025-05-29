@@ -241,16 +241,15 @@ struct Usart {
   }
 
   hal::Error write(std::span<const std::uint8_t> buf) {
-    TDR = 'h';
-    // for (std::size_t i = 0; i < buf.size(); ++i) {
-    //   while ((ISR & USART_ISR_TXFNF) == 0) {
-    //     // wait while tx fifo is full
-    //   }
-    //   TDR = static_cast<std::uint16_t>(buf[i]) & 0x1FFu;
-    // }
-    // while ((ISR & USART_ISR_TC) == 0) {
-    //   // wait for transmission complete
-    // }
+    for (std::size_t i = 0; i < buf.size(); ++i) {
+      while ((ISR & USART_ISR_TXFNF) == 0) {
+        // wait while tx fifo is full
+      }
+      TDR = static_cast<std::uint16_t>(buf[i]) & 0x1FFu;
+    }
+    while ((ISR & USART_ISR_TC) == 0) {
+      // wait for transmission complete
+    }
     return hal::Error::none;
   }
 

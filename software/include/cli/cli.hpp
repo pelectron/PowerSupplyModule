@@ -345,8 +345,8 @@ private:
   constexpr void init_tree() {
     // create the root
     CommandNode &root = cmds_[0];
-    root.name = "root";
-    root.description = "root";
+    root.name = ByteView("root");
+    root.description = ByteView("root");
     // add its sub commands
     std::size_t index = 1;
     init_cmd(*this, index, root, help);

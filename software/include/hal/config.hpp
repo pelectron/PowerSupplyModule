@@ -2,7 +2,6 @@
 #define HAL_CONFIG_HPP
 
 #include "hal/enums.hpp"
-#include "units.hpp"
 
 #include <array>
 #include <utility>
@@ -32,8 +31,8 @@ struct ChannelConfig {
   ChannelId channel = ChannelId::invalid;
   gpio::Id inp = gpio::Id::invalid;
   gpio::Id inn = gpio::Id::invalid;
-  Voltage offset{};
-  signed_fixed<16, 16> gain{1_sf};
+  // Voltage offset{};
+  // signed_fixed<16, 16> gain{1_sf};
 };
 
 struct Config {
@@ -50,7 +49,7 @@ struct Config {
 namespace clock {
 struct Config {
   Source source;
-  Frequency frequency;
+  std::uint32_t frequency;
 };
 } // namespace clock
 
@@ -110,7 +109,7 @@ struct Config {
   Phase phase = Phase::low;
   Polarity polarity = Polarity::low;
   Format format = Format::msb_first;
-  Frequency baudrate = au::hertz(1'000'000u);
+  std::uint32_t baudrate = 1'000'000u;
   uint8_t data_size = 8;
   bool use_hw_cs = false;
   Crc crc = Crc::none;
@@ -126,9 +125,10 @@ namespace i2c {
 
 struct Config {
   Id id;
-  uint8_t address;
   hal::gpio::Id scl;
   hal::gpio::Id sda;
+  Speed speed;
+  std::uint32_t frequency;
   constexpr auto operator<=>(const Config &) const = default;
 };
 
@@ -138,11 +138,14 @@ namespace uart {
 
 struct Config {
   Id id;
-  std::uint32_t baudrate;
-  Bits bits;
-  StopBits stop_bits;
-  Parity parity;
-  Feature features;
+  hal::gpio::Id tx;
+  hal::gpio::Id rx;
+  std::uint32_t baudrate = 115200u;
+  Bits bits = Bits::eight;
+  StopBits stop_bits = StopBits::one;
+  Parity parity = Parity::none;
+  Feature features{};
+  std::uint32_t receiver_timeout = 0;
 
   constexpr bool has_feature(Feature f) const noexcept {
     return (features & f) == f;

@@ -68,7 +68,7 @@ public:
     return disable();
   }
 
-  constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
+  hal::Error init(hal::Hal &hal, const Settings &settings) {
     auto res =
         hal.configure(settings.spi)
             .and_then(

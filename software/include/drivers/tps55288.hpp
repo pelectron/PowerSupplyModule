@@ -463,7 +463,7 @@ public:
    * @param hal the hal object
    * @param settings TPS55288 settings
    */
-  constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
+  hal::Error init(hal::Hal &hal, const Settings &settings) {
     auto res = hal.configure(settings.i2c)
                    .and_then([this, &settings, &hal](hal::i2c::Device i2c)
                                  -> tl::expected<void, hal::Error> {

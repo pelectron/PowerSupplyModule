@@ -90,6 +90,8 @@ struct Operation {
 class Device {
 public:
   constexpr Device() = default;
+  constexpr Device(Device &&) = default;
+  constexpr Device &operator=(Device &&) = default;
 
   constexpr Device(HandleRef handle, gpio::Pin chip_select)
       : handle_(handle), cs(std::move(chip_select)) {}

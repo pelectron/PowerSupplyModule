@@ -1,4 +1,4 @@
-25425845885909317
+25362231959201301
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -66927,23 +66927,9 @@ BindingPost
 2
 2
 Library
-CONN_S-45S-0.5SH55
-
-FH12S-45S-0.5SH55 
-0
-47
-47
-Library
 C_0603_1608Metric
 Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
 capacitor
-0
-2
-2
-Library
-C_0603_1608Metric_Pad1.08x0.95mm_HandSolder
-Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
-capacitor handsolder
 0
 2
 2
@@ -66955,26 +66941,12 @@ capacitor
 2
 2
 Library
-C_0805_2012Metric_Pad1.18x1.45mm_HandSolder
-Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator
-capacitor handsolder
-0
-2
-2
-Library
 C_1210_3225Metric
 Capacitor SMD 1210 (3225 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
 capacitor
 0
 2
 2
-Library
-DBQ0016A_M
-
-ISO7731FDBQR 
-0
-16
-16
 Library
 DFN-12_DF_LIT
 
@@ -66983,26 +66955,12 @@ LT3081EDF-TRPBF
 13
 13
 Library
-DFN-12_DF_LIT-L
-
-LT3081EDF-TRPBF 
+D_SMA
+Diode SMA (DO-214AC)
+Diode SMA (DO-214AC)
 0
-13
-13
-Library
-DFN-12_DF_LIT-M
-
-LT3081EDF-TRPBF 
-0
-13
-13
-Library
-FCR7350
-
-
-0
-5
-1
+2
+2
 Library
 Fuse_wuerth_696103101002
 
@@ -67011,72 +66969,9 @@ Fuse_wuerth_696103101002
 2
 2
 Library
-G4W-2214P_OMR
-
-G4W-2214P-US-HP-DC24 
-0
-6
-6
-Library
-IND_IHLP-4040DZ_VIS
-
-IHLP4040DZER4R7M01 
-0
-2
-2
-Library
-IND_IHLP-4040DZ_VIS-L
-
-IHLP4040DZER4R7M01 
-0
-2
-2
-Library
-IND_IHLP-4040DZ_VIS-M
-
-IHLP4040DZER4R7M01 
-0
-2
-2
-Library
 IND_SRN8040_BRN
 
 SRN8040TA-220M 
-0
-2
-2
-Library
-IND_TAIYO_NRS8040_TAY
-
-NRS8040T220MJGJ 
-0
-2
-2
-Library
-IronBoard-F
-
-
-0
-80
-75
-Library
-IronBoard-M
-
-
-0
-80
-75
-Library
-JUMPER-4-1
-
-
-0
-5
-5
-Library
-Jumper_0603
-Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
-resistor handsolder
 0
 2
 2
@@ -67102,26 +66997,12 @@ LQFP QFP
 32
 32
 Library
-L_0805_2012Metric_Pad1.05x1.20mm_HandSolder
-Inductor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
-inductor handsolder
-0
-2
-2
-Library
 L_Vishay_IHLP-5050
 Inductor, Vishay, IHLP series, 12.7mmx12.7mm
 inductor vishay ihlp smd
 0
 2
 2
-Library
-MS409
-
-
-0
-1
-1
 Library
 MountingHole_3.5mm
 Mounting Hole 3.5mm, no annular
@@ -67137,13 +67018,6 @@ mounting hole 5.3mm m5
 1
 1
 Library
-NUCLEO-F4X9ZI
-
-
-0
-144
-144
-Library
 NetTie-2_SMD_Pad0.5mm
 Net tie, 2 pin, 0.5mm square SMD pads
 net tie
@@ -67157,13 +67031,6 @@ CFP3 SOD-123W
 0
 2
 2
-Library
-Nucleo64
-
-
-0
-76
-76
 Library
 PG-TSDSON-8-32
 
@@ -67179,61 +67046,12 @@ TPL7407LPWR
 16
 16
 Library
-PW16_TEX-L
-
-TPL7407LPWR 
+PinHeader_1x08_P2.54mm_Vertical
+Through hole straight pin header, 1x08, 2.54mm pitch, single row
+Through hole pin header THT 1x08 2.54mm single row
 0
-16
-16
-Library
-PW16_TEX-M
-
-TPL7407LPWR 
-0
-16
-16
-Library
-PinHeader_1x02_P2.54mm_Vertical-dual-sided
-Through hole straight pin header, 1x02, 2.54mm pitch, single row
-Through hole pin header THT 1x02 2.54mm single row
-0
-2
-2
-Library
-PinHeader_1x04_P2.54mm_Horizontal
-Through hole angled pin header, 1x04, 2.54mm pitch, 6mm pin length, single row
-Through hole angled pin header THT 1x04 2.54mm single row
-0
-4
-4
-Library
-PinHeader_1x07_P2.54mm_Vertical
-Through hole straight pin header, 1x07, 2.54mm pitch, single row
-Through hole pin header THT 1x07 2.54mm single row
-0
-7
-7
-Library
-PowerBoard-F
-
-
-0
-30
-25
-Library
-PowerBoard-M
-
-
-0
-30
-25
-Library
-RELAY5_J1071A_CRS
-
-J1071AS3VDC.36 
-0
-5
-5
+8
+8
 Library
 R_0603_1608Metric_Pad0.98x0.95mm_HandSolder
 Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator
@@ -67249,33 +67067,12 @@ SEWF3920D5L00P9
 4
 4
 Library
-SMDIP-8_W9.53mm_Clearance8mm
-8-lead surface-mounted (SMD) DIP package, row spacing 9.53 mm (375 mils), Clearance8mm
-SMD DIP DIL PDIP SMDIP 2.54mm 9.53mm 375mil Clearance8mm
-0
-8
-8
-Library
-SMT_WHFP-TR_ROM
-
-BD33FD0WHFP-TR 
-0
-6
-6
-Library
 SOIC-8_3.9x4.9mm_P1.27mm
 SOIC, 8 Pin (JEDEC MS-012AA, https://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/soic_narrow-r/r_8.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
 SOIC SO
 0
 8
 8
-Library
-SOT-23
-SOT, 3 Pin (https://www.jedec.org/system/files/docs/to-236h.pdf variant AB), generated with kicad-footprint-generator ipc_gullwing_generator.py
-SOT TO_SOT_SMD
-0
-3
-3
 Library
 SOT-23-5_HandSoldering
 5-pin SOT23 package
@@ -67291,26 +67088,19 @@ SOT TO_SOT_SMD
 6
 6
 Library
-SOT-363_SC-70-6
-SOT-363, SC-70-6
-SOT-363 SC-70-6
-0
-6
-6
-Library
-SOT-563
-SOT563
-SOT-563
-0
-6
-6
-Library
 SPM10065VC-D
 
 
 0
 2
 2
+Library
+SSOP-16_3.9x4.9mm_P0.635mm
+SSOP16: plastic shrink small outline package; 16 leads; body width 3.9 mm; lead pitch 0.635; (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot519-1_po.pdf)
+SSOP 0.635
+0
+16
+16
 Library
 SW4_1825910-B_TEC
 
@@ -67326,20 +67116,6 @@ solder jumper open
 2
 2
 Library
-SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm_NumberLabels
-SMD Solder Jumper, 1x1.5mm Triangular Pads, 0.3mm gap, open, labeled with numbers
-solder jumper open
-0
-5
-3
-Library
-TGH-0510-02
-
-
-0
-0
-0
-Library
 TO-277-3LD_ONS
 
 FSV15100V 
@@ -67354,13 +67130,6 @@ TSOT TO_SOT_SMD
 8
 8
 Library
-TSOT23-6-A_TPK-L
-
-TPP361063-T6TR 
-0
-6
-6
-Library
 TSSOP-14_4.4x5mm_P0.65mm
 TSSOP, 14 Pin (JEDEC MO-153 Var AB-1 https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py
 TSSOP SO
@@ -67368,30 +67137,16 @@ TSSOP SO
 14
 14
 Library
-TSSOP-20_4.4x6.5mm_P0.65mm
-TSSOP, 20 Pin (JEDEC MO-153 Var AC https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py
-TSSOP SO
+Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical
+Tag-Connect programming header; http://www.tag-connect.com/Materials/TC2030-IDC-NL.pdf
+tag connect programming header pogo pins
 0
-20
-20
-Library
-TSSOP-24_4.4x7.8mm_P0.65mm
-TSSOP, 24 Pin (JEDEC MO-153 Var AD https://www.jedec.org/document_search?search_api_views_fulltext=MO-153), generated with kicad-footprint-generator ipc_gullwing_generator.py
-TSSOP SO
-0
-24
-24
+6
+6
 Library
 TerminalBlock_1x02_P5.08mm_Horizontal
 terminal block RND 205-00232, 2 pins, pitch 5.08mm, size 10.2x8.45mm^2, drill diamater 1.1mm, pad diameter 2.1mm, see http://cdn-reichelt.de/documents/datenblatt/C151/RND_205-00232_DB_EN.pdf, script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_RND
 THT terminal block RND 205-00232 pitch 5.08mm size 10.2x8.45mm^2 drill 1.1mm pad 2.1mm
-0
-2
-2
-Library
-TerminalBlock_bornier-2_P5.08mm
-simple 2-pin terminal block, pitch 5.08mm, revamped version of bornier2
-terminal block bornier2
 0
 2
 2
@@ -67417,13 +67172,6 @@ MIC826SYMT-TR
 7
 6
 Library
-Untitled
-
-
-0
-2
-2
-Library
 VQFN-HR26_RPM_TEX
 
 TPS55288RPMR 
@@ -67437,13 +67185,6 @@ TPS552872RYQR
 0
 21
 21
-Library
-VSONP-8-1EP_5x6_P1.27mm_ThermalVias
-SON, 8-Leads, Body 5x6x1mm, Pitch 1.27mm; (see Texas Instruments CSD18531Q5A http://www.ti.com/lit/ds/symlink/csd18531q5a.pdf)
-VSONP 1.27
-0
-39
-3
 Library
 Vishay_PowerPAK_1212-8_Single
 PowerPAK 1212-8 Single (https://www.vishay.com/docs/71656/ppak12128.pdf, https://www.vishay.com/docs/72597/72597.pdf)

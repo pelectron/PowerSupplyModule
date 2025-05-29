@@ -444,14 +444,13 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
 
   // 2. configure CR1
   // a) configure baudrate divisor
-  const Frequency clk_rate =
-      stm32c031xx::clock_tree.frequency(Peripheral::spi_a);
-  if (cfg.baudrate > clk_rate / 2)
+  const auto clk_rate = stm32c031xx::clock_tree.pclk;
+  if (cfg.baudrate > clk_rate / 2u)
     return ConfigError::invalid_baudrate;
 
-  auto div = 2;
-  while (clk_rate / div > cfg.baudrate and div < 256) {
-    div *= 2;
+  auto div = 2u;
+  while (clk_rate / div > cfg.baudrate and div < 256u) {
+    div *= 2u;
   }
   if (clk_rate / div > cfg.baudrate)
     return ConfigError::invalid_baudrate;
@@ -459,8 +458,8 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   cr1 = div << BR_POS;
 
   // b) Configure the CPOL and CPHA
-  cr1 |= cfg.polarity == Polarity::high ? CPOL : 0;
-  cr1 |= cfg.phase == Phase::high ? CPHA : 0;
+  cr1 |= cfg.polarity == Polarity::high ? CPOL : 0u;
+  cr1 |= cfg.phase == Phase::high ? CPHA : 0u;
 
   // c) Select simplex or half-duplex mode by configuring RXONLY or BIDIMODE and
   // BIDIOE (RXONLY and BIDIMODE cannot be set at the same time)
@@ -479,15 +478,17 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   case Crc::sixteen_bit:
     cr1 |= CRCEN | CRCL;
     break;
-  default:
+  case Crc::none:
     break;
+  default:
+    return ConfigError::invalid_crc;
   }
 
   // f) Configure SSM and SSI.
   if (cfg.use_hw_cs) {
 
   } else {
-    // NSS pin is not used on master side at this
+    // NSS pin is not used on master side in this
     // configuration. It has to be managed internally (SSM=1, SSI=1) to
     // prevent any MODF error
     cr1 |= SSM | SSI;
@@ -528,10 +529,13 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   // 5. configure dma
 
   // 6. Enable the clock and actually apply the settings
-  stm32c031xx::clock_tree.enable(Peripheral::spi_a);
   SPI1->CR1 = cr1;
   SPI1->CR2 = cr2;
   SPI1->CRCPR = crcpr;
 
   return hal::spi::Device{*SPI1, cs};
+}
+
+extern "C" void SPI1_IRQHandler(void) {
+  // TODO: implement SPI IRQ handler
 }

@@ -6,8 +6,10 @@
 
 #include <concepts>
 #include <cstdint>
+#include <functional>
 #include <type_traits>
 #include <utility>
+
 namespace cli::io {
 
 enum class Type : uint8_t {

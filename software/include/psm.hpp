@@ -3,7 +3,6 @@
 
 #include "cli/cli.hpp"
 #include "converter.hpp"
-#include "cpp-terminal/private/file.hpp"
 #include "error.hpp"
 #include "fixed_map.hpp"
 #include "fixed_vector.hpp"

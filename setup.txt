@@ -1,0 +1,1 @@
+meson setup build-arm --cross-file=crossfiles/toolchains/arm-none-eabi-gcc.txt --cross-file=crossfiles/hosts/cortex-m0plus.txt

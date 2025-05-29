@@ -11,6 +11,7 @@ namespace hal {
 
 enum class Error {
   none,
+  unknown,
   invalid_handle,
   config,
   callback_already_registered,
@@ -22,11 +23,14 @@ enum class Error {
   frame_error,
   parity_error,
   already_in_use,
-  clock_error
+  clock_error,
+  noisy,
+  protocol_error
 };
 
 enum class ConfigError : std::uint32_t {
   success,
+  already_in_use,
   already_locked,
   invalid_config,
   invalid_port,
@@ -49,7 +53,15 @@ enum class ConfigError : std::uint32_t {
   invalid_cs,
   invalid_data_size,
   invalid_parity,
-  invalid_stop_bits
+  invalid_stop_bits,
+  invalid_clock_frequency,
+  invalid_timeout,
+  invalid_pin,
+  invalid_sda,
+  invalid_scl,
+  invalid_rx,
+  invalid_tx,
+  invalid_crc,
 };
 
 namespace gpio {
@@ -85,22 +97,22 @@ enum class Port : uint8_t {
 };
 
 enum Pins : std::uint16_t {
-  Pin0,
-  Pin1,
-  Pin2,
-  Pin3,
-  Pin4,
-  Pin5,
-  Pin6,
-  Pin7,
-  Pin8,
-  Pin9,
-  Pin10,
-  Pin11,
-  Pin12,
-  Pin13,
-  Pin14,
-  Pin15
+  Pin0 = 1u << 0u,
+  Pin1 = 1u << 1u,
+  Pin2 = 1u << 2u,
+  Pin3 = 1u << 3u,
+  Pin4 = 1u << 4u,
+  Pin5 = 1u << 5u,
+  Pin6 = 1u << 6u,
+  Pin7 = 1u << 7u,
+  Pin8 = 1u << 8u,
+  Pin9 = 1u << 9u,
+  Pin10 = 1u << 10u,
+  Pin11 = 1u << 11u,
+  Pin12 = 1u << 12u,
+  Pin13 = 1u << 13u,
+  Pin14 = 1u << 14u,
+  Pin15 = 1u << 15u
 };
 
 enum class Id : std::uint32_t { invalid = 0 };
@@ -126,12 +138,12 @@ enum class AlternateFunction {
 };
 
 constexpr Id operator|(Port p, std::uint16_t pin_num) noexcept {
-  return static_cast<Id>(static_cast<std::uint16_t>(p) << 16u |
+  return static_cast<Id>(static_cast<std::uint32_t>(p) << 16u |
                          static_cast<std::uint16_t>(pin_num));
 }
 
 constexpr Port port(Id pin) noexcept {
-  return static_cast<Port>(static_cast<std::uint16_t>(pin) >> 16u);
+  return static_cast<Port>(static_cast<std::uint32_t>(pin) >> 16u);
 }
 
 constexpr std::uint16_t pins(Id pin) noexcept {
@@ -231,7 +243,13 @@ enum class Id : std::uint8_t {
   Z
 };
 
-}
+enum class Speed {
+  normal,   //< 100 kHz
+  fast,     //< 400 kHz
+  fast_plus //< 1 MHz
+};
+
+} // namespace i2c
 
 namespace uart {
 
@@ -265,20 +283,25 @@ enum class Id : std::uint8_t {
   Z
 };
 
-enum class Bits { seven, eight, nine };
+enum class Bits : std::uint8_t { seven, eight, nine };
 
-enum class StopBits { one, one_and_a_half, two };
+enum class StopBits : std::uint8_t { one, one_and_a_half, two };
 
-enum class Parity { none, odd, even };
+enum class Parity : std::uint8_t { none, odd, even };
 
-enum class Feature {
-  msb_first,
-  data_inversion,
-  tx_inversion,
-  rx_inversion,
-  tx_rx_swap,
-  auto_baudrate,
-  wakeup
+enum class Feature : std::uint32_t {
+  msb_first = 1u << 0u,
+  data_inversion = 1u << 1u,
+  tx_inversion = 1u << 2u,
+  rx_inversion = 1u << 3u,
+  tx_rx_swap = 1u << 4u,
+  auto_baudrate = 1u << 5u,
+  wakeup = 1u << 6u,
+  receiver_timeout = 1u << 7u,
+  rx_pullup = 1u << 8u,
+  rx_pulldown = 1u << 9u,
+  tx_pullup = 1u << 10u,
+  tx_pulldown = 1u << 11u,
 };
 
 constexpr Feature operator|(Feature f1, Feature f2) {

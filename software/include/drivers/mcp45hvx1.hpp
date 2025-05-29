@@ -30,7 +30,7 @@ struct Settings {
 
 class MCP45HVX1 {
 public:
-  constexpr hal::Error init(hal::Hal &hal, const Settings &settings) {
+  hal::Error init(hal::Hal &hal, const Settings &settings) {
     auto res =
         hal.configure(settings.i2c)
             .and_then([this, &settings, &hal](hal::i2c::Device i2c)

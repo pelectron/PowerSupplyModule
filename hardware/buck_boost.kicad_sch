@@ -1711,6 +1711,16 @@
 		)
 		(uuid "ec1bc8c0-6f28-4820-89e6-48542a055dad")
 	)
+	(text "TODO: connect FB/*INT"
+		(exclude_from_sim no)
+		(at 214.884 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "f7cd47dc-d116-4f54-9ae9-7f76c0052541")
+	)
 	(text_box "Ripple current (boost): dI_{L,PP} = V_{in}*(V_{out}-V_{in})/(L*f_{sw}*V_{out}) = 20*(22-20)/(4.7u*400k*22) = 970mA\nRipple current (buck): dI_{L,PP} = (V_{in,max} - V_{out})*V_{out} / (L*f_{sw}*V_{in,max}) = (30-15)*15/(4.7u*400k*30) = 4A\nPeak inductr current: I_{L,P} = I_{L,DC} + dI_{L,PP}/2 = 14A\n\n"
 		(exclude_from_sim no)
 		(at 172.72 151.13 0)
@@ -4017,139 +4027,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Library:R_Small")
-		(at 57.15 63.5 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "18936b5c-047c-401d-9bca-f6f7c24a13bd")
-		(property "Reference" "R9"
-			(at 59.69 62.2299 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "7k"
-			(at 59.69 64.7699 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Library:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Digikey-Nr." "311-6.98KHRCT-ND"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "YAGEO"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer Nr." "RC0603FR-076K98L"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser-Nr." "603-RC0603FR-076K98L"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer 2" ""
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-Nr. 2" ""
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer-Nr." "RC0603FR-076K98L"
-			(at 57.15 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ba153524-f416-4d5c-ba6f-7ebda8d39124")
-		)
-		(pin "2"
-			(uuid "a0165207-45c4-4c6c-ab4c-22b3efb76abf")
-		)
-		(instances
-			(project "PSB_V1"
-				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5/f5092a7f-b2b1-4db8-b72d-823c73afab7a"
-					(reference "R9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Library:C_Small")
 		(at 49.53 83.82 0)
 		(unit 1)
@@ -5419,6 +5296,139 @@
 			(project "PSB_V1"
 				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5/f5092a7f-b2b1-4db8-b72d-823c73afab7a"
 					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Library:R_Small")
+		(at 57.15 97.79 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6226f5e0-93cc-49a3-ae5c-c903343d8eaa")
+		(property "Reference" "R70"
+			(at 59.69 96.5199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1k"
+			(at 59.69 99.0599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Library:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Digikey-Nr." "311-1.00KHRCT-ND"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "YAGEO"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Nr." "RC0603FR-071KL"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser-Nr." "603-RC0603FR-071KL"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer 2" ""
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer-Nr. 2" ""
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer-Nr." "RC0603FR-071KL"
+			(at 57.15 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "30b51560-2565-4870-9261-7e6f99886a35")
+		)
+		(pin "2"
+			(uuid "4b90aa83-bdd7-47e5-8218-cdb8a21b5356")
+		)
+		(instances
+			(project "PowerSupplyModule"
+				(path "/1a48cdfa-ddae-48b3-b222-cb19285feeb5/f5092a7f-b2b1-4db8-b72d-823c73afab7a"
+					(reference "R70")
 					(unit 1)
 				)
 			)
@@ -7152,7 +7162,7 @@
 	)
 	(symbol
 		(lib_id "Library:R_Small")
-		(at 57.15 97.79 0)
+		(at 57.15 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7161,7 +7171,7 @@
 		(fields_autoplaced yes)
 		(uuid "e1650745-ff7e-45e4-b643-4579d629798c")
 		(property "Reference" "R2"
-			(at 59.69 96.5199 0)
+			(at 59.69 62.2299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7170,7 +7180,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 59.69 99.0599 0)
+			(at 59.69 64.7699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7179,7 +7189,7 @@
 			)
 		)
 		(property "Footprint" "Library:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7188,7 +7198,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7197,7 +7207,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7206,7 +7216,7 @@
 			)
 		)
 		(property "Digikey-Nr." "311-10.0KHRCT-ND"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7215,7 +7225,7 @@
 			)
 		)
 		(property "Manufacturer" "YAGEO"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7224,7 +7234,7 @@
 			)
 		)
 		(property "Manufacturer Nr." "RC0603FR-0710KL"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7233,7 +7243,7 @@
 			)
 		)
 		(property "Mouser-Nr." "603-RC0603FR-0710KL"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7242,7 +7252,7 @@
 			)
 		)
 		(property "Manufacturer 2" ""
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7251,7 +7261,7 @@
 			)
 		)
 		(property "Manufacturer-Nr. 2" ""
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7260,7 +7270,7 @@
 			)
 		)
 		(property "Manufacturer-Nr." "RC0603FR-0710KL"
-			(at 57.15 97.79 0)
+			(at 57.15 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
