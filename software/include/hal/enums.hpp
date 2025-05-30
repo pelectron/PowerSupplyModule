@@ -18,6 +18,7 @@ enum class Error {
   invalid_param,
   not_implemented,
   buffer_overflow,
+  buffer_underfow,
   bus_error,
   crc_error,
   frame_error,
@@ -25,7 +26,9 @@ enum class Error {
   already_in_use,
   clock_error,
   noisy,
-  protocol_error
+  protocol_error,
+  not_acknowledged,
+  lost_arbitration
 };
 
 enum class ConfigError : std::uint32_t {

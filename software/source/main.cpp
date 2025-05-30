@@ -1,6 +1,7 @@
 
 // #include "cli/cli.hpp"
-#include "drivers/tps55288.hpp"
+#include "drivers/ad5293.hpp"
+#include "drivers/at24cs08.hpp"
 #include "hal/config.hpp"
 #include "hal/enums.hpp"
 #include "hal/gpio.hpp"
@@ -93,10 +94,12 @@ static gpio::Pin conf(const gpio::Config &cfg) {
 volatile int i = 0;
 volatile hal::ConfigError config_err;
 volatile hal::Error error;
+at24cs08::SerialNumber sn;
 int main() {
   *reinterpret_cast<volatile std::uint32_t *>(0xE000ED0Cu) |= 0x08000000UL;
   stm32c031xx::clock_tree.init();
   uart::Device uart_dev;
+  at24cs08::AT24CS08 storage{};
   // TODO: fix copy and move operations for devices
   if (auto res = hal::uart::configure(hw.uart); not res) {
     config_err = res.error;
@@ -116,12 +119,26 @@ int main() {
 
   if (auto res = hal::i2c::configure(hw.i2c); not res) {
     config_err = res.error;
-    while (1) {
+    while (i != 1) {
     }
   } else {
-    i2c_dev = i2c::Device(res.peripheral, 0x64);
+    storage.init(std::move(res.peripheral), conf(hw.wp), false);
   }
 
+  // std::uint8_t buffer[16]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+  // 15}; error = storage.write(0x0, buffer); std::uint8_t memory[16]{}; error =
+  // storage.read(0x0, memory);
+  storage.serial_number()
+      .and_then([](at24cs08::SerialNumber s) -> tl::expected<void, hal::Error> {
+        sn = s;
+        return {};
+      })
+      .or_else([](hal::Error e) { error = e; });
+  ad5293::AD5293 res{std::move(spi_dev)};
+  res.enable();
+  res.wiper(0);
+  res.wiper(1023);
+  res.disable();
   // Pin wp = conf(hw.wp);
   // Pin nplug = conf(hw.nplug);
   // Pin wdi = conf(hw.wdi);
@@ -132,10 +149,7 @@ int main() {
   Pin out_en_n = conf(hw.out_en_n);
   Pin out_en_p = conf(hw.out_en_p);
   Pin out_select = conf(hw.out_select);
-  tps55288::TPS55288 buck{i2c_dev, std::move(en_bb)};
-  error = buck.enable();
-  error = buck.enable_ilim(true);
-  auto r = buck.register_map();
+
   // if (s == hal::gpio::State::set) {
   const uint8_t b[]{"hello\n"};
   // } else {

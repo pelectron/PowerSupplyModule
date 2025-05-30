@@ -39,14 +39,10 @@ public:
       : handle_(handle), address_(address) {}
 
   constexpr hal::Error write(std::span<const uint8_t> buffer) {
-    if (not handle_)
-      return hal::Error::invalid_handle;
     return handle_.write(address_, buffer);
   }
 
   constexpr hal::Error read(std::span<uint8_t> buffer) {
-    if (not handle_)
-      return hal::Error::invalid_handle;
     return handle_.read(address_, buffer);
   }
 

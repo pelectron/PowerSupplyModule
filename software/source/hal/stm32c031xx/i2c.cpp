@@ -3,6 +3,8 @@
 #include "hal/config.hpp"
 #include "hal/enums.hpp"
 #include "hal/gpio.hpp"
+#include "hal/mmio.hpp"
+#include <stdexcept>
 
 #define I2C1 reinterpret_cast<stm32c031xx::I2c *>(0x40005400u)
 #define I2C2 reinterpret_cast<stm32c031xx::I2c *>(0x40005800u)
@@ -149,8 +151,8 @@ struct I2c {
     if (e & I2C_ISR_BERR)
       return hal::Error::bus_error;
     if (e & I2C_ISR_NACKF)
-      return hal::Error::protocol_error;
-    return {};
+      return hal::Error::not_acknowledged;
+    return static_cast<hal::Error>(e);
   }
   bool enabled() const { return (CR1 & I2C_CR1_PE) != 0; }
   bool is_busy() const { return hal::mmio::get(ISR, I2C_ISR_BUSY); }
@@ -162,124 +164,215 @@ struct I2c {
 
   void enable() { hal::mmio::set_bits(CR1, I2C_CR1_PE); }
   void disable() { hal::mmio::reset_bits(CR1, I2C_CR1_PE); }
+  void start() { hal::mmio::set_bits(CR2, I2C_CR2_START); }
+  void stop() { hal::mmio::set_bits(CR2, I2C_CR2_STOP); }
+  void autoend(bool enable) {
+    if (enable)
+      hal::mmio::set_bits(CR2, I2C_CR2_AUTOEND);
+    else
+      hal::mmio::reset_bits(CR2, I2C_CR2_AUTOEND);
+  }
+  void write_data(std::uint8_t data) { hal::mmio::set(TXDR, data); }
+  std::uint8_t read_data() { return static_cast<std::uint8_t>(RXDR); }
+  void transfer_size(std::uint8_t size) {
+    hal::mmio::set(CR2, I2C_CR2_NBYTES, size, I2C_CR2_NBYTES_POS);
+  }
+  void slave_address(std::uint8_t addr) {
+    hal::mmio::set(CR2, I2C_CR2_SADD, addr << 1u, I2C_CR2_SADD_POS);
+  }
+  void clear_errors() {
+    hal::mmio::set_bits(ICR, I2C_ICR_BERRCF | I2C_ICR_OVRCF | I2C_ICR_ARLOCF |
+                                 I2C_ICR_NACKCF);
+  }
+
   hal::Error write(uint8_t addr, std::span<const uint8_t> buffer) {
-    if (enabled() or is_busy())
+    if (hal::mmio::get(ISR, I2C_ISR_BUSY)) {
       return hal::Error::already_in_use;
+    }
 
-    enable();
+    std::size_t transfer_size = buffer.size();
+    if (buffer.size() > 0) {
+      // preload txdr with data, if there is any.
+      TXDR = buffer[0];
+    }
+
     if (buffer.size() > 255) {
-      CR2 = (uint32_t{addr} << 1u) | I2C_CR2_RELOAD |
-            0xFFu << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-      while (buffer.size() > 255) {
-        auto b = buffer.subspan(0, 255);
-        for (const auto &data : b) {
-          while (1) {
-            auto isr = ISR;
-            if (isr & I2C_ISR_TXIS)
-              break;
-            if (isr & I2C_ISR_NACKF) {
-              CR2 |= I2C_CR2_STOP;
-              disable();
-              return hal::Error::protocol_error;
-            }
-          }
-          TXDR = data;
-        }
-        if (ISR & I2C_ISR_TC) {
-          // ...
-        }
-
-        if (ISR & I2C_ISR_TCR) {
-          buffer = buffer.subspan(255);
-          if (buffer.size() == 0) {
-            CR2 = I2C_CR2_STOP;
-            disable();
-            return hal::Error::none;
-          }
-          CR2 |= I2C_CR2_RELOAD | 0xFFu << I2C_CR2_NBYTES_POS;
-        }
-      }
-      CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
-            buffer.size() << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-      for (const auto &data : buffer) {
-        while ((ISR & I2C_ISR_TXIS) == 0) {
-          if (auto e = ISR & (I2C_ISR_NACKF | I2C_ISR_BERR); e != 0) {
-            CR2 = I2C_CR2_STOP;
-            disable();
-            return to_error(e);
-          }
-        }
-        TXDR = data;
-      }
-      disable();
-      return hal::Error::none;
+      // use reload mode for transfers sizes greater than 255
+      transfer_size = 255;
+      hal::mmio::set(
+          CR2, I2C_CR2_SADD | I2C_CR2_RELOAD | I2C_CR2_NBYTES | I2C_CR2_START,
+          (uint32_t{addr} << 1) | I2C_CR2_RELOAD | 0xFFu << I2C_CR2_NBYTES_POS |
+              I2C_CR2_START);
+    } else {
+      // use autoend mode for transfer sizes smaller than 256
+      hal::mmio::set(
+          CR2, I2C_CR2_SADD | I2C_CR2_AUTOEND | I2C_CR2_NBYTES | I2C_CR2_START,
+          (uint32_t{addr} << 1) | I2C_CR2_AUTOEND |
+              transfer_size << I2C_CR2_NBYTES_POS | I2C_CR2_START);
     }
 
-    CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
-          buffer.size() << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-    for (const auto &data : buffer) {
-      while ((ISR & I2C_ISR_TXIS) == 0) {
-        if (auto e = ISR & (I2C_ISR_NACKF | I2C_ISR_BERR); e != 0) {
-          CR2 = I2C_CR2_STOP;
-          disable();
-          return to_error(e);
+    if (buffer.size() > 0) {
+      buffer = buffer.subspan(1);
+      --transfer_size;
+    }
+
+    while (buffer.size() != 0) {
+      // wait until TXIS flag is set
+      while (1) {
+        auto isr = ISR;
+        if (ISR & (I2C_ISR_TXIS))
+          break;
+        else if (ISR & I2C_ISR_NACKF) {
+          // clear NACKF
+          hal::mmio::set_bits(ICR, I2C_ICR_NACKCF);
+          // autoend is initiated after NACKF-> wait for stop flag
+          while (hal::mmio::get(ISR, I2C_ISR_STOPF) == 0) {
+          }
+          // clear stop flag
+          hal::mmio::set_bits(ICR, I2C_ICR_STOPCF);
+          // check if additional errors occurred
+          isr = ISR;
+          hal::Error err = hal::Error::not_acknowledged;
+          if (isr & I2C_ISR_BERR) {
+            err = hal::Error::bus_error;
+          }
+          if (isr & I2C_ISR_OVR) {
+            err = hal::Error::buffer_overflow;
+          }
+          if (isr & I2C_ISR_ARLO) {
+            err = hal::Error::lost_arbitration;
+          }
+          // clear slave specific info from CR2
+          hal::mmio::reset_bits(CR2, I2C_CR2_SADD | I2C_CR2_HEAD10R |
+                                         I2C_CR2_NBYTES | I2C_CR2_RELOAD |
+                                         I2C_CR2_RD_WRN);
+          clear_errors();
+          return err;
         }
       }
-      TXDR = data;
+      // write next data
+      TXDR = buffer[0];
+      buffer = buffer.subspan(1);
+      --transfer_size;
+      if (transfer_size == 0 and buffer.size() != 0) {
+        // wait until TCR flag is set
+        while (hal::mmio::get(ISR, I2C_ISR_TCR) == 0) {
+          if (auto err = get_and_clear_errors(); err != hal::Error::none) {
+            return err;
+          }
+        }
+        if (buffer.size() > 255) {
+          // use reload mode for transfers sizes greater than 255
+          transfer_size = 255;
+          CR2 |= (uint32_t{addr} << 1) | I2C_CR2_RELOAD |
+                 0xFFu << I2C_CR2_NBYTES_POS;
+        } else {
+          // use autoend mode for transfer sizes smaller than 256
+          transfer_size = buffer.size();
+          CR2 |= (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
+                 buffer.size() << I2C_CR2_NBYTES_POS;
+        }
+      }
     }
-    disable();
+
+    // wait for stop flag generation
+    while (hal::mmio::get(ISR, I2C_ISR_STOPF) == 0) {
+    }
+
+    // clear stop flag
+    hal::mmio::set_bits(ICR, I2C_ICR_STOPCF);
+    // clear slave specific info from CR2
+    hal::mmio::reset_bits(CR2, I2C_CR2_SADD | I2C_CR2_HEAD10R | I2C_CR2_NBYTES |
+                                   I2C_CR2_RELOAD | I2C_CR2_RD_WRN);
     return hal::Error::none;
   }
 
+  hal::Error get_and_clear_errors() {
+    auto err = hal::mmio::get(ISR, I2C_ISR_NACKF | I2C_ISR_BERR | I2C_ISR_OVR |
+                                       I2C_ISR_ARLO);
+    hal::Error e = hal::Error::none;
+    if (err != 0) {
+      if (ISR & I2C_ISR_NACKF)
+        e = hal::Error::not_acknowledged;
+      else if (ISR & I2C_ISR_BERR)
+        e = hal::Error::bus_error;
+      else if (ISR & I2C_ISR_OVR)
+        e = hal::Error::buffer_overflow;
+      else if (ISR & I2C_ISR_ARLO)
+        e = hal::Error::lost_arbitration;
+      else
+        e = hal::Error::unknown;
+      clear_errors();
+    }
+    return e;
+  }
+
   hal::Error read(uint8_t addr, std::span<uint8_t> buffer) {
-    if (enabled() or is_busy())
+    if (hal::mmio::get(ISR, I2C_ISR_BUSY)) {
       return hal::Error::already_in_use;
+    }
 
-    enable();
-
+    std::size_t transfer_size = buffer.size();
     if (buffer.size() > 255) {
-      CR2 = (uint32_t{addr} << 1u) | I2C_CR2_RELOAD |
-            0xFFu << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-      while (buffer.size() > 255) {
-        auto b = buffer.subspan(0, 255);
-        for (auto &data : b) {
-          while ((ISR & I2C_ISR_RXNE) == 0) {
-          }
-          data = static_cast<std::uint8_t>(RXDR);
+      // use reload mode for transfers sizes greater than 255
+      transfer_size = 255;
+      CR2 = (uint32_t{addr} << 1) | I2C_CR2_RELOAD |
+            0xFFu << I2C_CR2_NBYTES_POS | I2C_CR2_RD_WRN | I2C_CR2_START;
+    } else {
+      // use autoend mode for transfer sizes smaller than 256
+      transfer_size = buffer.size();
+      CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
+            buffer.size() << I2C_CR2_NBYTES_POS | I2C_CR2_RD_WRN |
+            I2C_CR2_START;
+    }
+
+    while (buffer.size() > 0) {
+      // wait for rx data
+      while (hal::mmio::get(ISR, I2C_ISR_RXNE) == 0) {
+        if (auto err = get_and_clear_errors(); err != hal::Error::none) {
+          return err;
         }
 
-        if (ISR & I2C_ISR_TCR) {
-          buffer = buffer.subspan(255);
-          if (buffer.size() == 0) {
-            CR2 = I2C_CR2_STOP;
-            disable();
-            return hal::Error::none;
+        if (hal::mmio::get(ISR, I2C_ISR_STOPF)) {
+          if (hal::mmio::get(ISR, I2C_ISR_RXNE) and buffer.size() > 0u) {
+            buffer[0] = read_data();
           }
-          CR2 |= I2C_CR2_RELOAD | 0xFFu << I2C_CR2_NBYTES_POS;
+        }
+      }
+      // read data
+      buffer[0] = read_data();
+      buffer = buffer.subspan(1);
+      --transfer_size;
+      if (transfer_size == 0 and buffer.size() != 0) {
+        // wait until TCR flag is set
+        while (hal::mmio::get(ISR, I2C_ISR_TCR) == 0) {
+          if (auto err = get_and_clear_errors(); err != hal::Error::none) {
+            return err;
+          }
+        }
+        if (buffer.size() > 255) {
+          // use reload mode for transfers sizes greater than 255
+          transfer_size = 255;
+          CR2 = (uint32_t{addr} << 1) | I2C_CR2_RELOAD |
+                0xFFu << I2C_CR2_NBYTES_POS;
         } else {
-          CR2 = I2C_CR2_STOP;
-          disable();
-          return hal::Error::none;
+          // use autoend mode for transfer sizes smaller than 256
+          transfer_size = buffer.size();
+          CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
+                buffer.size() << I2C_CR2_NBYTES_POS;
         }
       }
-      CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
-            buffer.size() << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-      for (auto &data : buffer) {
-        while ((ISR & I2C_ISR_RXNE) == 0) {
-        }
-        data = static_cast<std::uint8_t>(RXDR);
-      }
-      disable();
-      return hal::Error::none;
     }
-    CR2 = (uint32_t{addr} << 1u) | I2C_CR2_AUTOEND |
-          buffer.size() << I2C_CR2_NBYTES_POS | I2C_CR2_START;
-    for (auto &data : buffer) {
-      while ((ISR & I2C_ISR_RXNE) == 0) {
-      }
-      TXDR = data;
+
+    // wait for stop flag generation
+    while (hal::mmio::get(ISR, I2C_ISR_STOPF) == 0) {
     }
-    disable();
+
+    // clear stop flag
+    hal::mmio::set_bits(ICR, I2C_ICR_STOPCF);
+    // clear slave specific info from CR2
+    hal::mmio::reset_bits(CR2, I2C_CR2_SADD | I2C_CR2_HEAD10R | I2C_CR2_NBYTES |
+                                   I2C_CR2_RELOAD | I2C_CR2_RD_WRN);
     return hal::Error::none;
   }
 };
@@ -345,9 +438,7 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
 
   using namespace stm32c031xx;
   // section 25.4.5 of the TRM
-  clock_tree.reset(hal::Peripheral::i2c_a);
   clock_tree.enable(hal::Peripheral::i2c_a);
-  clock_tree.set_clock(hal::Peripheral::i2c_a, Clock::SYSCLK);
   const auto f = stm32c031xx::clock_tree.sysclk;
 
   if (f < 4 * cfg.frequency)
@@ -391,6 +482,7 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
   if (period % 2 == 0) {
     --sclh;
   }
+
   TIMINGR = (presc << I2C_TIMINGR_PRESC_POS) |
             (scl_del << I2C_TIMINGR_SCLDEL_POS) |
             (sda_del << I2C_TIMINGR_SDADEL_POS) |
@@ -406,11 +498,10 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
   pin_res.peripheral.set(gpio::State::set);
 
   I2C1->TIMINGR = 0x10805D88u;
-  I2C1->enable();
-  I2C1->CR1 = CR1;
-  I2C1->CR2 = CR2;
-  I2C1->OAR1 = OAR1;
-  I2C1->OAR2 = OAR2;
+  I2C1->CR1 = CR1 | I2C_CR1_PE;
+  I2C1->CR2 |= CR2;
+  I2C1->OAR1 |= I2C_OAR1_OA1EN;
+  I2C1->OAR2 |= OAR2;
   // I2C1->TIMINGR = TIMINGR;
   I2C1->TIMEOUTR = TIMEOUTR;
   return HandleRef(*I2C1);

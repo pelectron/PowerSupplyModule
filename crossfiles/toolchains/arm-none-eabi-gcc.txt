@@ -5,7 +5,7 @@ common_args = [
     '-ffunction-sections',# each function to a seperate section ==> Code-optimization / deletion
     '-fdata-sections',# each variable to a seperate section ==> Code-optimization / deletion
     '-Wno-subobject-linkage',
-    '-ffreestanding',
+    # '-ffreestanding',
     '-fno-threadsafe-statics',
     '-Wno-inline',
     '-Wno-padded',
