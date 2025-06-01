@@ -4,8 +4,10 @@
 #include "hal/enums.hpp"
 #include "hal/gpio.hpp"
 #include "hal/mmio.hpp"
+#include "hal/operations.hpp"
 #include "units.hpp"
 #include <cstdint>
+#include <sys/_types.h>
 
 #define SPI1 reinterpret_cast<Spi *>(SPI1_ADDR)
 
@@ -15,57 +17,72 @@ using namespace hal::spi;
 enum : std::uint32_t { SPI1_ADDR = 0x40012C00UL };
 
 enum CR1 : std::uint32_t {
-  BIDIMODE = 1 << 15,
-  BIDIOE = 1 << 14,
-  CRCEN = 1 << 13,
-  CRCNEXT = 1 << 12,
-  CRCL = 1 << 11,
-  RXONLY = 1 << 10,
-  SSM = 1 << 9,
-  SSI = 1 << 8,
-  LSBFIRST = 1 << 7,
-  SPE = 1 << 6,
-  BR = 0b111 << 3,
-  BR_POS = 3,
-  MSTR = 1 << 2,
-  CPOL = 1 << 1,
-  CPHA = 1 << 0
+  SPI_CR1_BIDIMODE = 1 << 15,
+  SPI_CR1_BIDIOE = 1 << 14,
+  SPI_CR1_CRCEN = 1 << 13,
+  SPI_CR1_CRCNEXT = 1 << 12,
+  SPI_CR1_CRCL = 1 << 11,
+  SPI_CR1_RXONLY = 1 << 10,
+  SPI_CR1_SSM = 1 << 9,
+  SPI_CR1_SSI = 1 << 8,
+  SPI_CR1_LSBFIRST = 1 << 7,
+  SPI_CR1_SPE = 1 << 6,
+  SPI_CR1_BR = 0b111 << 3,
+  SPI_CR1_BR_POS = 3,
+  SPI_CR1_MSTR = 1 << 2,
+  SPI_CR1_CPOL = 1 << 1,
+  SPI_CR1_CPHA = 1 << 0
 };
 enum CR2 : std::uint32_t {
-  LDMA_TX = 1 << 14,
-  LDMA_RX = 1 << 13,
-  FRXTH = 1 << 12,
-  DS = 0xF << 8,
-  DS_POS = 8,
-  TXEIE = 1 << 7,
-  RXNEIE = 1 << 6,
-  ERRIE = 1 << 5,
-  FRF = 1 << 4,
-  NSSP = 1 << 3,
-  SSOE = 1 << 2,
-  TXDMAEN = 1 << 1,
-  RXDMAEN = 1 << 0
+  SPI_CR2_LDMA_TX = 1 << 14,
+  SPI_CR2_LDMA_RX = 1 << 13,
+  SPI_CR2_FRXTH = 1 << 12,
+  SPI_CR2_DS = 0xF << 8,
+  SPI_CR2_DS_POS = 8,
+  SPI_CR2_TXEIE = 1 << 7,
+  SPI_CR2_RXNEIE = 1 << 6,
+  SPI_CR2_ERRIE = 1 << 5,
+  SPI_CR2_FRF = 1 << 4,
+  SPI_CR2_NSSP = 1 << 3,
+  SPI_CR2_SSOE = 1 << 2,
+  SPI_CR2_TXDMAEN = 1 << 1,
+  SPI_CR2_RXDMAEN = 1 << 0
 };
 enum SR : std::uint32_t {
-  FTLVL = 0b11 << 11,
-  FTLVL_POS = 11,
-  FRLVL = 0b11 << 9,
-  FRLVL_POS = 9,
-  FRE = 1 << 8,
-  BSY = 1 << 7,
-  OVR = 1 << 6,
-  MODF = 1 << 5,
-  CRCERR = 1 << 4,
-  UDR = 1 << 3,
-  CHSIDE = 1 << 2,
-  TXE = 1 << 1,
-  RXNE = 1 << 0,
+  SPI_SR_FTLVL = 0b11 << 11,
+  SPI_SR_FTLVL_POS = 11,
+  SPI_SR_FRLVL = 0b11 << 9,
+  SPI_SR_FRLVL_POS = 9,
+  SPI_SR_FRE = 1 << 8,
+  SPI_SR_BSY = 1 << 7,
+  SPI_SR_OVR = 1 << 6,
+  SPI_SR_MODF = 1 << 5,
+  SPI_SR_CRCERR = 1 << 4,
+  SPI_SR_UDR = 1 << 3,
+  SPI_SR_CHSIDE = 1 << 2,
+  SPI_SR_TXE = 1 << 1,
+  SPI_SR_RXNE = 1 << 0,
+};
+
+enum I2SCFGR : std::uint32_t {
+  SPI_I2SCFGR_ASTRTEN = 1u << 12u,
+  SPI_I2SCFGR_I2SMOD = 1u << 11u,
+  SPI_I2SCFGR_I2SE = 1u << 10u,
+  SPI_I2SCFGR_I2SCFG = 0b11u << 8,
+  SPI_I2SCFGR_I2SCFG_POS = 8,
+  SPI_I2SCFGR_PCMSYNC = 1u << 7u,
+  SPI_I2SCFGR_I2SSTD = 0b11u << 4u,
+  SPI_I2SCFGR_I2SSTD_POS = 4u,
+  SPI_I2SCFGR_CKPOL = 1u << 3u,
+  SPI_I2SCFGR_DATLEN = 0b11u << 1,
+  SPI_I2SCFGR_DATLEN_POS = 1,
+  SPI_I2SCFGR_CHLEN = 1u << 0u
 };
 enum : std::uint32_t { DR_MASK = 0xFF };
 enum IRQs : std::uint32_t {
-  IRQ_TX_EMPTY = TXEIE,
-  IRQ_RX_NOT_EMPTY = RXNEIE,
-  IRQ_ERROR = ERRIE
+  IRQ_TX_EMPTY = SPI_CR2_TXEIE,
+  IRQ_RX_NOT_EMPTY = SPI_CR2_RXNEIE,
+  IRQ_ERROR = SPI_CR2_ERRIE
 };
 
 enum FifoLevel : std::uint32_t {
@@ -95,20 +112,20 @@ struct Spi {
                                 offset: 0x1C */
   volatile uint32_t I2SPR; /*!< SPI_I2S prescaler register, Address offset: 0x20
                             */
-  void enable() { mmio::set_bits(CR1, SPE); }
+  void enable() { mmio::set_bits(CR1, SPI_CR1_SPE); }
 
   void disable() {
 
-    if (mmio::get(CR1, RXONLY)) {
+    if (mmio::get(CR1, SPI_CR1_RXONLY)) {
       // 1. Interrupt the receive flow by disabling SPI (SPE=0) in the specific
       // time window while the last data frame is ongoing.
-      mmio::reset_bits(CR1, SPE);
+      mmio::reset_bits(CR1, SPI_CR1_SPE);
       // 2. Wait until BSY=0 (the last data frame is processed).
-      while (mmio::get(CR1, BSY) != 0) {
+      while (mmio::get(CR1, SPI_SR_BSY) != 0) {
       }
       // 3. Read data until FRLVL[1:0] = 00 (read all the received data).
-      while (auto frlvl = mmio::get(CR1, FRLVL)) {
-        if (frlvl == 1 and mmio::get(CR2, DS, DS_POS) <= 8) {
+      while (auto frlvl = mmio::get(CR1, SPI_SR_FRLVL)) {
+        if (frlvl == 1 and mmio::get(CR2, SPI_CR2_DS, SPI_CR2_DS_POS) <= 8) {
           // TODO: If packing mode is used and an odd number of data frames with
           // a format less than or equal to 8 bits (fitting into one byte) has
           // to be received, FRXTH must be set when FRLVL[1:0] = 01, in order to
@@ -120,16 +137,16 @@ struct Spi {
 
     } else {
       // 1. Wait until FTLVL[1:0] = 00 (no more data to transmit).
-      while (mmio::get(CR1, FTLVL) != 0) {
+      while (mmio::get(CR1, SPI_SR_FTLVL) != 0) {
       }
       // 2. Wait until BSY=0 (the last data frame is processed).
-      while (mmio::get(CR1, BSY) != 0) {
+      while (mmio::get(CR1, SPI_SR_BSY) != 0) {
       }
       // 3. Disable the SPI (SPE=0).
-      mmio::reset_bits(CR1, SPE);
+      mmio::reset_bits(CR1, SPI_CR1_SPE);
       // 4. Read data until FRLVL[1:0] = 00 (read all the received data)
-      while (auto frlvl = mmio::get(CR1, FRLVL)) {
-        if (frlvl == 1 and mmio::get(CR2, DS, DS_POS) <= 8) {
+      while (auto frlvl = mmio::get(CR1, SPI_SR_FRLVL)) {
+        if (frlvl == 1 and mmio::get(CR2, SPI_CR2_DS, SPI_CR2_DS_POS) <= 8) {
           // TODO: If packing mode is used and an odd number of data frames with
           // a format less than or equal to 8 bits (fitting into one byte) has
           // to be received, FRXTH must be set when FRLVL[1:0] = 01, in order to
@@ -141,27 +158,31 @@ struct Spi {
     }
   }
 
-  bool is_enabled() { return mmio::get(CR1, SPE) != 0; }
+  bool is_enabled() { return mmio::get(CR1, SPI_CR1_SPE) != 0; }
 
   void enable_irqs(IRQs irqs) { mmio::set_bits(CR2, irqs); }
 
   void disable_irqs(IRQs irqs) { mmio::reset_bits(CR2, irqs); }
-  bool rx_fifo_not_empty() { return hal::mmio::get(SR, RXNE) != 0; }
-  bool tx_fifo_empty() { return hal::mmio::get(SR, TXE) != 0; }
+  bool rx_fifo_not_empty() { return hal::mmio::get(SR, SPI_SR_RXNE) != 0; }
+  bool tx_fifo_empty() { return hal::mmio::get(SR, SPI_SR_TXE) != 0; }
   std::uint32_t errors() {
-    return hal::mmio::get(SR, OVR | MODF | CRCERR | FRE);
+    return hal::mmio::get(SR, SPI_SR_OVR | SPI_SR_MODF | SPI_SR_CRCERR |
+                                  SPI_SR_FRE);
   }
 
   FifoLevel rx_fifo_level() {
-    return static_cast<FifoLevel>(mmio::get(SR, FRLVL, FRLVL_POS));
+    return static_cast<FifoLevel>(
+        mmio::get(SR, SPI_SR_FRLVL, SPI_SR_FRLVL_POS));
   }
 
   FifoLevel tx_fifo_level() {
-    return static_cast<FifoLevel>(mmio::get(SR, FTLVL, FTLVL_POS));
+    return static_cast<FifoLevel>(
+        mmio::get(SR, SPI_SR_FTLVL, SPI_SR_FTLVL_POS));
   }
 
   bool is_busy() {
-    return hal::mmio::get(SR, RXNE | TXE | BSY | FRLVL | FTLVL) != 0;
+    return hal::mmio::get(SR, SPI_SR_RXNE | SPI_SR_TXE | SPI_SR_BSY |
+                                  SPI_SR_FRLVL | SPI_SR_FTLVL) != 0;
   }
 
   void start(Operation *op) {
@@ -194,15 +215,19 @@ struct Spi {
   }
 
   constexpr static hal::Error to_error(std::uint32_t errs) {
-    if (errs & OVR)
+    if (errs & SPI_SR_OVR)
       return hal::Error::buffer_overflow;
-    if (errs & MODF)
+    if (errs & SPI_SR_MODF)
       return hal::Error::bus_error;
-    if (errs & CRCERR)
+    if (errs & SPI_SR_CRCERR)
       return hal::Error::crc_error;
-    if (errs & FRE)
+    if (errs & SPI_SR_FRE)
       return hal::Error::frame_error;
     return hal::Error::none;
+  }
+
+  std::size_t data_size() const {
+    return hal::mmio::get(CR2, SPI_CR2_DS, SPI_CR2_DS_POS);
   }
 
   hal::Error write(std::span<const std::uint8_t> buffer) {
@@ -210,30 +235,55 @@ struct Spi {
       return hal::Error::invalid_param;
     }
 
-    if (is_enabled() or is_busy()) {
+    if (is_busy()) {
       return hal::Error::already_in_use;
     }
 
-    enable();
+    if (reinterpret_cast<std::uint32_t>(buffer.data()) % 2 != 0 or
+        buffer.size() == 1) {
+      // buffer is not 16 bit aligned or size is 1 -> write 8 bit data, then
+      // write in 16 bit chunks
+      putc(buffer[0]);
+      buffer = buffer.subspan(1);
+    } else {
+      // 16 bit aligned and buffer size is at least two -> write in 16 bit
+      // chunks
+      putc(*reinterpret_cast<const std::uint16_t *>(buffer.data()));
+      buffer = buffer.subspan(2);
+    }
 
-    for (const auto &byte : buffer) {
-      reinterpret_cast<volatile uint8_t &>(DR) = byte;
-      while (tx_fifo_level() == FifoLevel::fifo_full) {
-        auto errs = errors();
-        if (errs != 0) {
-          disable();
-          return to_error(errs);
-        }
+    while (buffer.size() != 0) {
+      // wait for tx empty signal
+      while (hal::mmio::get(SR, SPI_SR_TXE) == 0) {
+      }
+      // write data
+      if (buffer.size() > 1) {
+        // 16 bit chunk
+        putc(*reinterpret_cast<const std::uint16_t *>(buffer.data()));
+        buffer = buffer.subspan(2);
+      } else {
+        // 8 bit chunk
+        putc(buffer[0]);
+        buffer = buffer.subspan(1);
       }
     }
 
-    while (not tx_fifo_empty()) {
-      auto errs = errors();
-      if (errs != 0)
-        return to_error(errs);
+    if (hal::mmio::get(CR1, SPI_CR1_CRCEN)) {
+      // enable crc transmission
+      hal::mmio::set_bits(CR1, SPI_CR1_CRCNEXT);
     }
-    disable();
-    return to_error(errors());
+
+    wait_for_end_of_transaction();
+
+    // clear OVR flag that gets tripped because we are not reading. Only applies
+    // when four wire feature is used
+    if (hal::mmio::get(CR1, SPI_CR1_BIDIMODE) == 0) {
+      auto tmp = DR;
+      tmp = SR;
+      (void)tmp;
+    }
+
+    return hal::Error::none;
   }
 
   hal::Error read(std::span<std::uint8_t> buffer) {
@@ -241,102 +291,279 @@ struct Spi {
       return hal::Error::invalid_param;
     }
 
-    if (is_enabled() or is_busy()) {
+    if (is_busy()) {
       return hal::Error::already_in_use;
     }
+    if (hal::mmio::get(CR1, SPI_CR1_MSTR | SPI_CR1_BIDIMODE) == SPI_CR1_MSTR) {
+      // master with four wire comminucation
+      return transceive(buffer, buffer);
+    } else {
+      disable();
+      // set rx only and disable output in bidirectional mode
+      mmio::set(CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIOE, SPI_CR1_RXONLY);
+      enable();
 
-    mmio::set_bits(CR1, CR1::RXONLY);
-    enable();
-    for (std::size_t i = 0; i < buffer.size(); ++i) {
-      // wait for data to be ready
-      while (not rx_fifo_not_empty()) {
+      const auto size = data_size();
+      const auto crc_size = hal::mmio::get(CR1, SPI_CR1_CRCL) ? 16 : 8;
+      const bool crc_enabled = hal::mmio::get(CR1, SPI_CR1_CRCEN);
+      unsigned crc_num_elems =
+          (size <= 8 and crc_size == 8) or size > 8 ? 1 : 2;
+      // reset crc if it is used
+      if (crc_enabled) {
+        // reset crc
+        hal::mmio::reset_bits(CR1, SPI_CR1_CRCEN);
+        hal::mmio::set_bits(CR1, SPI_CR1_CRCEN);
+        // this is done to handle crcnext before the transmission of the last
+        // data
+        buffer = buffer.subspan(0, buffer.size() - 1);
       }
-      // read data
-      buffer[i] = *reinterpret_cast<volatile std::uint8_t *>(&DR);
-      auto errs = errors();
-      if (errs != 0)
-        return to_error(errs);
+      // set the fifo threashold according to data size
+      if (size > 8) {
+        hal::mmio::reset_bits(CR2, SPI_CR2_FRXTH);
+      } else {
+        hal::mmio::set_bits(CR2, SPI_CR2_FRXTH);
+      }
+
+      if (size <= 8) {
+        for (auto &byte : buffer) {
+          while (hal::mmio::get(SR, SPI_SR_RXNE) == 0) {
+          }
+          byte = reinterpret_cast<volatile std::uint8_t &>(DR);
+        }
+      } else {
+        while (hal::mmio::get(SR, SPI_SR_RXNE) == 0) {
+        }
+        while (buffer.size() != 0) {
+          *reinterpret_cast<std::uint16_t *>(buffer.data()) =
+              static_cast<std::uint16_t>(DR);
+          buffer = buffer.subspan(2);
+        }
+      }
+
+      if (crc_enabled) {
+        // freeze crc
+        hal::mmio::set_bits(CR1, SPI_CR1_CRCNEXT);
+        // wait for last data
+        while (hal::mmio::get(SR, SPI_SR_RXNE) == 0) {
+        }
+        // read last data
+        if (size > 8) {
+          *reinterpret_cast<std::uint16_t *>(buffer.data()) =
+              static_cast<std::uint16_t>(DR);
+          buffer = buffer.subspan(2);
+        } else {
+          buffer[0] = reinterpret_cast<volatile std::uint8_t &>(DR);
+          buffer = buffer.subspan(1);
+        }
+        // wait for crc data
+        while (hal::mmio::get(SR, SPI_SR_RXNE) == 0) {
+        }
+        // read crc data
+        if (size == 16) {
+          auto tmp = static_cast<std::uint16_t>(DR);
+          (void)tmp;
+        } else {
+          auto tmp = reinterpret_cast<volatile std::uint8_t &>(DR);
+          (void)tmp;
+          if (size == 8 and crc_size == 16) {
+            // wait for crc data
+            while (hal::mmio::get(SR, SPI_SR_RXNE) == 0) {
+            }
+            tmp = reinterpret_cast<volatile std::uint8_t &>(DR);
+            (void)tmp;
+          }
+        }
+      }
+
+      wait_for_end_of_transaction();
+      auto err = check_and_clear_crc(crc_enabled);
+
+      disable();
+      // reset rx only and enable output in bidirectional mode
+      mmio::set(CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIOE, SPI_CR1_BIDIOE);
+      enable();
+      return hal::Error::none;
     }
-    disable();
-    mmio::reset_bits(CR1, CR1::RXONLY);
     return to_error(errors());
   }
 
   hal::Error transceive(std::span<const std::uint8_t> write_buf,
                         std::span<std::uint8_t> read_buf) {
-    if (write_buf.size() != read_buf.size() or write_buf.size() == 0) {
+    // read and write buf must be the same size
+    // and both must be 16 bit aligned
+    if (write_buf.size() != read_buf.size() or write_buf.size() == 0 or
+        reinterpret_cast<std::uint32_t>(write_buf.data()) % 2 != 0 or
+        reinterpret_cast<std::uint32_t>(read_buf.data()) % 2 != 0) {
       return hal::Error::invalid_param;
     }
 
-    if (is_enabled() or is_busy()) {
-      return hal::Error::already_in_use;
+    const auto data_size = this->data_size();
+    const bool slave = hal::mmio::get(CR1, SPI_CR1_MSTR) == 0;
+    const bool slave_and_pulse_mode =
+        slave and hal::mmio::get(CR2, SPI_CR2_NSSP) == SPI_CR2_NSSP;
+    const bool crc_enabled = hal::mmio::get(CR1, SPI_CR1_CRCEN);
+    bool transmit = true;
+
+    if (data_size > 8) {
+      while (write_buf.size() > 0 or read_buf.size() > 0) {
+        if (hal::mmio::get(SR, SPI_SR_TXE) and write_buf.size() > 0 and
+            transmit) {
+          // transmit data
+          DR = *reinterpret_cast<const std::uint16_t *>(write_buf.data());
+          write_buf = write_buf.subspan(2);
+          transmit = false;
+
+          if (write_buf.size() == 0) {
+            setup_receive_in_slave_pulse_mode(crc_enabled,
+                                              slave_and_pulse_mode);
+          }
+        }
+
+        if (hal::mmio::get(SR, SPI_SR_RXNE) and read_buf.size() > 0) {
+          // read data
+          *reinterpret_cast<std::uint16_t *>(read_buf.data()) =
+              static_cast<std::uint16_t>(DR);
+          read_buf = read_buf.subspan(2);
+          transmit = true;
+        }
+      }
+    } else {
+      if (slave or write_buf.size() == 1) {
+        reinterpret_cast<volatile uint8_t &>(DR) = write_buf[0];
+        write_buf = write_buf.subspan(1);
+        setup_receive_in_slave_pulse_mode(crc_enabled, slave_and_pulse_mode);
+      }
+
+      while (write_buf.size() > 0 or read_buf.size() > 0) {
+        if (hal::mmio::get(SR, SPI_SR_TXE) and write_buf.size() > 0 and
+            transmit) {
+          if (write_buf.size() > 1) {
+            DR = *reinterpret_cast<const std::uint16_t *>(write_buf.data());
+            write_buf = write_buf.subspan(2);
+          } else {
+            reinterpret_cast<volatile std::uint8_t &>(DR) = write_buf[0];
+            write_buf = write_buf.subspan(1);
+          }
+          transmit = false;
+          if (write_buf.size() == 0 and crc_enabled) {
+            // set NSS soft to receive CRC correctly with pulse mode active
+            if (slave_and_pulse_mode) {
+              hal::mmio::set_bits(CR1, SPI_CR1_SSM);
+            }
+            // enable crc transmission
+            hal::mmio::set_bits(CR1, SPI_CR1_CRCNEXT);
+          }
+        }
+
+        if (hal::mmio::get(SR, SPI_SR_RXNE) and read_buf.size() > 0) {
+          if (read_buf.size() > 1) {
+            *reinterpret_cast<std::uint16_t *>(read_buf.data()) =
+                reinterpret_cast<volatile std::uint16_t &>(DR);
+            read_buf = read_buf.subspan(2);
+          } else {
+            read_buf[0] = reinterpret_cast<volatile std::uint8_t &>(DR);
+            read_buf = read_buf.subspan(1);
+          }
+          transmit = true;
+        }
+      }
     }
 
-    enable();
-    for (std::size_t w_idx = 0, r_idx = 0;
-         w_idx < write_buf.size() or r_idx < read_buf.size();) {
-      // put as much data in tx fifo as possible
-      while (tx_fifo_level() != fifo_full and w_idx < write_buf.size()) {
-        reinterpret_cast<volatile uint8_t &>(DR) = write_buf[w_idx++];
-        if (auto errs = errors(); errs != 0) {
-          disable();
-          return to_error(errs);
-        }
+    if (crc_enabled) {
+      // wait for rcr data
+      while (hal::mmio::get(SR, SPI_SR_RXNE)) {
       }
 
-      // wait for data to be received
-      while (not rx_fifo_not_empty()) {
-        if (auto errs = errors(); errs != 0) {
-          disable();
-          return to_error(errs);
-        }
-      }
-      // read as much data as possible
-      while (rx_fifo_not_empty() and r_idx < read_buf.size()) {
-        read_buf[r_idx++] = reinterpret_cast<volatile uint8_t &>(DR);
-        if (auto errs = errors(); errs != 0) {
-          disable();
-          return to_error(errs);
+      if (data_size == 16) {
+        auto tmp = DR;
+        (void)tmp;
+      } else {
+        auto tmp = reinterpret_cast<volatile std::uint8_t &>(DR);
+        (void)tmp;
+        if (hal::mmio::get(CR1, SPI_CR1_CRCL)) {
+          // 16 bit crc
+          tmp = reinterpret_cast<volatile std::uint8_t &>(DR);
+          (void)tmp;
         }
       }
     }
+    wait_for_end_of_transaction();
+    return check_and_clear_crc(crc_enabled);
+  }
 
-    disable();
-    return to_error(errors());
+  void wait_for_end_of_transaction() {
+    while (tx_fifo_level() != fifo_empty) {
+    }
+
+    while (is_busy()) {
+    }
+
+    while (rx_fifo_level() != fifo_empty) {
+      // flush by reading data register
+      auto unused = reinterpret_cast<volatile uint8_t &>(DR);
+      (void)unused;
+    }
+  }
+  void setup_receive_in_slave_pulse_mode(bool crc_enabled,
+                                         bool slave_and_pulse_mode) {
+    if (crc_enabled) {
+      // set NSS soft to receive CRC correctly with pulse mode active
+      if (slave_and_pulse_mode) {
+        hal::mmio::set_bits(CR1, SPI_CR1_SSM);
+      }
+      // enable crc transmission
+      hal::mmio::set_bits(CR1, SPI_CR1_CRCNEXT);
+    }
+  }
+  hal::Error check_and_clear_crc(bool crc_enabled) {
+    if (crc_enabled and hal::mmio::get(SR, SPI_SR_CRCERR)) {
+      SR = ~SPI_SR_CRCERR; // works because all bits in SR can only be set by
+                           // hardware
+      return hal::Error::crc_error;
+
+    } else {
+      return hal::Error::none;
+    }
   }
 };
 
 ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
-  // first, validate the config
 
   // check the id
   if (cfg.id != Id::A)
     return ConfigError::invalid_id;
 
+  if (SPI1->is_enabled())
+    return ConfigError::already_in_use;
+
   // check the gpios
   using namespace gpio;
   // map of gpio ids to alternate function number
-  constexpr std::pair<gpio::Id, uint8_t> sclk_pins[] = {{Port::A | Pin1, 0},
-                                                        {Port::A | Pin5, 0},
-                                                        {Port::B | Pin3, 0},
-                                                        {Port::B | Pin6, 10}};
+  static constexpr std::pair<gpio::Id, uint8_t> sclk_pins[] = {
+      {Port::A | Pin1, 0},
+      {Port::A | Pin5, 0},
+      {Port::B | Pin3, 0},
+      {Port::B | Pin6, 10}};
 
-  constexpr std::pair<gpio::Id, uint8_t> mosi_pins[] = {{Port::A | Pin2, 0},
-                                                        {Port::A | Pin7, 0},
-                                                        {Port::A | Pin12, 0},
-                                                        {Port::B | Pin5, 0},
-                                                        {Port::B | Pin6, 8}};
+  static constexpr std::pair<gpio::Id, uint8_t> mosi_pins[] = {
+      {Port::A | Pin2, 0},
+      {Port::A | Pin7, 0},
+      {Port::A | Pin12, 0},
+      {Port::B | Pin5, 0},
+      {Port::B | Pin6, 8}};
 
-  constexpr std::pair<gpio::Id, uint8_t> miso_pins[] = {{Port::A | Pin6, 0},
-                                                        {Port::A | Pin11, 0},
-                                                        {Port::B | Pin4, 0},
-                                                        {Port::B | Pin6, 9}};
+  static constexpr std::pair<gpio::Id, uint8_t> miso_pins[] = {
+      {Port::A | Pin6, 0},
+      {Port::A | Pin11, 0},
+      {Port::B | Pin4, 0},
+      {Port::B | Pin6, 9}};
 
-  constexpr std::pair<gpio::Id, uint8_t> nss_pins[] = {{Port::A | Pin4, 0},
-                                                       {Port::A | Pin8, 8},
-                                                       {Port::A | Pin14, 8},
-                                                       {Port::A | Pin15, 0},
-                                                       {Port::B | Pin0, 0}};
+  static constexpr std::pair<gpio::Id, uint8_t> nss_pins[] = {
+      {Port::A | Pin4, 0},
+      {Port::A | Pin8, 8},
+      {Port::A | Pin14, 8},
+      {Port::A | Pin15, 0},
+      {Port::B | Pin0, 0}};
 
   // SCLK
   gpio::Config sclk_cfg{cfg.sclk,
@@ -380,7 +607,7 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   // MISO
   gpio::Config miso_cfg{cfg.miso,
                         gpio::Function::alternate,
-                        gpio::Mode::none,
+                        gpio::Mode::push_pull,
                         gpio::Speed::slow,
                         gpio::Pull::none,
                         gpio::State::reset,
@@ -421,6 +648,7 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
 
   // 1. configure gpio
   // TODO: deinit gpio if configuration of one fails
+  // TODO: dont configure miso if three wire mode is enabled
   auto res = gpio::configure(sclk_cfg);
   if (res.error != ConfigError::success)
     return res.error;
@@ -436,7 +664,10 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   res = gpio::configure(cs_cfg);
   if (res.error != ConfigError::success)
     return res.error;
-  hal::gpio::Pin cs = res.peripheral;
+
+  hal::gpio::Pin cs = std::move(res.peripheral);
+  // if (not cfg.use_hw_cs)
+  //   cs.set(hal::gpio::State::set);
 
   std::uint32_t cr1 = 0;
   std::uint32_t cr2 = 0;
@@ -444,39 +675,33 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
 
   // 2. configure CR1
   // a) configure baudrate divisor
-  const auto clk_rate = stm32c031xx::clock_tree.pclk;
-  if (cfg.baudrate > clk_rate / 2u)
+  const auto clk_rate = stm32c031xx::clock_tree().pclk;
+  const auto div = clk_rate / cfg.baudrate;
+  if (div >= 256u or div < 2)
     return ConfigError::invalid_baudrate;
 
-  auto div = 2u;
-  while (clk_rate / div > cfg.baudrate and div < 256u) {
-    div *= 2u;
-  }
-  if (clk_rate / div > cfg.baudrate)
-    return ConfigError::invalid_baudrate;
-
-  cr1 = div << BR_POS;
+  cr1 = div << SPI_CR1_BR_POS;
 
   // b) Configure the CPOL and CPHA
-  cr1 |= cfg.polarity == Polarity::high ? CPOL : 0u;
-  cr1 |= cfg.phase == Phase::high ? CPHA : 0u;
+  cr1 |= cfg.polarity == Polarity::high ? SPI_CR1_CPOL : 0u;
+  cr1 |= cfg.phase == Phase::high ? SPI_CR1_CPHA : 0u;
 
   // c) Select simplex or half-duplex mode by configuring RXONLY or BIDIMODE and
   // BIDIOE (RXONLY and BIDIMODE cannot be set at the same time)
   if (cfg.three_wire)
-    cr1 |= BIDIMODE;
+    cr1 |= SPI_CR1_BIDIMODE;
 
   // d) Configure the LSBFIRST bit to define the frame format
   if (cfg.format == Format::lsb_first)
-    cr1 |= LSBFIRST;
+    cr1 |= SPI_CR1_LSBFIRST;
 
   // e) Configure the CRCL and CRCEN bits
   switch (cfg.crc) {
   case Crc::eight_bit:
-    cr1 |= CRCEN;
+    cr1 |= SPI_CR1_CRCEN;
     break;
   case Crc::sixteen_bit:
-    cr1 |= CRCEN | CRCL;
+    cr1 |= SPI_CR1_CRCEN | SPI_CR1_CRCL;
     break;
   case Crc::none:
     break;
@@ -491,34 +716,39 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
     // NSS pin is not used on master side in this
     // configuration. It has to be managed internally (SSM=1, SSI=1) to
     // prevent any MODF error
-    cr1 |= SSM | SSI;
+    cr1 |= SPI_CR1_SSM | SPI_CR1_SSI;
   }
 
   // g) Configure the MSTR bit
-  cr1 |= MSTR;
+  cr1 |= SPI_CR1_MSTR;
 
   // 3. configure CR2
   // a) Configure the DS[3:0] bits to select the data length for the transfer
-  cr2 |= DS & (cfg.data_size << DS_POS);
+  if (cfg.data_size < 4u or cfg.data_size > 16)
+    return ConfigError::invalid_data_size;
+
+  cr2 |= SPI_CR2_DS &
+         (static_cast<std::uint32_t>(cfg.data_size) << SPI_CR2_DS_POS);
+
   // b) Configure SSOE
   if (cfg.use_hw_cs)
-    cr2 |= SSOE;
+    cr2 |= SPI_CR2_SSOE;
   // c) Set the FRF bit if the TI protocol is required
   // -> not used here
 
   // d) Set the NSSP bit if the NSS pulse mode between two data units is
   // required
   if (cfg.cs_pulse)
-    cr2 |= NSSP;
+    cr2 |= SPI_CR2_NSSP;
 
   // e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the
   // read access size for the SPIx_DR register -> 8 bit for data sizes <= 8, 16
   // bit for data sizes > 8.
   if (cfg.data_size <= 8)
-    cr2 |= FRXTH;
+    cr2 |= SPI_CR2_FRXTH;
 
   // f) TODO: Initialize LDMA_TX and LDMA_RX bits if DMA is used in packed mode.
-
+  // g) TODO: set fram eformat, for now only motorola is supported
   // 4. configure crc
   if (cfg.crc != Crc::none)
     crcpr = cfg.crc_polynomial;
@@ -528,12 +758,21 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   // TODO:
   // 5. configure dma
 
+  // active spi mode
+
   // 6. Enable the clock and actually apply the settings
+  using namespace stm32c031xx;
+  // enable the clock
+  hal::mmio::set_bits(RCC->APBENR2, RCC_APBENR2_SPI1EN);
+  auto tmp = hal::mmio::get(RCC->APBENR2, RCC_APBENR2_SPI1EN);
+  (void)tmp;
+  // apply register configuration
+  hal::mmio::reset_bits(SPI1->I2SCFGR, SPI_I2SCFGR_I2SMOD);
   SPI1->CR1 = cr1;
   SPI1->CR2 = cr2;
   SPI1->CRCPR = crcpr;
-
-  return hal::spi::Device{*SPI1, cs};
+  hal::mmio::set(SPI1->CR1, SPI_CR1_SPE);
+  return hal::spi::Device{*SPI1, std::move(cs)};
 }
 
 extern "C" void SPI1_IRQHandler(void) {

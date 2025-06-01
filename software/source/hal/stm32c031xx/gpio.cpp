@@ -35,23 +35,21 @@ struct Gpio {
   volatile std::uint32_t
       BRR; /*!< GPIO Bit Reset register,               Address offset: 0x28 */
 
-  std::uint32_t get_state(unsigned pins) {
-    return ((volatile Gpio *)this)->IDR & pins;
-  }
+  std::uint32_t get_state(unsigned pins) { return IDR & pins; }
 
   void set_state(unsigned pins, State state) {
     if (state == State::set) {
-      ((volatile Gpio *)this)->BSRR = pins;
+      BSRR = pins;
     } else {
-      ((volatile Gpio *)this)->BSRR = pins << 16u;
+      BSRR = pins << 16u;
     }
   }
 
   void toggle_state(unsigned pins) {
-    if ((((volatile Gpio *)this)->IDR & pins) == 0u)
-      ((volatile Gpio *)this)->BSRR = pins;
+    if ((IDR & pins) == 0u)
+      BSRR = pins;
     else
-      ((volatile Gpio *)this)->BSRR = pins << 16u;
+      BSRR = pins << 16u;
   }
 };
 
@@ -72,32 +70,40 @@ Gpio *port_io(Port port) {
 }
 
 ConfigResult<Pin> hal::gpio::configure(const Config &cfg) noexcept {
+  using namespace stm32c031xx;
+
   Gpio *port = nullptr;
+  unsigned tmp = 0;
   switch (hal::gpio::port(cfg.pins)) {
   case Port::A:
-    stm32c031xx::clock_tree.enable(hal::Peripheral::gpio_a);
+    hal::mmio::set_bits(RCC->IOPENR, RCC_IOPENR_GPIOAEN);
+    tmp = hal::mmio::get(RCC->IOPENR, RCC_IOPENR_GPIOAEN);
+    (void)tmp;
     port = reinterpret_cast<Gpio *>(GPIOA);
     break;
   case Port::B:
-    stm32c031xx::clock_tree.enable(hal::Peripheral::gpio_b);
+    hal::mmio::set_bits(RCC->IOPENR, RCC_IOPENR_GPIOBEN);
+    tmp = hal::mmio::get(RCC->IOPENR, RCC_IOPENR_GPIOBEN);
+    (void)tmp;
     port = reinterpret_cast<Gpio *>(GPIOB);
     break;
   case Port::C:
-    stm32c031xx::clock_tree.enable(hal::Peripheral::gpio_c);
+    hal::mmio::set_bits(RCC->IOPENR, RCC_IOPENR_GPIOCEN);
+    tmp = hal::mmio::get(RCC->IOPENR, RCC_IOPENR_GPIOCEN);
+    (void)tmp;
     port = reinterpret_cast<Gpio *>(GPIOC);
     break;
-  case Port::D:
-    break;
   case Port::F:
-    stm32c031xx::clock_tree.enable(hal::Peripheral::gpio_f);
+    hal::mmio::set_bits(RCC->IOPENR, RCC_IOPENR_GPIOFEN);
+    tmp = hal::mmio::get(RCC->IOPENR, RCC_IOPENR_GPIOFEN);
+    (void)tmp;
     port = reinterpret_cast<Gpio *>(GPIOF);
     break;
+  case Port::D:
+    [[fallthrough]];
   default:
     return ConfigError::invalid_port;
   }
-
-  if (port == nullptr)
-    return ConfigError::invalid_port;
 
   if ((port->LCKR & (1u << 16)) == 1u << 16)
     return ConfigError::already_locked;
@@ -223,6 +229,9 @@ ConfigResult<Pin> hal::gpio::configure(const Config &cfg) noexcept {
   port->PUPDR = (port->PUPDR & ~mask2) | pupdr;
   port->AFR[0] = (port->AFR[0] & ~afrl_mask) | afrl;
   port->AFR[1] = (port->AFR[1] & ~afrh_mask) | afrh;
+
+  if (cfg.function == Function::output)
+    port->set_state(gpio::pins(cfg.pins), cfg.state);
 
   return Pin{*port, mask};
 }

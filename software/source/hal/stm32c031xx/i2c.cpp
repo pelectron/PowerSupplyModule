@@ -391,14 +391,16 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
   if (cfg.scl == cfg.sda)
     return ConfigError::invalid_pin;
 
-  constexpr std::pair<gpio::Id, unsigned> scl_pins[] = {{Port::A | Pin9, 6},
-                                                        {Port::B | Pin6, 6},
-                                                        {Port::B | Pin8, 6},
-                                                        {Port::B | Pin7, 14}};
-  constexpr std::pair<gpio::Id, unsigned> sda_pins[] = {{Port::A | Pin10, 6},
-                                                        {Port::B | Pin7, 6},
-                                                        {Port::B | Pin9, 6},
-                                                        {Port::C | Pin14, 14}};
+  static constexpr std::pair<gpio::Id, unsigned> scl_pins[] = {
+      {Port::A | Pin9, 6},
+      {Port::B | Pin6, 6},
+      {Port::B | Pin8, 6},
+      {Port::B | Pin7, 14}};
+  static constexpr std::pair<gpio::Id, unsigned> sda_pins[] = {
+      {Port::A | Pin10, 6},
+      {Port::B | Pin7, 6},
+      {Port::B | Pin9, 6},
+      {Port::C | Pin14, 14}};
   // TODO: set gpio speed according to i2c speed
   hal::gpio::Config scl_cfg{.pins = cfg.scl,
                             .function = gpio::Function::alternate,
@@ -438,8 +440,14 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
 
   using namespace stm32c031xx;
   // section 25.4.5 of the TRM
-  clock_tree.enable(hal::Peripheral::i2c_a);
-  const auto f = stm32c031xx::clock_tree.sysclk;
+  // set clock source
+  hal::mmio::set(RCC->CCIPR, RCC_CCIPR_I2C1SEL, 0, RCC_CCIPR_I2C1SEL_POS);
+  // enable clock
+  hal::mmio::set_bits(RCC->APBENR1, RCC_APBENR1_I2C1EN);
+  auto tmp = hal::mmio::get(RCC->APBENR1, RCC_APBENR1_I2C1EN);
+  (void)tmp;
+
+  const auto f = stm32c031xx::clock_tree().sysclk;
 
   if (f < 4 * cfg.frequency)
     return ConfigError::invalid_baudrate;
@@ -491,21 +499,23 @@ ConfigResult<HandleRef> configure(const Config &cfg) noexcept {
   auto pin_res = gpio::configure(scl_cfg);
   if (not pin_res)
     return pin_res.error;
-  pin_res.peripheral.set(gpio::State::set);
+  pin_res.peripheral.set(hal::gpio::State::set);
+
   pin_res = gpio::configure(sda_cfg);
   if (not pin_res)
     return pin_res.error;
-  pin_res.peripheral.set(gpio::State::set);
+  pin_res.peripheral.set(hal::gpio::State::set);
 
   I2C1->TIMINGR = 0x10805D88u;
-  I2C1->CR1 = CR1 | I2C_CR1_PE;
-  I2C1->CR2 |= CR2;
-  I2C1->OAR1 |= I2C_OAR1_OA1EN;
-  I2C1->OAR2 |= OAR2;
+  I2C1->CR2 = CR2;
+  I2C1->OAR1 = I2C_OAR1_OA1EN;
+  I2C1->OAR2 = OAR2;
   // I2C1->TIMINGR = TIMINGR;
   I2C1->TIMEOUTR = TIMEOUTR;
+  I2C1->CR1 = CR1 | I2C_CR1_PE;
   return HandleRef(*I2C1);
 }
 } // namespace hal::i2c
 
 extern "C" void I2C1_IRQHandler(void) {}
+extern "C" void I2C2_IRQHandler(void) {}

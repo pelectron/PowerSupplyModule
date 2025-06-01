@@ -28,11 +28,16 @@ int _sbrk_r() {}
 using namespace hal::gpio;
 using namespace hal;
 static inline constexpr struct Hw {
-  hal::gpio::Config wp{Port::B | Pin9, Function::output};
-  hal::gpio::Config nplug{Port::C | Pin14, Function::input};
-  hal::gpio::Config wdi{Port::C | Pin15, Function::output};
-  hal::gpio::Config nwlat{Port::B | Pin6, Function::output};
-  hal::gpio::Config n_en_ldo{Port::C | Pin6, Function::output};
+  hal::gpio::Config wp{Port::B | Pin9, Function::output, Mode::push_pull,
+                       Speed::slow,    Pull::none,       State::set};
+  hal::gpio::Config nplug{Port::C | Pin14, Function::input, Mode::none,
+                          Speed::slow,     Pull::none,      State::x};
+  hal::gpio::Config wdi{Port::C | Pin15, Function::output, Mode::push_pull,
+                        Speed::slow,     Pull::none,       State::set};
+  hal::gpio::Config nwlat{Port::B | Pin6, Function::output, Mode::push_pull,
+                          Speed::slow,    Pull::none,       State::set};
+  hal::gpio::Config n_en_ldo{Port::C | Pin6, Function::output, Mode::push_pull,
+                             Speed::slow,    Pull::none,       State::set};
   hal::gpio::Config en_bb{Port::A | Pin9, Function::output, Mode::push_pull,
                           Speed::slow,    Pull::none,       State::reset};
   hal::gpio::Config out_series{Port::A | Pin8,  Function::output,
@@ -55,8 +60,8 @@ static inline constexpr struct Hw {
                        .mosi = Port::B | Pin5,
                        .miso = Port::B | Pin4,
                        .cs = Port::A | Pin15,
-                       .phase = spi::Phase::low,
-                       .polarity = spi::Polarity::low,
+                       .phase = spi::Phase::high,
+                       .polarity = spi::Polarity::high,
                        .format = spi::Format::msb_first,
                        .baudrate = 1'000'000u,
                        .data_size = 8,
@@ -94,10 +99,10 @@ static gpio::Pin conf(const gpio::Config &cfg) {
 volatile int i = 0;
 volatile hal::ConfigError config_err;
 volatile hal::Error error;
-at24cs08::SerialNumber sn;
+constinit at24cs08::SerialNumber sn;
 int main() {
   *reinterpret_cast<volatile std::uint32_t *>(0xE000ED0Cu) |= 0x08000000UL;
-  stm32c031xx::clock_tree.init();
+  stm32c031xx::clock_tree().init();
   uart::Device uart_dev;
   at24cs08::AT24CS08 storage{};
   // TODO: fix copy and move operations for devices
@@ -116,29 +121,26 @@ int main() {
   } else {
     spi_dev = std::move(res.peripheral);
   }
-
-  if (auto res = hal::i2c::configure(hw.i2c); not res) {
+  auto res = hal::i2c::configure(hw.i2c);
+  if (not res) {
     config_err = res.error;
     while (i != 1) {
     }
-  } else {
-    storage.init(std::move(res.peripheral), conf(hw.wp), false);
   }
-
-  // std::uint8_t buffer[16]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-  // 15}; error = storage.write(0x0, buffer); std::uint8_t memory[16]{}; error =
-  // storage.read(0x0, memory);
+  auto wp = conf(hw.wp);
+  storage.init(res.peripheral, wp, false);
   storage.serial_number()
       .and_then([](at24cs08::SerialNumber s) -> tl::expected<void, hal::Error> {
         sn = s;
         return {};
       })
       .or_else([](hal::Error e) { error = e; });
-  ad5293::AD5293 res{std::move(spi_dev)};
-  res.enable();
-  res.wiper(0);
-  res.wiper(1023);
-  res.disable();
+
+  ad5293::AD5293 resistor{std::move(spi_dev)};
+  error = resistor.enable();
+  error = resistor.wiper(0);
+  error = resistor.wiper(1023);
+  error = resistor.disable();
   // Pin wp = conf(hw.wp);
   // Pin nplug = conf(hw.nplug);
   // Pin wdi = conf(hw.wdi);

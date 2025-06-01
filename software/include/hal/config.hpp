@@ -115,7 +115,7 @@ struct Config {
   Crc crc = Crc::none;
   std::uint32_t crc_polynomial = 0;
   bool three_wire = false;
-  bool cs_pulse;
+  bool cs_pulse = false;
   constexpr auto operator<=>(const Config &) const = default;
 };
 

@@ -34,7 +34,8 @@ using HandleRef = Handle<poly::ref_storage>;
 class Device {
 public:
   constexpr Device() = default;
-
+  constexpr Device(const Device &other) = default;
+  constexpr Device &operator=(const Device &other) = default;
   constexpr Device(HandleRef handle, uint8_t address)
       : handle_(handle), address_(address) {}
 

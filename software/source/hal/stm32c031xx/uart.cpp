@@ -342,6 +342,7 @@ hal::uart::configure(const hal::uart::Config &cfg) noexcept {
     if (id == cfg.rx) {
       found = true;
       rx_cfg.alternate = alternate;
+      break;
     }
   }
   if (not found)
@@ -352,6 +353,7 @@ hal::uart::configure(const hal::uart::Config &cfg) noexcept {
     if (id == cfg.tx) {
       found = true;
       tx_cfg.alternate = alternate;
+      break;
     }
   }
   if (not found)
@@ -380,6 +382,7 @@ hal::uart::configure(const hal::uart::Config &cfg) noexcept {
     break;
   case Parity::odd:
     CR1 |= USART_CR1_PCE | USART_CR1_PS;
+    break;
   default:
     return ConfigError::invalid_parity;
   }
@@ -438,7 +441,7 @@ hal::uart::configure(const hal::uart::Config &cfg) noexcept {
   constexpr unsigned div_min = 16u;
   constexpr unsigned div_max = (1u << 16u) - 1u;
   const auto usart_clk =
-      cfg.id == uart::Id::A ? clock_tree.usart1 : clock_tree.pclk;
+      cfg.id == uart::Id::A ? clock_tree().usart1 : clock_tree().pclk;
 
   if (usart_clk == 0)
     return ConfigError::invalid_clock_frequency;
@@ -465,8 +468,10 @@ hal::uart::configure(const hal::uart::Config &cfg) noexcept {
 
   PRESC = p_idx;
 
-  clock_tree.set_clock(p, Clock::PCLK);
-  clock_tree.enable(p);
+  // enable clock
+  hal::mmio::set_bits(RCC->APBENR2, RCC_APBENR2_USART1EN);
+  auto tmp = hal::mmio::get(RCC->APBENR2, RCC_APBENR2_USART1EN);
+  (void)tmp;
   // apply the configuration
   // configure rx
   auto pin_res = gpio::configure(rx_cfg);

@@ -16,8 +16,13 @@ c_args        = common_args + mcu_args
 cpp_args      = common_args + mcu_args
 c_link_args   = c_args + [
     # '-nostdlib',
+    '-nodefaultlibs',
+    #'-nostartfiles',
+    '-static']
+cpp_link_args = cpp_args + [
+    # '-nostdlib',
     # '-nostdlib++',
-    # '-nodefaultlibs',
+    '-nodefaultlibs',
     # '-nostartfiles',
     '-static']
-cpp_link_args = c_link_args
+

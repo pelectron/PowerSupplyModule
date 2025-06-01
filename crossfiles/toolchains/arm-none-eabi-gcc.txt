@@ -1,19 +1,15 @@
 [constants]
 common_args = [
     '-U_FILE_OFFSET_BITS',
-    '-specs=nano.specs',
+    '-specs=nosys.specs',
     '-ffunction-sections',# each function to a seperate section ==> Code-optimization / deletion
     '-fdata-sections',# each variable to a seperate section ==> Code-optimization / deletion
     '-Wno-subobject-linkage',
     # '-ffreestanding',
+    # '-fno-asynchronous-unwind-tables',
     '-fno-threadsafe-statics',
-    '-Wno-inline',
-    '-Wno-padded',
-    '-Wno-noexcept',
-    '-Wno-switch-enum',
-    '-Wno-multiple-inheritance',
-    '-Wno-unused-but-set-parameter',
-    '-Wno-missing-declarations'
+    '-fno-ident',
+    # '-s'
     ]
 
 [binaries]
@@ -28,10 +24,10 @@ strip   = 'arm-none-eabi-strip'
 gdb     = 'arm-none-eabi-gdb'
 
 [built-in options]
-b_asneeded    = true
+b_asneeded    = false
 b_ndebug      = 'true'
 debug         = true
-optimization  = 's'
-warning_level = 'everything'
+optimization  = '1'
+warning_level = '3'
 cpp_eh        = 'none'
 cpp_rtti      = false

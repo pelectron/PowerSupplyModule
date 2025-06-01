@@ -20,7 +20,7 @@ class AT24CS08 {
 public:
   void init(hal::i2c::HandleRef i2c, hal::gpio::Pin wp, bool A2) {
     i2c_ = hal::i2c::Device(i2c, 0);
-    wp_ = std::move(wp);
+    wp_ = wp;
     A2_ = A2;
   }
 

@@ -22,7 +22,7 @@ if (meson.is_cross_build())
     'source/main.cpp',
     hal_src,
     include_directories: inc,
-    dependencies: deps,
+    dependencies: [deps],
     link_args: linker_args,
     native: false,
   )

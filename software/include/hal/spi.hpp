@@ -73,7 +73,7 @@ struct Operation {
                              static_cast<unsigned>(b));
   }
 
-  void invoke_callback(Error e) {
+  void invoke_callback(Error) {
     //  callback(e, BytesRead(read_idx), BytesWritten(write_idx));
   }
 
@@ -90,8 +90,14 @@ struct Operation {
 class Device {
 public:
   constexpr Device() = default;
-  constexpr Device(Device &&) = default;
-  constexpr Device &operator=(Device &&) = default;
+  constexpr Device(Device &&other)
+      : handle_(std::move(other.handle_)), cs(std::move(other.cs)) {}
+
+  constexpr Device &operator=(Device &&other) {
+    handle_ = std::move(other.handle_);
+    cs = std::move(other.cs);
+    return *this;
+  }
 
   constexpr Device(HandleRef handle, gpio::Pin chip_select)
       : handle_(handle), cs(std::move(chip_select)) {}
@@ -101,8 +107,6 @@ public:
   }
 
   constexpr hal::Error write(std::span<const uint8_t> buffer) {
-    if (not handle_)
-      return hal::Error::invalid_handle;
     cs.set(gpio::State::reset);
     hal::Error err = handle_.write(buffer);
     cs.set(gpio::State::set);
@@ -110,8 +114,6 @@ public:
   }
 
   constexpr hal::Error read(std::span<uint8_t> buffer) {
-    if (not handle_)
-      return hal::Error::invalid_handle;
     cs.set(gpio::State::reset);
     hal::Error err = handle_.read(buffer);
     cs.set(gpio::State::set);
@@ -120,8 +122,6 @@ public:
 
   constexpr hal::Error transceive(std::span<const uint8_t> write_buf,
                                   std::span<uint8_t> read_buf) {
-    if (not handle_)
-      return hal::Error::invalid_handle;
     cs.set(gpio::State::reset);
     hal::Error err = handle_.transceive(write_buf, read_buf);
     cs.set(gpio::State::set);

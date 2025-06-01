@@ -392,7 +392,7 @@ struct ClockConfig {
   bool hsi_enabled = true;
 };
 
-inline constinit struct ClockTree {
+struct ClockTree {
   std::uint32_t hse = 0u;
   std::uint32_t lse = 0u;
   std::uint32_t i2s_ckin = 0u;
@@ -412,7 +412,6 @@ inline constinit struct ClockTree {
   std::uint32_t adc = 12'000'000;
   std::uint32_t i2s1 = 12'000'000;
   std::uint32_t fdcan1 = 12'000'000;
-  static inline Rcc *const rcc = RCC;
   void init() {
     // enable hsi
     hal::mmio::set_bits(RCC->CR, RCC_CR_HSION);
@@ -446,7 +445,33 @@ inline constinit struct ClockTree {
     // enable pwr clock
     hal::mmio::set_bits(RCC->APBENR1, RCC_APBENR1_PWREN);
 
-    update();
+    const std::uint32_t cr = RCC->CR;
+    const std::uint32_t csr1 = RCC->CSR1;
+
+    const std::uint32_t ahb_pre = 0;
+    const std::uint32_t apb_pre = 0;
+    // dividers
+    const std::uint32_t hsidiv = 0;
+    const std::uint32_t hsikerdiv = 0;
+    const std::uint32_t sysdiv = 0;
+
+    // clock frequencies
+    hsisys = 48'000'000u >> hsidiv;
+    sysclk = hsisys >> sysdiv;
+    hsiker = 48'000'000u >> hsikerdiv;
+    hclk = sysclk >> ahb_pre;
+    hclk8 = hclk / 8u;
+    pclk = hclk >> apb_pre;
+    timpclk = apb_pre == 0 ? pclk : 2 * pclk;
+    rtc = 0;
+    usart1 = pclk;
+    fdcan1 = 0;
+    i2c1 = pclk;
+    i2s1 = sysclk;
+    adc = sysclk;
+    hsi_usb = 0u;
+    hse = 0u;
+    lsi = 0u;
   }
 
   hal::Error init(const ClockConfig &cfg);
@@ -492,7 +517,9 @@ inline constinit struct ClockTree {
    * input clocks
    */
   hal::Error set_clock(hal::Peripheral p, Clock clock);
-} clock_tree;
+}; // clock_tree;
+
+ClockTree &clock_tree();
 
 } // namespace stm32c031xx
 #endif

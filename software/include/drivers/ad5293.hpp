@@ -185,8 +185,8 @@ public:
 
 private:
   constexpr hal::Error write(std::uint16_t value) {
-    std::uint8_t buf[2]{static_cast<std::uint8_t>(value >> 8),
-                        static_cast<std::uint8_t>(value)};
+    const std::uint8_t buf[2]{static_cast<std::uint8_t>(value >> 8),
+                              static_cast<std::uint8_t>(value)};
     return spi_.write(buf);
   }
 
