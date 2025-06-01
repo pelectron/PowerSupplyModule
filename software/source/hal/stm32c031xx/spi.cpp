@@ -669,9 +669,9 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   // if (not cfg.use_hw_cs)
   //   cs.set(hal::gpio::State::set);
 
-  std::uint32_t cr1 = 0;
-  std::uint32_t cr2 = 0;
-  std::uint32_t crcpr = 0;
+  volatile std::uint32_t cr1 = 0;
+  volatile std::uint32_t cr2 = 0;
+  volatile std::uint32_t crcpr = 0;
 
   // 2. configure CR1
   // a) configure baudrate divisor
@@ -767,11 +767,11 @@ ConfigResult<Device> hal::spi::configure(const Config &cfg) noexcept {
   auto tmp = hal::mmio::get(RCC->APBENR2, RCC_APBENR2_SPI1EN);
   (void)tmp;
   // apply register configuration
-  hal::mmio::reset_bits(SPI1->I2SCFGR, SPI_I2SCFGR_I2SMOD);
   SPI1->CR1 = cr1;
   SPI1->CR2 = cr2;
   SPI1->CRCPR = crcpr;
-  hal::mmio::set(SPI1->CR1, SPI_CR1_SPE);
+  hal::mmio::reset_bits(SPI1->I2SCFGR, SPI_I2SCFGR_I2SMOD);
+  hal::mmio::set_bits(SPI1->CR1, SPI_CR1_SPE);
   return hal::spi::Device{*SPI1, std::move(cs)};
 }
 
