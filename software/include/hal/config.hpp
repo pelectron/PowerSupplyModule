@@ -116,6 +116,7 @@ struct Config {
   std::uint32_t crc_polynomial = 0;
   bool three_wire = false;
   bool cs_pulse = false;
+  bool use_pupd = false;
   constexpr auto operator<=>(const Config &) const = default;
 };
 
