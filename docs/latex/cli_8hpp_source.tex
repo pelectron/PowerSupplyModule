@@ -1,0 +1,731 @@
+\doxysection{cli.\+hpp}
+\hypertarget{cli_8hpp_source}{}\label{cli_8hpp_source}\index{cli/cli.hpp@{cli/cli.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#ifndef\ CLI\_CLI\_HPP}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ CLI\_CLI\_HPP}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}cli/ctti.hpp"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{function_8hpp}{cli/function.hpp}}"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}cli/help.hpp"{}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}cli/io.hpp"{}}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{param_8hpp}{cli/param.hpp}}"{}}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#include\ "{}cli/tracker.hpp"{}}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#include\ <tuple>}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00059\ \textcolor{keyword}{using\ }\mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{funcs::arg}};}
+\DoxyCodeLine{00060\ \textcolor{keyword}{using\ }funcs::operator\textcolor{stringliteral}{"{}"{}}\_arg;}
+\DoxyCodeLine{00061\ \textcolor{keyword}{using\ }\mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{funcs::func}};}
+\DoxyCodeLine{00062\ \textcolor{keyword}{using\ }\mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{funcs::mem\_fun}};}
+\DoxyCodeLine{00063\ \textcolor{keyword}{using\ }params::mem\_data;}
+\DoxyCodeLine{00064\ \textcolor{keyword}{using\ }\mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{params::param}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00067\ \textcolor{keyword}{concept\ }InvocableR\ =\ std::is\_invocable\_r\_v<R,\ F,\ Args...>;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{class\ }HistoryView\ \{}
+\DoxyCodeLine{00070\ \ \ std::span<const\ uint8\_t>\ *arr\_;}
+\DoxyCodeLine{00071\ \ \ std::size\_t\ capacity\_;}
+\DoxyCodeLine{00072\ \ \ \textcolor{comment}{//\ the\ head\ points\ to\ the\ position\ that\ was\ last\ written\ to}}
+\DoxyCodeLine{00073\ \ \ std::span<const\ uint8\_t>\ *head;}
+\DoxyCodeLine{00074\ \ \ \textcolor{comment}{//\ the\ tail\ points\ to\ the\ position\ that\ can\ be\ read\ from}}
+\DoxyCodeLine{00075\ \ \ std::span<const\ uint8\_t>\ *tail;}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{size\_t}\ size\_;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{constexpr}\ std::span<const\ uint8\_t>\ *incr(std::span<const\ uint8\_t>\ *p)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ ++p;}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{if}\ (p\ ==\ (arr\_\ +\ capacity\_))}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ arr\_;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00084\ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ \ \ \textcolor{keyword}{constexpr}\ HistoryView(std::span<const\ uint8\_t>\ *arr,\ std::size\_t\ capacity)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ :\ arr\_(arr),\ capacity\_(capacity),\ head(arr\_),\ tail(arr\_),\ size\_(0)\ \{\}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_full()\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ size\_\ ==\ capacity\_;\ \}}
+\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_empty()\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ size\_\ ==\ 0;\ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ size()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ size\_;\ \}}
+\DoxyCodeLine{00094\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ capacity()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ capacity\_;\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ push\_back(\textcolor{keyword}{const}\ std::span<const\ uint8\_t>\ \&t)\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ *head\ =\ t;}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\_\ !=\ capacity\_)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ ++size\_;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ head\ =\ incr(head);}
+\DoxyCodeLine{00101\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ head\ =\ incr(head);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ tail\ =\ incr(tail);}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \}}
+\DoxyCodeLine{00106\ \};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{class\ }Status\ \{}
+\DoxyCodeLine{00109\ \ \ Error\ error;}
+\DoxyCodeLine{00110\ \ \ std::size\_t\ size\_written;}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{using\ }CommandSignature\ =\ Error(ExecType\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ \&args,}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OutputIterator\ out);}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Tuple>\ \textcolor{keyword}{constexpr}\ Error\ parse\_args(Tuple\ \&t,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ \&v);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{struct\ }Deduced\ \{\};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L,\ \textcolor{keyword}{class}...\ Commands>}
+\DoxyCodeLine{00121\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ generate\_names(L<Commands...>)}
+\DoxyCodeLine{00122\ \ \ \ \ -\/>\ std::array<\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}},\ \textcolor{keyword}{sizeof}...(Commands)>\ \{}
+\DoxyCodeLine{00123\ \ \ \textcolor{keywordflow}{return}\ \{Commands::name...\};}
+\DoxyCodeLine{00124\ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Name>\ \textcolor{keyword}{struct\ }DummyParam\ :\ \textcolor{keyword}{public}\ CommandNode\ \{}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ name\{Name\{\}\};}
+\DoxyCodeLine{00128\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ description\{\textcolor{stringliteral}{"{}A\ description"{}}\_sc\};}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ help\{\textcolor{stringliteral}{"{}A\ help"{}}\_sc\};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{constexpr}\ DummyParam(Name)\ :\ CommandNode(*\textcolor{keyword}{this})\ \{\}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ Error\ execute(ExecType,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ \&,\ std::span<char>\ \&)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00135\ \ \ \}}
+\DoxyCodeLine{00136\ \};}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{enum\ class}\ Delimiter\ \{\ cr,\ lf,\ crlf\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{enum\ class}\ Control\ \{}
+\DoxyCodeLine{00141\ \ \ backspace,}
+\DoxyCodeLine{00142\ \ \ autocomplete,}
+\DoxyCodeLine{00143\ \ \ cursor\_up,}
+\DoxyCodeLine{00144\ \ \ cursor\_down,}
+\DoxyCodeLine{00145\ \ \ cursor\_left,}
+\DoxyCodeLine{00146\ \ \ cursor\_right,}
+\DoxyCodeLine{00147\ \ \ insert\_char,}
+\DoxyCodeLine{00148\ \ \ delete\_char,}
+\DoxyCodeLine{00149\ \ \ erase\_char,}
+\DoxyCodeLine{00150\ \ \ save\_cursor,}
+\DoxyCodeLine{00151\ \ \ restore\_cursor}
+\DoxyCodeLine{00152\ \};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00156\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqCursorRight\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[C"{}};}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00159\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqCursorLeft\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[D"{}};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqCursorSave\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[s"{}};}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00165\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqCursorRestore\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[u"{}};}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqInsertChar\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[@"{}};}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00171\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *escSeqDeleteChar\ =\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[P"{}};}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::pair<Control,\ ByteView>\ esc\_sequences[]\{}
+\DoxyCodeLine{00174\ \ \ \ \ \{Control::cursor\_right,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[C"{}}\},\ \{Control::cursor\_left,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[D"{}}\},}
+\DoxyCodeLine{00175\ \ \ \ \ \{Control::save\_cursor,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[s"{}}\},\ \ \{Control::restore\_cursor,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[u"{}}\},}
+\DoxyCodeLine{00176\ \ \ \ \ \{Control::insert\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[@"{}}\},\ \ \{Control::delete\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[1;P"{}}\},}
+\DoxyCodeLine{00177\ \ \ \ \ \{Control::delete\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[1;X"{}}\}\};}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00182\ \textcolor{keyword}{concept\ }Config\ =\ \textcolor{keyword}{requires}(\textcolor{keyword}{typename}\ std::remove\_cvref\_t<T>::char\_type)\ \{}
+\DoxyCodeLine{00183\ \ \ \{}
+\DoxyCodeLine{00184\ \ \ \ \ std::remove\_cvref\_t<T>::access\_separator}
+\DoxyCodeLine{00185\ \ \ \}\ -\/>\ std::convertible\_to<typename\ std::remove\_cvref\_t<T>::char\_type>;}
+\DoxyCodeLine{00186\ \ \ \{}
+\DoxyCodeLine{00187\ \ \ \ \ std::remove\_cvref\_t<T>::commands\_start\_with\_separators}
+\DoxyCodeLine{00188\ \ \ \}\ -\/>\ std::convertible\_to<bool>;}
+\DoxyCodeLine{00189\ \ \ \{\ std::remove\_cvref\_t<T>::tx\_size\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00190\ \ \ \{\ std::remove\_cvref\_t<T>::rx\_size\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00191\ \ \ \{}
+\DoxyCodeLine{00192\ \ \ \ \ std::remove\_cvref\_t<T>::max\_line\_length}
+\DoxyCodeLine{00193\ \ \ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00194\ \};}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \textcolor{keyword}{struct\ }config\ \{}
+\DoxyCodeLine{00197\ \ \ \textcolor{comment}{//\ static\ constexpr\ std::array<ByteView,\ sizeof...(Commands)>}}
+\DoxyCodeLine{00198\ \ \ \textcolor{comment}{//\ cmd\_names\{Commands::name...\};}}
+\DoxyCodeLine{00199\ \ \ \textcolor{keyword}{using\ }char\_type\ =\ char8\_t;}
+\DoxyCodeLine{00200\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ char\_type\ access\_separator\ =\ \textcolor{charliteral}{'.'};}
+\DoxyCodeLine{00201\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ command\_terminator\{\textcolor{stringliteral}{"{}\(\backslash\)n"{}}\_sc\};}
+\DoxyCodeLine{00202\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ commands\_start\_with\_separators\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00203\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ tx\_size\ =\ 128;}
+\DoxyCodeLine{00204\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ rx\_size\ =\ 128;}
+\DoxyCodeLine{00205\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ use\_autocomplete\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00206\ \ \ \textcolor{comment}{//\ TODO:\ deduced\ the\ sizes\ below}}
+\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_name\_length\ =\ 32;}
+\DoxyCodeLine{00208\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_num\_args\ =\ 10;}
+\DoxyCodeLine{00209\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_num\_commands\ =\ 64;}
+\DoxyCodeLine{00210\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_cmd\_level\ =\ 5;}
+\DoxyCodeLine{00211\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_line\_length\ =\ 80;}
+\DoxyCodeLine{00212\ \};}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \textcolor{keyword}{struct\ }ControlSequence\ \{}
+\DoxyCodeLine{00215\ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ introducer;}
+\DoxyCodeLine{00216\ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ params;}
+\DoxyCodeLine{00217\ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ intermediate;}
+\DoxyCodeLine{00218\ \ \ uint8\_t\ \textcolor{keyword}{final};}
+\DoxyCodeLine{00219\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{return}\ \{introducer.data(),}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ introducer.size()\ +\ params.size()\ +\ intermediate.size()\ +\ 1\};}
+\DoxyCodeLine{00222\ \ \ \}}
+\DoxyCodeLine{00223\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ reset()\ \{\}}
+\DoxyCodeLine{00224\ \};}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{keyword}{enum\ class}\ State\ \{}
+\DoxyCodeLine{00227\ \ \ active,\ \textcolor{comment}{//\ the\ cli\ is\ receiving\ a\ sequence\ of\ events\ that\ make\ up\ a}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ command\ name.}}
+\DoxyCodeLine{00229\ \ \ args\_start,}
+\DoxyCodeLine{00230\ \ \ set\_params\_start,\ \textcolor{comment}{//\ a\ param\ set}}
+\DoxyCodeLine{00231\ \ \ call\_params\_start,}
+\DoxyCodeLine{00232\ \ \ call\_params,}
+\DoxyCodeLine{00233\ \ \ set\_params,}
+\DoxyCodeLine{00234\ \};}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00243\ \textcolor{keyword}{template}\ <Config\ Cfg,\ \mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{io::OutputStream}}\ Stream,\ Command...\ Commands>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \{}
+\DoxyCodeLine{00244\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00245\ \ \ \textcolor{keyword}{using\ }enum\ State;}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \textcolor{keyword}{template}\ <Config\ Cfg\_,\ \mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{io::OutputStream}}\ S,\ Command...\ Cmds>}
+\DoxyCodeLine{00248\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(Cfg\_\ \&\&cfg,\ S\ \&\&stream,\ Cmds\ \&\&...cmds)}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ :\ config\_\{std::forward<Cfg\_>(cfg)\},}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ commands\_\{std::forward<Cmds>(cmds)...\},\ out\_(std::forward<S>(stream))\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00252\ \ \ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \textcolor{keyword}{template}\ <Config\ Cfg\_,\ \mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{io::BasicOutputStream}}\ S,\ Command...\ Cmds>}
+\DoxyCodeLine{00255\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(Cfg\_\ \&\&cfg,\ S\ \&\&stream,\ Cmds\ \&\&...cmds)}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ :\ config\_\{std::forward<Cfg\_>(cfg)\},}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ commands\_\{std::forward<Cmds>(cmds)...\},}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ out\_(\mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{io::AnsiOutputStream}}\{std::forward<S>(stream)\})\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00260\ \ \ \}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&\&other)}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ :\ config\_\{std::move(other.config\_)\},}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ commands\_\{std::move(other.commands\_)\},\ out\_(std::move(other.out\_))\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00266\ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&other)}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ :\ config\_\{other.config\_\},\ commands\_\{other.commands\_\},\ out\_(other.out\_)\ \{}
+\DoxyCodeLine{00270\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00271\ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&operator=(\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&\&other)\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ config\_\ =\ std::move(other.config\_);}
+\DoxyCodeLine{00275\ \ \ \ \ commands\_\ =\ std::move(other.commands\_);}
+\DoxyCodeLine{00276\ \ \ \ \ out\_\ =\ std::move(other.out\_);}
+\DoxyCodeLine{00277\ \ \ \ \ current\_cmd\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00278\ \ \ \ \ tx\_buf.reset();}
+\DoxyCodeLine{00279\ \ \ \ \ rx\_buf.reset();}
+\DoxyCodeLine{00280\ \ \ \ \ current\_line\_.reset();}
+\DoxyCodeLine{00281\ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00282\ \ \ \ \ tracker\_.clear();}
+\DoxyCodeLine{00283\ \ \ \ \ esc\_seq\_index\ =\ 0;}
+\DoxyCodeLine{00284\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00286\ \ \ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&other)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ config\_\ =\ other.config\_;}
+\DoxyCodeLine{00290\ \ \ \ \ commands\_\ =\ other.commands\_;}
+\DoxyCodeLine{00291\ \ \ \ \ out\_\ =\ other.out\_;}
+\DoxyCodeLine{00292\ \ \ \ \ current\_cmd\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00293\ \ \ \ \ tx\_buf.reset();}
+\DoxyCodeLine{00294\ \ \ \ \ rx\_buf.reset();}
+\DoxyCodeLine{00295\ \ \ \ \ current\_line\_.reset();}
+\DoxyCodeLine{00296\ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00297\ \ \ \ \ tracker\_.clear();}
+\DoxyCodeLine{00298\ \ \ \ \ esc\_seq\_index\ =\ 0;}
+\DoxyCodeLine{00299\ \ \ \ \ init\_tree();}
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00301\ \ \ \}}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ Error\ put\_event(\textcolor{keyword}{const}\ io::Event\ \&ev)\ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ rx\_buf.push\_back(ev))}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00307\ \ \ \}}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ Error\ process()\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)\ \{}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ Error\ e\ =\ process\_one();}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (e\ ==\ Error::none)}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (e\ ==\ Error::buffer\_underflow)}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ e;}
+\DoxyCodeLine{00318\ \ \ \ \ \}}
+\DoxyCodeLine{00319\ \ \ \}}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \ \ \textcolor{keywordtype}{void}\ print()\ \{\ print(root(),\ 0);\ \}}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00324\ \ \ \textcolor{keyword}{template}\ <Command\ Cmd>}
+\DoxyCodeLine{00325\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ init\_cmd(\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&\mbox{\hyperlink{namespacecli}{cli}},\ std::size\_t\ \&index,}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CommandNode\ \&parent,\ Cmd\ \&cmd)\ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{comment}{//\ initialize\ the\ node}}
+\DoxyCodeLine{00328\ \ \ \ \ CommandNode\ \&node\ =\ \mbox{\hyperlink{namespacecli}{cli}}.cmds\_[index];}
+\DoxyCodeLine{00329\ \ \ \ \ node.name\ =\ Cmd::name;}
+\DoxyCodeLine{00330\ \ \ \ \ node.description\ =\ Cmd::description;}
+\DoxyCodeLine{00331\ \ \ \ \ node.type\ =\ Cmd::type;}
+\DoxyCodeLine{00332\ \ \ \ \ node.this\_\ =\ \&cmd;}
+\DoxyCodeLine{00333\ \ \ \ \ node.exec\_\ =\ +[](\textcolor{keywordtype}{void}\ *this\_,\ ExecType\ type,\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ args,}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<char>\ \&out)\ -\/>\ Error\ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}Cmd\ *\textcolor{keyword}{>}(this\_)-\/>execute(type,\ args,\ out);}
+\DoxyCodeLine{00336\ \ \ \ \ \};}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{comment}{//\ add\ the\ node\ to\ the\ parent}}
+\DoxyCodeLine{00338\ \ \ \ \ parent.add\_sub(node);}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{comment}{//\ initialize\ sub\ commands\ of\ cmd}}
+\DoxyCodeLine{00340\ \ \ \ \ for\_each([\&\mbox{\hyperlink{namespacecli}{cli}},\ \&index,}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&node](Command\ \textcolor{keyword}{auto}\ \&c)\ \{\ init\_cmd(\mbox{\hyperlink{namespacecli}{cli}},\ ++index,\ node,\ c);\ \},}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ cmd);}
+\DoxyCodeLine{00343\ \ \ \}}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ init\_tree()\ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{comment}{//\ create\ the\ root}}
+\DoxyCodeLine{00347\ \ \ \ \ CommandNode\ \&root\ =\ cmds\_[0];}
+\DoxyCodeLine{00348\ \ \ \ \ root.name\ =\ \textcolor{stringliteral}{"{}root"{}};}
+\DoxyCodeLine{00349\ \ \ \ \ root.description\ =\ \textcolor{stringliteral}{"{}root"{}};}
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{comment}{//\ add\ its\ sub\ commands}}
+\DoxyCodeLine{00351\ \ \ \ \ std::size\_t\ index\ =\ 1;}
+\DoxyCodeLine{00352\ \ \ \ \ init\_cmd(*\textcolor{keyword}{this},\ index,\ root,\ help);}
+\DoxyCodeLine{00353\ \ \ \ \ cli::for\_each([\&index,\ \&root,}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{this}](\textcolor{keyword}{auto}\ \&cmd)\ \{\ init\_cmd(*\textcolor{keyword}{this},\ ++index,\ root,\ cmd);\ \},}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ commands\_);}
+\DoxyCodeLine{00356\ \ \ \}}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \textcolor{keyword}{constexpr}\ Error\ autocomplete()\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ str\ =\ tracker\_.on\_autocomplete();}
+\DoxyCodeLine{00360\ \ \ \ \ out\_.write(str);}
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00362\ \ \ \}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \textcolor{keyword}{constexpr}\ Error\ write\_char(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keywordflow}{if}\ (Error\ err\ =\ out\_.write(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ current\_line\_.push\_back(c))}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00370\ \ \ \}}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00372\ \ \ Error\ process\_char(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{switch}\ (state\_)\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordflow}{case}\ active:}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (c)\ \{}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\ '}:}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Cfg::access\_separator\ ==\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ *cmd\ =\ tracker\_.cmd();\ tracker\_.candidate()\ ==\ \textcolor{keyword}{nullptr}\ and}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cmd\ and\ cmd-\/>subcommand\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ state\_\ =\ args\_start;}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b}{on\_char}}(c);\ err\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ state\_\ =\ args\_start;}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'('}:}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ state\_\ =\ call\_params\_start;}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'='}:}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ state\_\ =\ set\_params\_start;}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b}{on\_char}}(c);\ err\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.write(c);}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordflow}{case}\ args\_start:}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (c)\ \{}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\ '}:}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'('}:}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ state\_\ =\ call\_params\_start;}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'='}:}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ state\_\ =\ set\_params\_start;}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00422\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params\_start:}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ !=\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ write\_char(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ state\_\ =\ set\_params;}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params\_start:}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ !=\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ write\_char(c);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ state\_\ =\ call\_params;}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params:}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_char(c);}
+\DoxyCodeLine{00438\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params:}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_char(c);}
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_state;}
+\DoxyCodeLine{00442\ \ \ \ \ \}}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00444\ \ \ \}}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ Error\ backspace(uint8\_t\ n\ =\ 1)\ \{}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordflow}{switch}\ (state\_)\ \{}
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{keywordflow}{case}\ active:}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ n;\ ++i)}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordflow}{case}\ args\_start:}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ n;\ ++i)}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params\_start:}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ [[fallthrough]];}
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params\_start:}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ state\_\ =\ args\_start;}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ -\/-\/n;}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ !=\ 0)\ \{}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ n;\ ++i)}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00469\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params:}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ current\_line\_.size())\ \{}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ state\_\ =\ set\_params\_start;}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >\ current\_line\_.size())\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ n\ -\/\ current\_line\_.size()\ -\/\ 1;}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ rest;\ ++i)}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ current\_line\_.remove\_last(n);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params:}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ current\_line\_.size())\ \{}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ state\_\ =\ call\_params\_start;}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >\ current\_line\_.size())\ \{}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ n\ -\/\ current\_line\_.size()\ -\/\ 1;}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ i\ =\ 0;\ i\ <\ rest;\ ++i)}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ tracker\_.\mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}();}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ current\_line\_.remove\_last(n);}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_state;}
+\DoxyCodeLine{00495\ \ \ \ \ \}}
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.backspace(n);}
+\DoxyCodeLine{00497\ \ \ \}}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ Error\ process\_one()\ \{}
+\DoxyCodeLine{00500\ \ \ \ \ io::Event\ ev\{\};}
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ rx\_buf.pop(ev))}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_underflow;}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.type)\ \{}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::AutoComplete:}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ autocomplete();}
+\DoxyCodeLine{00507\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::BackSpace:}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ backspace(ev.data[0]);}
+\DoxyCodeLine{00509\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::Char:}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ process\_char(ev.data[0]);}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::CursorUp:}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.cursor\_up(ev.data[0]);}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::CursorDown:}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.cursor\_down(ev.data[0]);}
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::CursorLeft:}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.cursor\_left(ev.data[0]);}
+\DoxyCodeLine{00517\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::CursorRight:}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.cursor\_right(ev.data[0]);}
+\DoxyCodeLine{00519\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::EraseInDisplay:}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.erase\_in\_display(ev.data[0]);}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::EraseInLine:}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.erase\_in\_line(ev.data[0]);}
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::NewLine:}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ on\_newline();}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::ScrollUp:}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.scroll\_up(ev.data[0]);}
+\DoxyCodeLine{00527\ \ \ \ \ \textcolor{keywordflow}{case}\ io::Type::ScrollDown:}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.scroll\_down(ev.data[0]);}
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ invalid\ event\ type\ error}}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00532\ \ \ \ \ \}}
+\DoxyCodeLine{00533\ \ \ \}}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \ \ \textcolor{keywordtype}{void}\ print(\textcolor{keyword}{const}\ CommandNode\ \&c,\ std::size\_t\ indent)\ \{}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ 2\ *\ indent;\ ++i)}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ out\_.write(\textcolor{charliteral}{'\ '});}
+\DoxyCodeLine{00538\ \ \ \ \ out\_.write(c.name);}
+\DoxyCodeLine{00539\ \ \ \ \ out\_.write(\textcolor{charliteral}{'['});}
+\DoxyCodeLine{00540\ \ \ \ \ out\_.write(c.type);}
+\DoxyCodeLine{00541\ \ \ \ \ out\_.write(\textcolor{charliteral}{']'});}
+\DoxyCodeLine{00542\ \ \ \ \ out\_.write(\textcolor{charliteral}{':'});}
+\DoxyCodeLine{00543\ \ \ \ \ out\_.write(c.description);}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordflow}{if}\ (c.subcommand\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ out\_.newline();}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00547\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ out\_.write(\textcolor{charliteral}{':'});}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ out\_.newline();}
+\DoxyCodeLine{00550\ \ \ \ \ \}}
+\DoxyCodeLine{00551\ \ \ \ \ ++indent;}
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&sub\ :\ c)}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ print(sub,\ indent);}
+\DoxyCodeLine{00554\ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ Error\ on\_newline()\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \textcolor{keywordflow}{switch}\ (state\_)\ \{}
+\DoxyCodeLine{00558\ \ \ \ \ \textcolor{keywordflow}{case}\ active:}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ [[fallthrough]];}
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{case}\ args\_start:}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ valid\ command\ without\ trailing\ "{}=value"{}\ is\ a\ get\ command}}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ process\_get\_param();}
+\DoxyCodeLine{00563\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params\_start:}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ value\ has\ not\ been\ entered}}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::expected\_value;}
+\DoxyCodeLine{00566\ \ \ \ \ \textcolor{keywordflow}{case}\ set\_params:}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ valid\ command\ with\ trailing\ "{}=\ value"{}\ is\ a\ set\ command}}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ process\_set\_param(}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(current\_line\_.data(),\ current\_line\_.size()));}
+\DoxyCodeLine{00570\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params\_start:}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ parameters\ have\ not\ been\ entered}}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::expected\_rparen;}
+\DoxyCodeLine{00573\ \ \ \ \ \textcolor{keywordflow}{case}\ call\_params:\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ line\ =\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(current\_line\_.data(),\ current\_line\_.size());}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ closing\_bracket\_pos\ =\ line.find\_last\_of(\textcolor{charliteral}{')'});}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (closing\_bracket\_pos\ ==\ ByteView::npos)}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::expected\_rparen;}
+\DoxyCodeLine{00578\ }
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ last\_char\_pos\ =\ line.find\_last\_not\_of(\textcolor{stringliteral}{"{}\ )"{}});}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (closing\_bracket\_pos\ <\ last\_char\_pos\ and}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ last\_char\_pos\ !=\ ByteView::npos)}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unexpected\_characters\_after\_closing\_paren;}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ process\_call(line.substr(0,\ last\_char\_pos\ +\ 1));}
+\DoxyCodeLine{00585\ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_state;}
+\DoxyCodeLine{00588\ \ \ \ \ \}}
+\DoxyCodeLine{00589\ \ \ \}}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \textcolor{keyword}{constexpr}\ CommandNode\ \&root()\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ cmds\_[0];\ \}}
+\DoxyCodeLine{00592\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ CommandNode\ \&root()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ cmds\_[0];\ \}}
+\DoxyCodeLine{00593\ }
+\DoxyCodeLine{00594\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ return\_to\_idle()\ \{}
+\DoxyCodeLine{00595\ \ \ \ \ \textcolor{comment}{//\ TODO:\ history}}
+\DoxyCodeLine{00596\ \ \ \ \ current\_line\_.reset();}
+\DoxyCodeLine{00597\ \ \ \ \ start\_of\_args\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00598\ \ \ \ \ tracker\_.clear();}
+\DoxyCodeLine{00599\ \ \ \ \ state\_\ =\ active;}
+\DoxyCodeLine{00600\ \ \ \}}
+\DoxyCodeLine{00601\ \ \ \textcolor{keyword}{constexpr}\ Error\ return\_to\_idle(Error\ error)\ \{}
+\DoxyCodeLine{00602\ \ \ \ \ return\_to\_idle();}
+\DoxyCodeLine{00603\ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(\textcolor{stringliteral}{"{}Error:\ "{}});\ err\ !=\ Error::none)}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(ctti::enum\_name(error));\ err\ !=\ Error::none)}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00608\ \ \ \ \ \}}
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordflow}{return}\ error;}
+\DoxyCodeLine{00612\ \ \ \}}
+\DoxyCodeLine{00613\ \ \ \textcolor{keyword}{constexpr}\ Error\ process\_get\_param()\ \{}
+\DoxyCodeLine{00614\ \ \ \ \ std::span<char>\ out\{output\_line\_.data(),\ output\_line\_.size()\};}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{keyword}{auto}\ cmd\ =\ tracker\_.cmd();}
+\DoxyCodeLine{00616\ }
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00619\ }
+\DoxyCodeLine{00620\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(Error::invalid\_cmd);}
+\DoxyCodeLine{00622\ \ \ \ \ \}}
+\DoxyCodeLine{00623\ }
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ error\ =\ cmd-\/>execute(ExecType::get,\ \{\},\ out);}
+\DoxyCodeLine{00625\ }
+\DoxyCodeLine{00626\ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(error);}
+\DoxyCodeLine{00628\ \ \ \ \ \}}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(out.data(),\ out.size()));}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ err\ !=\ Error::none)}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00633\ }
+\DoxyCodeLine{00634\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \ \ \ \ return\_to\_idle();}
+\DoxyCodeLine{00638\ \ \ \ \ \textcolor{keywordflow}{return}\ error;}
+\DoxyCodeLine{00639\ \ \ \}}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ \ \ \textcolor{keyword}{constexpr}\ Error\ process\_set\_param(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ args)\ \{}
+\DoxyCodeLine{00642\ \ \ \ \ std::span<char>\ out\{output\_line\_.data(),\ output\_line\_.size()\};}
+\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keyword}{auto}\ cmd\ =\ tracker\_.cmd();}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(Error::invalid\_cmd);}
+\DoxyCodeLine{00650\ \ \ \ \ \}}
+\DoxyCodeLine{00651\ }
+\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ error\ =\ cmd-\/>execute(ExecType::set,\ args,\ out);}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(error);}
+\DoxyCodeLine{00655\ \ \ \}}
+\DoxyCodeLine{00656\ }
+\DoxyCodeLine{00657\ \ \ \textcolor{keyword}{constexpr}\ Error\ process\_call(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ args)\ \{}
+\DoxyCodeLine{00658\ \ \ \ \ std::span<char>\ out\{output\_line\_.data(),\ output\_line\_.size()\};}
+\DoxyCodeLine{00659\ \ \ \ \ \textcolor{keyword}{auto}\ cmd\ =\ tracker\_.cmd();}
+\DoxyCodeLine{00660\ }
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00663\ }
+\DoxyCodeLine{00664\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(Error::invalid\_cmd);}
+\DoxyCodeLine{00666\ \ \ \ \ \}}
+\DoxyCodeLine{00667\ }
+\DoxyCodeLine{00668\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ error\ =\ cmd-\/>execute(ExecType::call,\ args,\ out);}
+\DoxyCodeLine{00669\ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ return\_to\_idle(error);}
+\DoxyCodeLine{00671\ \ \ \ \ \}}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(out.data(),\ out.size()));}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ err\ !=\ Error::none)}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00676\ }
+\DoxyCodeLine{00677\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ out\_.newline();\ err\ !=\ Error::none)}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00679\ }
+\DoxyCodeLine{00680\ \ \ \ \ return\_to\_idle();}
+\DoxyCodeLine{00681\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00682\ \ \ \}}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \ \ CommandNode\ *find\_parent(CommandNode\ *root,\ \mbox{\hyperlink{classcli_1_1_byte_view}{VecView<ByteView>::iterator}}\ begin,}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{VecView<ByteView>::iterator}}\ end)\ \{}
+\DoxyCodeLine{00686\ \ \ \ \ \textcolor{keywordflow}{while}\ (begin\ !=\ end)\ \{}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ sub\ =\ root-\/>subcommand;}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (sub)\ \{}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sub-\/>name\ ==\ *begin)\ \{}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ root\ =\ sub;}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ found\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ sub\ =\ sub-\/>next;}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ found)}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ ++begin;}
+\DoxyCodeLine{00700\ \ \ \ \ \}}
+\DoxyCodeLine{00701\ \ \ \ \ \textcolor{keywordflow}{return}\ root;}
+\DoxyCodeLine{00702\ \ \ \}}
+\DoxyCodeLine{00703\ }
+\DoxyCodeLine{00704\ \ \ Error\ transmit\_current\_line()\ \{}
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keyword}{auto}\ err\ =\ out\_.write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(Cfg::command\_terminator));}
+\DoxyCodeLine{00706\ \ \ \ \ \textcolor{keywordflow}{if}\ (err\ !=\ Error::none)}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00708\ \ \ \ \ err\ =\ out\_.write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(output\_line\_.begin(),\ output\_line\_.end()));}
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{keywordflow}{if}\ (err\ !=\ Error::none)}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00711\ \ \ \ \ \textcolor{keywordflow}{return}\ out\_.write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(Cfg::command\_terminator));}
+\DoxyCodeLine{00712\ \ \ \}}
+\DoxyCodeLine{00713\ }
+\DoxyCodeLine{00714\ \ \ Error\ process\_message()\ \{}
+\DoxyCodeLine{00715\ \ \ \ \ \textcolor{comment}{//\ a\ whole\ message\ block\ is\ received,\ i.e.\ a\ complete\ command\ is}}
+\DoxyCodeLine{00716\ \ \ \ \ \textcolor{comment}{//\ available.}}
+\DoxyCodeLine{00717\ \ \ \ \ \textcolor{comment}{//\ 1.\ parse\ string\ and\ split\ it\ into\ the\ path\ and\ arguments}}
+\DoxyCodeLine{00718\ \ \ \}}
+\DoxyCodeLine{00719\ }
+\DoxyCodeLine{00720\ \ \ Cfg\ config\_;}
+\DoxyCodeLine{00721\ \ \ \textcolor{comment}{//\ this\ points\ to\ the\ current\ command\ being\ typed\ in.\ Is\ nullptr\ if\ no}}
+\DoxyCodeLine{00722\ \ \ \textcolor{comment}{//\ command\ is\ beind\ processed.}}
+\DoxyCodeLine{00723\ \ \ CommandNode\ *current\_cmd\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00724\ \ \ CommandNode\ *next\_cmd\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00726\ \ \ std::tuple<Commands...>\ commands\_\{\};}
+\DoxyCodeLine{00727\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class},\ \textcolor{keyword}{class}>\ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }Help;}
+\DoxyCodeLine{00728\ \ \ \textcolor{keyword}{using\ }HelpCmd\ =\ \textcolor{keyword}{decltype}(\mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{funcs::func}}(}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}help"{}}\_sc,}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ cli::Help<\mbox{\hyperlink{classcli_1_1_cli}{Cli<Cfg,\ Stream,\ Commands...>}},\ Cfg>\{std::declval<Cli\ \&>()\},}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{funcs::arg}}<\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}},\ \textcolor{stringliteral}{"{}"{}}\_sc>(\textcolor{stringliteral}{"{}cmd"{}}\_sc)));}
+\DoxyCodeLine{00732\ }
+\DoxyCodeLine{00733\ \ \ HelpCmd\ help\ =\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{funcs::func}}(}
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}help"{}}\_sc,\ cli::Help<\mbox{\hyperlink{classcli_1_1_cli}{Cli<Cfg,\ Stream,\ Commands...>}},\ Cfg>\{*\textcolor{keyword}{this}\},}
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{funcs::arg}}<\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}},\ \textcolor{stringliteral}{"{}"{}}\_sc>(\textcolor{stringliteral}{"{}cmd"{}}\_sc));}
+\DoxyCodeLine{00736\ \ \ CommandNode\ cmds\_[(num\_cmds\_v<Commands>\ +\ ...)\ +\ 2]\{\};}
+\DoxyCodeLine{00737\ \ \ \textcolor{comment}{//\ the\ buffers\ used\ for\ reception\ and\ transmit}}
+\DoxyCodeLine{00738\ \ \ RingBuffer<uint8\_t,\ Cfg::tx\_size>\ tx\_buf\{\};}
+\DoxyCodeLine{00739\ \ \ RingBuffer<io::Event,\ Cfg::rx\_size>\ rx\_buf\{\};}
+\DoxyCodeLine{00740\ }
+\DoxyCodeLine{00741\ \ \ FixedSizeVector<char,\ Cfg::max\_line\_length>\ current\_line\_\{\};}
+\DoxyCodeLine{00742\ \ \ std::array<char,\ Cfg::max\_line\_length>\ output\_line\_\{\};}
+\DoxyCodeLine{00743\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *start\_of\_args\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00744\ \ \ State\ state\_\ =\ active;}
+\DoxyCodeLine{00745\ \ \ std::size\_t\ esc\_seq\_index\ =\ 0;}
+\DoxyCodeLine{00746\ \ \ \textcolor{comment}{//\ the\ history\ and\ current\ command\ buffer}}
+\DoxyCodeLine{00747\ \ \ \textcolor{comment}{//\ HistoryView\ \&history\_;}}
+\DoxyCodeLine{00748\ \ \ \mbox{\hyperlink{classcli_1_1io_1_1_output}{io::Output<Stream>}}\ out\_;}
+\DoxyCodeLine{00749\ \ \ \textcolor{comment}{//\ the\ maximum\ depth\ of\ the\ command\ tree}}
+\DoxyCodeLine{00750\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_levels\ =}
+\DoxyCodeLine{00751\ \ \ \ \ \ \ std::max(\{num\_levels\_v<Commands>...\})\ +\ 1;}
+\DoxyCodeLine{00752\ \ \ \textcolor{comment}{//\ the\ maximum\ command\ length}}
+\DoxyCodeLine{00753\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_name\_length\ =}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ std::max(\{max\_name\_length\_v<Commands>...\});}
+\DoxyCodeLine{00755\ \ \ \mbox{\hyperlink{classcli_1_1_tracker}{Tracker}}<num\_levels,\ max\_name\_length,\ Cfg::access\_separator,}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ Cfg::use\_autocomplete>}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ tracker\_\{cmds\_[0]\};}
+\DoxyCodeLine{00758\ \ \ \textcolor{comment}{//\ TransmitFunction\ transmit;}}
+\DoxyCodeLine{00759\ \};}
+\DoxyCodeLine{00760\ }
+\DoxyCodeLine{00761\ \textcolor{keyword}{template}\ <Config\ Cfg,\ \mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{io::OutputStream}}\ Stream,\ Command...\ Commands>}
+\DoxyCodeLine{00762\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(Cfg\ \&\&,\ Stream\ \&\&,\ Commands\ \&\&...)}
+\DoxyCodeLine{00763\ \ \ \ \ -\/>\ \mbox{\hyperlink{classcli_1_1_cli}{Cli<std::remove\_cvref\_t<Cfg>}},\ std::remove\_cvref\_t<Stream>,}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Commands>...>;}
+\DoxyCodeLine{00765\ }
+\DoxyCodeLine{00766\ \textcolor{keyword}{template}\ <Config\ Cfg,\ \mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{io::BasicOutputStream}}\ Stream,\ Command...\ Commands>}
+\DoxyCodeLine{00767\ \mbox{\hyperlink{classcli_1_1_cli}{Cli}}(Cfg\ \&\&,\ Stream\ \&\&,\ Commands\ \&\&...)}
+\DoxyCodeLine{00768\ \ \ \ \ -\/>\ \mbox{\hyperlink{classcli_1_1_cli}{Cli<std::remove\_cvref\_t<Cfg>}},}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{io::AnsiOutputStream<std::remove\_cvref\_t<Stream>}}>,}
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Commands>...>;}
+\DoxyCodeLine{00771\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00772\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

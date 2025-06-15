@@ -1,0 +1,97 @@
+\doxysubsection{Required Arguments}
+\hypertarget{group__required-args}{}\label{group__required-args}\index{Required Arguments@{Required Arguments}}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Name Arg\+Name, Name Description$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga20c94d948938f2db28a744a4ebc33d03}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description)
+\begin{DoxyCompactList}\small\item\em creates a required argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Arg\+Name$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga11a1ae7b7b406d2142309f7ffd53f107}{cli\+::funcs\+::arg}} (Arg\+Name name)
+\begin{DoxyCompactList}\small\item\em creates a required argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$cli\+::\+String\+Literal Name$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga6a571f61166fcc081b8ec077e40cf01d}{cli\+::funcs\+::operator"{}"{}\+\_\+arg}} ()
+\begin{DoxyCompactList}\small\item\em the literal operator for arguments. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+
+
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__required-args_ga11a1ae7b7b406d2142309f7ffd53f107}\label{group__required-args_ga11a1ae7b7b406d2142309f7ffd53f107} 
+\index{Required Arguments@{Required Arguments}!arg@{arg}}
+\index{arg@{arg}!Required Arguments@{Required Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a required argument. 
+
+Its type will be deduced.
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{cli::funcs::arg}}(\textcolor{stringliteral}{"{}x"{}}\_sc,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}
+\Hypertarget{group__required-args_ga20c94d948938f2db28a744a4ebc33d03}\label{group__required-args_ga20c94d948938f2db28a744a4ebc33d03} 
+\index{Required Arguments@{Required Arguments}!arg@{arg}}
+\index{arg@{arg}!Required Arguments@{Required Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name,  }\item[{Description}]{description }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a required argument. 
+
+Its type will be deduced.
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{cli::funcs::arg}}(\textcolor{stringliteral}{"{}x"{}}\_sc,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}
+\Hypertarget{group__required-args_ga6a571f61166fcc081b8ec077e40cf01d}\label{group__required-args_ga6a571f61166fcc081b8ec077e40cf01d} 
+\index{Required Arguments@{Required Arguments}!operator"{}"{}\_arg@{operator""""\_arg}}
+\index{operator"{}"{}\_arg@{operator""""\_arg}!Required Arguments@{Required Arguments}}
+\doxysubsubsubsection{\texorpdfstring{operator""""\_arg()}{operator""\_arg()}}
+{\footnotesize\ttfamily template$<$cli\+::\+String\+Literal Name$>$ \\
+constexpr auto cli\+::funcs\+::operator"{}"{}\+\_\+arg (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+the literal operator for arguments. 
+
+\begin{DoxyReturn}{Returns}
+arg(\+Name) 
+\end{DoxyReturn}

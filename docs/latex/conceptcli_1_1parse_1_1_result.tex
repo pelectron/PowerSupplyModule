@@ -1,0 +1,18 @@
+\doxysection{cli\+::parse\+::Result Concept Reference}
+\hypertarget{conceptcli_1_1parse_1_1_result}{}\label{conceptcli_1_1parse_1_1_result}\index{cli::parse::Result@{cli::parse::Result}}
+
+
+{\ttfamily \#include $<$cli/parse.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ R>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{cli::parse::Result}}\ =\ \ \textcolor{keyword}{requires}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{R}}\ \&\&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{r}})\ \{}
+\DoxyCodeLine{\ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{r}}.error\ \}\ -\/>\ std::convertible\_to<Error>;}
+\DoxyCodeLine{\ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{r}}.value\ \}\ -\/>\ Value;}
+\DoxyCodeLine{\ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{r}}.rest\ \}\ -\/>\ std::convertible\_to<ByteView>;}
+\DoxyCodeLine{\ \ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{r}})\ \};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

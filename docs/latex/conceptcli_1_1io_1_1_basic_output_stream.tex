@@ -1,0 +1,30 @@
+\doxysection{cli\+::io\+::Basic\+Output\+Stream Concept Reference}
+\hypertarget{conceptcli_1_1io_1_1_basic_output_stream}{}\label{conceptcli_1_1io_1_1_basic_output_stream}\index{cli::io::BasicOutputStream@{cli::io::BasicOutputStream}}
+
+
+A Basic\+Output\+Stream is used to write raw characters to an unbuffered output stream.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{cli::io::BasicOutputStream}}\ =\ \ \mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{CharStream<S>}}\ or\ \mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{StringStream<S>}}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A Basic\+Output\+Stream is used to write raw characters to an unbuffered output stream. 
+
+A Basic\+Output\+Stream must satisfy the Char\+Stream or the String\+Stream concept, or both.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & the stream type \\
+\hline
+\end{DoxyTemplParams}

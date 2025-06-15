@@ -1,0 +1,42 @@
+\doxysection{memory.\+hpp}
+\hypertarget{memory_8hpp_source}{}\label{memory_8hpp_source}\mbox{\hyperlink{memory_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_MEMORY\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_MEMORY\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00011\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a80d57417af44bb2268ef79bec48a7af4}{is\_trivial\_v}}\ =}
+\DoxyCodeLine{00012\ \ \ \ \ std::is\_trivially\_default\_constructible\_v<T>\ and}
+\DoxyCodeLine{00013\ \ \ \ \ std::is\_trivially\_destructible\_v<T>;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#if\ \_\_cplusplus\ >=\ 202002L}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ wrapper\ around\ std:construct\_at,\ needed\ when\ compiling\ with\ c++17}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ in\ c++20,\ std::construct\ at\ is\ available\ and\ constexpr\ capable}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{constexpr}\ T\ *\mbox{\hyperlink{namespacepsm_ac8ba0aaaa4a0ff5010d908bfa1e3c195}{construct\_at}}(T\ *t,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00020\ \ \ \textcolor{keywordflow}{return}\ std::construct\_at(t,\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ in\ c++17,\ this\ function\ is\ only\ constexpr\ for\ trivially\ default\ con-\/\ and}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ destructible\ types\ Else\ it\ falls\ back\ to\ placement\ new,\ which\ is\ never}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ constexpr}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00027\ \textcolor{keyword}{constexpr}\ T\ *\mbox{\hyperlink{namespacepsm_ac8ba0aaaa4a0ff5010d908bfa1e3c195}{construct\_at}}(T\ *t,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (is\_trivial\_v<T>)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ *t\ =\ T(std::forward<Args>(args)...);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00031\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ return\ ::new\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}\ *\textcolor{keyword}{>}(t))\ T(std::forward<Args>(args)...);}
+\DoxyCodeLine{00033\ \ \ \}}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

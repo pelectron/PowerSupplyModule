@@ -1,0 +1,106 @@
+\doxysection{psm.\+hpp File Reference}
+\hypertarget{psm_8hpp}{}\label{psm_8hpp}\index{psm.hpp@{psm.hpp}}
+{\ttfamily \#include "{}converter.\+hpp"{}}\newline
+{\ttfamily \#include "{}fixed\+\_\+map.\+hpp"{}}\newline
+{\ttfamily \#include "{}fixed\+\_\+vector.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/gpio.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/i2c.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/spi.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/uart.\+hpp"{}}\newline
+{\ttfamily \#include "{}poly.\+hpp"{}}\newline
+{\ttfamily \#include "{}poly/property.\+hpp"{}}\newline
+{\ttfamily \#include "{}poly/storage/local\+\_\+storage.\+hpp"{}}\newline
+{\ttfamily \#include "{}relay.\+hpp"{}}\newline
+{\ttfamily \#include "{}units.\+hpp"{}}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1_calibration}{psm\+::\+Calibration}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1_module_config}{psm\+::\+Module\+Config}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1_hardware}{psm\+::\+Hardware}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1_settings}{psm\+::\+Settings}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1_non_volatile_storage}{psm\+::\+Non\+Volatile\+Storage}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1_p_s_m}{psm\+::\+PSM}}
+\begin{DoxyCompactList}\small\item\em The \doxylink{classpsm_1_1_p_s_m}{PSM} class acts as the API to a single Power\+Supply\+Module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsm}{psm}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\+\_\+\+PROPERTY}}(name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacepsm_a844d3e621913813427aa330ab6fb11ee}{psm\+::float\+\_\+t}} = float
+\item 
+using \mbox{\hyperlink{namespacepsm_aaf8239bb3b59c09139af217475a942e1}{psm\+::\+Milli\+Seconds}} = std\+::uint32\+\_\+t
+\item 
+using \mbox{\hyperlink{namespacepsm_ad0841d65ce6756a0b943b4a8222ac389}{psm\+::storage}} = poly\+::move\+\_\+only\+\_\+local\+\_\+storage$<$32, 4$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3}{psm\+::\+Ctrl\+Flags}} \{ \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3af9590c74034599e4df344489850446f9}{psm\+::\+Output\+Type}}
+, \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3a7d3f72ad9efdd559f29704bf95e7fdea}{psm\+::\+Output\+Enable}}
+, \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3a663422dce2a80731a2d7162f40df32d9}{psm\+::\+Series\+Enable}}
+, \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3af261296e3b2164faac73215aeda5fb24}{psm\+::\+Output\+Mode}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{psm\+::\+Output\+Type}} \{ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1a4d93c8a0fe7fc03235226bb99f9f041d}{psm\+::\+BUCK\+\_\+\+BOOST}}
+, \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1a2b333aaa7d749af5eb4b8a377e4ea96a}{psm\+::\+LDO}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{psm\+::\+Output\+Mode}} \{ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4aa5c8c3544bc49ebacde4ffe04bf34de0}{psm\+::\+CV}}
+, \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4aaa53ca0b650dfd85c4f59fa156f7a2cc}{psm\+::\+CC}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacepsm_ab83cfeaee2930c05a7b0969795eb2442}{psm\+::\+PSM\+\_\+\+PROPERTY}} (type)
+\item 
+\mbox{\hyperlink{namespacepsm_adb489a5057475e273b029e7b73a565aa}{psm\+::\+PSM\+\_\+\+PROPERTY}} (mode)
+\item 
+\mbox{\hyperlink{namespacepsm_a10bdbc264129b689641bdd2caaf7405b}{psm\+::\+PSM\+\_\+\+PROPERTY}} (enable)
+\item 
+\mbox{\hyperlink{namespacepsm_aa4b808d1be4dc9500c0deac594ba5c95}{psm\+::\+PSM\+\_\+\+PROPERTY}} (voltage)
+\item 
+\mbox{\hyperlink{namespacepsm_a3399993a150cd62fdb843f74104cebb6}{psm\+::\+PSM\+\_\+\+PROPERTY}} (current)
+\item 
+\mbox{\hyperlink{namespacepsm_ad36b7f83f19292b517b330d26e5be13b}{psm\+::\+PSM\+\_\+\+PROPERTY}} (settings)
+\item 
+\mbox{\hyperlink{namespacepsm_a52ce39fd523bbe850d142174507e6714}{psm\+::\+PSM\+\_\+\+PROPERTY}} (v\+\_\+drop)
+\item 
+\mbox{\hyperlink{namespacepsm_ac1f4d279f41c9fcdc4c5f1fc58dd0a4e}{psm\+::\+PSM\+\_\+\+PROPERTY}} (r\+\_\+cable)
+\item 
+\mbox{\hyperlink{namespacepsm_a9f112bc0a9803529f410a5bac11552ee}{psm\+::\+PSM\+\_\+\+PROPERTY}} (monitor\+\_\+interval)
+\item 
+\mbox{\hyperlink{namespacepsm_aaf4c9df9f02ed7c6378ef7467c98241b}{psm\+::\+PSM\+\_\+\+PROPERTY}} (config)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}\label{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1} 
+\index{psm.hpp@{psm.hpp}!PSM\_PROPERTY@{PSM\_PROPERTY}}
+\index{PSM\_PROPERTY@{PSM\_PROPERTY}!psm.hpp@{psm.hpp}}
+\doxysubsubsection{\texorpdfstring{PSM\_PROPERTY}{PSM\_PROPERTY}}
+{\footnotesize\ttfamily \#define PSM\+\_\+\+PROPERTY(\begin{DoxyParamCaption}\item[{}]{name }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ POLY\_PROPERTY(name);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }property\_name<name>\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}\ value[]\{\#name\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \}}
+
+\end{DoxyCode}

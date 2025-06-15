@@ -1,0 +1,38 @@
+\doxysection{mmio.\+hpp}
+\hypertarget{mmio_8hpp_source}{}\label{mmio_8hpp_source}\mbox{\hyperlink{mmio_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ HAL\_MMIO\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ HAL\_MMIO\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacehal_1_1mmio}{hal::mmio}}\ \{}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}{set}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ value)\ \{}
+\DoxyCodeLine{00014\ \ \ mem\ =\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(value);}
+\DoxyCodeLine{00015\ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U,\ \textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}{set}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ mask,\ V\ value,\ \textcolor{keywordtype}{unsigned}\ shift\ =\ 0)\ \{}
+\DoxyCodeLine{00044\ \ \ mem\ =\ (mem\ \&\ \string~static\_cast<T>(mask))\ |}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(value)\ <<\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(shift));}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacehal_1_1mmio_a3f5e57f4088bfb73f6ad73849a298cfd}{set\_bits}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ bits)\ \{}
+\DoxyCodeLine{00057\ \ \ mem\ |=\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(bits);}
+\DoxyCodeLine{00058\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacehal_1_1mmio_afd856630950846043b8a66d1ea658a16}{reset\_bits}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ bits)\ \{}
+\DoxyCodeLine{00069\ \ \ mem\ \&=\ \string~static\_cast<T>(bits);}
+\DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>\ T\ \mbox{\hyperlink{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}{get}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ bits)\ \{}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordflow}{return}\ mem\ \&\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(bits);}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00110\ T\ \mbox{\hyperlink{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}{get}}(\textcolor{keyword}{volatile}\ T\ \&mem,\ U\ mask,\ \textcolor{keywordtype}{unsigned}\ shift)\ \{}
+\DoxyCodeLine{00111\ \ \ \textcolor{keywordflow}{return}\ (mem\ \&\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(mask))\ >>\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(shift);}
+\DoxyCodeLine{00112\ \}}
+\DoxyCodeLine{00113\ \}\ \textcolor{comment}{//\ namespace\ hal::mmio}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

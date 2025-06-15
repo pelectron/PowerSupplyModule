@@ -1,0 +1,132 @@
+\doxysection{cli/type\+\_\+list.hpp File Reference}
+\hypertarget{type__list_8hpp}{}\label{type__list_8hpp}\index{cli/type\_list.hpp@{cli/type\_list.hpp}}
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{cli\+::type\+\_\+list\+::\+Type\+List$<$ Ts $>$}}
+\begin{DoxyCompactList}\small\item\em a concrete type list type. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1head_3_01_list_3_01_t_00_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::head$<$ List$<$ T, Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1tail_3_01_list_3_4_01_4}{cli\+::type\+\_\+list\+::tail$<$ List$<$$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1tail_3_01_list_3_01_t_00_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::tail$<$ List$<$ T, Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1list__size_3_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::list\+\_\+size$<$ List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1index__of_3_01_t_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::index\+\_\+of$<$ T, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1push__front_3_01_t_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::push\+\_\+front$<$ T, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1pop__front_3_01_list_3_01_t_00_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::pop\+\_\+front$<$ List$<$ T, Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1pop__front_3_01_list_3_4_01_4}{cli\+::type\+\_\+list\+::pop\+\_\+front$<$ List$<$$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1type__at_3_01_n_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::type\+\_\+at$<$ N, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1push__back_3_01_t_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::push\+\_\+back$<$ T, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1pop__back}{cli\+::type\+\_\+list\+::pop\+\_\+back$<$ List $>$}}
+\begin{DoxyCompactList}\small\item\em returns List with the last element removed. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1apply_3_01_f_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::apply$<$ F, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1extract_3_01_class_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::extract$<$ Class$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1for__each_3_01_f_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::for\+\_\+each$<$ F, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1transform_3_01_f_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::transform$<$ F, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1merge_3_01_list1_3_01_ts_8_8_8_01_4_00_01_list2_3_01_us_8_8_8_01_4_00_01_lists_8_8_8_01_4}{cli\+::type\+\_\+list\+::merge$<$ List1$<$ Ts... $>$, List2$<$ Us... $>$, Lists... $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1merge_3_01_list1_3_01_ts_8_8_8_01_4_00_01_list2_3_01_us_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::merge$<$ List1$<$ Ts... $>$, List2$<$ Us... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1merge_3_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::merge$<$ List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1merge_3_4}{cli\+::type\+\_\+list\+::merge$<$$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1filter}{cli\+::type\+\_\+list\+::filter$<$ Predicate, List $>$}}
+\begin{DoxyCompactList}\small\item\em returns List filtered with Predicate. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1contains_3_01_t_00_01_list_3_01_ts_8_8_8_01_4_01_4}{cli\+::type\+\_\+list\+::contains$<$ T, List$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1type__list_1_1remove__duplicates}{cli\+::type\+\_\+list\+::remove\+\_\+duplicates$<$ List $>$}}
+\begin{DoxyCompactList}\small\item\em returns List with duplicate elements removed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1type__list}{cli\+::type\+\_\+list}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{type__list_8hpp_aba93880fae3db364bd6143325c0bdacd}{TYPELIST\+\_\+\+INLINE}}~static
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a55e0ec15ec68606f8787d626ca8eb1dc}{cli\+::type\+\_\+list\+::head\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1head}{head}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em get the first element of List. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_ae99bed98a494a21c1f564978af368c0d}{cli\+::type\+\_\+list\+::tail\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1tail}{tail}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns List with the first element removed. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a505a3617e441e2e6c354e8d2a2c8b711}{cli\+::type\+\_\+list\+::push\+\_\+front\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1push__front}{push\+\_\+front}}$<$T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em return List with T added to the front. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a889375f23224c95690f921eb5697c86b}{cli\+::type\+\_\+list\+::pop\+\_\+front\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1pop__front}{pop\+\_\+front}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns List with the first element removed. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{size\+\_\+t}} N, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_aa19cdbbbda2a5c18c156e408b1b5f900}{cli\+::type\+\_\+list\+::type\+\_\+at\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\+\_\+at}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{N}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns N-\/th type in \doxylink{namespacecli_1_1type__list}{type\+\_\+list} List. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_af44046d8442ea69bf66c199ff7c4e13f}{cli\+::type\+\_\+list\+::first}} = \mbox{\hyperlink{structcli_1_1type__list_1_1head}{head}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$
+\begin{DoxyCompactList}\small\item\em returns the first element of List \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_aea68ed854078546271656d467bf22ec2}{cli\+::type\+\_\+list\+::first\+\_\+t}} = \mbox{\hyperlink{namespacecli_1_1type__list_a55e0ec15ec68606f8787d626ca8eb1dc}{head\+\_\+t}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$
+\begin{DoxyCompactList}\small\item\em returns the first element of List \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a1d62c3dc0bbdd7690748f3dfbb07d945}{cli\+::type\+\_\+list\+::last}} = \mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\+\_\+at}}$<$\mbox{\hyperlink{structcli_1_1type__list_1_1list__size}{list\+\_\+size}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::value -\/ 1, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$
+\begin{DoxyCompactList}\small\item\em returns the last element of List \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a7b5353dd9fe3ecbe25946ce7f6bedae2}{cli\+::type\+\_\+list\+::last\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{namespacecli_1_1type__list_a1d62c3dc0bbdd7690748f3dfbb07d945}{last}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns the last element of List \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_ab82ae3a3f2c25a9a1bedfb51b43d5d56}{cli\+::type\+\_\+list\+::push\+\_\+back\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1push__back}{push\+\_\+back}}$<$T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em return List with T added at the end. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_abb6d88e7aceb42c7f4de61f6b7f2fa26}{cli\+::type\+\_\+list\+::pop\+\_\+back\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1pop__back}{pop\+\_\+back}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns List with the last element removed. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{template}}$<$ class... $>$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a4d671555f17ada1ec24a98d23f10fdd9}{cli\+::type\+\_\+list\+::apply\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1apply}{apply}}$<$F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em applies List to F, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Class}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a22e17ba16ab6c246c92d686ab7d018bf}{cli\+::type\+\_\+list\+::extract\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1extract}{extract}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Class}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns the template parameters of Class as a \doxylink{structcli_1_1type__list_1_1_type_list}{Type\+List}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{template}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} $>$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a44c271c82b11221da65a44f41c085e48}{cli\+::type\+\_\+list\+::for\+\_\+each\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1for__each}{for\+\_\+each}}$<$F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em replaces T with F$<$\+T$>$ for each T in List. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{template}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} $>$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a2b1b12b6cd7c6fd8aed8a6d3a439db94}{cli\+::type\+\_\+list\+::transform\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1transform}{transform}}$<$F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\item 
+{\footnotesize template$<$class... Lists$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a2b2cbc40b1c90e02a398d2867ca7d00c}{cli\+::type\+\_\+list\+::merge\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1merge}{merge}}$<$Lists...$>$\+::type
+\begin{DoxyCompactList}\small\item\em merges Lists into a single type list. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{template}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} $>$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} Predicate, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_a2c1b47935d0bcd410f9bb1a233e262b6}{cli\+::type\+\_\+list\+::filter\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1filter}{filter}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Predicate}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns List filtered with Predicate. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1type__list_aa5a6276b88600bcb9135f168e094b995}{cli\+::type\+\_\+list\+::remove\+\_\+duplicates\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1type__list_1_1remove__duplicates}{remove\+\_\+duplicates}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{List}}$>$\+::type
+\begin{DoxyCompactList}\small\item\em returns List with duplicate elements removed. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Ts$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_ae978bafe583624d9b466298925dc04c3}{cli\+::\+Type\+List}} = \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{type\+\_\+list\+::\+Type\+List}}$<$Ts...$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class... Ts$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_1_1type__list_a6a9a1d7cec6ebd930aeef4052d26378e}{cli\+::type\+\_\+list\+::operator==}} (\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$, \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$)
+\item 
+{\footnotesize template$<$class... Ts, class... Us$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_1_1type__list_a7bba099871233bf3afcbc27f954cc0e0}{cli\+::type\+\_\+list\+::operator==}} (\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$, \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Us... $>$)
+\item 
+{\footnotesize template$<$class... Ts$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_1_1type__list_acb6842d5586e9d8d6c8def9306f91041}{cli\+::type\+\_\+list\+::operator!=}} (\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$, \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$)
+\item 
+{\footnotesize template$<$class... Ts, class... Us$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_1_1type__list_ab0643eeab913b4f9d04202ae20bd8577}{cli\+::type\+\_\+list\+::operator!=}} (\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Ts... $>$, \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{Type\+List}}$<$ Us... $>$)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{type__list_8hpp_aba93880fae3db364bd6143325c0bdacd}{TYPELIST\+\_\+\+INLINE}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{size\+\_\+t}} \mbox{\hyperlink{namespacecli_1_1type__list_aaa85697c820dd3cbbde3fe9b91554a01}{cli\+::type\+\_\+list\+::npos}} = std\+::numeric\+\_\+limits$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{size\+\_\+t}}$>$\+::max()
+\begin{DoxyCompactList}\small\item\em constant for indicating an invalid index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{type__list_8hpp_aba93880fae3db364bd6143325c0bdacd}\label{type__list_8hpp_aba93880fae3db364bd6143325c0bdacd} 
+\index{type\_list.hpp@{type\_list.hpp}!TYPELIST\_INLINE@{TYPELIST\_INLINE}}
+\index{TYPELIST\_INLINE@{TYPELIST\_INLINE}!type\_list.hpp@{type\_list.hpp}}
+\doxysubsubsection{\texorpdfstring{TYPELIST\_INLINE}{TYPELIST\_INLINE}}
+{\footnotesize\ttfamily \#define TYPELIST\+\_\+\+INLINE~static}
+

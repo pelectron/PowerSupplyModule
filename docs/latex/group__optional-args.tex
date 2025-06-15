@@ -1,0 +1,219 @@
+\doxysubsection{Optional Arguments}
+\hypertarget{group__optional-args}{}\label{group__optional-args}\index{Optional Arguments@{Optional Arguments}}
+\doxysubsubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description, Parse \&\&parse, Validate \&\&validate)
+\begin{DoxyCompactList}\small\item\em creates an optional argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser\+Of$<$ T $>$ Parse, validate\+::\+Validator\+Of$<$ T $>$ Validate$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga1a0f0a3204782c8dc5fa1361fd9aa37d}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description, Parse \&\&parse, Validate \&\&validate)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga961c859656889b2bca1fed592ea75003}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga0fdba555351d7e164a51ebbdcb63ed27}{cli\+::funcs\+::arg}} (Arg\+Name name)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+
+
+
+
+\doxysubsubsection{Function Documentation}
+\Hypertarget{group__optional-args_ga0fdba555351d7e164a51ebbdcb63ed27}\label{group__optional-args_ga0fdba555351d7e164a51ebbdcb63ed27} 
+\index{Optional Arguments@{Optional Arguments}!arg@{arg}}
+\index{arg@{arg}!Optional Arguments@{Optional Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , auto Default\+Value, Name Arg\+Name$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates an optional argument of type T. 
+
+The default parser and validator are used.
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DefaultValue\ =\ 1;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ arg\ =\ }
+\DoxyCodeLine{\ \ cli::funcs::arg<double,\ DefaultValue>(\textcolor{stringliteral}{"{}x"{}}\_sc);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the arguments type \\
+\hline
+{\em Default\+Value} & the default value of this argument \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}
+\Hypertarget{group__optional-args_ga961c859656889b2bca1fed592ea75003}\label{group__optional-args_ga961c859656889b2bca1fed592ea75003} 
+\index{Optional Arguments@{Optional Arguments}!arg@{arg}}
+\index{arg@{arg}!Optional Arguments@{Optional Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name,  }\item[{Description}]{description }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates an optional argument of type T. 
+
+The default parser and validator are used.
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DefaultValue\ =\ 1;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ arg\ =\ }
+\DoxyCodeLine{\ \ cli::funcs::arg<double,\ DefaultValue>(\textcolor{stringliteral}{"{}x"{}}\_sc,\ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the arguments type \\
+\hline
+{\em Default\+Value} & the default value of this argument \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}
+\Hypertarget{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}\label{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8} 
+\index{Optional Arguments@{Optional Arguments}!arg@{arg}}
+\index{arg@{arg}!Optional Arguments@{Optional Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name,  }\item[{Description}]{description,  }\item[{Parse \&\&}]{parse,  }\item[{Validate \&\&}]{validate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates an optional argument. 
+
+creates a required argument of type T.
+
+The value type of the argument is deduced from the value type of parse.
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DefaultValue\ =\ 1;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ arg\ =\ }
+\DoxyCodeLine{\ \ cli::funcs::arg<DefaultValue>(\textcolor{stringliteral}{"{}x"{}}\_sc,\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc,\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::parse::DefaultParse<int>\{\},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::validate::DefaultValidate<int>\{\});}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Default\+Value} & the default value of this argument \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+{\em parse} & the parser for the argument \\
+\hline
+{\em validate} & the validator for the argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg
+\end{DoxyReturn}
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\ \ cli::funcs::arg<int>(\textcolor{stringliteral}{"{}x"{}}\_sc,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::parse::DefaultParse<int>\{\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::validate::DefaultValidate<int>\{\});}
+
+\end{DoxyCode}
+ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the arguments type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+{\em parse} & the parser for the argument \\
+\hline
+{\em validate} & the validator for the argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}
+\Hypertarget{group__optional-args_ga1a0f0a3204782c8dc5fa1361fd9aa37d}\label{group__optional-args_ga1a0f0a3204782c8dc5fa1361fd9aa37d} 
+\index{Optional Arguments@{Optional Arguments}!arg@{arg}}
+\index{arg@{arg}!Optional Arguments@{Optional Arguments}}
+\doxysubsubsubsection{\texorpdfstring{arg()}{arg()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser\+Of$<$ T $>$ Parse, validate\+::\+Validator\+Of$<$ T $>$ Validate$>$ \\
+constexpr auto cli\+::funcs\+::arg (\begin{DoxyParamCaption}\item[{Arg\+Name}]{name,  }\item[{Description}]{description,  }\item[{Parse \&\&}]{parse,  }\item[{Validate \&\&}]{validate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates an optional argument of type T. 
+
+Intended usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using\ }cli::operator\textcolor{stringliteral}{"{}"{}}\_sc;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ DefaultValue\ =\ 1;}
+\DoxyCodeLine{\textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ arg\ =\ }
+\DoxyCodeLine{\ \ cli::funcs::arg<double,\ DefaultValue>(\textcolor{stringliteral}{"{}x"{}}\_sc,\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ target\ x\ position"{}}\_sc,\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::parse::DefaultParse<double>\{\},\ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::validate::DefaultValidate<double>\{\});}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the arguments type \\
+\hline
+{\em Default\+Value} & the default value of this argument \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the humanreadable name of the argument as a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} \\
+\hline
+{\em description} & a \doxylink{structcli_1_1string__constant}{string\+\_\+constant} that is used by the help functionality \\
+\hline
+{\em parse} & the parser for the argument \\
+\hline
+{\em validate} & the validator for the argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Function\+Arg 
+\end{DoxyReturn}

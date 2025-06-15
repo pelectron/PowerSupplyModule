@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['arg_0',['arg',['../group__optional-args.html#gaaa32d3f116868dcdf0e27a5884bcf8e8',1,'cli::funcs::arg(ArgName name, Description description, Parse &amp;&amp;parse, Validate &amp;&amp;validate)'],['../group__optional-args.html#ga1a0f0a3204782c8dc5fa1361fd9aa37d',1,'cli::funcs::arg(ArgName name, Description description, Parse &amp;&amp;parse, Validate &amp;&amp;validate)'],['../group__optional-args.html#ga961c859656889b2bca1fed592ea75003',1,'cli::funcs::arg(ArgName name, Description description)'],['../group__optional-args.html#ga0fdba555351d7e164a51ebbdcb63ed27',1,'cli::funcs::arg(ArgName name)'],['../group__required-args.html#ga20c94d948938f2db28a744a4ebc33d03',1,'cli::funcs::arg(ArgName name, Description description)'],['../group__required-args.html#ga11a1ae7b7b406d2142309f7ffd53f107',1,'cli::funcs::arg(ArgName name)']]]
+];

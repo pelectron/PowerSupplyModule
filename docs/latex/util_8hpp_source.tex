@@ -1,0 +1,619 @@
+\doxysection{util.\+hpp}
+\hypertarget{util_8hpp_source}{}\label{util_8hpp_source}\index{cli/util.hpp@{cli/util.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_UTIL\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_UTIL\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <initializer\_list>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}cli/command.hpp"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}cli/ring\_buffer.hpp"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}cli/string.hpp"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}cli/type\_list.hpp"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ CLI\_NO\_UNIQUE\_ADDRESS\ [[msvc::no\_unique\_address]]}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ CLI\_NO\_UNIQUE\_ADDRESS\ [[no\_unique\_address]]}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ always\_false\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00027\ \textcolor{keyword}{template}\ <auto\ V>}
+\DoxyCodeLine{00028\ \textcolor{keyword}{using\ }smallest\_type\_for\_value\_t\ =\ std::conditional\_t<}
+\DoxyCodeLine{00029\ \ \ \ \ V\ <=\ std::numeric\_limits<uint8\_t>::max(),\ uint8\_t,}
+\DoxyCodeLine{00030\ \ \ \ \ std::conditional\_t<}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ V\ <=\ std::numeric\_limits<uint16\_t>::max(),\ uint16\_t,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::conditional\_t<V\ <=\ std::numeric\_limits<uint32\_t>::max(),\ uint32\_t,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint64\_t>>>;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{template}\ <auto\ V>\ \textcolor{keyword}{struct\ }constant\ \{}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(V)>;}
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ type\ value\{V\};}
+\DoxyCodeLine{00038\ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{template}\ <auto\ V>\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ constant\_v\ =\ constant<V>\{\};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }identity\ \{}
+\DoxyCodeLine{00043\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }NoDescription\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ ByteView()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};\ \}}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{struct\ }NoHelp\ \{}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ ByteView()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};\ \}}
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ C>}
+\DoxyCodeLine{00055\ \textcolor{keyword}{concept\ }StringOf\ =\ std::constructible\_from<const\ C\ *,\ const\ C\ *>\ or}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::constructible\_from<const\ C\ *,\ std::size\_t>;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00059\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ StringConstant>\ \textcolor{keyword}{struct\ }to\_lower;}
+\DoxyCodeLine{00060\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>\ \textcolor{keyword}{struct\ }to\_lower<string\_constant<Cs...>>\ \{}
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{using\ }type\ =\ string\_constant<[](\textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ c\ >=\ \textcolor{charliteral}{'A'}\ and\ c\ <=\ \textcolor{charliteral}{'Z'}\ ?\ c\ +\ (\textcolor{charliteral}{'a'}\ -\/\ \textcolor{charliteral}{'A'})\ :\ c;}
+\DoxyCodeLine{00063\ \ \ \}(Cs)...>;}
+\DoxyCodeLine{00064\ \};}
+\DoxyCodeLine{00065\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00068\ \textcolor{keyword}{template}\ <StringLiteral\ S,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00069\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ make\_sc(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{return}\ string\_constant<S.s[Is]...>\{\};}
+\DoxyCodeLine{00071\ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{class\ }Tuple,\ \textcolor{keyword}{class}...\ Args,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00074\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ for\_each\_impl(std::index\_sequence<Is...>,\ F\ \&\&f,\ Tuple\ \&\&t,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00076\ \ \ (f(std::get<Is>(std::forward<Tuple>(t)),\ std::forward<Args>(args)...),\ ...);}
+\DoxyCodeLine{00077\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }Tuple,\ \textcolor{keyword}{class\ }F,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00080\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{decltype}(\textcolor{keyword}{auto})\ apply\_impl(Tuple\ \&\&t,\ F\ \&\&f,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordflow}{return}\ std::forward<F>(f)(std::get<Is>(std::forward<Tuple>(t))...);}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Tuple,\ \textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00087\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{decltype}(\textcolor{keyword}{auto})\ apply(Tuple\ \&\&t,\ F\ \&\&f)\ \{}
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordflow}{return}\ dtl::apply\_impl(std::forward<Tuple>(t),\ std::forward<F>(f),}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_index\_sequence<}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::tuple\_size\_v<std::remove\_cvref\_t<Tuple>>>());}
+\DoxyCodeLine{00091\ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{using\ }ArgVector\ =\ ByteView;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{using\ }OutputIterator\ =\ RingBufView<uint8\_t>::write\_iterator;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }Tuple,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00098\ \ \ \textcolor{keyword}{requires}(not\ Command<Tuple>)}
+\DoxyCodeLine{00099\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ for\_each(F\ \&\&f,\ Tuple\ \&\&t,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00100\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Command<Tuple>\ and\ \textcolor{keyword}{requires}\ \{\ t.subcommands;\ \})}
+\DoxyCodeLine{00101\ \ \ \ \ dtl::for\_each\_impl(}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ std::make\_index\_sequence<}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ type\_list::list\_size\_v<typename\ Tuple::sub\_command\_list>>(),}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ std::forward<F>(f),\ t.subcommands,\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00105\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ Command<Tuple>\ and\ \textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::tuple\_size\_v<std::remove\_cvref\_t<Tuple>>;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})}
+\DoxyCodeLine{00108\ \ \ \ \ dtl::for\_each\_impl(std::make\_index\_sequence<}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::tuple\_size\_v<std::remove\_cvref\_t<Tuple>>>\{\},}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f),\ std::forward<Tuple>(t),}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...);}
+\DoxyCodeLine{00112\ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00116\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ for\_each(F\ \&\&f,\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&t,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00118\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{\ t.subcommands;\ \})}
+\DoxyCodeLine{00119\ \ \ \ \ dtl::for\_each\_impl(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(SubC)>(),}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f),\ t.subcommands,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...);}
+\DoxyCodeLine{00122\ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC,}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00126\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ for\_each(F\ \&\&f,\ \textcolor{keyword}{const}\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&t,}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00128\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{\ t.subcommands;\ \})}
+\DoxyCodeLine{00129\ \ \ \ \ dtl::for\_each\_impl(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(SubC)>(),}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f),\ t.subcommands,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...);}
+\DoxyCodeLine{00132\ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ L>\ \textcolor{keyword}{struct\ }num\_cmds;}
+\DoxyCodeLine{00135\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L,\ \textcolor{keyword}{class}...\ SubCmds>}
+\DoxyCodeLine{00136\ \textcolor{keyword}{struct\ }num\_cmds<T,\ L<SubCmds...>>\ \{}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ 1\ +\ (num\_cmds<SubCmds,\ typename\ SubCmds::sub\_command\_list>::value\ +\ ...);}
+\DoxyCodeLine{00139\ \};}
+\DoxyCodeLine{00140\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L>\ \textcolor{keyword}{struct\ }num\_cmds<T,\ L<>>\ \{}
+\DoxyCodeLine{00141\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =\ 1;}
+\DoxyCodeLine{00142\ \};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{keyword}{template}\ <Command\ C>}
+\DoxyCodeLine{00145\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_cmds\_v\ =}
+\DoxyCodeLine{00146\ \ \ \ \ num\_cmds<C,\ typename\ C::sub\_command\_list>::value;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ L>\ \textcolor{keyword}{struct\ }num\_levels;}
+\DoxyCodeLine{00149\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L,\ \textcolor{keyword}{class}...\ SubCmds>}
+\DoxyCodeLine{00150\ \textcolor{keyword}{struct\ }num\_levels<T,\ L<SubCmds...>>\ \{}
+\DoxyCodeLine{00151\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ 1\ +}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ std::max(}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \{num\_levels<SubCmds,\ typename\ SubCmds::sub\_command\_list>::value...\});}
+\DoxyCodeLine{00155\ \};}
+\DoxyCodeLine{00156\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L>\ \textcolor{keyword}{struct\ }num\_levels<T,\ L<>>\ \{}
+\DoxyCodeLine{00157\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =\ 0;}
+\DoxyCodeLine{00158\ \};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \textcolor{keyword}{template}\ <Command\ C>}
+\DoxyCodeLine{00161\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_levels\_v\ =}
+\DoxyCodeLine{00162\ \ \ \ \ num\_cmds<C,\ typename\ C::sub\_command\_list>::value;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ L>\ \textcolor{keyword}{struct\ }max\_name\_length;}
+\DoxyCodeLine{00165\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L,\ \textcolor{keyword}{class}...\ SubCmds>}
+\DoxyCodeLine{00166\ \textcolor{keyword}{struct\ }max\_name\_length<T,\ L<SubCmds...>>\ \{}
+\DoxyCodeLine{00167\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =\ std::max(}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \{T::name.size(),}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ max\_name\_length<SubCmds,\ typename\ SubCmds::sub\_command\_list>::value...\});}
+\DoxyCodeLine{00170\ \};}
+\DoxyCodeLine{00171\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }L>\ \textcolor{keyword}{struct\ }max\_name\_length<T,\ L<>>\ \{}
+\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ value\ =\ T::name.size();}
+\DoxyCodeLine{00173\ \};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{keyword}{template}\ <Command\ C>}
+\DoxyCodeLine{00176\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_name\_length\_v\ =}
+\DoxyCodeLine{00177\ \ \ \ \ max\_name\_length<C,\ typename\ C::sub\_command\_list>::value;}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC>}
+\DoxyCodeLine{00180\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ count\_cmds(\textcolor{keyword}{const}\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&c)\ \{}
+\DoxyCodeLine{00181\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(SubC)\ >\ 0)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ 1\ +\ [\&c]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (count\_cmds(std::get<Is>(c.subcommands))\ +\ ...);}
+\DoxyCodeLine{00184\ \ \ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(SubC)>());}
+\DoxyCodeLine{00185\ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC>}
+\DoxyCodeLine{00190\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ count\_level(\textcolor{keyword}{const}\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&c)\ \{}
+\DoxyCodeLine{00191\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(SubC)\ >\ 0)\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ 1\ +\ [\&c]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::max(count\_level(std::get<Is>(c.subcommands))...);}
+\DoxyCodeLine{00194\ \ \ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(SubC)>());}
+\DoxyCodeLine{00195\ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00197\ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00217\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1extract__signature}{extract\_signature}};}
+\DoxyCodeLine{00218\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1extract__signature}{extract\_signature}}<R(A...)>\ \{}
+\DoxyCodeLine{00219\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...);}
+\DoxyCodeLine{00220\ \};}
+\DoxyCodeLine{00221\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00222\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1extract__signature}{extract\_signature}}<R(A...)\ noexcept>\ \{}
+\DoxyCodeLine{00223\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ noexcept;}
+\DoxyCodeLine{00224\ \};}
+\DoxyCodeLine{00225\ template\ <typename\ R,\ typename...\ A>\ struct\ \mbox{\hyperlink{structcli_1_1extract__signature}{extract\_signature}}<R(A...)\ const>\ \{}
+\DoxyCodeLine{00226\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00227\ \};}
+\DoxyCodeLine{00228\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00229\ \textcolor{keyword}{struct\ }extract\_signature<R(A...)\ const\ noexcept>\ \{}
+\DoxyCodeLine{00230\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ const\ noexcept;}
+\DoxyCodeLine{00231\ \};}
+\DoxyCodeLine{00232\ template\ <typename\ R,\ typename...\ A>\ struct\ extract\_signature<R\ (*)(A...)>\ \{}
+\DoxyCodeLine{00233\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...);}
+\DoxyCodeLine{00234\ \};}
+\DoxyCodeLine{00235\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00236\ \textcolor{keyword}{struct\ }extract\_signature<R\ (*)(A...)\ noexcept>\ \{}
+\DoxyCodeLine{00237\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ noexcept;}
+\DoxyCodeLine{00238\ \};}
+\DoxyCodeLine{00239\ template\ <typename\ T,\ typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00240\ struct\ extract\_signature<R\ (T::*)(A...)>\ \{}
+\DoxyCodeLine{00241\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...);}
+\DoxyCodeLine{00242\ \};}
+\DoxyCodeLine{00243\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00244\ \textcolor{keyword}{struct\ }extract\_signature<R\ (T::*)(A...)\ noexcept>\ \{}
+\DoxyCodeLine{00245\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ noexcept;}
+\DoxyCodeLine{00246\ \};}
+\DoxyCodeLine{00247\ template\ <typename\ T,\ typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00248\ struct\ extract\_signature<R\ (T::*)(A...)\ const>\ \{}
+\DoxyCodeLine{00249\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00250\ \};}
+\DoxyCodeLine{00251\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00252\ \textcolor{keyword}{struct\ }extract\_signature<R\ (T::*)(A...)\ const\ noexcept>\ \{}
+\DoxyCodeLine{00253\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ const\ noexcept;}
+\DoxyCodeLine{00254\ \};}
+\DoxyCodeLine{00255\ template\ <typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00256\ struct\ extract\_signature<R(A...)\ volatile>\ \{}
+\DoxyCodeLine{00257\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{volatile};}
+\DoxyCodeLine{00258\ \};}
+\DoxyCodeLine{00259\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00260\ \textcolor{keyword}{struct\ }extract\_signature<R(A...)\ volatile\ noexcept>\ \{}
+\DoxyCodeLine{00261\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ volatile\ noexcept;}
+\DoxyCodeLine{00262\ \};}
+\DoxyCodeLine{00263\ template\ <typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00264\ struct\ extract\_signature<R(A...)\ volatile\ const>\ \{}
+\DoxyCodeLine{00265\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{volatile\ const};}
+\DoxyCodeLine{00266\ \};}
+\DoxyCodeLine{00267\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00268\ \textcolor{keyword}{struct\ }extract\_signature<R(A...)\ volatile\ const\ noexcept>\ \{}
+\DoxyCodeLine{00269\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ volatile\ const\ noexcept;}
+\DoxyCodeLine{00270\ \};}
+\DoxyCodeLine{00271\ template\ <typename\ T,\ typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00272\ struct\ extract\_signature<R\ (T::*)(A...)\ volatile>\ \{}
+\DoxyCodeLine{00273\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{volatile};}
+\DoxyCodeLine{00274\ \};}
+\DoxyCodeLine{00275\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00276\ \textcolor{keyword}{struct\ }extract\_signature<R\ (T::*)(A...)\ volatile\ noexcept>\ \{}
+\DoxyCodeLine{00277\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ volatile\ noexcept;}
+\DoxyCodeLine{00278\ \};}
+\DoxyCodeLine{00279\ template\ <typename\ T,\ typename\ R,\ typename...\ A>}
+\DoxyCodeLine{00280\ struct\ extract\_signature<R\ (T::*)(A...)\ volatile\ const>\ \{}
+\DoxyCodeLine{00281\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ \textcolor{keyword}{volatile\ const};}
+\DoxyCodeLine{00282\ \};}
+\DoxyCodeLine{00283\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{typename}...\ A>}
+\DoxyCodeLine{00284\ \textcolor{keyword}{struct\ }extract\_signature<R\ (T::*)(A...)\ volatile\ const\ noexcept>\ \{}
+\DoxyCodeLine{00285\ \ \ \textcolor{keyword}{using\ }type\ =\ R(A...)\ volatile\ const\ noexcept;}
+\DoxyCodeLine{00286\ \};}
+\DoxyCodeLine{00287\ template\ <typename\ F>}
+\DoxyCodeLine{00288\ struct\ extract\_signature<F,\ std::void\_t<decltype(\&F::operator())>>\ \{}
+\DoxyCodeLine{00289\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ extract\_signature<\textcolor{keyword}{decltype}(\&F::operator())>::type;}
+\DoxyCodeLine{00290\ \};}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00293\ \textcolor{keyword}{using\ }extract\_signature\_t\ =\ \textcolor{keyword}{typename}\ extract\_signature<F>::type;}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Signature>\ \textcolor{keyword}{struct\ }signature\_traits;}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class}...\ A>\ \textcolor{keyword}{struct\ }signature\_traits<R(A...)>\ \{}
+\DoxyCodeLine{00299\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00300\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00301\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (*)(A...);}
+\DoxyCodeLine{00302\ \ \ \textcolor{keyword}{using\ }invoke\_ptr\_type\ =\ R\ (*)(\textcolor{keywordtype}{void}\ *,\ A...);}
+\DoxyCodeLine{00303\ \ \ \textcolor{keyword}{using\ }invoke\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00304\ \ \ \textcolor{keyword}{using\ }mutable\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00305\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00306\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00307\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00308\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00309\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00310\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00311\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ matches\ =\ std::is\_invocable\_r\_v<R,\ F,\ A...>;}
+\DoxyCodeLine{00312\ \};}
+\DoxyCodeLine{00313\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class}...\ A>\ \textcolor{keyword}{struct\ }signature\_traits<R(A...)\ noexcept>\ \{}
+\DoxyCodeLine{00314\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ noexcept;}
+\DoxyCodeLine{00315\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00316\ \ \ using\ ptr\_type\ =\ R\ (*)(A...)\ noexcept;}
+\DoxyCodeLine{00317\ \ \ using\ invoke\_ptr\_type\ =\ R\ (*)(\textcolor{keywordtype}{void}\ *,\ A...)\ noexcept;}
+\DoxyCodeLine{00318\ \ \ using\ invoke\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00319\ \ \ using\ mutable\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00320\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00321\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00322\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00323\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ false;}
+\DoxyCodeLine{00324\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ false;}
+\DoxyCodeLine{00325\ \ \ template\ <typename\ F>}
+\DoxyCodeLine{00326\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ matches\ =\ std::is\_nothrow\_invocable\_r\_v<R,\ F,\ A...>;}
+\DoxyCodeLine{00327\ \};}
+\DoxyCodeLine{00328\ template\ <typename\ R,\ class...\ A>\ struct\ signature\_traits<R(A...)\ const>\ \{}
+\DoxyCodeLine{00329\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00330\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00331\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (*)(A...);}
+\DoxyCodeLine{00332\ \ \ \textcolor{keyword}{using\ }invoke\_ptr\_type\ =\ R\ (*)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *,\ A...);}
+\DoxyCodeLine{00333\ \ \ \textcolor{keyword}{using\ }invoke\_obj\_type\ =\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00334\ \ \ \textcolor{keyword}{using\ }mutable\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00335\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00336\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00337\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00338\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00339\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00340\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00341\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ matches\ =\ std::is\_invocable\_r\_v<R,\ \textcolor{keyword}{const}\ F,\ A...>;}
+\DoxyCodeLine{00342\ \};}
+\DoxyCodeLine{00343\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00344\ \textcolor{keyword}{struct\ }signature\_traits<R(A...)\ const\ noexcept>\ \{}
+\DoxyCodeLine{00345\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ const\ noexcept;}
+\DoxyCodeLine{00346\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00347\ \ \ using\ ptr\_type\ =\ R\ (*)(A...)\ noexcept;}
+\DoxyCodeLine{00348\ \ \ using\ invoke\_ptr\_type\ =\ R\ (*)(const\ \textcolor{keywordtype}{void}\ *,\ A...)\ noexcept;}
+\DoxyCodeLine{00349\ \ \ using\ invoke\_obj\_type\ =\ const\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00350\ \ \ using\ mutable\_obj\_type\ =\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00351\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00352\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00353\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00354\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ true;}
+\DoxyCodeLine{00355\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ false;}
+\DoxyCodeLine{00356\ \ \ template\ <typename\ F>}
+\DoxyCodeLine{00357\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ matches\ =}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ std::is\_nothrow\_invocable\_r\_v<R,\ const\ F,\ A...>;}
+\DoxyCodeLine{00359\ \};}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ template\ <typename\ R,\ class...\ A>\ struct\ signature\_traits<R(A...)\ volatile>\ \{}
+\DoxyCodeLine{00362\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{volatile};}
+\DoxyCodeLine{00363\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00364\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (*)(A...);}
+\DoxyCodeLine{00365\ \ \ \textcolor{keyword}{using\ }invoke\_ptr\_type\ =\ R\ (*)(\textcolor{keyword}{volatile}\ \textcolor{keywordtype}{void}\ *,\ A...);}
+\DoxyCodeLine{00366\ \ \ \textcolor{keyword}{using\ }invoke\_obj\_type\ =\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00367\ \ \ \textcolor{keyword}{using\ }mutable\_obj\_type\ =\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00368\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00369\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00370\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00371\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00372\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00373\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00374\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ matches\ =\ std::is\_invocable\_r\_v<R,\ \textcolor{keyword}{volatile}\ F,\ A...>;}
+\DoxyCodeLine{00375\ \};}
+\DoxyCodeLine{00376\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00377\ \textcolor{keyword}{struct\ }signature\_traits<R(A...)\ volatile\ noexcept>\ \{}
+\DoxyCodeLine{00378\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ volatile\ noexcept;}
+\DoxyCodeLine{00379\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00380\ \ \ using\ ptr\_type\ =\ R\ (*)(A...)\ noexcept;}
+\DoxyCodeLine{00381\ \ \ using\ invoke\_ptr\_type\ =\ R\ (*)(volatile\ \textcolor{keywordtype}{void}\ *,\ A...)\ noexcept;}
+\DoxyCodeLine{00382\ \ \ using\ invoke\_obj\_type\ =\ volatile\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00383\ \ \ using\ mutable\_obj\_type\ =\ volatile\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00384\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00385\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00386\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00387\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ false;}
+\DoxyCodeLine{00388\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ true;}
+\DoxyCodeLine{00389\ \ \ template\ <typename\ F>}
+\DoxyCodeLine{00390\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ matches\ =}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ std::is\_nothrow\_invocable\_r\_v<R,\ volatile\ F,\ A...>;}
+\DoxyCodeLine{00392\ \};}
+\DoxyCodeLine{00393\ template\ <typename\ R,\ class...\ A>}
+\DoxyCodeLine{00394\ struct\ signature\_traits<R(A...)\ volatile\ const>\ \{}
+\DoxyCodeLine{00395\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00396\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00397\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (*)(A...);}
+\DoxyCodeLine{00398\ \ \ \textcolor{keyword}{using\ }invoke\_ptr\_type\ =\ R\ (*)(\textcolor{keyword}{volatile}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *,\ A...);}
+\DoxyCodeLine{00399\ \ \ \textcolor{keyword}{using\ }invoke\_obj\_type\ =\ \textcolor{keyword}{volatile}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00400\ \ \ \textcolor{keyword}{using\ }mutable\_obj\_type\ =\ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00401\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00402\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00403\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00404\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00405\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00406\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>}
+\DoxyCodeLine{00407\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ matches\ =}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ std::is\_invocable\_r\_v<R,\ \textcolor{keyword}{volatile}\ \textcolor{keyword}{const}\ F,\ A...>;}
+\DoxyCodeLine{00409\ \};}
+\DoxyCodeLine{00410\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00411\ \textcolor{keyword}{struct\ }signature\_traits<R(A...)\ volatile\ const\ noexcept>\ \{}
+\DoxyCodeLine{00412\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ const\ noexcept;}
+\DoxyCodeLine{00413\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00414\ \ \ using\ ptr\_type\ =\ R\ (*)(A...)\ noexcept;}
+\DoxyCodeLine{00415\ \ \ using\ invoke\_ptr\_type\ =\ R\ (*)(volatile\ const\ \textcolor{keywordtype}{void}\ *,\ A...)\ noexcept;}
+\DoxyCodeLine{00416\ \ \ using\ invoke\_obj\_type\ =\ volatile\ const\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00417\ \ \ using\ mutable\_obj\_type\ =\ volatile\ \textcolor{keywordtype}{void}\ *;}
+\DoxyCodeLine{00418\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00419\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00420\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00421\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ true;}
+\DoxyCodeLine{00422\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ true;}
+\DoxyCodeLine{00423\ \ \ template\ <typename\ F>}
+\DoxyCodeLine{00424\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ matches\ =}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ std::is\_nothrow\_invocable\_r\_v<R,\ volatile\ const\ F,\ A...>;}
+\DoxyCodeLine{00426\ \};}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ template\ <typename\ F>}
+\DoxyCodeLine{00429\ struct\ function\_traits\ :\ signature\_traits<extract\_signature\_t<F>>\ \{\};}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00432\ \textcolor{keyword}{struct\ }function\_traits<R\ (T::*)(A...)>\ \{}
+\DoxyCodeLine{00433\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00434\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00435\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00436\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (T::*)(A...);}
+\DoxyCodeLine{00437\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00438\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00439\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00440\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00441\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00442\ \};}
+\DoxyCodeLine{00443\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00444\ \textcolor{keyword}{struct\ }function\_traits<R\ (T::*)(A...)\ noexcept>\ \{}
+\DoxyCodeLine{00445\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00446\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ noexcept;}
+\DoxyCodeLine{00447\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00448\ \ \ using\ ptr\_type\ =\ R\ (T::*)(A...)\ noexcept;}
+\DoxyCodeLine{00449\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00450\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00451\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00452\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ false;}
+\DoxyCodeLine{00453\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ false;}
+\DoxyCodeLine{00454\ \};}
+\DoxyCodeLine{00455\ template\ <typename\ R,\ class\ T,\ class...\ A>}
+\DoxyCodeLine{00456\ struct\ function\_traits<R\ (T::*)(A...)\ const>\ \{}
+\DoxyCodeLine{00457\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00458\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00459\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00460\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (T::*)(A...)\ const;}
+\DoxyCodeLine{00461\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00462\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00463\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00464\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00465\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00466\ \};}
+\DoxyCodeLine{00467\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00468\ \textcolor{keyword}{struct\ }function\_traits<R\ (T::*)(A...)\ const\ noexcept>\ \{}
+\DoxyCodeLine{00469\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00470\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ const\ noexcept;}
+\DoxyCodeLine{00471\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00472\ \ \ using\ ptr\_type\ =\ R\ (T::*)(A...)\ const\ noexcept;}
+\DoxyCodeLine{00473\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00474\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00475\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00476\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ true;}
+\DoxyCodeLine{00477\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ false;}
+\DoxyCodeLine{00478\ \};}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ template\ <typename\ R,\ class\ T,\ class...\ A>}
+\DoxyCodeLine{00481\ struct\ function\_traits<R\ (T::*)(A...)\ volatile>\ \{}
+\DoxyCodeLine{00482\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00483\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{volatile};}
+\DoxyCodeLine{00484\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00485\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (T::*)(A...)\ volatile;}
+\DoxyCodeLine{00486\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00487\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00488\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00489\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00490\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00491\ \};}
+\DoxyCodeLine{00492\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00493\ \textcolor{keyword}{struct\ }function\_traits<R\ (T::*)(A...)\ volatile\ noexcept>\ \{}
+\DoxyCodeLine{00494\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00495\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ volatile\ noexcept;}
+\DoxyCodeLine{00496\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00497\ \ \ using\ ptr\_type\ =\ R\ (T::*)(A...)\ volatile\ noexcept;}
+\DoxyCodeLine{00498\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00499\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00500\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00501\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ false;}
+\DoxyCodeLine{00502\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ true;}
+\DoxyCodeLine{00503\ \};}
+\DoxyCodeLine{00504\ template\ <typename\ R,\ class\ T,\ class...\ A>}
+\DoxyCodeLine{00505\ struct\ function\_traits<R\ (T::*)(A...)\ volatile\ const>\ \{}
+\DoxyCodeLine{00506\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00507\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ \textcolor{keyword}{volatile\ const};}
+\DoxyCodeLine{00508\ \ \ \textcolor{keyword}{using\ }normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00509\ \ \ \textcolor{keyword}{using\ }ptr\_type\ =\ R\ (T::*)(A...)\ volatile\ const;}
+\DoxyCodeLine{00510\ \ \ \textcolor{keyword}{using\ }return\_type\ =\ R;}
+\DoxyCodeLine{00511\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00512\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00513\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_const\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00514\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00515\ \};}
+\DoxyCodeLine{00516\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ R,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ A>}
+\DoxyCodeLine{00517\ \textcolor{keyword}{struct\ }function\_traits<R\ (T::*)(A...)\ volatile\ const\ noexcept>\ \{}
+\DoxyCodeLine{00518\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ T;}
+\DoxyCodeLine{00519\ \ \ \textcolor{keyword}{using\ }signature\_type\ =\ R(A...)\ volatile\ const\ noexcept;}
+\DoxyCodeLine{00520\ \ \ using\ normalized\_signature\_type\ =\ R(A...);}
+\DoxyCodeLine{00521\ \ \ using\ ptr\_type\ =\ R\ (T::*)(A...)\ volatile\ const\ noexcept;}
+\DoxyCodeLine{00522\ \ \ using\ return\_type\ =\ R;}
+\DoxyCodeLine{00523\ \ \ using\ arguments\ =\ TypeList<A...>;}
+\DoxyCodeLine{00524\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_noexcept\ =\ true;}
+\DoxyCodeLine{00525\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_const\ =\ true;}
+\DoxyCodeLine{00526\ \ \ static\ constexpr\ \textcolor{keywordtype}{bool}\ is\_volatile\ =\ true;}
+\DoxyCodeLine{00527\ \};}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00529\ template\ <class\ MemberPtr>\ struct\ member\_traits;}
+\DoxyCodeLine{00530\ }
+\DoxyCodeLine{00531\ template\ <class\ Type,\ class\ Obj>\ struct\ member\_traits<Type\ Obj::*>\ \{}
+\DoxyCodeLine{00532\ \ \ \textcolor{keyword}{using\ }type\ =\ Type;}
+\DoxyCodeLine{00533\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ Obj;}
+\DoxyCodeLine{00534\ \};}
+\DoxyCodeLine{00535\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Type,\ \textcolor{keyword}{class}\ Obj>\ \textcolor{keyword}{struct\ }member\_traits<const\ Type\ Obj::*>\ \{}
+\DoxyCodeLine{00536\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{const}\ Type;}
+\DoxyCodeLine{00537\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ Obj;}
+\DoxyCodeLine{00538\ \};}
+\DoxyCodeLine{00539\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Type,\ \textcolor{keyword}{class}\ Obj>\ \textcolor{keyword}{struct\ }member\_traits<volatile\ Type\ Obj::*>\ \{}
+\DoxyCodeLine{00540\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{volatile}\ Type;}
+\DoxyCodeLine{00541\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ Obj;}
+\DoxyCodeLine{00542\ \};}
+\DoxyCodeLine{00543\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Type,\ \textcolor{keyword}{class}\ Obj>}
+\DoxyCodeLine{00544\ \textcolor{keyword}{struct\ }member\_traits<const\ volatile\ Type\ Obj::*>\ \{}
+\DoxyCodeLine{00545\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{const}\ \textcolor{keyword}{volatile}\ Type;}
+\DoxyCodeLine{00546\ \ \ \textcolor{keyword}{using\ }object\_type\ =\ Obj;}
+\DoxyCodeLine{00547\ \};}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ MemberPtr>}
+\DoxyCodeLine{00550\ \textcolor{keyword}{using\ }mem\_data\_type\ =\ \textcolor{keyword}{typename}\ member\_traits<MemberPtr>::type;}
+\DoxyCodeLine{00551\ }
+\DoxyCodeLine{00552\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>\ \textcolor{keyword}{struct\ }is\_callable\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00553\ }
+\DoxyCodeLine{00554\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00555\ \textcolor{keyword}{struct\ }is\_callable<F,\ std::void\_t<function\_traits<F>>>\ :\ std::true\_type\ \{\};}
+\DoxyCodeLine{00556\ }
+\DoxyCodeLine{00557\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_callable\_v\ =\ is\_callable<F>::value;}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00560\ \textcolor{keyword}{concept\ }Callable\ =\ is\_callable\_v<F>;}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00562\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ MemFunPtr>\ \textcolor{keyword}{struct\ }MemFunBinder;}
+\DoxyCodeLine{00563\ }
+\DoxyCodeLine{00564\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{typename}...\ MemFunArgs>}
+\DoxyCodeLine{00565\ \textcolor{keyword}{struct\ }MemFunBinder<T,\ Ret\ (T::*)(MemFunArgs...)>\ \{}
+\DoxyCodeLine{00566\ \ \ T\ *t;}
+\DoxyCodeLine{00567\ \ \ Ret\ (T::*mem\_fun)(MemFunArgs...);}
+\DoxyCodeLine{00568\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(T\ \&t,\ Ret\ (T::*mem\_fun)(MemFunArgs...))}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ :\ t(\&t),\ mem\_fun(mem\_fun)\ \{\}}
+\DoxyCodeLine{00570\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00571\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00572\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00573\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00574\ }
+\DoxyCodeLine{00575\ \ \ Ret\ operator()(MemFunArgs...\ args)\ \{\ \textcolor{keywordflow}{return}\ (t-\/>*(mem\_fun))(args...);\ \}}
+\DoxyCodeLine{00576\ \};}
+\DoxyCodeLine{00577\ }
+\DoxyCodeLine{00578\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{class}...\ MemFunArgs>}
+\DoxyCodeLine{00579\ \textcolor{keyword}{struct\ }MemFunBinder<T,\ Ret\ (T::*)(MemFunArgs...)\ noexcept>\ \{}
+\DoxyCodeLine{00580\ \ \ T\ *t;}
+\DoxyCodeLine{00581\ \ \ Ret\ (T::*mem\_fun)(MemFunArgs...)\ noexcept;}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(T\ \&t,\ Ret\ (T::*mem\_fun)(MemFunArgs...)\ noexcept)}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ :\ t(\&t),\ mem\_fun(mem\_fun)\ \{\}}
+\DoxyCodeLine{00585\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00586\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00587\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00588\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \ \ Ret\ operator()(MemFunArgs...\ args)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keywordflow}{return}\ (t-\/>*(mem\_fun))(args...);}
+\DoxyCodeLine{00592\ \ \ \}}
+\DoxyCodeLine{00593\ \};}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{class}...\ MemFunArgs>}
+\DoxyCodeLine{00596\ \textcolor{keyword}{struct\ }MemFunBinder<T,\ Ret\ (T::*)(MemFunArgs...)\ const>\ \{}
+\DoxyCodeLine{00597\ \ \ \textcolor{keyword}{const}\ T\ \&t;}
+\DoxyCodeLine{00598\ \ \ Ret\ (T::*mem\_fun)(MemFunArgs...)\ const;}
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ T\ \&t,\ Ret\ (T::*mem\_fun)(MemFunArgs...)\ const)}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ :\ t(t),\ mem\_fun(mem\_fun)\ \{\}}
+\DoxyCodeLine{00602\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00603\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00604\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00605\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00606\ \ \ Ret\ operator()(MemFunArgs...\ args)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (t.*(mem\_fun))(args...);\ \}}
+\DoxyCodeLine{00607\ \};}
+\DoxyCodeLine{00608\ }
+\DoxyCodeLine{00609\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{class}...\ MemFunArgs>}
+\DoxyCodeLine{00610\ \textcolor{keyword}{struct\ }MemFunBinder<T,\ Ret\ (T::*)(MemFunArgs...)\ const\ noexcept>\ \{}
+\DoxyCodeLine{00611\ \ \ \textcolor{keyword}{const}\ T\ \&t;}
+\DoxyCodeLine{00612\ \ \ Ret\ (T::*mem\_fun)(MemFunArgs...)\ const\ noexcept;}
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ T\ \&t,}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Ret\ (T::*mem\_fun)(MemFunArgs...)\ const\ noexcept)}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ :\ t(\&t),\ mem\_fun(mem\_fun)\ \{\}}
+\DoxyCodeLine{00617\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00618\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00619\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(\textcolor{keyword}{const}\ MemFunBinder\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00620\ \ \ \textcolor{keyword}{constexpr}\ MemFunBinder\ \&operator=(MemFunBinder\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00621\ \ \ Ret\ operator()(MemFunArgs...\ args)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00622\ \ \ \ \ \textcolor{keywordflow}{return}\ (t-\/>*(mem\_fun))(args...);}
+\DoxyCodeLine{00623\ \ \ \}}
+\DoxyCodeLine{00624\ \};}
+\DoxyCodeLine{00625\ }
+\DoxyCodeLine{00626\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ MemFunPtr>}
+\DoxyCodeLine{00627\ MemFunBinder(T\ \&\&,\ MemFunPtr)}
+\DoxyCodeLine{00628\ \ \ \ \ -\/>\ MemFunBinder<std::remove\_cvref\_t<T>,\ MemFunPtr>;}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \textcolor{keyword}{struct\ }dummy\ \{\};}
+\DoxyCodeLine{00631\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00632\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,43 @@
+\doxysection{validator.\+hpp}
+\hypertarget{validator_8hpp_source}{}\label{validator_8hpp_source}\index{cli/validator.hpp@{cli/validator.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_VALIDATE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_VALIDATE\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }cli::validate\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{template}\ <Callable\ V>\ \textcolor{keyword}{struct\ }value\_type\ \{}
+\DoxyCodeLine{00011\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<type\_list::type\_at\_t<}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ 0,\ \textcolor{keyword}{typename}\ function\_traits<std::remove\_cvref\_t<V>>::arguments>>;}
+\DoxyCodeLine{00013\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <Callable\ V>\ \textcolor{keyword}{using\ }value\_type\_t\ =\ \textcolor{keyword}{typename}\ value\_type<V>::type;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ V>}
+\DoxyCodeLine{00018\ \textcolor{keyword}{concept\ }Validator\ =}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<V>\ v,\ \textcolor{keyword}{const}\ value\_type\_t<V>\ \&value)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \{\ v(value)\ \}\ -\/>\ std::same\_as<cli::Error>;}
+\DoxyCodeLine{00021\ \ \ \ \ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ V,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00024\ \textcolor{keyword}{concept\ }ValidatorOf\ =\ std::same\_as<T,\ value\_type\_t<V>>\ and}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<V>\ v,\ \textcolor{keyword}{const}\ T\ \&value)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ v(value)\ \}\ -\/>\ std::same\_as<cli::Error>;}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }DefaultValidate\ \{}
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{constexpr}\ cli::Error\ operator()(\textcolor{keyword}{const}\ T\ \&)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ Error::none;\ \}}
+\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{struct\ }NullValidate\ \{}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{constexpr}\ cli::Error\ operator()(\textcolor{keyword}{const}\ dummy\ \&)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ Error::none;\ \}}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ \}\ \textcolor{comment}{//\ namespace\ cli::validate}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

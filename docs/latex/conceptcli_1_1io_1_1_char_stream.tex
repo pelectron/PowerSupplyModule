@@ -1,0 +1,46 @@
+\doxysection{cli\+::io\+::Char\+Stream Concept Reference}
+\hypertarget{conceptcli_1_1io_1_1_char_stream}{}\label{conceptcli_1_1io_1_1_char_stream}\index{cli::io::CharStream@{cli::io::CharStream}}
+
+
+A Char\+Stream is used to write a single character to an unbuffered output stream.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{cli::io::CharStream}}\ =\ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&stream,\ uint8\_t\ c)\ \{}
+\DoxyCodeLine{\ \ \{\ std::invoke(stream,\ c)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A Char\+Stream is used to write a single character to an unbuffered output stream. 
+
+It is a callable that takes a uint8\+\_\+t character as input and returns a cli\+::\+Error to indicate write success/failure.
+
+Example for an embedded target with UART\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cli::Error\ my\_char\_stream(uint8\_t\ c)\{}
+\DoxyCodeLine{\ \ HAL\_Status\ status\ =\ HAL\_UART\_Transmit(c);}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ status\_to\_cli\_err(status);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{static\_assert}(cli::CharStream<\textcolor{keyword}{decltype}(\&my\_char\_stream)>);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & the stream type \\
+\hline
+\end{DoxyTemplParams}

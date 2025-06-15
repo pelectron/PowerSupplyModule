@@ -1,0 +1,153 @@
+\doxysection{cli\+::funcs\+::Function\texorpdfstring{$<$}{<} Func\+Name, Description, Type, F, Args \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1funcs_1_1_function}{}\label{classcli_1_1funcs_1_1_function}\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+
+
+{\ttfamily \#include $<$cli/function.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_a1bdd7b5874d3d2c18afadc5e1298f50d}{sub\+\_\+command\+\_\+list}} = \mbox{\hyperlink{namespacecli_ae978bafe583624d9b466298925dc04c3}{Type\+List}}$<$$>$
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_a72a5870d99fc53aeceaa8b84d11821cc}{signature}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} traits\+::signature\+\_\+type
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types inherited from \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base$<$ Function$<$ Func\+Name, Description, Type, F, Args... $>$, Func\+Name, Description, Type $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classcli_1_1_command_base_a79ee5effe1915ff08a2d8b909b0f0a3f}{sub\+\_\+command\+\_\+list}}
+\item 
+using \mbox{\hyperlink{classcli_1_1_command_base_a61e66434ca2575974c060b4412551cf3}{name\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Callable Func, Func\+Arg... A$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_aab8aac6522f97383c215087777528e50}{Function}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{function}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{A}} \&\&...args)
+\item 
+{\footnotesize template$<$Callable Func$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_aa970990a9bc8c9dec73a5b51f1731eb4}{Function}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{function}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} std\+::tuple$<$ Args... $>$ \&args)
+\item 
+{\footnotesize template$<$Callable Func$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_a6c51205b214d27962e915d8827eff2cc}{Function}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{function}}, std\+::tuple$<$ Args... $>$ \&\&args)
+\item 
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_a50421768611c73622a1550defedfa3a0}{execute}} (\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{Exec\+Type}} \mbox{\hyperlink{classcli_1_1_command_base_abeeeac48bea4caf6b787ef06cf91f196}{type}}, \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}} args, std\+::span$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char}} $>$ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{out}})
+\item 
+\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_ab66076afcc435632620f37fe673d6733}{get\+\_\+help}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base$<$ Function$<$ Func\+Name, Description, Type, F, Args... $>$, Func\+Name, Description, Type $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcli_1_1_command_base_a3403d7a160b75d1343719650d67bce18}{Command\+Base}} ()=delete
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base_acbfe6c7f7452251e8c4882274197dc93}{Command\+Base}} (const \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base_aefdf487a3cef97c275a84c73de24e5bf}{Command\+Base}} (\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base_a2bd3024362d7e3652a95fdacf56f41d1}{Command\+Base}} (Sub\+Commands\+\_\+ \&\&...cmds)
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base_a81088d079dfc0f5239bff4ad64abd201}{Command\+Base}} (std\+::tuple$<$ Sub\+Commands... $>$ \&\&cmds)
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base_acd408a13644b21b4a1946973a44c66b2}{Command\+Base}} (const std\+::tuple$<$ Sub\+Commands... $>$ \&cmds)
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base_a7d533f853b77eb69a3644876aa95d02c}{operator=}} (const \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base_a45cb4807ac4b5c237c841eed50662e5f}{operator=}} (\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{classcli_1_1_command_base_a834a4fdc99b86a3be3499e5cf52522a3}{execute}} (\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{Exec\+Type}} type, \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} args, std\+::span$<$ char $>$ \&out)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$std\+::size\+\_\+t I, std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{cli\+::\+Error}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function_a2ba7f3c5a1d468f4d7c3a307a16cda82}{validate}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{tuple}}, std\+::index\+\_\+sequence$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{I}}, Is... $>$)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base$<$ Function$<$ Func\+Name, Description, Type, F, Args... $>$, Func\+Name, Description, Type $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr Cmd\+Name \mbox{\hyperlink{classcli_1_1_command_base_a2a78bd95ac4f4f0ebf9fb9cf864ca25e}{name}}
+\item 
+static constexpr Description \mbox{\hyperlink{classcli_1_1_command_base_ad8846a8bc22598fe4e4ce9e856d6cafe}{description}}
+\item 
+static constexpr Type \mbox{\hyperlink{classcli_1_1_command_base_abeeeac48bea4caf6b787ef06cf91f196}{type}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base$<$ Function$<$ Func\+Name, Description, Type, F, Args... $>$, Func\+Name, Description, Type $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr auto \mbox{\hyperlink{classcli_1_1_command_base_ab9068bce9c6a6281f0319d76808a1fc3}{count\+\_\+cmds}} (const \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ D, C, Desc, H, Sub\+C... $>$ \&c)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base$<$ Function$<$ Func\+Name, Description, Type, F, Args... $>$, Func\+Name, Description, Type $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::tuple$<$ Sub\+Commands... $>$ \mbox{\hyperlink{classcli_1_1_command_base_a2a50513d27e877386e587f02958a8aff}{subcommands}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classcli_1_1funcs_1_1_function_a72a5870d99fc53aeceaa8b84d11821cc}\label{classcli_1_1funcs_1_1_function_a72a5870d99fc53aeceaa8b84d11821cc} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!signature@{signature}}
+\index{signature@{signature}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{signature}{signature}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::signature = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} traits\+::signature\+\_\+type}
+
+\Hypertarget{classcli_1_1funcs_1_1_function_a1bdd7b5874d3d2c18afadc5e1298f50d}\label{classcli_1_1funcs_1_1_function_a1bdd7b5874d3d2c18afadc5e1298f50d} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!sub\_command\_list@{sub\_command\_list}}
+\index{sub\_command\_list@{sub\_command\_list}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{sub\_command\_list}{sub\_command\_list}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::sub\+\_\+command\+\_\+list = \mbox{\hyperlink{namespacecli_ae978bafe583624d9b466298925dc04c3}{Type\+List}}$<$$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcli_1_1funcs_1_1_function_aab8aac6522f97383c215087777528e50}\label{classcli_1_1funcs_1_1_function_aab8aac6522f97383c215087777528e50} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!Function@{Function}}
+\index{Function@{Function}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{Function()}{Function()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+template$<$Callable Func, Func\+Arg... A$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}}]{,  }\item[{Description}]{,  }\item[{Type}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&}]{function,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{A}} \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1funcs_1_1_function_aa970990a9bc8c9dec73a5b51f1731eb4}\label{classcli_1_1funcs_1_1_function_aa970990a9bc8c9dec73a5b51f1731eb4} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!Function@{Function}}
+\index{Function@{Function}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{Function()}{Function()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+template$<$Callable Func$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}}]{,  }\item[{Description}]{,  }\item[{Type}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&}]{function,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} std\+::tuple$<$ Args... $>$ \&}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1funcs_1_1_function_a6c51205b214d27962e915d8827eff2cc}\label{classcli_1_1funcs_1_1_function_a6c51205b214d27962e915d8827eff2cc} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!Function@{Function}}
+\index{Function@{Function}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{Function()}{Function()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+template$<$Callable Func$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::\+Function (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}}]{,  }\item[{Description}]{,  }\item[{Type}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func}} \&\&}]{function,  }\item[{std\+::tuple$<$ Args... $>$ \&\&}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcli_1_1funcs_1_1_function_a50421768611c73622a1550defedfa3a0}\label{classcli_1_1funcs_1_1_function_a50421768611c73622a1550defedfa3a0} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!execute@{execute}}
+\index{execute@{execute}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{Exec\+Type}}}]{type,  }\item[{\mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}}}]{args,  }\item[{std\+::span$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char}} $>$ \&}]{out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classcli_1_1funcs_1_1_function_ab66076afcc435632620f37fe673d6733}\label{classcli_1_1funcs_1_1_function_ab66076afcc435632620f37fe673d6733} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!get\_help@{get\_help}}
+\index{get\_help@{get\_help}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{get\_help()}{get\_help()}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::get\+\_\+help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classcli_1_1funcs_1_1_function_a2ba7f3c5a1d468f4d7c3a307a16cda82}\label{classcli_1_1funcs_1_1_function_a2ba7f3c5a1d468f4d7c3a307a16cda82} 
+\index{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}!validate@{validate}}
+\index{validate@{validate}!cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$@{cli::funcs::Function$<$ FuncName, Description, Type, F, Args $>$}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Type, Callable F, Func\+Arg... Args$>$ \\
+template$<$std\+::size\+\_\+t I, std\+::size\+\_\+t... Is$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{cli\+::\+Error}} \mbox{\hyperlink{classcli_1_1funcs_1_1_function}{cli\+::funcs\+::\+Function}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Func\+Name}}, Description, Type, F, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} $>$\+::validate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \&}]{tuple,  }\item[{std\+::index\+\_\+sequence$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{I}}, Is... $>$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{function_8hpp}{function.\+hpp}}\end{DoxyCompactItemize}

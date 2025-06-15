@@ -2,14 +2,16 @@
 #define HAL_CALLBACK_HPP
 
 #include "cli/util.hpp"
+#include <concepts>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 namespace hal {
 
 class CallbackBase {
 public:
   constexpr void operator()() {
-    if (this->obj)
+    if (this->obj and this->func)
       this->func(this->obj);
   }
 
@@ -26,7 +28,7 @@ private:
 template <size_t Size, size_t Align, class... Args>
 class Callback : public CallbackBase {
 public:
-  template <typename F> void emplace(F &&f) {
+  template <std::invocable<Args...> F> void emplace(F &&f) {
     using T = std::decay_t<F>;
     static_assert(std::is_trivially_destructible_v<T>,
                   "f must be trivially destructible!");
@@ -43,11 +45,16 @@ public:
     this->obj = nullptr;
   }
 
-  template <class... A> constexpr void set_args(A &&...args) {
-    this->args = std::tuple{std::forward<A>(args)...};
+  using CallbackBase::operator();
+  template <class... A>
+    requires(sizeof...(Args) > 0)
+  constexpr void set_args(A &&...args) {
+    this->args = std::tuple<Args...>(std::forward<A>(args)...);
   }
 
-  template <class... A> constexpr void operator()(Args... args) {
+  template <class... A>
+    requires(sizeof...(Args) > 0)
+  constexpr void operator()(A &&...args) {
     set_args(std::forward<A>(args)...);
     Callback::operator()();
   }
@@ -65,7 +72,7 @@ private:
 };
 
 template <size_t Size, size_t Align>
-class Callback<Size, Align> : public CallbackBase {
+class Callback<Size, Align, void> : public CallbackBase {
 public:
   template <typename F> void emplace(F &&f) {
     using T = std::decay_t<F>;
@@ -77,6 +84,8 @@ public:
     this->obj = obj;
     this->func = &invoke<T>;
   }
+
+  using CallbackBase::operator();
 
   constexpr void reset() {
     this->func = nullptr;

@@ -18,11 +18,15 @@ c_link_args   = c_args + [
     # '-nostdlib',
     '-nodefaultlibs',
     #'-nostartfiles',
+    '-lnosys',
+    '-specs=nosys.specs',
     '-static']
 cpp_link_args = cpp_args + [
     # '-nostdlib',
     # '-nostdlib++',
     '-nodefaultlibs',
+    '-lnosys',
     # '-nostartfiles',
+    '-specs=nosys.specs',
     '-static']
 

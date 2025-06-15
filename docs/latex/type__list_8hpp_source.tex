@@ -1,0 +1,341 @@
+\doxysection{type\+\_\+list.\+hpp}
+\hypertarget{type__list_8hpp_source}{}\label{type__list_8hpp_source}\index{cli/type\_list.hpp@{cli/type\_list.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ TYPE\_LIST\_HPP}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ TYPE\_LIST\_HPP}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#if\ \_\_cplusplus\ >=\ 201703L}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ TYPELIST\_INLINE\ inline}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ TYPELIST\_INLINE\ static}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{namespace\ }cli::type\_list\ \{}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00025\ TYPELIST\_INLINE\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ npos\ =\ std::numeric\_limits<size\_t>::max();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Ts>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList}}\ \{\};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00034\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList<Ts...>}},\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList<Ts...>}})\ \{}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Ts,\ \textcolor{keyword}{class}...\ Us>}
+\DoxyCodeLine{00039\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList<Ts...>}},\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList<Us...>}})\ \{}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00044\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(TypeList<Ts...>,\ TypeList<Ts...>)\ \{}
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Ts,\ \textcolor{keyword}{class}...\ Us>}
+\DoxyCodeLine{00049\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(TypeList<Ts...>,\ TypeList<Us...>)\ \{}
+\DoxyCodeLine{00050\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Ts>\ \textcolor{keyword}{struct\ }index\_of\_impl;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class\ }T1,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00058\ \textcolor{keyword}{struct\ }index\_of\_impl<N,\ T,\ T1,\ Ts...>\ :\ index\_of\_impl<N\ +\ 1,\ T,\ Ts...>\ \{\};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Ts>\ \textcolor{keyword}{struct\ }index\_of\_impl<N,\ T,\ T,\ Ts...>\ \{}
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ value\ =\ N;}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }index\_of\_impl<N,\ T>\ \{}
+\DoxyCodeLine{00065\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ value\ =\ npos;}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00069\ \textcolor{keyword}{struct\ }type\_at\_impl\ :\ type\_at\_impl<N\ -\/\ 1,\ Ts...>\ \{\};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Ts>\ \textcolor{keyword}{struct\ }type\_at\_impl<0,\ T,\ Ts...>\ \{}
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00073\ \};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{template}<\textcolor{keywordtype}{bool}\ B,\textcolor{keyword}{class}...Ts>}
+\DoxyCodeLine{00076\ \textcolor{keyword}{struct\ }disjunction\_helper;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{template}<>}
+\DoxyCodeLine{00079\ \textcolor{keyword}{struct\ }disjunction\_helper<false>\ :\ std::false\_type\{\};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}...Ts>}
+\DoxyCodeLine{00082\ \textcolor{keyword}{struct\ }disjunction\_helper<true,Ts...>\ :\ std::true\_type\{\};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{template}<\textcolor{keyword}{class\ }T,\textcolor{keyword}{class}...Ts>}
+\DoxyCodeLine{00085\ \textcolor{keyword}{struct\ }disjunction\_helper<false,\ T,\ Ts...>\ :\ disjunction\_helper<T::value,\ Ts...>\{\};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{template}<\textcolor{keyword}{class}...Ts>\ \textcolor{keyword}{struct\ }disjunction\ :\ disjunction\_helper<false,\ Ts...>\{\};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }FilteredList,\ \textcolor{keyword}{class\ }ToFilterList,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }Predicate>}
+\DoxyCodeLine{00092\ \textcolor{keyword}{struct\ }filter\_impl;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Filtered,\ \textcolor{keyword}{class\ }ToFilter,\ \textcolor{keyword}{class}...\ ToBeFiltered,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }Predicate>}
+\DoxyCodeLine{00097\ \textcolor{keyword}{struct\ }filter\_impl<List1<Filtered...>,\ List2<ToFilter,\ ToBeFiltered...>,}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Predicate>\ \{}
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ std::conditional<}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ Predicate<ToFilter>::value,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \textcolor{keyword}{typename}\ filter\_impl<List2<Filtered...,\ ToFilter>,\ List2<ToBeFiltered...>,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Predicate>::type,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \textcolor{keyword}{typename}\ filter\_impl<List2<Filtered...>,\ List2<ToBeFiltered...>,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Predicate>::type>::type;}
+\DoxyCodeLine{00105\ \};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Filtered,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }Predicate>}
+\DoxyCodeLine{00109\ \textcolor{keyword}{struct\ }filter\_impl<List1<Filtered...>,\ List2<>,\ Predicate>\ \{}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{using\ }type\ =\ List2<Filtered...>;}
+\DoxyCodeLine{00111\ \};}
+\DoxyCodeLine{00112\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1head}{head}};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00121\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1head}{head}}<List<T,\ Ts...>\ >\ \{}
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00123\ \};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00129\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }head\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1head}{head<List>::type}};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1tail}{tail}};}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1tail}{tail}}<List<>\ >\ \{}
+\DoxyCodeLine{00138\ \ \ \textcolor{keyword}{using\ }type\ =\ List<>;}
+\DoxyCodeLine{00139\ \};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00142\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1tail}{tail}}<List<T,\ Ts...>\ >\ \{}
+\DoxyCodeLine{00143\ \ \ \textcolor{keyword}{using\ }type\ =\ List<Ts...>;}
+\DoxyCodeLine{00144\ \};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00150\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }tail\_t\ =\ \textcolor{keyword}{typename}\ tail<List>::type;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00156\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1list__size}{list\_size}};}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00159\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1list__size}{list\_size}}<List<Ts...>\ >\ \{}
+\DoxyCodeLine{00160\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ value\ =\ \textcolor{keyword}{sizeof}...(Ts);}
+\DoxyCodeLine{00161\ \};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00170\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1index__of}{index\_of}};}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00173\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1index__of}{index\_of}}<T,\ List<Ts...>\ >\ :\ index\_of\_impl<0,\ T,\ Ts...>\ \{\};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00180\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1push__front}{push\_front}};}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00183\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1push__front}{push\_front}}<T,\ List<Ts...>\ >\ \{}
+\DoxyCodeLine{00184\ \ \ \textcolor{keyword}{using\ }type\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList}}<T,\ Ts...>;}
+\DoxyCodeLine{00185\ \};}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00192\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00193\ \textcolor{keyword}{using\ }push\_front\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1push__front}{push\_front<T,\ List>::type}};}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00200\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1pop__front}{pop\_front}};}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00203\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1pop__front}{pop\_front}}<List<T,\ Ts...>\ >\ \{}
+\DoxyCodeLine{00204\ \ \ \textcolor{keyword}{using\ }type\ =\ List<Ts...>;}
+\DoxyCodeLine{00205\ \};}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1pop__front}{pop\_front}}<List<>\ >\ \{}
+\DoxyCodeLine{00208\ \ \ \textcolor{keyword}{using\ }type\ =\ List<>;}
+\DoxyCodeLine{00209\ \};}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00216\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }pop\_front\_t\ =\ \textcolor{keyword}{typename}\ pop\_front<List>::type;}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00223\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\_at}};}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00226\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\_at}}<N,\ List<Ts...>\ >\ :\ type\_at\_impl<N,\ Ts...>\ \{\};}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00233\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ N,\ \textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00234\ \textcolor{keyword}{using\ }type\_at\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\_at<N,\ List>::type}};}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00240\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1type__list_1_1head}{first}}\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1head}{head<List>}};}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00246\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }first\_t\ =\ head\_t<List>;}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00252\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00253\ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{last}}\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{type\_at<list\_size<List>::value}}\ -\/\ 1,\ List>;}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00259\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00260\ \textcolor{keyword}{using\ }last\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1type__at}{last<List>::type}};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00267\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1push__back}{push\_back}};}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00270\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1push__back}{push\_back}}<T,\ List<Ts...>\ >\ \{}
+\DoxyCodeLine{00271\ \ \ \textcolor{keyword}{using\ }type\ =\ List<Ts...,\ T>;}
+\DoxyCodeLine{00272\ \};}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00279\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00280\ \textcolor{keyword}{using\ }push\_back\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1push__back}{push\_back<T,\ List>::type}};}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00283\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List,\ \textcolor{keywordtype}{size\_t}\ I>\ \textcolor{keyword}{struct\ }pop\_back\_impl;}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts,\ \textcolor{keywordtype}{size\_t}\ I>}
+\DoxyCodeLine{00286\ \textcolor{keyword}{struct\ }pop\_back\_impl<List<T,\ Ts...>,\ I>\ \{}
+\DoxyCodeLine{00287\ \ \ \textcolor{keyword}{using\ }type\ =}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ push\_front\_t<T,\ \textcolor{keyword}{typename}\ pop\_back\_impl<List<Ts...>,\ I\ -\/\ 1>::type>;}
+\DoxyCodeLine{00289\ \};}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class\ }T>}
+\DoxyCodeLine{00292\ \textcolor{keyword}{struct\ }pop\_back\_impl<List<T>,\ 1>\ \{}
+\DoxyCodeLine{00293\ \ \ \textcolor{keyword}{using\ }type\ =\ List<>;}
+\DoxyCodeLine{00294\ \};}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }pop\_back\_impl<List<>,\ 0>\ \{}
+\DoxyCodeLine{00297\ \ \ \textcolor{keyword}{using\ }type\ =\ List<>;}
+\DoxyCodeLine{00298\ \};}
+\DoxyCodeLine{00299\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00306\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00307\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1pop__back}{pop\_back}}\ :\ pop\_back\_impl<List,\ list\_size<List>::value>\ \{\};}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00313\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>\ \textcolor{keyword}{using\ }pop\_back\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1pop__back}{pop\_back<List>::type}};}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00321\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1apply}{apply}};}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00325\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1apply}{apply}}<F,\ List<Ts...>\ >\ \{}
+\DoxyCodeLine{00326\ \ \ \textcolor{keyword}{using\ }type\ =\ F<Ts...>;}
+\DoxyCodeLine{00327\ \};}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00335\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>}
+\DoxyCodeLine{00336\ \textcolor{keyword}{using\ }apply\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1apply}{apply<F,\ List>::type}};}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00343\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Class>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1extract}{extract}};}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }Class,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00346\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1extract}{extract}}<Class<Ts...>\ >\ \{}
+\DoxyCodeLine{00347\ \ \ \textcolor{keyword}{using\ }type\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList}}<Ts...>;}
+\DoxyCodeLine{00348\ \};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00356\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Class>\ \textcolor{keyword}{using\ }extract\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1extract}{extract<Class>::type}};}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00363\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1for__each}{for\_each}};}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00366\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1for__each}{for\_each}}<F,\ List<Ts...>\ >\ \{}
+\DoxyCodeLine{00367\ \ \ \textcolor{keyword}{using\ }type\ =\ List<F<Ts>...>;}
+\DoxyCodeLine{00368\ \};}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00375\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>}
+\DoxyCodeLine{00376\ \textcolor{keyword}{using\ }for\_each\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1for__each}{for\_each<F,\ List>::type}};}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00383\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1transform}{transform}};}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00386\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1transform}{transform}}<F,\ List<Ts...>\ >\ \{}
+\DoxyCodeLine{00387\ \ \ \textcolor{keyword}{using\ }type\ =\ List<typename\ F<Ts>::type...>;}
+\DoxyCodeLine{00388\ \};}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }List>}
+\DoxyCodeLine{00391\ \textcolor{keyword}{using\ }transform\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1transform}{transform<F,\ List>::type}};}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00403\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Lists>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1merge}{merge}};}
+\DoxyCodeLine{00404\ }
+\DoxyCodeLine{00405\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Ts,\ \textcolor{keyword}{class}...\ Us,\ \textcolor{keyword}{class}...\ Lists>}
+\DoxyCodeLine{00407\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1merge}{merge}}<List1<Ts...>,\ List2<Us...>,\ Lists...>\ \{}
+\DoxyCodeLine{00408\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1merge}{merge}}<List1<Ts...,\ Us...>,\ Lists...>::type;}
+\DoxyCodeLine{00409\ \};}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Ts,\ \textcolor{keyword}{class}...\ Us>}
+\DoxyCodeLine{00413\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1merge}{merge}}<List1<Ts...>,\ List2<Us...>\ >\ \{}
+\DoxyCodeLine{00414\ \ \ \textcolor{keyword}{using\ }type\ =\ List1<Ts...,\ Us...>;}
+\DoxyCodeLine{00415\ \};}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00418\ \textcolor{keyword}{struct\ }merge<List<Ts...>\ >\ \{}
+\DoxyCodeLine{00419\ \ \ \textcolor{keyword}{using\ }type\ =\ List<Ts...>;}
+\DoxyCodeLine{00420\ \};}
+\DoxyCodeLine{00421\ }
+\DoxyCodeLine{00422\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }merge<>\ \{}
+\DoxyCodeLine{00423\ \ \ \textcolor{keyword}{using\ }type\ =\ TypeList<>;}
+\DoxyCodeLine{00424\ \};}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00436\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Lists>\ \textcolor{keyword}{using\ }merge\_t\ =\ \textcolor{keyword}{typename}\ merge<Lists...>::type;}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00445\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }Predicate,\ \textcolor{keyword}{class\ }List>}
+\DoxyCodeLine{00446\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1filter}{filter}}\ :\ filter\_impl<TypeList<>,\ List,\ Predicate>\ \{\};}
+\DoxyCodeLine{00447\ }
+\DoxyCodeLine{00454\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}>\ \textcolor{keyword}{class\ }Predicate,\ \textcolor{keyword}{class\ }List>}
+\DoxyCodeLine{00455\ \textcolor{keyword}{using\ }filter\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1filter}{filter<Predicate,\ List>::type}};}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00463\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1contains}{contains}};}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List,\ \textcolor{keyword}{class}...\ Ts>}
+\DoxyCodeLine{00466\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1contains}{contains}}<T,\ List<Ts...>\ >\ :\ disjunction<std::is\_same<T,\ Ts>...>\ \{\};}
+\DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00469\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ FilteredList,\ \textcolor{keyword}{class}\ ToFilterList>\ \textcolor{keyword}{struct\ }remove\_duplicates\_impl;}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Filtered,\ \textcolor{keyword}{class\ }ToFilter,\ \textcolor{keyword}{class}...\ ToBeFiltered>}
+\DoxyCodeLine{00473\ \textcolor{keyword}{struct\ }remove\_duplicates\_impl<List1<Filtered...>,}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ List2<ToFilter,\ ToBeFiltered...>\ >\ \{}
+\DoxyCodeLine{00475\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ std::conditional<}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1type__list_1_1contains}{contains}}<ToFilter,\ List1<Filtered...>\ >::value,}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \textcolor{keyword}{typename}\ remove\_duplicates\_impl<List2<Filtered...>,}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ List2<ToBeFiltered...>\ >::type,}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \textcolor{keyword}{typename}\ remove\_duplicates\_impl<List2<Filtered...,\ ToFilter>,}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ List2<ToBeFiltered...>\ >::type>::type;}
+\DoxyCodeLine{00481\ \};}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \textcolor{keyword}{template}\ <\textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List1,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...>\ \textcolor{keyword}{class\ }List2,}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Filtered>}
+\DoxyCodeLine{00485\ \textcolor{keyword}{struct\ }remove\_duplicates\_impl<List1<Filtered...>,\ List2<>\ >\ \{}
+\DoxyCodeLine{00486\ \ \ \textcolor{keyword}{using\ }type\ =\ List2<Filtered...>;}
+\DoxyCodeLine{00487\ \};}
+\DoxyCodeLine{00488\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00494\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00495\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1type__list_1_1remove__duplicates}{remove\_duplicates}}\ :\ remove\_duplicates\_impl<TypeList<>,\ List>\ \{\};}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00501\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00502\ \textcolor{keyword}{using\ }remove\_duplicates\_t\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1type__list_1_1remove__duplicates}{remove\_duplicates<List>::type}};}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \textcolor{preprocessor}{\#if\ \_\_cplusplus\ >=\ 201402L}}
+\DoxyCodeLine{00505\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00506\ TYPELIST\_INLINE\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ list\_size\_v\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1list__size}{list\_size<List>::value}};}
+\DoxyCodeLine{00507\ }
+\DoxyCodeLine{00508\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00509\ TYPELIST\_INLINE\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ index\_of\_v\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1index__of}{index\_of<T,\ List>::value}};}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ List>}
+\DoxyCodeLine{00512\ TYPELIST\_INLINE\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ contains\_v\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1contains}{contains<T,\ List>::value}};}
+\DoxyCodeLine{00513\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00514\ \}\ \textcolor{comment}{//\ namespace\ type\_list}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\{}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ \textcolor{keyword}{template}<\textcolor{keyword}{class}...Ts>}
+\DoxyCodeLine{00519\ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList}}\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{type\_list::TypeList}}<Ts...>;}
+\DoxyCodeLine{00520\ }
+\DoxyCodeLine{00521\ \}}
+\DoxyCodeLine{00522\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00523\ \textcolor{comment}{//\ clang-\/format\ on}}
+
+\end{DoxyCode}

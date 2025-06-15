@@ -1,0 +1,32 @@
+\doxysection{cli\+::params\+::Setter Concept Reference}
+\hypertarget{conceptcli_1_1params_1_1_setter}{}\label{conceptcli_1_1params_1_1_setter}\index{cli::params::Setter@{cli::params::Setter}}
+
+
+A Setter S sets the value of a parameter.  
+
+
+
+
+{\ttfamily \#include $<$cli/param.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{cli::params::Setter}}\ =\ \ \textcolor{keyword}{requires}(S\ \&\&setter,\ \textcolor{keyword}{const}\ setter\_value\_type\_t<S>\ \&value)\ \{}
+\DoxyCodeLine{\ \ \{\ setter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A Setter S sets the value of a parameter. 
+
+An instance of S must be callable with a const l value reference and return a cli\+::\+Error.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & the type to test \\
+\hline
+\end{DoxyTemplParams}

@@ -1,0 +1,16 @@
+\doxysection{cli\+::validate\+::Validator\+Of Concept Reference}
+\hypertarget{conceptcli_1_1validate_1_1_validator_of}{}\label{conceptcli_1_1validate_1_1_validator_of}\index{cli::validate::ValidatorOf@{cli::validate::ValidatorOf}}
+
+
+{\ttfamily \#include $<$cli/validator.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ V,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1validate_1_1_validator_of}{cli::validate::ValidatorOf}}\ =\ \ std::same\_as<T,\ value\_type\_t<V>>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<V>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{v}},\ \textcolor{keyword}{const}\ T\ \&value)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{v}}(value)\ \}\ -\/>\ std::same\_as<cli::Error>;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}

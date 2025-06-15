@@ -1,0 +1,56 @@
+\doxysection{help.\+hpp}
+\hypertarget{help_8hpp_source}{}\label{help_8hpp_source}\index{cli/help.hpp@{cli/help.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_HELP\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_HELP\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/command.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}cli/string.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Cli,\ \textcolor{keyword}{class}\ Cfg>\ \textcolor{keyword}{struct\ }Help\ \{}
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{constexpr}\ cli::Error\ operator()(ByteView\ cmd)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \mbox{\hyperlink{namespacecli}{cli}}.print();}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00014\ \ \ \ \ \}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{const}\ CommandNode\ *node\ =\ \&\mbox{\hyperlink{namespacecli}{cli}}.root();}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{auto}\ end\ =\ cmd.find\_first\_of(Cfg::access\_separator);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{while}\ (end\ !=\ ByteView::npos)\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ cmd.substr(0,\ end);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&sub\ :\ *node)\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sub.name\ ==\ s)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ node\ =\ \&sub;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ cmd\ =\ cmd.substr(end);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ end\ =\ cmd.find\_last\_of(Cfg::access\_separator);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ found\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ found)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&sub\ :\ *node)\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sub.name\ ==\ cmd)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ node\ =\ \&sub;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecli}{cli}}.out\_.write(sub.description);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecli}{cli}}.out\_.newline();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00045\ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ Cli\ \&\mbox{\hyperlink{namespacecli}{cli}};}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

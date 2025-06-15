@@ -1,0 +1,157 @@
+\doxysection{string.\+hpp}
+\hypertarget{string_8hpp_source}{}\label{string_8hpp_source}\index{cli/string.hpp@{cli/string.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_STRING\_CONSTANT\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_STRING\_CONSTANT\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ :\ \textcolor{keyword}{public}\ std::string\_view\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00020\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}(std::string\_view\ sv)\ :\ std::string\_view(sv)\ \{\}}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&operator=(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{using\ }std::string\_view::string\_view;}
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{using\ }std::string\_view::operator=;}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ N>\ \textcolor{keyword}{struct\ }StringLiteral;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ c>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1string__constant}{string\_constant}}\ \{}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{enum}\ \{\ string\_size\ =\ \textcolor{keyword}{sizeof}...(c)\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}\ value[]\{c...,\ 0\};}
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\{value,\ \textcolor{keyword}{sizeof}...(c)\};}
+\DoxyCodeLine{00039\ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ StringLiteral<\textcolor{keyword}{sizeof}...(c)\ +\ 1>()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return}\ \{c...\};}
+\DoxyCodeLine{00043\ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *data()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ value;\ \}}
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}...(c);\ \}}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00050\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcli_1_1string__constant}{string\_constant<C1...>}}\ \&,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcli_1_1string__constant}{string\_constant<C2...>}}\ \&)\ \{}
+\DoxyCodeLine{00052\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00053\ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>}
+\DoxyCodeLine{00056\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ string\_constant<Cs...>\ \&,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ string\_constant<Cs...>\ \&)\ \{}
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00062\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ string\_constant<C1...>\ \&,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ string\_constant<C2...>\ \&)\ \{}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00065\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>}
+\DoxyCodeLine{00068\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ string\_constant<Cs...>\ \&,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ string\_constant<Cs...>\ \&)\ \{}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00071\ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ N>\ \textcolor{keyword}{struct\ }StringLiteral\ \{}
+\DoxyCodeLine{00074\ \ \ \textcolor{keywordtype}{char}\ s[N]\{0\};}
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{constexpr}\ StringLiteral(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ (\&p)[N])\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ s[i]\ =\ p[i];}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C>}
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{constexpr}\ StringLiteral(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}...\ cs)\ :\ s\{cs...,\ 0\}\ \{\}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>}
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{constexpr}\ StringLiteral(string\_constant<Cs...>)\ :\ s\{Cs...,\ 0\}\ \{\}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \textcolor{keyword}{constexpr}\ StringLiteral(ByteView\ str)\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ assert(str.size()\ <\ N);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ str.size();\ ++i)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ s[i]\ =\ str[i];}
+\DoxyCodeLine{00091\ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ T()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T();}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T\{s,\ N\ -\/\ 1\};}
+\DoxyCodeLine{00098\ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{00101\ \ \ operator<=>(\textcolor{keyword}{const}\ StringLiteral\ \&)\ \textcolor{keyword}{const}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00102\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ ByteView()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{s,\ N\ -\/\ 1\};\ \}}
+\DoxyCodeLine{00103\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ size()\ const\ -\/>\ std::\textcolor{keywordtype}{size\_t}\ \{\ \textcolor{keywordflow}{return}\ N\ -\/\ 1;\ \}}
+\DoxyCodeLine{00104\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *data()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ s;\ \}}
+\DoxyCodeLine{00105\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}\ \&operator[](std::size\_t\ i)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{return}\ s[i];}
+\DoxyCodeLine{00107\ \ \ \}}
+\DoxyCodeLine{00108\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \&operator[](std::size\_t\ i)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{return}\ s[i];}
+\DoxyCodeLine{00110\ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ clear()\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&ch\ :\ s)}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ ch\ =\ 0;}
+\DoxyCodeLine{00114\ \ \ \}}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ N>\ StringLiteral(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ (\&p)[N])\ -\/>\ StringLiteral<N>;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ StringLiteral(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}...\ cs)\ -\/>\ StringLiteral<\textcolor{keyword}{sizeof}...(cs)\ +\ 1>;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>}
+\DoxyCodeLine{00122\ StringLiteral(string\_constant<Cs...>)\ -\/>\ StringLiteral<\textcolor{keyword}{sizeof}...(Cs)\ +\ 1>;}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ Cs>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ to\_lower(\textcolor{keyword}{const}\ string\_constant<Cs...>\ \&)\ \{}
+\DoxyCodeLine{00125\ \ \ \textcolor{keywordflow}{return}\ string\_constant<[](\textcolor{keywordtype}{char}\ c)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{return}\ c\ >=\ \textcolor{charliteral}{'A'}\ and\ c\ <=\ \textcolor{charliteral}{'Z'}\ ?\ c\ +\ (\textcolor{charliteral}{'a'}\ -\/\ \textcolor{charliteral}{'A'})\ :\ c;}
+\DoxyCodeLine{00127\ \ \ \}(Cs)...>\{\};}
+\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00131\ \textcolor{keyword}{constexpr}\ string\_constant<C1...,\ C2...>}
+\DoxyCodeLine{00132\ operator+(\textcolor{keyword}{const}\ string\_constant<C1...>\ \&,\ \textcolor{keyword}{const}\ string\_constant<C2...>\ \&)\ \{}
+\DoxyCodeLine{00133\ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00134\ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00137\ \textcolor{keyword}{constexpr}\ string\_constant<C1...,\ C2...>}
+\DoxyCodeLine{00138\ operator+(\textcolor{keyword}{const}\ string\_constant<C1...,\ 0>\ \&,}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ string\_constant<C2...,\ 0>\ \&)\ \{}
+\DoxyCodeLine{00140\ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00141\ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00144\ \textcolor{keyword}{constexpr}\ string\_constant<C1...,\ C2...>}
+\DoxyCodeLine{00145\ operator+(\textcolor{keyword}{const}\ string\_constant<C1...,\ 0>\ \&,\ \textcolor{keyword}{const}\ string\_constant<C2...>\ \&)\ \{}
+\DoxyCodeLine{00146\ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00147\ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ C1,\ \textcolor{keywordtype}{char}...\ C2>}
+\DoxyCodeLine{00150\ \textcolor{keyword}{constexpr}\ string\_constant<C1...,\ C2...>}
+\DoxyCodeLine{00151\ operator+(\textcolor{keyword}{const}\ string\_constant<C1...>\ \&,\ \textcolor{keyword}{const}\ string\_constant<C2...,\ 0>\ \&)\ \{}
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00153\ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{template}\ <StringLiteral\ S>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_sc()\ \{}
+\DoxyCodeLine{00156\ \ \ \textcolor{keywordflow}{return}\ []<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ string\_constant<S.s[Is]...>\{\};}
+\DoxyCodeLine{00158\ \ \ \}(std::make\_index\_sequence<S.size()>());}
+\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

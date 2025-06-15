@@ -2,6 +2,7 @@
 #define HAL_CONFIG_HPP
 
 #include "hal/enums.hpp"
+#include "units.hpp"
 
 #include <array>
 #include <utility>
@@ -29,8 +30,7 @@ namespace adc {
 
 struct ChannelConfig {
   ChannelId channel = ChannelId::invalid;
-  gpio::Id inp = gpio::Id::invalid;
-  gpio::Id inn = gpio::Id::invalid;
+  std::uint32_t sampling_time = 0; //< the sampling time in clock cycles
   // Voltage offset{};
   // signed_fixed<16, 16> gain{1_sf};
 };
@@ -42,7 +42,11 @@ struct Config {
   uint8_t num_bits{};
   uint32_t clock_rate{};
   uint32_t oversampling{};
-  std::array<ChannelConfig, 16> channel_configs{};
+  std::uint32_t sampling_time = 0; //< the sampling time in clock cycles
+  Voltage vref = au::ZERO;
+  constexpr bool has_option(Options opt) const noexcept {
+    return (options & opt) == opt;
+  }
 };
 } // namespace adc
 

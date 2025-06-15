@@ -1,0 +1,605 @@
+\doxysection{fixed\+\_\+map.\+hpp}
+\hypertarget{fixed__map_8hpp_source}{}\label{fixed__map_8hpp_source}\mbox{\hyperlink{fixed__map_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ fixed\_map.hpp}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Created\ on:\ Mar\ 9,\ 2024}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ pelec}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ MAP\_HPP}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ MAP\_HPP}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed__vector_8hpp}{fixed\_vector.hpp}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{result_8hpp}{result.hpp}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value,\ \textcolor{keywordtype}{size\_t}\ Size,\ \textcolor{keyword}{typename}\ SearchPolicy>}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }FixedMap;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1map__element}{map\_element}}\ \{}
+\DoxyCodeLine{00023\ \ \ Key\ \mbox{\hyperlink{structpsm_1_1map__element_ab1521b3246409d0c35128dfaa8d0823e}{key}};}
+\DoxyCodeLine{00024\ \ \ Value\ \mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}};}
+\DoxyCodeLine{00025\ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ K,\ \textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{00028\ \mbox{\hyperlink{namespacepsm_ad904926be59be1db67b2e7cf82082511}{map\_element}}(K\ \&\&,\ V\ \&\&)\ -\/>\ \mbox{\hyperlink{structpsm_1_1map__element}{map\_element<std::decay\_t<K>}},\ std::decay\_t<V>>;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_map_view}{MapView}}\ \{}
+\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_map_view_a3eb34edae00decacb9af7de10ccd8c6b}{key\_type}}\ =\ Key;}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ =\ Value;}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ =\ \mbox{\hyperlink{structpsm_1_1map__element}{map\_element<Key,\ Value>}};}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_map_view_afad9c5073032675065b815ce64519e1c}{MapView}}()\ noexcept;}
+\DoxyCodeLine{00036\ \ \ constexpr\ \mbox{\hyperlink{classpsm_1_1_map_view}{MapView}}(\mbox{\hyperlink{structpsm_1_1map__element}{map\_element}}<Key,\ Value>\ *\mbox{\hyperlink{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}{data}},\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}{size}})}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ :\ data\_(\mbox{\hyperlink{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}{data}}),\ size\_(\mbox{\hyperlink{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}{size}})\ \{\}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a5efe1ee6fdd0318ce649a11050c90564}{find}}(\textcolor{keyword}{const}\ Key\ \&key)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&elem\ :\ data\_)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (elem.key\ ==\ key)}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&elem;}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00044\ \ \ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a6d57bf09aad353a0c281841e02b71ee5}{find}}(\textcolor{keyword}{const}\ Key\ \&key)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&elem\ :\ data\_)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (elem.key\ ==\ key)}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \&elem;}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00052\ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1_map_view_a255a55f51d8c75aa83ba393bb82f281b}{contains}}(\textcolor{keyword}{const}\ Key\ \&key)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ size\_;\ ++i)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_[i].key\ ==\ key)}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00060\ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_a1af1c34c5373cfec537764f672aa67d0}{operator[]}}(\textcolor{keyword}{const}\ Key\ \&k)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee}{get}}(k);}
+\DoxyCodeLine{00064\ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_ad68e289ebe5abd2f3bb92d78b918acd5}{operator[]}}(\textcolor{keyword}{const}\ Key\ \&k)\ \{\ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee}{get}}(k);\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee}{get}}(\textcolor{keyword}{const}\ Key\ \&k)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ size\_;\ ++i)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_[i].key\ ==\ k)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data\_[i].\mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}};}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{00074\ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_a9407594f786c81403c2796b3319c6714}{get}}(\textcolor{keyword}{const}\ Key\ \&k)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ size\_;\ ++i)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_[i].key\ ==\ k)}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data\_[i].\mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}};}
+\DoxyCodeLine{00080\ \ \ \ \ \}}
+\DoxyCodeLine{00081\ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{00082\ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_ad4c63da1fb00fa06c4363b5d5b3392c3}{get\_or}}(\textcolor{keyword}{const}\ Key\ \&k,\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ size\_;\ ++i)\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_[i].key\ ==\ k)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data\_[i].\mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}};}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00090\ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&\mbox{\hyperlink{classpsm_1_1_map_view_aa7d5b790bfc82594f654fd6433ab34ee}{get\_or}}(\textcolor{keyword}{const}\ Key\ \&k,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\_type}}\ \&v)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ size\_;\ ++i)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_[i].key\ ==\ k)}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data\_[i].\mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}};}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00099\ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}{size}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ size\_;\ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}{data}}()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_;\ \}}
+\DoxyCodeLine{00104\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_ad134574282a9edb2f1b977b9a78fa9a9}{data}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_;\ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a1f2f68176b7dbb119d1f29709e6918d4}{begin}}()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_;\ \}}
+\DoxyCodeLine{00107\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a1ad99bac3611fc7f3025037e1486fdd5}{begin}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_;\ \}}
+\DoxyCodeLine{00108\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a6b5eb1e81e2fbf1a3a8ba30d2b0a537a}{cbegin}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_;\ \}}
+\DoxyCodeLine{00109\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a3c7a62d0e950b3d18d5f3d7e2f186127}{end}}()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_\ +\ size\_;\ \}}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_ae207343c22dfe719da37039fce02881c}{end}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_\ +\ size\_;\ \}}
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *\mbox{\hyperlink{classpsm_1_1_map_view_a8ad87a741354ec152489b1a6edcc5e94}{cend}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ data\_\ +\ size\_;\ \}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00114\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_map_view_ae4cfe35fd3e7d0f69044b9bab5c05cd2}{set\_data}}(\mbox{\hyperlink{structpsm_1_1map__element}{element\_type}}\ *e)\ \textcolor{keyword}{noexcept}\ \{\ data\_\ =\ e;\ \}}
+\DoxyCodeLine{00115\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_map_view_acdfe524ab29ee91d5a5362c08b75876e}{set\_size}}(\textcolor{keywordtype}{size\_t}\ s)\ \textcolor{keyword}{noexcept}\ \{\ size\_\ =\ s;\ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\_type}}\ *data\_\{\textcolor{keyword}{nullptr}\};}
+\DoxyCodeLine{00119\ \ \ \textcolor{keywordtype}{size\_t}\ size\_\{0\};}
+\DoxyCodeLine{00120\ \};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value>}
+\DoxyCodeLine{00123\ \mbox{\hyperlink{namespacepsm_a011b908aad5594ab9306dda4688a8ab5}{MapView}}(\mbox{\hyperlink{structpsm_1_1map__element}{map\_element<Key,\ Value>}}\ *data,\ \textcolor{keywordtype}{size\_t}\ size)\ -\/>\ \mbox{\hyperlink{classpsm_1_1_map_view}{MapView<Key,\ Value>}};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{namespace\ }map\_dtl\ \{}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \{}
+\DoxyCodeLine{00128\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsm_1_1map__element}{value\_type}}\ =\ \mbox{\hyperlink{structpsm_1_1map__element}{map\_element<const\ Key\ \&,\ Value\ \&>}};}
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ =\ std::make\_signed\_t<size\_t>;}
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ =\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746}{value\_type}};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ Key\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a036c0939512c363a549865daca6b78c6}{key}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (*elem).key;\ \}}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{constexpr}\ Value\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_af02bd3f9727d95be9661946e10228e0d}{value}}()\ \{\ \textcolor{keywordflow}{return}\ (*elem).value;\ \}}
+\DoxyCodeLine{00135\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ Value\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_af28962d4f79b825922acd61a92d85c3c}{value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (*elem).value;\ \}}
+\DoxyCodeLine{00136\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a3013d6786ea2b1b556a9585cb39dd682}{operator*}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{*(elem).\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a036c0939512c363a549865daca6b78c6}{key}},\ (*elem).\mbox{\hyperlink{structpsm_1_1map__element_a84ea93e612e7f2e90631e96e694a98ad}{value}}\};\ \}}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a13e0088584d59c26945f181e2f7c2b3b}{operator[]}}(\textcolor{keywordtype}{size\_t}\ i)\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{return}\ \{elem[i].key,\ elem[i].value\};}
+\DoxyCodeLine{00139\ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a967890406a704d26906f9377b096fb99}{operator+=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ elem\ +=\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}};}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00144\ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a5491c85f1badac4c5555ae639493523e}{operator-\/=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ elem\ -\/=\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}};}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00148\ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a6f1af6568d997207b78a324c70b968fa}{operator++}}()\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ ++elem;}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00153\ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a11107c8cb1965e667bfefeefc03e9dd9}{operator++}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ ret\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00156\ \ \ \ \ ++elem;}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00158\ \ \ \}}
+\DoxyCodeLine{00159\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_ab25b23997e94cf60e246decd0d66f04e}{operator-\/-\/}}()\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ -\/-\/elem;}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00162\ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_acb77d73162b32f4575b16d282fc23473}{operator-\/-\/}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ ret\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00165\ \ \ \ \ -\/-\/elem;}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00167\ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a8895777657a265a868266a748861eab2}{operator+}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\{it.elem\ +\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\};}
+\DoxyCodeLine{00170\ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aa5ae5a76e90313dfb2236c59215caed1}{operator+}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}},\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\{it.elem\ +\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\};}
+\DoxyCodeLine{00173\ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\_type}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a358bfac559e4c7e18d99b9af08bd7819}{operator-\/}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ b,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ a)\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ b.elem\ -\/\ a.elem;}
+\DoxyCodeLine{00176\ \ \ \}}
+\DoxyCodeLine{00177\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a77cff321f22a9c70ec62d7fde5cc1f23}{operator<}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it2)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ <\ it2.elem;}
+\DoxyCodeLine{00179\ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a534cd0347ed5f1989ba68d06ff255b09}{operator<=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it2)\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ <=\ it2.elem;}
+\DoxyCodeLine{00182\ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a458a9ffd64dfb4776389cf9decc29cc9}{operator>}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it2)\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ >\ it2.elem;}
+\DoxyCodeLine{00185\ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a8383b93a24f8ada9e21fa576981ba8cf}{operator>=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it2)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ >=\ it2.elem;}
+\DoxyCodeLine{00188\ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a2ce2ca06bf780fc71177a128b96a672d}{operator==}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ it2)\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ ==\ it2.elem;}
+\DoxyCodeLine{00191\ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename}>\ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00195\ \ \ \textcolor{keyword}{using\ }It\ =\ \mbox{\hyperlink{namespacepsm_a3620534cff7a9c4fe885a9ce5246f182}{vec\_iterator<map\_element<Key,\ Value>}}>;}
+\DoxyCodeLine{00196\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename},\ \textcolor{keywordtype}{size\_t},\ \textcolor{keyword}{typename}>\ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_fixed_map}{psm::FixedMap}};}
+\DoxyCodeLine{00197\ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}(It\ it)\ :\ elem(it)\ \{\}}
+\DoxyCodeLine{00198\ \ \ It\ elem;}
+\DoxyCodeLine{00199\ \};}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \{}
+\DoxyCodeLine{00202\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00203\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsm_1_1map__element}{value\_type}}\ =\ \mbox{\hyperlink{structpsm_1_1map__element}{map\_element<const\ Key\ \&,\ const\ Value\ \&>}};}
+\DoxyCodeLine{00204\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ =\ std::make\_signed\_t<size\_t>;}
+\DoxyCodeLine{00205\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ =\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a88fcdd77479bf99826682b381eea1b2d}{value\_type}};}
+\DoxyCodeLine{00206\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_ad77ef2282fa0f71efd52493a5328df0d}{const\_iterator}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator<Key,\ Value>}}\ \&it)\ :\ elem(it.elem)\ \{\}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ Key\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a78633bf158cdc6239eb2af194ad8fe4a}{key}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (*elem).key;\ \}}
+\DoxyCodeLine{00209\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ Value\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a49133624ac733dc9abe53a84b791324e}{value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ (*elem).value;\ \}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_abc5f55b9aee6974e14ff22a730efe8bc}{operator*}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \{(*elem).\mbox{\hyperlink{structpsm_1_1map__element_ab1521b3246409d0c35128dfaa8d0823e}{key}},\ (*elem).value\};\ \}}
+\DoxyCodeLine{00212\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1map__element}{reference}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_aafd44bb1ff3cce01f531cc98dc37b966}{operator[]}}(\textcolor{keywordtype}{size\_t}\ i)\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{keywordflow}{return}\ \{elem[i].key,\ elem[i].value\};}
+\DoxyCodeLine{00214\ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a03e4c3d60dc3f406832d24b7aa0d1b16}{operator+=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ elem\ +=\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}};}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00219\ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a216a66b0ba6fedccbdc8bef10f7b2296}{operator-\/=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ elem\ -\/=\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}};}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00223\ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a07232c7b90901d7d86666e4d6e8b8f41}{operator++}}()\ \{}
+\DoxyCodeLine{00226\ \ \ \ \ ++elem;}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00228\ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a79d5e1f4cd06799193452aa07f2ca699}{operator++}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ ret\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00231\ \ \ \ \ ++elem;}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00233\ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \&\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9b719bb53533c9994a268d5113fde890}{operator-\/-\/}}()\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ -\/-\/elem;}
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00237\ \ \ \}}
+\DoxyCodeLine{00238\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a47498c99718ef08d8685321fe0085c9c}{operator-\/-\/}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\ ret\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00240\ \ \ \ \ -\/-\/elem;}
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00242\ \ \ \}}
+\DoxyCodeLine{00243\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a0d5f601a18a601db93bcfb1f26f1f56b}{operator+}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it,}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\{it.elem\ +\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\};}
+\DoxyCodeLine{00246\ \ \ \}}
+\DoxyCodeLine{00247\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_aaa1bf3354ed24510243f759f0ac5e249}{operator+}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}},}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it)\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}\{it.elem\ +\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\};}
+\DoxyCodeLine{00250\ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a9dcfc1469bb8a9f42d0073e13c2f972b}{difference\_type}}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a545d155134d73bdf61ab356dfe22e4ce}{operator-\/}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ b,}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ a)\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordflow}{return}\ b.elem\ -\/\ a.elem;}
+\DoxyCodeLine{00254\ \ \ \}}
+\DoxyCodeLine{00255\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_ab2aec637577493b5e3bd647b4e97eb5a}{operator<}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it2)\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ <\ it2.elem;}
+\DoxyCodeLine{00257\ \ \ \}}
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a7571a3824cfb2f3d687cc05073da43a8}{operator<=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it2)\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ <=\ it2.elem;}
+\DoxyCodeLine{00260\ \ \ \}}
+\DoxyCodeLine{00261\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_aedbb415616b7a1c8572d908c83450b91}{operator>}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it2)\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ >\ it2.elem;}
+\DoxyCodeLine{00263\ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_aefa57defd98ca22b77d533632f64957c}{operator>=}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it2)\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ >=\ it2.elem;}
+\DoxyCodeLine{00266\ \ \ \}}
+\DoxyCodeLine{00267\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_a26c7e557d05251aa989a67e630c693ae}{operator==}}(\mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it1,\ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\_iterator}}\ it2)\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordflow}{return}\ it1.elem\ ==\ it2.elem;}
+\DoxyCodeLine{00269\ \ \ \}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00272\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename},\ \textcolor{keyword}{typename},\ \textcolor{keywordtype}{size\_t},\ \textcolor{keyword}{typename}>\ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_fixed_map}{psm::FixedMap}};}
+\DoxyCodeLine{00273\ \ \ \textcolor{keyword}{using\ }It\ =\ \mbox{\hyperlink{namespacepsm_a3fb97ba704a71bdc56940e053a463ae0}{vec\_const\_iterator<map\_element<Key,\ Value>}}>;}
+\DoxyCodeLine{00274\ \ \ \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_ad77ef2282fa0f71efd52493a5328df0d}{const\_iterator}}(It\ it)\ :\ elem(it)\ \{\}}
+\DoxyCodeLine{00275\ \ \ It\ elem;}
+\DoxyCodeLine{00276\ \};}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ Value,\ std::\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00279\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{namespacepsm_1_1map__dtl_afe233dcba526437ce5607f4f255db62b}{bubble\_sort}}(\mbox{\hyperlink{classpsm_1_1_fixed_vec}{FixedVec}}<\mbox{\hyperlink{structpsm_1_1map__element}{map\_element<Key,\ Value>}},\ N>\ v)}
+\DoxyCodeLine{00280\ \ \ \ \ -\/>\ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{FixedVec<map\_element<Key,\ Value>}},\ N>\ \{}
+\DoxyCodeLine{00281\ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\ =\ v.size();}
+\DoxyCodeLine{00282\ \ \ \textcolor{keywordflow}{do}\ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ new\_n\ =\ 0;}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}};\ ++i)\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v[i].key\ <\ v[i\ -\/\ 1].key)\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ tmp\ =\ std::move(v[i\ -\/\ 1]);}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ v[i\ -\/\ 1]\ =\ std::move(v[i]);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ v[i]\ =\ std::move(tmp);}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ new\_n\ =\ i;}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00291\ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\ =\ new\_n;}
+\DoxyCodeLine{00293\ \ \ \}\ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}\ >\ 0);}
+\DoxyCodeLine{00294\ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00295\ \}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ K,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00298\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable}{comparable}}\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00299\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Key,\ \textcolor{keyword}{typename}\ K>}
+\DoxyCodeLine{00300\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable}{comparable}}<}
+\DoxyCodeLine{00301\ \ \ \ \ Key,\ K,}
+\DoxyCodeLine{00302\ \ \ \ \ std::void\_t<decltype(std::declval<Key>()\ <\ std::declval<K>()),}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decltype(std::declval<K>()\ <\ std::declval<Key>()),}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decltype(std::declval<Key>()\ ==\ std::declval<K>()),}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decltype(std::declval<K>()\ ==\ std::declval<Key>())>>}
+\DoxyCodeLine{00306\ \ \ \ \ :\ std::true\_type\ \{\};}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \}\ \textcolor{comment}{//\ namespace\ map\_dtl}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ struct\ linear\_search\ \{}
+\DoxyCodeLine{00311\ \ \ template\ <typename\ K,\ typename\ It>}
+\DoxyCodeLine{00312\ \ \ constexpr\ It\ operator()(const\ K\ \&key,\ It\ begin,\ It\ end)\ const\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ while\ (begin\ !=\ end)\ \{}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ if\ ((*begin).key\ ==\ key)}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ return\ begin;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ ++begin;}
+\DoxyCodeLine{00317\ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ return\ end;}
+\DoxyCodeLine{00319\ \ \ \}}
+\DoxyCodeLine{00320\ \};}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ struct\ binary\_search\ \{}
+\DoxyCodeLine{00323\ \ \ template\ <typename\ K,\ typename\ It>}
+\DoxyCodeLine{00324\ \ \ constexpr\ It\ operator()(const\ K\ \&key,\ It\ begin,\ It\ end)\ const\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ auto\ first\ =\ begin;}
+\DoxyCodeLine{00326\ \ \ \ \ auto\ last\ =\ end;}
+\DoxyCodeLine{00327\ \ \ \ \ while\ (first\ <\ last)\ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ auto\ middle\ =\ first\ +\ ((last\ -\/\ first)\ /\ 2);}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ if\ ((*middle).key\ <\ key)\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ first\ =\ ++middle;}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \}\ else\ if\ (key\ <\ (*middle).key)\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ last\ =\ middle;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \}\ else\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key\ ==\ middle-\/>key}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ return\ middle;}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00337\ \ \ \ \ \}}
+\DoxyCodeLine{00338\ \ \ \ \ return\ end;}
+\DoxyCodeLine{00339\ \ \ \}}
+\DoxyCodeLine{00340\ \};}
+\DoxyCodeLine{00345\ template\ <typename\ Key,\ typename\ Value,\ size\_t\ Size,}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ typename\ SearchPolicy\ =\ linear\_search>}
+\DoxyCodeLine{00347\ class\ FixedMap\ \{}
+\DoxyCodeLine{00348\ public:}
+\DoxyCodeLine{00349\ \ \ using\ key\_type\ =\ Key;}
+\DoxyCodeLine{00350\ \ \ using\ mapped\_type\ =\ Value;}
+\DoxyCodeLine{00351\ \ \ using\ element\_type\ =\ map\_element<Key,\ Value>;}
+\DoxyCodeLine{00352\ \ \ using\ iterator\ =\ map\_dtl::iterator<Key,\ Value>;}
+\DoxyCodeLine{00353\ \ \ using\ const\_iterator\ =\ map\_dtl::const\_iterator<Key,\ Value>;}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ using\ value\_type\ =\ map\_element<Key,\ Value>;}
+\DoxyCodeLine{00356\ \ \ using\ pointer\ =\ map\_element<Key,\ Value>\ *;}
+\DoxyCodeLine{00357\ \ \ using\ const\_pointer\ =\ map\_element<Key,\ Value>\ const\ *;}
+\DoxyCodeLine{00358\ \ \ using\ reference\ =\ typename\ iterator::reference;}
+\DoxyCodeLine{00359\ \ \ using\ const\_reference\ =\ typename\ const\_iterator::reference;}
+\DoxyCodeLine{00360\ \ \ using\ size\_type\ =\ size\_t\ \textcolor{comment}{/*5.9\ smallest\ unsigned\ integer\ type\ that\ can}}
+\DoxyCodeLine{00361\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ represent\ C\ (Capacity)*/}}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ ;}
+\DoxyCodeLine{00363\ \ \ using\ difference\_type\ =\ std::make\_signed\_t<size\_type>;}
+\DoxyCodeLine{00364\ \ \ using\ reverse\_iterator\ =\ std::reverse\_iterator<iterator>;}
+\DoxyCodeLine{00365\ \ \ using\ const\_reverse\_iterator\ =\ std::reverse\_iterator<const\_iterator>;}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00369\ \ \ template\ <typename\ K>\ using\ keyish\ =\ map\_dtl::comparable<Key,\ K,\ void>;}
+\DoxyCodeLine{00371\ \ \ template\ <typename\ K>}
+\DoxyCodeLine{00372\ \ \ using\ enable\_if\_keyish\ =\ std::enable\_if\_t<keyish<K>::value>;}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00375\ \ \ template\ <typename\ V>\ using\ valueish\ =\ std::is\_assignable<Value\ \&,\ V>;}
+\DoxyCodeLine{00377\ \ \ template\ <typename\ V>}
+\DoxyCodeLine{00378\ \ \ using\ enable\_if\_valueish\ =\ std::enable\_if\_t<valueish<V>::value>;}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00381\ \ \ template\ <typename\ K,\ typename\ V>}
+\DoxyCodeLine{00382\ \ \ using\ enable\_if\_kvish\ =}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ std::enable\_if\_t<keyish<K>::value\ and\ valueish<V>::value>;}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00386\ \ \ constexpr\ FixedMap()\ noexcept\ =\ default;}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00394\ \ \ template\ <typename\ E\ =\ element\_type,}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ typename\ =\ std::enable\_if\_t<std::is\_copy\_constructible\_v<E>>>}
+\DoxyCodeLine{00396\ \ \ constexpr\ FixedMap(std::initializer\_list<element\_type>\ il)\ noexcept(}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ std::is\_nothrow\_copy\_constructible\_v<map\_element<Key,\ Value>>)}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ :\ data\_(map\_dtl::bubble\_sort(FixedVec<element\_type,\ Size>(il)))\ \{}
+\DoxyCodeLine{00399\ \ \ \ \ for\ (auto\ it\ =\ data\_.cbegin()\ +\ 1;\ it\ !=\ data\_.cend();\ ++it)\ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ assert((*it).key\ !=\ (*(it\ +\ (-\/1))).key);}
+\DoxyCodeLine{00401\ \ \ \ \ \}}
+\DoxyCodeLine{00402\ \ \ \}}
+\DoxyCodeLine{00410\ \ \ template\ <typename\ E\ =\ element\_type,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ typename\ =\ std::enable\_if\_t<std::is\_copy\_constructible\_v<E>>>}
+\DoxyCodeLine{00412\ \ \ constexpr\ FixedMap(}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ const\ FixedVec<map\_element<Key,\ Value>,\ Size>}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \&elems)\ noexcept(std::}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ is\_nothrow\_copy\_constructible\_v<}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FixedVec<map\_element<Key,\ Value>,\ Size>>)}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ :\ data\_(map\_dtl::bubble\_sort(elems))\ \{}
+\DoxyCodeLine{00418\ \ \ \ \ for\ (auto\ it\ =\ data\_.cbegin()\ +\ 1;\ it\ !=\ data\_.cend();\ ++it)\ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ assert((*it).key\ !=\ (*(it\ +\ (-\/1))).key);}
+\DoxyCodeLine{00420\ \ \ \ \ \}}
+\DoxyCodeLine{00421\ \ \ \}}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \ \ constexpr\ FixedMap(FixedVec<map\_element<Key,\ Value>,\ Size>\ \&\&elems)\ noexcept(}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ std::is\_nothrow\_move\_constructible\_v<}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ FixedVec<map\_element<Key,\ Value>,\ Size>>)}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ :\ data\_(map\_dtl::bubble\_sort(std::move(elems)))\ \{}
+\DoxyCodeLine{00427\ \ \ \ \ for\ (auto\ it\ =\ data\_.cbegin()\ +\ 1;\ it\ !=\ data\_.cend();\ ++it)\ \{}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ assert((*it).key\ !=\ *((it\ +\ (-\/1))).key);}
+\DoxyCodeLine{00429\ \ \ \ \ \}}
+\DoxyCodeLine{00430\ \ \ \}}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ template\ <typename\ K,\ typename\ V,\ typename...\ Ks,\ typename...\ Vs>}
+\DoxyCodeLine{00434\ \ \ constexpr\ FixedMap(map\_element<K,\ V>\ e1,\ map\_element<Ks,\ Vs>...\ rest)\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ static\_assert(sizeof...(Ks)\ <\ Size);}
+\DoxyCodeLine{00436\ \ \ \ \ insert\_or\_replace(std::move(e1.key),\ std::move(e1.value));}
+\DoxyCodeLine{00437\ \ \ \ \ (insert\_or\_replace(std::move(rest.key),\ std::move(rest.value)),\ ...);}
+\DoxyCodeLine{00438\ \ \ \}}
+\DoxyCodeLine{00440\ \ \ constexpr\ bool\ empty()\ const\ \{\ return\ data\_.empty();\ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00444\ \ \ constexpr\ void\ clear()\ \{\ data\_.clear();\ \}}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00453\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00454\ \ \ constexpr\ const\_iterator\ find(const\ K\ \&key)\ const\ \{}
+\DoxyCodeLine{00455\ \ \ \ \ const\ SearchPolicy\ search;}
+\DoxyCodeLine{00456\ \ \ \ \ return\ search(key,\ data\_.begin(),\ data\_.end());}
+\DoxyCodeLine{00457\ \ \ \}}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00460\ \ \ constexpr\ iterator\ find(const\ K\ \&key)\ \{}
+\DoxyCodeLine{00461\ \ \ \ \ const\ SearchPolicy\ search;}
+\DoxyCodeLine{00462\ \ \ \ \ return\ search(key,\ data\_.begin(),\ data\_.end());}
+\DoxyCodeLine{00463\ \ \ \}}
+\DoxyCodeLine{00465\ }
+\DoxyCodeLine{00478\ \ \ template\ <typename\ K,\ typename\ V>\ constexpr\ bool\ insert(K\ \&\&key,\ V\ \&\&value)\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ for\ (auto\ it\ =\ data\_.begin();\ it\ !=\ data\_.end();\ ++it)\ \{}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ if\ ((*it).key\ ==\ key)\ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key\ already\ exists\ -\/>\ insert\ failed}}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \}\ else\ if\ (key\ <\ (*it).key\ and}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (it\ ==\ data\_.begin()\ ?\ true\ :\ ((*(it\ +\ (-\/1))).key\ <\ key)))\ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ key\ <\ (*it).key\ and\ key\ >\ (-\/-\/it).key\ -\/>\ found\ insertion\ point.}}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/-\/it.key\ is\ only\ accessed\ when\ it\ !=\ data\_.begin()}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ return\ data\_.emplace(it,\ std::forward<K>(key),\ std::forward<V>(value));}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00489\ \ \ \ \ \}}
+\DoxyCodeLine{00490\ \ \ \ \ return\ data\_.emplace\_back(std::forward<K>(key),\ std::forward<V>(value));}
+\DoxyCodeLine{00491\ \ \ \}}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00504\ \ \ template\ <typename\ K,\ typename\ V,\ typename\ =\ enable\_if\_kvish<K\ \&\&,\ V\ \&\&>>}
+\DoxyCodeLine{00505\ \ \ constexpr\ bool\ insert\_or\_replace(K\ \&\&key,\ V\ \&\&value)\ \{}
+\DoxyCodeLine{00506\ \ \ \ \ for\ (auto\ it\ =\ data\_.begin();\ it\ !=\ data\_.end();\ ++it)\ \{}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ if\ ((*it).key\ ==\ key)\ \{}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ (*it).value\ =\ std::forward<V>(value);}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ return\ true;}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \}\ else\ if\ ((key\ <\ (*it).key)\ and}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (it\ ==\ data\_.begin()\ ?\ true\ :\ (*(it\ +\ (-\/1))).key\ <\ key))\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ key\ <\ (*it).key\ and\ key\ >\ (-\/-\/it).key\ -\/>\ found\ insertion\ point.}}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/-\/it.key\ is\ only\ accessed\ when\ it\ !=\ data\_.begin()}}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ return\ data\_.emplace(it,\ std::forward<K>(key),\ std::forward<V>(value));}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00516\ \ \ \ \ \}}
+\DoxyCodeLine{00517\ \ \ \ \ return\ data\_.emplace\_back(std::forward<K>(key),\ std::forward<V>(value));}
+\DoxyCodeLine{00518\ \ \ \}}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00530\ \ \ template\ <typename\ K,\ typename\ V,\ typename\ =\ enable\_if\_kvish<K\ \&\&,\ V\ \&\&>>}
+\DoxyCodeLine{00531\ \ \ constexpr\ bool\ replace(K\ \&\&key,\ V\ \&\&value)\ \{}
+\DoxyCodeLine{00532\ \ \ \ \ const\ SearchPolicy\ search;}
+\DoxyCodeLine{00533\ \ \ \ \ if\ (auto\ it\ =\ search(key,\ data\_.begin(),\ data\_.end());\ it\ !=\ data\_.end())\ \{}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ (*it).value\ =\ std::forward<V>(value);}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ return\ true;}
+\DoxyCodeLine{00536\ \ \ \ \ \}}
+\DoxyCodeLine{00537\ \ \ \ \ return\ false;}
+\DoxyCodeLine{00538\ \ \ \}}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00548\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00549\ \ \ constexpr\ bool\ erase(const\ K\ \&key)\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ const\ SearchPolicy\ search;}
+\DoxyCodeLine{00551\ \ \ \ \ if\ (auto\ it\ =\ search(key,\ data\_.begin(),\ data\_.end());\ it\ !=\ data\_.end())\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ data\_.erase(it);}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ return\ true;}
+\DoxyCodeLine{00554\ \ \ \ \ \}}
+\DoxyCodeLine{00555\ \ \ \ \ return\ false;}
+\DoxyCodeLine{00556\ \ \ \}}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00567\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00568\ \ \ constexpr\ const\ mapped\_type\ \&operator[](const\ K\ \&key)\ const\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ return\ this-\/>cget(key);}
+\DoxyCodeLine{00570\ \ \ \}}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00573\ \ \ constexpr\ mapped\_type\ \&operator[](const\ K\ \&k)\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ return\ this-\/>get(k);}
+\DoxyCodeLine{00575\ \ \ \}}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00578\ \ \ constexpr\ const\ mapped\_type\ \&get(const\ K\ \&key)\ const\ \{}
+\DoxyCodeLine{00579\ \ \ \ \ assert(find(key)\ !=\ end());}
+\DoxyCodeLine{00580\ \ \ \ \ return\ find(key).value();}
+\DoxyCodeLine{00581\ \ \ \}}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00584\ \ \ constexpr\ const\ mapped\_type\ \&cget(const\ K\ \&key)\ const\ \{}
+\DoxyCodeLine{00585\ \ \ \ \ assert(find(key)\ !=\ end());}
+\DoxyCodeLine{00586\ \ \ \ \ return\ find(key).value();}
+\DoxyCodeLine{00587\ \ \ \}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00590\ \ \ constexpr\ mapped\_type\ \&get(const\ K\ \&key)\ \{}
+\DoxyCodeLine{00591\ \ \ \ \ assert(find(key)\ !=\ end());}
+\DoxyCodeLine{00592\ \ \ \ \ return\ find(key).value();}
+\DoxyCodeLine{00593\ \ \ \}}
+\DoxyCodeLine{00595\ }
+\DoxyCodeLine{00605\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00606\ \ \ constexpr\ mapped\_type\ \&get\_or(const\ K\ \&key,\ mapped\_type\ \&v)\ noexcept\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ if\ (auto\ it\ =\ find(key);\ it\ !=\ end())}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ return\ it.value();}
+\DoxyCodeLine{00609\ \ \ \ \ return\ v;}
+\DoxyCodeLine{00610\ \ \ \}}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00612\ \ \ template\ <typename\ K,\ typename\ =\ enable\_if\_keyish<K\ \&\&>>}
+\DoxyCodeLine{00613\ \ \ constexpr\ const\ mapped\_type\ \&get\_or(const\ K\ \&key,}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ mapped\_type\ \&v)\ const\ noexcept\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ if\ (auto\ it\ =\ find(key);\ it\ !=\ end())}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ return\ it.value();}
+\DoxyCodeLine{00617\ \ \ \ \ return\ v;}
+\DoxyCodeLine{00618\ \ \ \}}
+\DoxyCodeLine{00620\ }
+\DoxyCodeLine{00623\ \ \ constexpr\ iterator\ begin()\ noexcept\ \{\ return\ data\_.begin();\ \}}
+\DoxyCodeLine{00624\ \ \ constexpr\ const\_iterator\ begin()\ const\ noexcept\ \{\ return\ data\_.begin();\ \}}
+\DoxyCodeLine{00625\ \ \ constexpr\ iterator\ end()\ noexcept\ \{\ return\ data\_.end();\ \}}
+\DoxyCodeLine{00626\ \ \ constexpr\ const\_iterator\ end()\ const\ noexcept\ \{\ return\ data\_.end();\ \}}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \ \ constexpr\ reverse\_iterator\ rbegin()\ noexcept\ \{\ return\ end();\ \}}
+\DoxyCodeLine{00629\ \ \ constexpr\ const\_reverse\_iterator\ rbegin()\ const\ noexcept\ \{\ return\ end();\ \}}
+\DoxyCodeLine{00630\ \ \ constexpr\ reverse\_iterator\ rend()\ noexcept\ \{\ return\ begin();\ \}}
+\DoxyCodeLine{00631\ \ \ constexpr\ const\_reverse\_iterator\ rend()\ const\ noexcept\ \{\ return\ begin();\ \}}
+\DoxyCodeLine{00632\ \ \ constexpr\ const\_iterator\ cbegin()\ noexcept\ \{\ return\ begin();\ \}}
+\DoxyCodeLine{00633\ \ \ constexpr\ const\_iterator\ cend()\ const\ noexcept\ \{\ return\ end();\ \}}
+\DoxyCodeLine{00634\ \ \ constexpr\ const\_reverse\_iterator\ crbegin()\ noexcept\ \{\ return\ rbegin();\ \}}
+\DoxyCodeLine{00635\ \ \ constexpr\ const\_reverse\_iterator\ crend()\ const\ noexcept\ \{\ return\ rend();\ \}}
+\DoxyCodeLine{00637\ }
+\DoxyCodeLine{00639\ \ \ constexpr\ size\_type\ size()\ const\ noexcept\ \{\ return\ data\_.size();\ \}}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ private:}
+\DoxyCodeLine{00642\ \ \ template\ <typename,\ typename,\ size\_t>\ friend\ struct\ FixedMapObserver;}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \ \ FixedVec<element\_type,\ Size>\ data\_;}
+\DoxyCodeLine{00645\ \};}
+\DoxyCodeLine{00646\ }
+\DoxyCodeLine{00654\ template\ <size\_t\ Size,\ typename\ Key,\ typename\ Value>}
+\DoxyCodeLine{00655\ constexpr\ Result<FixedMap<Key,\ Value,\ Size>>}
+\DoxyCodeLine{00656\ fixed\_map(const\ map\_element<Key,\ Value>\ (\&pairs)[Size])\ \{}
+\DoxyCodeLine{00657\ \ \ for\ (size\_t\ i\ =\ 1;\ i\ <\ Size;\ ++i)\ \{}
+\DoxyCodeLine{00658\ \ \ \ \ if\ (pairs[i].key\ ==\ pairs[i\ -\/\ 1].key)}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ return\ psm::Error::duplicate\_key;}
+\DoxyCodeLine{00660\ \ \ \}}
+\DoxyCodeLine{00661\ \ \ return\ FixedMap<Key,\ Value,\ Size>\{std::initializer\_list(pairs)\};}
+\DoxyCodeLine{00662\ \}}
+\DoxyCodeLine{00663\ }
+\DoxyCodeLine{00664\ template\ <size\_t\ Size,\ typename\ Key,\ typename\ Value>}
+\DoxyCodeLine{00665\ constexpr\ Result<FixedMap<Key,\ Value,\ Size>>}
+\DoxyCodeLine{00666\ fixed\_map(const\ std::array<map\_element<Key,\ Value>,\ Size>\ \&pairs)\ \{}
+\DoxyCodeLine{00667\ \ \ for\ (size\_t\ i\ =\ 1;\ i\ <\ Size;\ ++i)\ \{}
+\DoxyCodeLine{00668\ \ \ \ \ if\ (pairs[i].key\ ==\ pairs[i\ -\/\ 1].key)}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ return\ psm::Error::duplicate\_key;}
+\DoxyCodeLine{00670\ \ \ \}}
+\DoxyCodeLine{00671\ \ \ return\ FixedMap<Key,\ Value,\ Size>\{std::initializer\_list(pairs)\};}
+\DoxyCodeLine{00672\ \}}
+\DoxyCodeLine{00673\ }
+\DoxyCodeLine{00674\ template\ <size\_t\ Size,\ typename\ Key,\ typename\ Value>}
+\DoxyCodeLine{00675\ constexpr\ Result<FixedMap<Key,\ Value,\ Size>>}
+\DoxyCodeLine{00676\ fixed\_map(const\ FixedVec<map\_element<Key,\ Value>,\ Size>\ \&pairs)\ \{}
+\DoxyCodeLine{00677\ \ \ for\ (size\_t\ i\ =\ 1;\ i\ <\ Size;\ ++i)\ \{}
+\DoxyCodeLine{00678\ \ \ \ \ if\ (pairs[i].key\ ==\ pairs[i\ -\/\ 1].key)}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ return\ psm::Error::duplicate\_key;}
+\DoxyCodeLine{00680\ \ \ \}}
+\DoxyCodeLine{00681\ \ \ return\ FixedMap<Key,\ Value,\ Size>\{std::initializer\_list(pairs)\};}
+\DoxyCodeLine{00682\ \}}
+\DoxyCodeLine{00683\ template\ <size\_t\ Size,\ typename\ Key,\ typename\ Value>}
+\DoxyCodeLine{00684\ constexpr\ Result<FixedMap<Key,\ Value,\ Size>>}
+\DoxyCodeLine{00685\ fixed\_map(FixedVec<map\_element<Key,\ Value>,\ Size>\ \&\&pairs)\ \{}
+\DoxyCodeLine{00686\ \ \ for\ (size\_t\ i\ =\ 1;\ i\ <\ Size;\ ++i)\ \{}
+\DoxyCodeLine{00687\ \ \ \ \ if\ (pairs[i].key\ ==\ pairs[i\ -\/\ 1].key)}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ return\ psm::Error::duplicate\_key;}
+\DoxyCodeLine{00689\ \ \ \}}
+\DoxyCodeLine{00690\ \ \ return\ FixedMap<Key,\ Value,\ Size>\{std::move(pairs)\};}
+\DoxyCodeLine{00691\ \}}
+\DoxyCodeLine{00693\ }
+\DoxyCodeLine{00699\ template\ <size\_t\ Size,\ typename\ Key,\ typename\ Value>}
+\DoxyCodeLine{00700\ constexpr\ Result<FixedMap<Key,\ Value,\ Size>>}
+\DoxyCodeLine{00701\ fixed\_map(std::initializer\_list<map\_element<Key,\ Value>>\ il)\ \{}
+\DoxyCodeLine{00702\ \ \ auto\ prev\ =\ il.begin();}
+\DoxyCodeLine{00703\ \ \ auto\ next\ =\ prev\ +\ 1;}
+\DoxyCodeLine{00704\ \ \ while\ (next\ !=\ il.end())\ \{}
+\DoxyCodeLine{00705\ \ \ \ \ if\ (prev-\/>key\ ==\ next-\/>key)\ \{}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ return\ psm::Error::duplicate\_key;}
+\DoxyCodeLine{00707\ \ \ \ \ \}}
+\DoxyCodeLine{00708\ \ \ \ \ ++prev;}
+\DoxyCodeLine{00709\ \ \ \ \ ++next;}
+\DoxyCodeLine{00710\ \ \ \}}
+\DoxyCodeLine{00711\ \ \ return\ FixedMap<Key,\ Value,\ Size>\{il\};}
+\DoxyCodeLine{00712\ \}}
+\DoxyCodeLine{00713\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00714\ \#endif\ \textcolor{comment}{/*\ MAP\_HPP\_\ */}}
+
+\end{DoxyCode}

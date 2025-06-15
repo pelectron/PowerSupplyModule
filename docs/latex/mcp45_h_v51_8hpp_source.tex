@@ -1,0 +1,30 @@
+\doxysection{mcp45\+HV51.\+hpp}
+\hypertarget{mcp45_h_v51_8hpp_source}{}\label{mcp45_h_v51_8hpp_source}\mbox{\hyperlink{mcp45_h_v51_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ MCP45HVV51\_HPP}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ MCP45HVV51\_HPP}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{i2c_8hpp}{hal/i2c.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_m_c_p45_h_v51}{MCP45HV51}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a235b648d19b00e6fbbac4e84bfd1d4f2}{max\_resistance}}\ =\ 5'000;}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a442bd6941787437487bf6554c726a67b}{Error}}\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a961b52720a3128ac373b6bc550bf12f7}{enable}}();}
+\DoxyCodeLine{00018\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a486e99a3fe74c1a096d7519da848e252}{disable}}();}
+\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{class_m_c_p45_h_v51_a442bd6941787437487bf6554c726a67b}{Error}}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a35986c6b4b89a4d97382b9724ed5f290}{set\_resistance}}(\textcolor{keywordtype}{float}\ resistance);}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{class_m_c_p45_h_v51_a442bd6941787437487bf6554c726a67b}{Error}}\ \mbox{\hyperlink{class_m_c_p45_h_v51_a8b7142bac66dc5514ce0fc0a2cc3da3e}{set\_resistance}}(uint32\_t\ code);}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal::i2c::Master}}\ i2c;}
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ wlat;}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ shdn;}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !MCP45HVV51\_HPP}}
+
+\end{DoxyCode}

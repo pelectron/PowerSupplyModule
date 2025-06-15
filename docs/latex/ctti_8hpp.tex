@@ -1,0 +1,131 @@
+\doxysection{cli/ctti.hpp File Reference}
+\hypertarget{ctti_8hpp}{}\label{ctti_8hpp}\index{cli/ctti.hpp@{cli/ctti.hpp}}
+{\ttfamily \#include "{}cli/traits.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include $<$source\+\_\+location$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_field}{cli\+::ctti\+::\+Field$<$ N, T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1dtl_1_1any__type}{cli\+::ctti\+::dtl\+::any\+\_\+type}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1dtl_1_1ptr}{cli\+::ctti\+::dtl\+::ptr$<$ TPtr $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1dtl_1_1member__type}{cli\+::ctti\+::dtl\+::member\+\_\+type$<$ T, N $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_struct_info}{cli\+::ctti\+::\+Struct\+Info$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_type_info}{cli\+::ctti\+::\+Type\+Info$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_type_info_3_01_t_01_4}{cli\+::ctti\+::\+Type\+Info$<$ T $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1ctti}{cli\+::ctti}}
+\item 
+namespace \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl}{cli\+::ctti\+::dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ctti_8hpp_a746af80cb714654e7dcf616412bf06d6}{CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+LEFT}}~  (sizeof(CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+PREFIX) -\/ 1)
+\item 
+\#define \mbox{\hyperlink{ctti_8hpp_a974770b2883493bb68f9e949fe2d9e18}{CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+RIGHT}}~  (sizeof(CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+SUFFIX) -\/ 1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} N$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a97dfecc1ff8a94391f637d2eb30bca94}{cli\+::ctti\+::dtl\+::member\+\_\+name\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_ae10d4140ed8fa01f396e09583939f3d7}{member\+\_\+name}}$<$T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{N}}$>$())
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a18f4a8c043d88f93bc420faa8e88a463}{cli\+::ctti\+::name\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a3fb7d9357cbb920f6014e2b3315175e4}{\+::cli\+::ctti\+::dtl\+::name}}$<$T$>$())
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a672b7e64556fcd282d279663cfd33373}{cli\+::ctti\+::field\+\_\+tuple\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} std\+::string\+\_\+view \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_aae8fcd6e60888865de794d5262d42f81}{cli\+::ctti\+::dtl\+::name\+\_\+impl}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a3fb7d9357cbb920f6014e2b3315175e4}{cli\+::ctti\+::dtl\+::name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Ptr$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_ab3866152823f0cca8221d5357e069d0d}{cli\+::ctti\+::dtl\+::member\+\_\+name\+\_\+impl}} () -\/$>$ std\+::string\+\_\+view
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Value$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a5bd5b73a967527d5fbf6b9b520c6429e}{cli\+::ctti\+::dtl\+::value\+\_\+name\+\_\+impl}} () -\/$>$ std\+::string\+\_\+view
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& Value$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a89d1c45923f2badb048f9ea7bf0e1c10}{cli\+::ctti\+::dtl\+::object\+\_\+name\+\_\+impl}} () -\/$>$ std\+::string\+\_\+view
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Value$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_af0880086967241751b14d6188bc5393a}{cli\+::ctti\+::dtl\+::enum\+\_\+name\+\_\+impl}} () -\/$>$ std\+::string\+\_\+view
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a82100a90158b5a40c0fbccc28e627887}{cli\+::ctti\+::dtl\+::value\+\_\+name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a1e9d9a9df9aa5d41e26ea7da6ae8bec6}{cli\+::ctti\+::dtl\+::object\+\_\+name}} ()
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_af367d005214bbcd4577df7c9c8d4fee0}{cli\+::ctti\+::dtl\+::is\+\_\+identifier}} (std\+::string\+\_\+view \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{sv}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} , std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a335ffdca3b0331c6f003f61e1eed71cc}{cli\+::ctti\+::dtl\+::generate\+\_\+enum\+\_\+names\+\_\+size}} (std\+::index\+\_\+sequence$<$ Is... $>$)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} , std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a64cc18b7cd4d2794cc86c0c2e51842aa}{cli\+::ctti\+::dtl\+::generate\+\_\+enum\+\_\+names}} (std\+::index\+\_\+sequence$<$ Is... $>$)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} , std\+::size\+\_\+t... Is$>$ \newline
+requires traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a3b53a6bc0ba0a6bc20311fa4343218d7}{cli\+::ctti\+::dtl\+::generate\+\_\+enum\+\_\+names\+\_\+size}} (std\+::index\+\_\+sequence$<$ Is... $>$)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} , std\+::size\+\_\+t... Is$>$ \newline
+requires traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_ace1a156f0941a7f0abab67cf20b5642b}{cli\+::ctti\+::dtl\+::generate\+\_\+enum\+\_\+names}} (std\+::index\+\_\+sequence$<$ Is... $>$)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} N$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a56538c46b22ed97f730e76af09f9c98c}{cli\+::ctti\+::dtl\+::nth}} (auto... args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a9fbd2ca771a8485d477cadd59f5617f9}{cli\+::ctti\+::dtl\+::num\+\_\+members}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} N, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a4fabb16a503d3e07172cf353a34b0251}{cli\+::ctti\+::dtl\+::get}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} N$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_ae10d4140ed8fa01f396e09583939f3d7}{cli\+::ctti\+::dtl\+::member\+\_\+name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_aaa5641623d53184f145d8bb24050707a}{cli\+::ctti\+::dtl\+::to\+\_\+tuple}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_ab225016a014505ff13d574ed0d529904}{cli\+::ctti\+::name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_a4295b588f63177398557bd1c571a964e}{cli\+::ctti\+::value\+\_\+name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_a812ce27e0d40beb111d19e92b1495e83}{cli\+::ctti\+::object\+\_\+name}} ()
+\item 
+{\footnotesize template$<$traits\+::\+Enum E$>$ \newline
+requires (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}} traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$)}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::string\+\_\+view \mbox{\hyperlink{namespacecli_1_1ctti_a97a91497be6e02801399eb18237b6943}{cli\+::ctti\+::enum\+\_\+name}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} value)
+\item 
+{\footnotesize template$<$traits\+::\+Enum E$>$ \newline
+requires traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_1_1ctti_a0167d64d283d28bc28457302940e07a8}{cli\+::ctti\+::enum\+\_\+name}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} value)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_aff153bdbf06e3b2d8e6255a0b8be3917}{cli\+::ctti\+::to\+\_\+tuple}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} T \mbox{\hyperlink{namespacecli_1_1ctti_ab7285aa1ee6700c58e265e33ac4874a7}{cli\+::ctti\+::from\+\_\+tuple}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{tuple}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} T \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a28911c21b4f7eeac122eec1ec77493ab}{cli\+::ctti\+::dtl\+::external}}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a26995421d946eaf6d8593f1e66965b0e}{cli\+::ctti\+::dtl\+::enum\+\_\+name\+\_\+map}}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_af35be6c928f03c545daec107fc63ac6a}{cli\+::ctti\+::dtl\+::enum\+\_\+name\+\_\+map$<$ E $>$}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ctti_8hpp_a746af80cb714654e7dcf616412bf06d6}\label{ctti_8hpp_a746af80cb714654e7dcf616412bf06d6} 
+\index{ctti.hpp@{ctti.hpp}!CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT@{CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT}}
+\index{CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT@{CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT}!ctti.hpp@{ctti.hpp}}
+\doxysubsubsection{\texorpdfstring{CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT}{CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT}}
+{\footnotesize\ttfamily \#define CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+LEFT~  (sizeof(CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+PREFIX) -\/ 1)}
+
+\Hypertarget{ctti_8hpp_a974770b2883493bb68f9e949fe2d9e18}\label{ctti_8hpp_a974770b2883493bb68f9e949fe2d9e18} 
+\index{ctti.hpp@{ctti.hpp}!CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT@{CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT}}
+\index{CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT@{CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT}!ctti.hpp@{ctti.hpp}}
+\doxysubsubsection{\texorpdfstring{CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT}{CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT}}
+{\footnotesize\ttfamily \#define CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+RIGHT~  (sizeof(CTTI\+\_\+\+TYPE\+\_\+\+PRETTY\+\_\+\+FUNCTION\+\_\+\+SUFFIX) -\/ 1)}
+

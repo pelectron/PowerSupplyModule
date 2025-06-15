@@ -1,7 +1,10 @@
 
 // #include "cli/cli.hpp"
+#include "cortex/common.hpp"
+#include "cortex/core.hpp"
 #include "drivers/ad5293.hpp"
 #include "drivers/at24cs08.hpp"
+#include "hal/adc.hpp"
 #include "hal/config.hpp"
 #include "hal/enums.hpp"
 #include "hal/gpio.hpp"
@@ -9,6 +12,7 @@
 #include "hal/spi.hpp"
 #include "hal/stm32c031xx/clocks.hpp"
 #include "hal/uart.hpp"
+#include "tl/expected.hpp"
 
 extern "C" {
 void SystemInit(void) {}
@@ -19,6 +23,9 @@ int _read() {}
 int _write(int) {}
 int _sbrk_r() {}
 }
+
+using core = cm::M0PLUS<cm::IRQ31>;
+using nvic = typename core::nvic;
 
 // static constinit psm::Psm module{};
 
@@ -60,8 +67,8 @@ static inline constexpr struct Hw {
                        .mosi = Port::B | Pin5,
                        .miso = Port::B | Pin4,
                        .cs = Port::A | Pin15,
-                       .phase = spi::Phase::high,
-                       .polarity = spi::Polarity::high,
+                       .phase = spi::Phase::low,
+                       .polarity = spi::Polarity::low,
                        .format = spi::Format::msb_first,
                        .baudrate = 1'000'000u,
                        .data_size = 8,
@@ -77,6 +84,16 @@ static inline constexpr struct Hw {
                          .bits = uart::Bits::eight,
                          .stop_bits = uart::StopBits::one,
                          .parity = uart::Parity::none};
+  hal::adc::Config adc{
+      .id = adc::Id::A,
+      .channels = adc::Channel2 | adc::Channel3 | adc::Channel4 |
+                  adc::Channel5 | adc::Channel6,
+      .options = adc::Options::continous | adc::Options::sequence_conversion,
+      .num_bits = 12,
+      .clock_rate = 48'000'000u,
+      .oversampling = 4,
+      .sampling_time = 12,
+      .vref = au::milli(au::volts)(3000u)};
 } hw;
 
 static constinit spi::Device spi_dev;
@@ -101,6 +118,9 @@ volatile hal::ConfigError config_err;
 volatile hal::Error error;
 constinit at24cs08::SerialNumber sn;
 int main() {
+  // 12
+  nvic::init();
+  nvic::irq_enable(cm::IRQ12);
   *reinterpret_cast<volatile std::uint32_t *>(0xE000ED0Cu) |= 0x08000000UL;
   stm32c031xx::clock_tree().init();
   uart::Device uart_dev;
@@ -136,6 +156,26 @@ int main() {
       })
       .or_else([](hal::Error e) { error = e; });
 
+  auto ad_res = adc::configure(hw.adc);
+  if (not ad_res) {
+    config_err = ad_res.error();
+  }
+  auto ad = std::move(ad_res).value();
+  ad.callbacks.end_of_conversion.emplace(
+      [](tl::expected<std::int32_t, hal::Error> code) {
+        while (i < 10)
+          i += 1;
+        return;
+      });
+  ad.callbacks.end_of_sequence.emplace(
+      [](tl::expected<std::span<std::int32_t>, hal::Error> code) {
+        while (i < 20)
+          i += 1;
+        return;
+      });
+  // error = ad.enable();
+  error = ad.start();
+  // error = ad.stop();
   ad5293::AD5293 resistor{std::move(spi_dev)};
   error = resistor.enable();
   error = resistor.wiper(0);

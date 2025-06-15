@@ -1,0 +1,38 @@
+\doxysection{cli\+::io\+::Output\+Stream Concept Reference}
+\hypertarget{conceptcli_1_1io_1_1_output_stream}{}\label{conceptcli_1_1io_1_1_output_stream}\index{cli::io::OutputStream@{cli::io::OutputStream}}
+
+
+An Output\+Stream is the interface \doxylink{classcli_1_1io_1_1_output}{cli\+::io\+::\+Output} uses to write to an unbuffered output stream.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{cli::io::OutputStream}}\ =\ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&s,\ uint8\_t\ c,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ByteView\ str,\ \textcolor{keyword}{const}\ Event\ \&ev)\ \{}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \{\ s.write(c)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \{\ s.write(str)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \{\ s.event(ev)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+An Output\+Stream is the interface \doxylink{classcli_1_1io_1_1_output}{cli\+::io\+::\+Output} uses to write to an unbuffered output stream. 
+
+See \doxylink{structcli_1_1io_1_1_ansi_output_stream}{cli\+::io\+::\+Ansi\+Output\+Stream} for an example of an Output\+Stream.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & teh stream type \\
+\hline
+\end{DoxyTemplParams}

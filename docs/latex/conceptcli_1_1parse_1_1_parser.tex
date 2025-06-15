@@ -1,0 +1,15 @@
+\doxysection{cli\+::parse\+::Parser Concept Reference}
+\hypertarget{conceptcli_1_1parse_1_1_parser}{}\label{conceptcli_1_1parse_1_1_parser}\index{cli::parse::Parser@{cli::parse::Parser}}
+
+
+{\ttfamily \#include $<$cli/parse.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ P>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{cli::parse::Parser}}\ =\ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<P>\ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{p}},\ ByteView\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{str}})\ \{}
+\DoxyCodeLine{\ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{p}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{str}})\ \}\ -\/>\ \mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{Result}};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

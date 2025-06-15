@@ -1,0 +1,14 @@
+\doxysection{cli\+::Name Concept Reference}
+\hypertarget{conceptcli_1_1_name}{}\label{conceptcli_1_1_name}\index{cli::Name@{cli::Name}}
+
+
+{\ttfamily \#include $<$cli/command.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1_name}{cli::Name}}\ =\ \ std::convertible\_to<std::decay\_t<T>,\ ByteView>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}}\ std::is\_pointer\_v<std::decay\_t<T>>}
+
+\end{DoxyCode}

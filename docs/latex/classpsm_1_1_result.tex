@@ -1,0 +1,266 @@
+\doxysection{psm\+::Result\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1_result}{}\label{classpsm_1_1_result}\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+
+
+An optional-\/like type which either contains a T, or a \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error} value.  
+
+
+
+
+{\ttfamily \#include $<$result.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_aa0047fab40dfd130dec7bd794f44da5c}{Result}} () noexcept=default
+\begin{DoxyCompactList}\small\item\em constructs an erroneous \doxylink{classpsm_1_1_result}{Result} with \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abeaeadbe8edd7c0c001cbe854ef3f3e9677}{Error\+::empty\+\_\+result}. If T is void, this will create a \doxylink{classpsm_1_1_result}{Result} with \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_a51b620bbf278518f556dc104e0edab92}{Result}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error}} e) noexcept
+\begin{DoxyCompactList}\small\item\em construct an erroneous \doxylink{classpsm_1_1_result}{Result} with error e. e must not be \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_aea298d6277d48cff905dd4318cda243d}{Result}} (const \mbox{\hyperlink{classpsm_1_1_result}{Result}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_aa921152461e74358b910bc48e2e73599}{Result}} (\mbox{\hyperlink{classpsm_1_1_result}{Result}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}} \& \mbox{\hyperlink{classpsm_1_1_result_a35615eb79ff95c38176a9b71508dc8c6}{operator=}} (const \mbox{\hyperlink{classpsm_1_1_result}{Result}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}} \& \mbox{\hyperlink{classpsm_1_1_result_a08c29eeb6c99ab663df28323736991ca}{operator=}} (\mbox{\hyperlink{classpsm_1_1_result}{Result}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_a7478ba910442451a1faefddc3f17da69}{operator bool}} () const noexcept
+\begin{DoxyCompactList}\small\item\em returns true if this contains a value \end{DoxyCompactList}\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1_result_a6056c2f8e53ac8d98df45eea59414d00}{has\+\_\+value}} () const noexcept
+\begin{DoxyCompactList}\small\item\em retuns true if this contains a value \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_result_a64c7ca0248ab18602dd6fc51315078cf}{error}} () const noexcept
+\begin{DoxyCompactList}\small\item\em get the error associated with the result. If this contains a value, \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none} is returned. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_abe4656fbe94fc5b81aa5d4fbbe58fe52}{Result}} (T \&\&t) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\begin{DoxyCompactList}\small\item\em construct a \doxylink{classpsm_1_1_result}{Result} with a t. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_result_ab3f049441ab18ed52b67e03b119c6bfc}{Result}} (const T \&t) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+constexpr T \& \mbox{\hyperlink{classpsm_1_1_result_a3ecc9144b956d15635c4f7994896b6bc}{value}} () \&
+\begin{DoxyCompactList}\small\item\em Access to value in this. \end{DoxyCompactList}\item 
+constexpr const T \& \mbox{\hyperlink{classpsm_1_1_result_a7428aacf93a654cbacc90ff473516e55}{value}} () const \&
+\item 
+constexpr T \&\& \mbox{\hyperlink{classpsm_1_1_result_aa9a9ec46f9c6deba4879bee4dc167034}{value}} () \&\&
+\item 
+constexpr const T \&\& \mbox{\hyperlink{classpsm_1_1_result_a00c1e66dd1102d408c29cdf784831055}{value}} () const \&\&
+\end{DoxyCompactItemize}
+
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl$<$ T, is\+\_\+trivial\+\_\+v$<$ T $>$ $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a02f39c84a91cc10621890f3c6d2dac76}{Result\+Impl}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab703854f9d072869add56cfafc811d6e}{Result\+Impl}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error}} e) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a483d967dda3d2f0446b137b3e4453bd0}{Result\+Impl}} (T \&\&t) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab803718d27014a2238ec99958cb4da78}{Result\+Impl}} (const T \&t) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_af42d4c3b41e133b8f97134f78671b371}{Result\+Impl}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab164bfed0dc31cce213612b047593e22}{Result\+Impl}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab0854c67b3b81157da7e09d22faa6270}{operator=}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_adb21b9bead311343f29ced1146ee93fe}{operator=}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a2482492dcb03dc6766008deb6157ac6c}{value}} () \&
+\item 
+constexpr const T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ada8f506c05df271bffa222398c79e798}{value}} () const \&
+\item 
+constexpr T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ada120ed44f14da55605bfdc887db011c}{value}} () \&\&
+\item 
+constexpr const T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ae9f6fba63ebaadff6d40eee8a7b6caf3}{value}} () const \&\&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{psm\+::result\+\_\+dtl\+::\+Result\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_ae0427a69948dd14e884492149daaccfb}{Result\+Base}} () noexcept=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a26a84d14f9b203458dec16a9b60e976b}{Result\+Base}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af55a7bc388899c1628172e404a53e386}{Result\+Base}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2b1062981dbc4f963fe008eac6d9b6a5}{Result\+Base}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2d62f284c252f95f1b65d468ae8ec205}{operator=}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a6a9fbc063676faf39b23f41064062315}{operator=}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a16b36277c343a253b3998ee34ab91271}{operator bool}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af6c58090aff12b99b2cc2beb7d51a2a0}{error}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a683a37b241a2b7f94ca9cd45881bd495}{has\+\_\+value}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{psm\+::result\+\_\+dtl\+::\+Result\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a538084042eb824043794d569534ddff8}{set\+\_\+error}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class psm\+::\+Result$<$ T $>$}
+An optional-\/like type which either contains a T, or a \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error} value. 
+
+Wether the \doxylink{classpsm_1_1_result}{Result} contains a value can be queried with operator bool() or \doxylink{classpsm_1_1_result_a6056c2f8e53ac8d98df45eea59414d00}{has\+\_\+value()}. The value of the result, if it contains a value, can be retrievied with value(). The error can be retrieved with \doxylink{classpsm_1_1_result_a64c7ca0248ab18602dd6fc51315078cf}{error()}.
+
+If T is trivial, i.\+e. trivially default constructible and trivially destructible, then \doxylink{classpsm_1_1_result}{Result} is completely constexpr from c++17 onward. In c++20 and above, the whole class is constexpr, even for non trivial types.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the type of value to store \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1_result_aa0047fab40dfd130dec7bd794f44da5c}\label{classpsm_1_1_result_aa0047fab40dfd130dec7bd794f44da5c} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+constructs an erroneous \doxylink{classpsm_1_1_result}{Result} with \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abeaeadbe8edd7c0c001cbe854ef3f3e9677}{Error\+::empty\+\_\+result}. If T is void, this will create a \doxylink{classpsm_1_1_result}{Result} with \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none}. 
+
+\Hypertarget{classpsm_1_1_result_a51b620bbf278518f556dc104e0edab92}\label{classpsm_1_1_result_a51b620bbf278518f556dc104e0edab92} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+construct an erroneous \doxylink{classpsm_1_1_result}{Result} with error e. e must not be \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none}. 
+
+\Hypertarget{classpsm_1_1_result_abe4656fbe94fc5b81aa5d4fbbe58fe52}\label{classpsm_1_1_result_abe4656fbe94fc5b81aa5d4fbbe58fe52} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+construct a \doxylink{classpsm_1_1_result}{Result} with a t. 
+
+\Hypertarget{classpsm_1_1_result_ab3f049441ab18ed52b67e03b119c6bfc}\label{classpsm_1_1_result_ab3f049441ab18ed52b67e03b119c6bfc} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}\item[{const T \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_result_aea298d6277d48cff905dd4318cda243d}\label{classpsm_1_1_result_aea298d6277d48cff905dd4318cda243d} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_result_aa921152461e74358b910bc48e2e73599}\label{classpsm_1_1_result_aa921152461e74358b910bc48e2e73599} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!Result@{Result}}
+\index{Result@{Result}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Result()}{Result()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::\+Result (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ T $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_result_a64c7ca0248ab18602dd6fc51315078cf}\label{classpsm_1_1_result_a64c7ca0248ab18602dd6fc51315078cf} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!error@{error}}
+\index{error@{error}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+get the error associated with the result. If this contains a value, \doxylink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error\+::none} is returned. 
+
+\Hypertarget{classpsm_1_1_result_a6056c2f8e53ac8d98df45eea59414d00}\label{classpsm_1_1_result_a6056c2f8e53ac8d98df45eea59414d00} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!has\_value@{has\_value}}
+\index{has\_value@{has\_value}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{has\_value()}{has\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::has\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+retuns true if this contains a value 
+
+\Hypertarget{classpsm_1_1_result_a7478ba910442451a1faefddc3f17da69}\label{classpsm_1_1_result_a7478ba910442451a1faefddc3f17da69} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+returns true if this contains a value 
+
+\Hypertarget{classpsm_1_1_result_a35615eb79ff95c38176a9b71508dc8c6}\label{classpsm_1_1_result_a35615eb79ff95c38176a9b71508dc8c6} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}} \& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_result_a08c29eeb6c99ab663df28323736991ca}\label{classpsm_1_1_result_a08c29eeb6c99ab663df28323736991ca} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}} \& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ T $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_result_a3ecc9144b956d15635c4f7994896b6bc}\label{classpsm_1_1_result_a3ecc9144b956d15635c4f7994896b6bc} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!value@{value}}
+\index{value@{value}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T \& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Access to value in this. 
+
+Calling value() on an empty/erronoeus result causes undefined behaviour. \Hypertarget{classpsm_1_1_result_aa9a9ec46f9c6deba4879bee4dc167034}\label{classpsm_1_1_result_aa9a9ec46f9c6deba4879bee4dc167034} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!value@{value}}
+\index{value@{value}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T \&\& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) \&\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_result_a7428aacf93a654cbacc90ff473516e55}\label{classpsm_1_1_result_a7428aacf93a654cbacc90ff473516e55} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!value@{value}}
+\index{value@{value}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr const T \& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_result_a00c1e66dd1102d408c29cdf784831055}\label{classpsm_1_1_result_a00c1e66dd1102d408c29cdf784831055} 
+\index{psm::Result$<$ T $>$@{psm::Result$<$ T $>$}!value@{value}}
+\index{value@{value}!psm::Result$<$ T $>$@{psm::Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr const T \&\& \mbox{\hyperlink{classpsm_1_1_result}{psm\+::\+Result}}$<$ T $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const \&\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{result_8hpp}{result.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,184 @@
+\doxysection{psm.\+hpp}
+\hypertarget{psm_8hpp_source}{}\label{psm_8hpp_source}\mbox{\hyperlink{psm_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{converter_8hpp}{converter.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed__map_8hpp}{fixed\_map.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed__vector_8hpp}{fixed\_vector.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{i2c_8hpp}{hal/i2c.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{spi_8hpp}{hal/spi.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{uart_8hpp}{hal/uart.hpp}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}poly.hpp"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}poly/property.hpp"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}poly/storage/local\_storage.hpp"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{relay_8hpp}{relay.hpp}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{units_8hpp}{units.hpp}}"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacepsm_a844d3e621913813427aa330ab6fb11ee}{float\_t}}\ =\ float;}
+\DoxyCodeLine{00022\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacepsm_aaf8239bb3b59c09139af217475a942e1}{MilliSeconds}}\ =\ std::uint32\_t;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3}{CtrlFlags}}\ \{}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{OutputType}},}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3a7d3f72ad9efdd559f29704bf95e7fdea}{OutputEnable}},}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{namespacepsm_abfe809a15a9d7fbceea1f2869b8390e3a663422dce2a80731a2d7162f40df32d9}{SeriesEnable}},}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{OutputMode}},}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{OutputType}}\ \{\ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1a4d93c8a0fe7fc03235226bb99f9f041d}{BUCK\_BOOST}},\ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1a2b333aaa7d749af5eb4b8a377e4ea96a}{LDO}}\ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{OutputMode}}\ \{\ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4aa5c8c3544bc49ebacde4ffe04bf34de0}{CV}},\ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4aaa53ca0b650dfd85c4f59fa156f7a2cc}{CC}}\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1_calibration}{Calibration}}\ \{\};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1_module_config}{ModuleConfig}}\ \{}
+\DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structpsm_1_1_module_config_adcbbc38685b8acac6a3be84917ee3e43}{has\_series\_support}};}
+\DoxyCodeLine{00045\ \ \ uint8\_t\ \mbox{\hyperlink{structpsm_1_1_module_config_a765541e1f795c7118d0e28031f859e9d}{number\_of\_ldos}};}
+\DoxyCodeLine{00051\ \ \ uint8\_t\ \mbox{\hyperlink{structpsm_1_1_module_config_a04db0cb5c84d1c5e5dbeba7200a44b8b}{id}};}
+\DoxyCodeLine{00052\ \};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1_hardware}{Hardware}}\ \{}
+\DoxyCodeLine{00055\ \ \ \textcolor{comment}{//\ com\ config}}
+\DoxyCodeLine{00056\ \ \ \mbox{\hyperlink{structhal_1_1uart_1_1_config}{hal::uart::Config}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a23a13d649b9a0fd56bb0d206631fec1d}{uart}};}
+\DoxyCodeLine{00057\ \ \ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{hal::spi::MasterConfig}}\ \mbox{\hyperlink{structpsm_1_1_hardware_abc8afadbeedcde48d90a8be0ba1c9fd0}{spi}};}
+\DoxyCodeLine{00058\ \ \ \mbox{\hyperlink{structhal_1_1i2c_1_1_config}{hal::i2c::Config}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a30b3b86ee810e7068320f43b83194413}{i2c}};}
+\DoxyCodeLine{00059\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_ae4c991f78f7324bbe38b6d500b53de15}{n\_wlat}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_ae97273a4d0cb5463c636e2ba5b7f7fe8}{wp}};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{comment}{//\ enable\ pins}}
+\DoxyCodeLine{00065\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_adbf85ba49af58fee8bdaa37f8f9acf1b}{en\_bb}};}
+\DoxyCodeLine{00066\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a1650c9f080b16954cab8fafa2d0879f6}{n\_en\_ldo}};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{comment}{//\ analog\ pins}}
+\DoxyCodeLine{00069\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a75cca9820cbd002bb5043b2548ecd441}{cdc}};}
+\DoxyCodeLine{00070\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a557cbcb9f82ce5f394449eb00bb46c28}{temp}};}
+\DoxyCodeLine{00071\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a057364e0559e31ad629ecf0de6786700}{imon}};}
+\DoxyCodeLine{00072\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_ae0e86ebc2c0700377be40f3e70c4842f}{switch\_fb}};}
+\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_hardware_ab52c6069b5e7d3e7592d95d038a7c094}{ldo\_fb}};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{comment}{//\ unused\ gpio}}
+\DoxyCodeLine{00076\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{FixedVec<hal::gpio::Config,\ 32>}}\ \mbox{\hyperlink{structpsm_1_1_hardware_a6cc4a762abba932b93fb49736facc68e}{unused\_gpio}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{comment}{//\ relay\ config}}
+\DoxyCodeLine{00079\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_map}{FixedMap<Relay::Id,\ Relay::Settings,\ 8,\ binary\_search>}}\ \mbox{\hyperlink{structpsm_1_1_hardware_ab997ac22fa344d82b5bbd2270b22df59}{relays}};}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1_settings}{Settings}}\ \{}
+\DoxyCodeLine{00083\ \ \ \mbox{\hyperlink{structpsm_1_1_module_config}{ModuleConfig}}\ \textcolor{keyword}{module};}
+\DoxyCodeLine{00084\ \ \ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{OutputType}}\ \mbox{\hyperlink{structpsm_1_1_settings_aa3c6a26a02a1e3791fdb142913f85758}{type}};}
+\DoxyCodeLine{00085\ \ \ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{OutputMode}}\ \mbox{\hyperlink{structpsm_1_1_settings_a3aa42699e6b48b6b674f6b28a1060f80}{mode}};}
+\DoxyCodeLine{00086\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{structpsm_1_1_settings_a56c56a6b40ccbaede0828d01b5015831}{vset}};\ \ \ \ \ \ \textcolor{comment}{//<\ the\ set\ voltage}}
+\DoxyCodeLine{00087\ \ \ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{structpsm_1_1_settings_ac0135f4c6c1d99ea7d4f8f4289772484}{iset}};\ \ \ \ \ \ \textcolor{comment}{//<\ the\ set\ current}}
+\DoxyCodeLine{00088\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{structpsm_1_1_settings_ae00a277cc1aeb32f11bf86ef0c77b82b}{vdrop}};\ \ \ \ \ \textcolor{comment}{//<\ the\ voltage\ drop\ over\ the\ ldo\ stage}}
+\DoxyCodeLine{00089\ \ \ \mbox{\hyperlink{classpsm_1_1_resistance}{Resistance}}\ \mbox{\hyperlink{structpsm_1_1_settings_a2e08eadf9fc44fcfbbf463e69d5774be}{rcable}};\ \textcolor{comment}{//<\ cable\ resistance\ compensation.}}
+\DoxyCodeLine{00090\ \ \ \mbox{\hyperlink{namespacepsm_aaf8239bb3b59c09139af217475a942e1}{MilliSeconds}}\ \mbox{\hyperlink{structpsm_1_1_settings_ab81fee5cb9537bb56149de77a9150f3b}{monitor\_interval}};}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ PropertyName>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1property__name}{property\_name}};}
+\DoxyCodeLine{00094\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ MethodName>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1method__name}{method\_name}};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ PSM\_PROPERTY(name)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ POLY\_PROPERTY(name);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\ \ template\ <>\ struct\ property\_name<name>\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\ \ \ \ static\ constexpr\ char\ value[]\{\#name\};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\ \ \}}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(type);}
+\DoxyCodeLine{00103\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(mode);}
+\DoxyCodeLine{00104\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(enable);}
+\DoxyCodeLine{00105\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(voltage);}
+\DoxyCodeLine{00106\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(current);}
+\DoxyCodeLine{00107\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(settings);}
+\DoxyCodeLine{00108\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(v\_drop);}
+\DoxyCodeLine{00109\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(r\_cable);}
+\DoxyCodeLine{00110\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(monitor\_interval);}
+\DoxyCodeLine{00111\ \mbox{\hyperlink{psm_8hpp_a8bb9eb4cd74de66110565a11904aa5b1}{PSM\_PROPERTY}}(config);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacepsm_ad0841d65ce6756a0b943b4a8222ac389}{storage}}\ =\ poly::move\_only\_local\_storage<32,\ 4>;}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_non_volatile_storage}{NonVolatileStorage}}\ \{}
+\DoxyCodeLine{00116\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00117\ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_ac4238960a6b36cc45ede19ee647623eb}{Error}}\ \{}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \};}
+\DoxyCodeLine{00120\ \ \ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_ac4238960a6b36cc45ede19ee647623eb}{Error}}\ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_ad3dafef426cd9521a5163de7fd1e0e78}{load}}(\mbox{\hyperlink{structpsm_1_1_module_config}{ModuleConfig}}\ \&cfg);}
+\DoxyCodeLine{00121\ \ \ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_ac4238960a6b36cc45ede19ee647623eb}{Error}}\ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_a7b94ce3755175bc359789d18c004a43e}{load}}(\mbox{\hyperlink{structpsm_1_1_settings}{Settings}}\ \&settings);}
+\DoxyCodeLine{00122\ \ \ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_ac4238960a6b36cc45ede19ee647623eb}{Error}}\ \mbox{\hyperlink{classpsm_1_1_non_volatile_storage_aaaf6cc67f90db31fad08fa90acce1768}{load}}(\mbox{\hyperlink{structpsm_1_1_calibration}{Calibration}}\ \&calibration);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00131\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_p_s_m}{PSM}}\ :\ \textcolor{keyword}{public}\ poly::Struct<}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ storage,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ poly::type\_list<type(OutputType),\ mode(OutputMode),}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ voltage(Voltage),\ current(Current),}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ settings(Settings),\ config(ModuleConfig)>,}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ poly::type\_list<>>\ \{}
+\DoxyCodeLine{00137\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a9657d00233a62ef2e2d5a8d38c2172e2}{init}}(\mbox{\hyperlink{classpsm_1_1_non_volatile_storage}{NonVolatileStorage}}\ s)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{comment}{//\ storage\ =\ s;}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{comment}{//\ storage.load(config\_);}}
+\DoxyCodeLine{00141\ \ \ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_acec416a3971d5cb23d4744fb6a009c9a}{loop}}()\ \{\}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a54ef48d041b4c13007c6595b430a334c}{set\_type}}(\mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{OutputType}}\ mode);}
+\DoxyCodeLine{00146\ \ \ \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{OutputType}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a6dafc94120dc6c77d95505cf02dea8a2}{get\_type}}(uint8\_t\ \textcolor{keywordtype}{id}\ =\ 0)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_aea4f8ceb54cfa8a187a4fcec858b7f49}{set\_enable}}(\textcolor{keywordtype}{bool}\ enable);}
+\DoxyCodeLine{00149\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_aa2503e3cf07cdef73652988b3d2a93a4}{get\_enable}}(uint8\_t\ \textcolor{keywordtype}{id}\ =\ 0)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_ad5a2bfeab4235d3a2f8a35ea6a4ccbe6}{set\_series}}(\textcolor{keywordtype}{bool}\ enable);}
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a8e71cab81b3e1172495fc2497abf1a19}{get\_series}}(uint8\_t\ \textcolor{keywordtype}{id}\ =\ 0)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a288cf92de6a02ef68a57c4e00a6a69d9}{set\_mode}}(\mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{OutputMode}}\ mode);}
+\DoxyCodeLine{00155\ \ \ \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{OutputMode}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a99222c39b26a03635b7444a33f683b10}{get\_mode}}(uint8\_t\ \textcolor{keywordtype}{id}\ =\ 0)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a280830c9556c3c2838ca4e12ee771c85}{set\_voltage}}(\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ volts);}
+\DoxyCodeLine{00158\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_adfe8e037d9e9f1bfdc24d4caa83584e5}{get\_voltage}}(uint8\_t\ \textcolor{keywordtype}{id}\ =\ 0)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a34f8ffcba79aeb5b86a39e6410d6c214}{set\_current}}(\mbox{\hyperlink{classpsm_1_1_current}{Current}}\ amps);}
+\DoxyCodeLine{00161\ \ \ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a3313d1daf842975ad9568c2bb6429191}{get\_current}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \mbox{\hyperlink{structpsm_1_1_module_config}{ModuleConfig}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a60beef976d82ebd495228294ca9a113d}{get\_config}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00164\ \ \ \mbox{\hyperlink{structpsm_1_1_settings}{Settings}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a1d2908f3bc7b504b5bade61730ba3afd}{get\_settings}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a877a30c85683e8afaa37ea1540535900}{reset}}();}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00170\ \ \ \ \ \mbox{\hyperlink{structpsm_1_1_module_config}{ModuleConfig}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a68f3f36fb082f95e05b6f415b2c17a1d}{config\_}}\{\};}
+\DoxyCodeLine{00171\ \ \ \ \ \mbox{\hyperlink{structpsm_1_1_settings}{Settings}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_ae6102819ff045b4e58d11c6b70d3477a}{settings\_}}\{\};}
+\DoxyCodeLine{00172\ \ \ \ \ \mbox{\hyperlink{structpsm_1_1_calibration}{Calibration}}\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a4ce60c85626eb76ec8d1cbcc5e5b5458}{calib\_}}\{\};}
+\DoxyCodeLine{00173\ \ \ \}\ sys\_data\{\};}
+\DoxyCodeLine{00174\ \ \ \textcolor{keywordtype}{bool}\ enabled\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00175\ \ \ ModuleConfig\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a68f3f36fb082f95e05b6f415b2c17a1d}{config\_}}\{\};}
+\DoxyCodeLine{00176\ \ \ Settings\ \mbox{\hyperlink{classpsm_1_1_p_s_m_ae6102819ff045b4e58d11c6b70d3477a}{settings\_}}\{\};}
+\DoxyCodeLine{00177\ \ \ Calibration\ \mbox{\hyperlink{classpsm_1_1_p_s_m_a4ce60c85626eb76ec8d1cbcc5e5b5458}{calib\_}}\{\};}
+\DoxyCodeLine{00178\ \ \ NonVolatileStorage\ storage\{\};}
+\DoxyCodeLine{00179\ \ \ \mbox{\hyperlink{classhal_1_1spi_1_1_master}{hal::spi::Master}}\ spi\{\};}
+\DoxyCodeLine{00180\ \ \ \mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal::i2c::Master}}\ i2c\{\};}
+\DoxyCodeLine{00181\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ wlat\{\};}
+\DoxyCodeLine{00182\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ shdn\{\};}
+\DoxyCodeLine{00183\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ en\_bb\{\};}
+\DoxyCodeLine{00184\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{hal::gpio::Pin}}\ cdc\{\};}
+\DoxyCodeLine{00185\ \ \ conv::BasicConverter<poly::move\_only\_local\_storage<64>>\ ldo;}
+\DoxyCodeLine{00186\ \ \ conv::BasicConverter<poly::move\_only\_local\_storage<64>>\ buck\_boost;}
+\DoxyCodeLine{00187\ \ \ Relay\ out\_p\{\};}
+\DoxyCodeLine{00188\ \ \ Relay\ out\_n\{\};}
+\DoxyCodeLine{00189\ \ \ Relay\ out\_series\{\};}
+\DoxyCodeLine{00190\ \ \ Relay\ out\_select\{\};}
+\DoxyCodeLine{00191\ \ \ \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{hal::gpio::Config}}\ gpios[29];}
+\DoxyCodeLine{00192\ \};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

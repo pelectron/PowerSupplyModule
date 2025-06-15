@@ -1,0 +1,50 @@
+\doxysection{uart.\+hpp}
+\hypertarget{uart_8hpp_source}{}\label{uart_8hpp_source}\index{hal/uart.hpp@{hal/uart.hpp}}
+\mbox{\hyperlink{uart_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ HAL\_UART\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ HAL\_UART\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cortex/function.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{config_8hpp}{hal/config.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacehal_1_1uart}{hal::uart}}\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272}{Delimiter}}\ \{\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}},\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a4b43b0aee35624cd95b910189b3dc231}{r}},\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a7b8b965ad4bca0e41ab51de7b31363a1}{n}},\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a3e3cef7748db3f689474b6d40661f2bc}{rn}}\ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998}{Bits}}\ \{\ \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998abb3aec0fdcdbc2974890f805c585d432}{seven}},\ \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998a24d27c169c2c881eb09a065116f2aa5c}{eight}},\ \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998ac785e1ed2950e3e36b1e2ca01f299a54}{nine}}\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3b}{StopBits}}\ \{\ \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3baf97c5d29941bfb1b2fdab0874906ab82}{one}},\ \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3ba46677a86784b5833e3e46b4cd44a31c0}{one\_and\_a\_half}},\ \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3bab8a9f715dbb64fd5c56e7783c6820a61}{two}}\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77}{Parity}}\ \{\ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}},\ \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77aa2b6f2a6066ed8700d83335fc50a2b8e}{odd}},\ \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77acc935c5faf4c8f7a0468d7552a9b8138}{even}}\ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1uart_1_1_config}{Config}}\ \{}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272}{Delimiter}}\ \mbox{\hyperlink{structhal_1_1uart_1_1_config_aa252e9d52e5b28e27b6fcce2438ceaa8}{delimiter}};}
+\DoxyCodeLine{00021\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1uart_1_1_config_a11bbbcdf6786a7a2b4a8b2ad941020bd}{baudrate}};}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classhal_1_1uart_1_1_uart}{Uart}}\ \{}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classhal_1_1uart_1_1_uart_ac2627a49493b099eddf981aaf96ff327}{Error}}\ \{}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \mbox{\hyperlink{classhal_1_1uart_1_1_uart_ac2627a49493b099eddf981aaf96ff327}{Error}}\ \mbox{\hyperlink{classhal_1_1uart_1_1_uart_a611737fd5d30dcf0a0ed0df931a45808}{put}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ std::size\_t\ size);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{keyword}{template}\ <std::invocable<const\ \textcolor{keywordtype}{char}\ *,\ std::\textcolor{keywordtype}{size\_t}>\ OnMessage>}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1uart_1_1_uart_a422e57ab863d172ed14083ebcdfd3ba8}{set\_on\_message}}(OnMessage\ \&\&on\_msg)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ on\_msg\_\ =\ std::forward<OnMessage>(on\_msg);}
+\DoxyCodeLine{00035\ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00038\ \ \ cm::MoveOnlyFunction<void(\textcolor{keywordtype}{char}),\ 32,\ 4>\ on\_msg\_;}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult<Uart>}}\ \mbox{\hyperlink{namespacehal_1_1uart_a38ed1416304fc279ab5a0d0bec9caf5e}{configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1uart_1_1_config}{Config}}\ \&cfg);}
+\DoxyCodeLine{00042\ \}\ \textcolor{comment}{//\ namespace\ hal::uart}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

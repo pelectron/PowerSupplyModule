@@ -1,0 +1,32 @@
+\doxysection{cli\+::params\+::Getter\+Of Concept Reference}
+\hypertarget{conceptcli_1_1params_1_1_getter_of}{}\label{conceptcli_1_1params_1_1_getter_of}\index{cli::params::GetterOf@{cli::params::GetterOf}}
+
+
+concept for a Getter with value type V  
+
+
+
+
+{\ttfamily \#include $<$cli/param.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ G,\ \textcolor{keyword}{class}\ V>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_getter_of}{cli::params::GetterOf}}\ =\ \ \textcolor{keyword}{requires}(G\ \&\&getter,\ V\ \&value)\ \{}
+\DoxyCodeLine{\ \ \{\ getter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+concept for a Getter with value type V 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em G} & the getter type \\
+\hline
+{\em V} & the value type \\
+\hline
+\end{DoxyTemplParams}

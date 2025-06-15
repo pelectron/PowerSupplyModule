@@ -1,0 +1,37 @@
+\doxysection{cli/validator.hpp File Reference}
+\hypertarget{validator_8hpp}{}\label{validator_8hpp}\index{cli/validator.hpp@{cli/validator.hpp}}
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include "{}ctre.\+hpp"{}}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1validate_1_1value__type}{cli\+::validate\+::value\+\_\+type$<$ V $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1validate_1_1_default_validate}{cli\+::validate\+::\+Default\+Validate$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1validate_1_1_null_validate}{cli\+::validate\+::\+Null\+Validate}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1validate_1_1regex}{cli\+::validate\+::regex$<$ S $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1validate}{cli\+::validate}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1validate_1_1_validator}{cli\+::validate\+::\+Validator}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1validate_1_1_validator_of}{cli\+::validate\+::\+Validator\+Of}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Callable V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1validate_aa09f304593cbc8650557c9cc94717759}{cli\+::validate\+::value\+\_\+type\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1validate_1_1value__type}{value\+\_\+type}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}}$>$\+::type
+\end{DoxyCompactItemize}

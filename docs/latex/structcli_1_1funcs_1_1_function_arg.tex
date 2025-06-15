@@ -1,0 +1,122 @@
+\doxysection{cli\+::funcs\+::Function\+Arg\texorpdfstring{$<$}{<} Arg\+Name, Description, T, Default\+Value, Parse, Validate \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcli_1_1funcs_1_1_function_arg}{}\label{structcli_1_1funcs_1_1_function_arg}\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+
+
+{\ttfamily \#include $<$cli/function.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a8da3b7cde1a5ff2ed58f3cc66450bf1d}{name}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aef8663b2fadb2ed2e20bd9ab35ca045c}{description}} = Description
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aa527ff47cfc44b1e9f32899a9bd68761}{type}} = std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}})$>$
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aed42c76fcda0a0118de5bb30dbbaf736}{parser}} = Parse
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a71d12bfa07b68ba756cccdd3dd7b61ca}{validator}} = Validate
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a76ffd4fc10b6be9b207c4855ac0e250a}{Function\+Arg}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, \mbox{\hyperlink{structcli_1_1identity}{identity}}$<$ T $>$, \mbox{\hyperlink{structcli_1_1constant}{constant}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}} $>$, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2}{parse}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9}{validate}})
+\item 
+{\footnotesize template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a19fd8391742922ef6d21dfc0c2efd90a}{Function\+Arg}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, \mbox{\hyperlink{structcli_1_1constant}{constant}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}} $>$, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2}{parse}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9}{validate}})
+\item 
+{\footnotesize template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a0e6c4785987d3ba9ba74abb101bec2e7}{Function\+Arg}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2}{parse}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&\mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9}{validate}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{util_8hpp_ac07e8211374ba52937682436cbdabc29}{CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS}} Parse \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2}{parse}} \{\}
+\item 
+\mbox{\hyperlink{util_8hpp_ac07e8211374ba52937682436cbdabc29}{CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS}} Validate \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9}{validate}} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_aef8663b2fadb2ed2e20bd9ab35ca045c}\label{structcli_1_1funcs_1_1_function_arg_aef8663b2fadb2ed2e20bd9ab35ca045c} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!description@{description}}
+\index{description@{description}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{description}{description}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::description = Description}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a8da3b7cde1a5ff2ed58f3cc66450bf1d}\label{structcli_1_1funcs_1_1_function_arg_a8da3b7cde1a5ff2ed58f3cc66450bf1d} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!name@{name}}
+\index{name@{name}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::name = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_aed42c76fcda0a0118de5bb30dbbaf736}\label{structcli_1_1funcs_1_1_function_arg_aed42c76fcda0a0118de5bb30dbbaf736} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!parser@{parser}}
+\index{parser@{parser}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::parser = Parse}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_aa527ff47cfc44b1e9f32899a9bd68761}\label{structcli_1_1funcs_1_1_function_arg_aa527ff47cfc44b1e9f32899a9bd68761} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!type@{type}}
+\index{type@{type}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::type = std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}})$>$}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a71d12bfa07b68ba756cccdd3dd7b61ca}\label{structcli_1_1funcs_1_1_function_arg_a71d12bfa07b68ba756cccdd3dd7b61ca} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!validator@{validator}}
+\index{validator@{validator}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{validator}{validator}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::validator = Validate}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a76ffd4fc10b6be9b207c4855ac0e250a}\label{structcli_1_1funcs_1_1_function_arg_a76ffd4fc10b6be9b207c4855ac0e250a} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!FunctionArg@{FunctionArg}}
+\index{FunctionArg@{FunctionArg}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{FunctionArg()}{FunctionArg()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::\+Function\+Arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}}]{,  }\item[{Description}]{,  }\item[{\mbox{\hyperlink{structcli_1_1identity}{identity}}$<$ T $>$}]{,  }\item[{\mbox{\hyperlink{structcli_1_1constant}{constant}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}} $>$}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&}]{parse,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&}]{validate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a19fd8391742922ef6d21dfc0c2efd90a}\label{structcli_1_1funcs_1_1_function_arg_a19fd8391742922ef6d21dfc0c2efd90a} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!FunctionArg@{FunctionArg}}
+\index{FunctionArg@{FunctionArg}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{FunctionArg()}{FunctionArg()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::\+Function\+Arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}}]{,  }\item[{Description}]{,  }\item[{\mbox{\hyperlink{structcli_1_1constant}{constant}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}} $>$}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&}]{parse,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&}]{validate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a0e6c4785987d3ba9ba74abb101bec2e7}\label{structcli_1_1funcs_1_1_function_arg_a0e6c4785987d3ba9ba74abb101bec2e7} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!FunctionArg@{FunctionArg}}
+\index{FunctionArg@{FunctionArg}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{FunctionArg()}{FunctionArg()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+template$<$parse\+::\+Parser P, validate\+::\+Validator V$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::\+Function\+Arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}}]{,  }\item[{Description}]{,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}} \&\&}]{parse,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}} \&\&}]{validate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2}\label{structcli_1_1funcs_1_1_function_arg_aa868afd6eb54a55bcd3ba464806c0cf2} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!parse@{parse}}
+\index{parse@{parse}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{parse}{parse}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{util_8hpp_ac07e8211374ba52937682436cbdabc29}{CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS}} Parse \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::parse \{\}}
+
+\Hypertarget{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9}\label{structcli_1_1funcs_1_1_function_arg_a084c3d37d042944dcdd235396fd844d9} 
+\index{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}!validate@{validate}}
+\index{validate@{validate}!cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$@{cli::funcs::FunctionArg$<$ ArgName, Description, T, DefaultValue, Parse, Validate $>$}}
+\doxysubsubsection{\texorpdfstring{validate}{validate}}
+{\footnotesize\ttfamily template$<$Name Arg\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Default\+Value, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ \\
+\mbox{\hyperlink{util_8hpp_ac07e8211374ba52937682436cbdabc29}{CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS}} Validate \mbox{\hyperlink{structcli_1_1funcs_1_1_function_arg}{cli\+::funcs\+::\+Function\+Arg}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Arg\+Name}}, Description, T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Default\+Value}}, Parse, Validate $>$\+::validate \{\}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{function_8hpp}{function.\+hpp}}\end{DoxyCompactItemize}

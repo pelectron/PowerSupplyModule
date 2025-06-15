@@ -6,6 +6,7 @@ namespace hal {
 POLY_METHOD(enable);
 POLY_METHOD(disable);
 POLY_METHOD(start);
+POLY_METHOD(trigger);
 POLY_METHOD(stop);
 POLY_METHOD(sample)
 POLY_METHOD(write);

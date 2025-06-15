@@ -1,0 +1,333 @@
+\doxysection{com.\+hpp}
+\hypertarget{com_8hpp_source}{}\label{com_8hpp_source}\mbox{\hyperlink{com_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_COM\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_COM\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cortex/function.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{error_8hpp}{error.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixed__map_8hpp}{fixed\_map.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}parse.hpp"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}poly.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}poly/storage/ref\_storage.hpp"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}poly/traits.hpp"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{psm_8hpp}{psm.hpp}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}type\_list/type\_list.hpp"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <tuple>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}...\ c>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1string__constant}{string\_constant}}\ \{\};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }C,\ C...\ cs>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_sc()\ \{}
+\DoxyCodeLine{00025\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structpsm_1_1string__constant}{string\_constant}}<cs...>\{\};}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_cli}{Cli}}\ \{}
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_num\_args\ =\ 255;}
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_num\_commands\ =\ 64;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{keyword}{struct\ }CommandNode\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ *data;}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_result}{Result<size\_t>}}\ (*exec)(\textcolor{keywordtype}{void}\ *data,\ std::span<std::span<const\ char>>\ input,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<char>\ output);}
+\DoxyCodeLine{00036\ \ \ \ \ CommandNode\ *next;}
+\DoxyCodeLine{00037\ \ \ \ \ CommandNode\ *subcommand;}
+\DoxyCodeLine{00038\ \ \ \};}
+\DoxyCodeLine{00039\ \ \ void\ (*transmit)(\textcolor{keyword}{const}\ std::uint8\_t\ *str,\ std::size\_t\ len);}
+\DoxyCodeLine{00040\ \};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \mbox{\hyperlink{namespacepsm_a35c717a88ea05b0619e1cf0f113d6a2e}{POLY\_METHOD}}(putc);}
+\DoxyCodeLine{00043\ \mbox{\hyperlink{namespacepsm_a35c717a88ea05b0619e1cf0f113d6a2e}{POLY\_METHOD}}(puts);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{typename}\ ArgList>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1top__level__adapter}{top\_level\_adapter}};}
+\DoxyCodeLine{00046\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ Ret,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...>\ \textcolor{keyword}{typename}\ L,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00048\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1top__level__adapter}{top\_level\_adapter}}<F,\ Ret,\ L<Args...>>\ \{}
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{structpsm_1_1top__level__adapter_3_01_f_00_01_ret_00_01_l_3_01_args_8_8_8_01_4_01_4_a0efedb32205075501287988ff417a1f6}{operator()}}([[maybe\_unused]]\ std::span<const\ char>\ str)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ ==\ 0)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<Ret,\ void>)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ function();}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<Ret,\ Error>)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ function();}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ static\ assert\ false}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ function();}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ std::tuple<Args...>\ args;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ error\ =\ invoke<0>(str,\ args);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}})\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_convertible\_v<Ret,\ Error>)}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::apply(function,\ args);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ std::apply(function,\ args);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00076\ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ F\ \mbox{\hyperlink{structpsm_1_1top__level__adapter_3_01_f_00_01_ret_00_01_l_3_01_args_8_8_8_01_4_01_4_af407ee0c99d08317f83974174c20cc99}{function}};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I>}
+\DoxyCodeLine{00082\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ invoke(std::span<const\ char>\ str,\ std::tuple<Args...>\ \&args)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{namespacepsm_1_1fmt_a42f40a4831e77be13d00866d52b62121}{fmt::parse}}<cm::type\_at\_t<I,\ type\_list::TypeList<Args...>>>(str);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res.value.has\_value())\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.value.error();}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ std::get<I>(args)\ =\ res.value.value();}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ ==\ I\ +\ 1)}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ invoke<I\ +\ 1>(str.subspan(res.ptr\ -\/\ str.data()),\ args);}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{template}\ <poly::Storage\ S,\ \textcolor{keyword}{typename}\ Properties,\ \textcolor{keyword}{typename}\ Methods>}
+\DoxyCodeLine{00099\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_object_adapter}{ObjectAdapter}};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{template}\ <poly::Storage\ S,\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...>\ \textcolor{keyword}{typename}\ L1,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...>\ \textcolor{keyword}{typename}\ L2,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ poly::PropertySpecification...\ Properties,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ poly::MethodSpecification...\ Methods>}
+\DoxyCodeLine{00105\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_object_adapter}{ObjectAdapter}}<S,\ L1<Properties...>,\ L2<Methods...>>\ \{}
+\DoxyCodeLine{00106\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ operator()([[maybe\_unused]]\ std::span<const\ char>\ str,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<char>\ output)\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size\ =\ 0;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ str)\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'\ '}\ or\ ch\ ==\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{auto}\ name\ =\ str.subspan(0,\ size);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (name.size()\ ==\ 0)}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ str.subspan(size\ +\ 1);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{if}\ (((name\ ==\ \mbox{\hyperlink{structpsm_1_1method__name}{psm::method\_name}}<poly::method\_name\_t<Methods>>::value)\ or}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ ...))\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ invoke<0>(name,\ rest);}
+\DoxyCodeLine{00125\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (memcmp(name.data(),\ \textcolor{stringliteral}{"{}get"{}},\ 3)\ ==\ 0)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size\ =\ 0;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ rest)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'\ '}\ or\ ch\ ==\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ param\_name\ =\ rest.subspan(0,\ size);}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (((param\_name\ ==}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsm_1_1property__name}{psm::property\_name}}<poly::property\_name\_t<Properties>>::value)\ or}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ ...))\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ get\_property<0>(param\_name,\ output);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res.has\_value())}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error();}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ transmit(res.value());}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (memcmp(name.data(),\ \textcolor{stringliteral}{"{}set"{}},\ 3)\ ==\ 0)\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ size\ =\ 0;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ rest)\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'\ '}\ or\ ch\ ==\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ param\_name\ =\ rest.subspan(0,\ size);}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ param\_value\ =\ rest.subspan(size\ +\ 1);}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (param\_value.size()\ ==\ 0)}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (((param\_name\ ==}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structpsm_1_1property__name}{psm::property\_name}}<poly::property\_name\_t<Properties>>::value)\ or}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ ...))\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ set\_property<0>(param\_name,\ param\_value);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I\ =\ 0>}
+\DoxyCodeLine{00168\ \ \ \mbox{\hyperlink{classpsm_1_1_result}{Result<uint32\_t>}}\ get\_property(std::span<const\ char>\ name,}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<char>\ output)\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{using\ }props\ =\ poly::type\_list<Properties...>;}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{using\ }prop\ =\ type\_list::type\_at\_t<I,\ props>;}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (I\ ==\ \textcolor{keyword}{sizeof}...(Properties))\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00174\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(prop::name,\ name.data(),\ name.size())\ ==\ 0)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_1_1fmt_a41cb42c693e3477b65de51f0b351e662}{fmt::format\_to}}(output,\ obj.template\ get<prop>());}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_property(name,\ output);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00181\ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I\ =\ 0>}
+\DoxyCodeLine{00185\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ set\_property(\textcolor{keyword}{const}\ std::span<const\ char>\ \&name,}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::span<const\ char>\ \&value)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (I\ ==\ \textcolor{keyword}{sizeof}...(Properties))\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea791da2474b835cdf0aaecef48df5bbd0}{Error::invalid\_param}};}
+\DoxyCodeLine{00189\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \textcolor{keyword}{using\ }props\ =\ poly::type\_list<Properties...>;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \textcolor{keyword}{using\ }prop\ =\ type\_list::type\_at\_t<I,\ props>;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ =\ poly::value\_type\_t<prop>;}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(prop::name,\ name.data(),\ name.size())\ ==\ 0)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ fmt::parse<value\_type>(value);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res.value.has\_value())\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ obj.template\ set<prop>(res.value.value());}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ set\_property<I\ +\ 1>(name,\ value);}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I>}
+\DoxyCodeLine{00208\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ invoke(std::span<const\ char>\ method,\ std::span<const\ char>\ args)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{comment}{//\ std::tuple<Args...>\ args;}}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{comment}{//\ auto\ res\ =\ fmt::parse<cm::type\_at\_t<0,}}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{comment}{//\ type\_list::TypeList<Args...>>>(str);}}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{//\ if\ (not\ res.value.has\_value())\ \{}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{comment}{//\ \ \ return\ res.value.error();}}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{comment}{//\ std::get<I>(args)\ =\ res.value.value();}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{comment}{//\ if\ constexpr\ (sizeof...(Args)\ ==\ I\ +\ 1)}}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{comment}{//\ \ \ return\ \{\};}}
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{comment}{//\ else}}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{comment}{//\ \ \ return\ invoke<I\ +\ 1>(str.subspan(res.ptr\ -\/\ str.data()),\ args);}}
+\DoxyCodeLine{00223\ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \textcolor{keywordtype}{void}\ transmit(uint32\_t\ size)\ \{\}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ poly::Struct<poly::ref\_storage,\ L1<Properties...>,\ L2<Methods...>>\ obj;}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_map}{FixedMap<std::span<const\ char>}},}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}(std::span<const\ char>),\ 4,\ 4>,}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Methods)>}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ methods;}
+\DoxyCodeLine{00233\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_map}{FixedMap<std::span<const\ char>}},}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}(std::span<const\ char>,\ \textcolor{keywordtype}{void}\ *),\ 4,\ 4>,}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Methods)>}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ getters;}
+\DoxyCodeLine{00237\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_map}{FixedMap<std::span<const\ char>}},}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}(std::span<const\ char>),\ 4,\ 4>,}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Methods)>}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ setters;}
+\DoxyCodeLine{00241\ \};}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525}{Delimiter}}\ \{\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}},\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a4b43b0aee35624cd95b910189b3dc231}{r}},\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}},\ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a3e3cef7748db3f689474b6d40661f2bc}{rn}}\ \};}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1cmd}{cmd}}\ \{}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \textcolor{keyword}{template}\ <std::invocable<const\ \textcolor{keywordtype}{char}\ *,\ std::\textcolor{keywordtype}{size\_t}>\ F>}
+\DoxyCodeLine{00248\ \ \ \mbox{\hyperlink{structpsm_1_1cmd_aed481c02f388bc2c87f771e6071b9caa}{cmd}}(std::span<const\ char>\ \mbox{\hyperlink{structpsm_1_1cmd_ab2a1494facd1a5c0b182843d207f370a}{name}},\ F\ \&\&function)\ \{\}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ std::span<const\ char>\ \mbox{\hyperlink{structpsm_1_1cmd_ab2a1494facd1a5c0b182843d207f370a}{name}};}
+\DoxyCodeLine{00251\ \ \ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ std::size\_t),\ 32,\ 4>\ \mbox{\hyperlink{structpsm_1_1cmd_ade61682a12a81cb7eb7288458c59a19b}{exec}};}
+\DoxyCodeLine{00252\ \};}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1cmd__exec}{cmd\_exec}}\ \{}
+\DoxyCodeLine{00255\ \ \ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \mbox{\hyperlink{structpsm_1_1cmd__exec_aab3bb1a6e46be4845bdbd25e8be302fc}{operator()}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *,\ std::size\_t)\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \}}
+\DoxyCodeLine{00256\ \ \ F\ \mbox{\hyperlink{structpsm_1_1cmd__exec_a3079b6b944ff3c5fda6b3684b7ef5ece}{function}};}
+\DoxyCodeLine{00257\ \};}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1sub}{sub}}\ \{\};}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_com_slave}{ComSlave}}\ \{}
+\DoxyCodeLine{00262\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00263\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a74574ea98b3840731ec784c39d84c4e4}{init}}()\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\_cmd}}(\textcolor{stringliteral}{"{}get"{}},\ [\textcolor{keyword}{this}](std::span<const\ char>)\ -\/>\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \});}
+\DoxyCodeLine{00265\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\_cmd}}(\textcolor{stringliteral}{"{}set"{}},\ [\textcolor{keyword}{this}](std::span<const\ char>)\ -\/>\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \{\ \textcolor{keywordflow}{return}\ \{\};\ \});}
+\DoxyCodeLine{00266\ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a9aa0ae9d2236eea0425df3e136b0953f}{set\_rx\_buffer}}(std::span<std::uint8\_t>);}
+\DoxyCodeLine{00269\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a61ef01a5612fcba1db8a259803d66dd0}{set\_tx\_buffer}}(std::span<std::uint8\_t>);}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ uint32\_t\ \mbox{\hyperlink{classpsm_1_1_com_slave_ac0a0d67f8df661308baa5e04da1586c9}{put\_and\_get\_tx\_size}}(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00272\ \ \ uint32\_t\ \mbox{\hyperlink{classpsm_1_1_com_slave_ac924a18d59b9be5ecc428c9e3621d719}{on\_receive}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *str,\ uint32\_t\ size);}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525}{Delimiter}}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a5ea66d687f4f1b669dbc997cf47ed6df}{delimiter}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \textcolor{comment}{//\ add\ a\ top\ level\ command\ that\ does\ not\ have\ any\ sub\ commands}}
+\DoxyCodeLine{00277\ \ \ \textcolor{comment}{//\ top\ level\ command\ syntax:\ "{}name\ [args...]"{}}}
+\DoxyCodeLine{00278\ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{template}\ <std::invocable<std::span<const\ \textcolor{keywordtype}{char}>>\ F>}
+\DoxyCodeLine{00281\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\_cmd}}(std::span<const\ char>\ name,\ F\ \&\&function)\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{comment}{//\ commands.insert(name,\ std::forward<F>(function));}}
+\DoxyCodeLine{00283\ \ \ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \textcolor{keyword}{template}\ <std::invocable\ F>}
+\DoxyCodeLine{00286\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\_cmd}}(std::span<const\ char>\ name,\ F\ \&\&function)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ commands.\mbox{\hyperlink{classpsm_1_1_fixed_map_af2c364b42a71424cad83c8893707c5a0}{insert}}(}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ name,\ [f\ =\ std::forward<F>(function)](std::span<const\ char>)\ -\/>\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<std::invoke\_result\_t<F>,\ \textcolor{keywordtype}{void}>)\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ f();}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<std::invoke\_result\_t<F>,\ \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}>)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f();}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ static\ assert\ false}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ f();}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00300\ \ \ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F>\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\_cmd}}(std::span<const\ char>\ name,\ F\ \&\&function)\ \{}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keyword}{using\ }func\ =\ cm::function\_traits<F>;}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keyword}{using\ }ret\ =\ \textcolor{keyword}{typename}\ func::return\_type;}
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keyword}{using\ }args\ =\ \textcolor{keyword}{typename}\ func::arguments;}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ commands.\mbox{\hyperlink{classpsm_1_1_fixed_map_af2c364b42a71424cad83c8893707c5a0}{insert}}(name,\ \mbox{\hyperlink{structpsm_1_1top__level__adapter}{top\_level\_adapter}}<std::decay\_t<F>,\ ret,\ args>(}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(function)));}
+\DoxyCodeLine{00309\ \ \ \}}
+\DoxyCodeLine{00310\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \textcolor{keyword}{template}\ <poly::Storage\ S,\ poly::PropertySpecification...\ Properties,}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ poly::MethodSpecification...\ Methods>}
+\DoxyCodeLine{00314\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_com_slave_ae38263cebea781308728f9064ffd71d5}{add\_obj}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ poly::Interface<S,\ poly::type\_list<Properties...>,}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ poly::type\_list<Methods...>>}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obj);}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00320\ \ \ \textcolor{keyword}{using\ }CmdFunc\ =\ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}(std::span<const\ char>),\ 24,\ 4>;}
+\DoxyCodeLine{00321\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_map}{FixedMap<std::span<const\ char>}},\ CmdFunc,\ 128>\ commands\{\};}
+\DoxyCodeLine{00322\ \ \ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{FixedVec<std::span<const\ char>}},\ 16>\ objects;}
+\DoxyCodeLine{00323\ \ \ \textcolor{keyword}{struct\ }Delegate\ \{\};}
+\DoxyCodeLine{00324\ \};}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

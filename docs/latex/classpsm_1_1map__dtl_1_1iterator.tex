@@ -1,0 +1,247 @@
+\doxysection{psm\+::map\+\_\+dtl\+::iterator\texorpdfstring{$<$}{<} Key, Value \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1map__dtl_1_1iterator}{}\label{classpsm_1_1map__dtl_1_1iterator}\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+
+
+{\ttfamily \#include $<$fixed\+\_\+map.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746}{value\+\_\+type}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$const Key \&, Value \&$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} = std\+::make\+\_\+signed\+\_\+t$<$size\+\_\+t$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{reference}} = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746}{value\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr const Key \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a036c0939512c363a549865daca6b78c6}{key}} () const
+\item 
+constexpr Value \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_af02bd3f9727d95be9661946e10228e0d}{value}} ()
+\item 
+constexpr const Value \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_af28962d4f79b825922acd61a92d85c3c}{value}} () const
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{reference}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a3013d6786ea2b1b556a9585cb39dd682}{operator\texorpdfstring{$\ast$}{*}}} () const
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{reference}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a13e0088584d59c26945f181e2f7c2b3b}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t i)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a967890406a704d26906f9377b096fb99}{operator+=}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a5491c85f1badac4c5555ae639493523e}{operator-\/=}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a6f1af6568d997207b78a324c70b968fa}{operator++}} ()
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a11107c8cb1965e667bfefeefc03e9dd9}{operator++}} (int)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_ab25b23997e94cf60e246decd0d66f04e}{operator-\/-\/}} ()
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_acb77d73162b32f4575b16d282fc23473}{operator-\/-\/}} (int)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename , typename $>$ }\\class \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_ac889bc51835a3284c5c1fdd2b458f66f}{const\+\_\+iterator}}
+\item 
+{\footnotesize template$<$typename , typename , size\+\_\+t , typename $>$ }\\class \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a7f150049546727fee8483a64b80648fa}{psm\+::\+Fixed\+Map}}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a8895777657a265a868266a748861eab2}{operator+}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aa5ae5a76e90313dfb2236c59215caed1}{operator+}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a358bfac559e4c7e18d99b9af08bd7819}{operator-\/}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} b, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} a)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a77cff321f22a9c70ec62d7fde5cc1f23}{operator$<$}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it1, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it2)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a534cd0347ed5f1989ba68d06ff255b09}{operator$<$=}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it1, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it2)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a458a9ffd64dfb4776389cf9decc29cc9}{operator$>$}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it1, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it2)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a8383b93a24f8ada9e21fa576981ba8cf}{operator$>$=}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it1, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it2)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a2ce2ca06bf780fc71177a128b96a672d}{operator==}} (\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it1, \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} it2)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}\label{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::difference\+\_\+type = std\+::make\+\_\+signed\+\_\+t$<$size\+\_\+t$>$}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}\label{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!reference@{reference}}
+\index{reference@{reference}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::reference = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746}{value\+\_\+type}}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746}\label{classpsm_1_1map__dtl_1_1iterator_a1d1a8ffa382cf2315c23b2f677d6a746} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::value\+\_\+type = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$const Key \&, Value \&$>$}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a036c0939512c363a549865daca6b78c6}\label{classpsm_1_1map__dtl_1_1iterator_a036c0939512c363a549865daca6b78c6} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!key@{key}}
+\index{key@{key}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{key()}{key()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const Key \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::key (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a3013d6786ea2b1b556a9585cb39dd682}\label{classpsm_1_1map__dtl_1_1iterator_a3013d6786ea2b1b556a9585cb39dd682} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}}
+\index{operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}()}{operator*()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{reference}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator\texorpdfstring{$\ast$}{*} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a6f1af6568d997207b78a324c70b968fa}\label{classpsm_1_1map__dtl_1_1iterator_a6f1af6568d997207b78a324c70b968fa} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a11107c8cb1965e667bfefeefc03e9dd9}\label{classpsm_1_1map__dtl_1_1iterator_a11107c8cb1965e667bfefeefc03e9dd9} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a967890406a704d26906f9377b096fb99}\label{classpsm_1_1map__dtl_1_1iterator_a967890406a704d26906f9377b096fb99} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator+= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_ab25b23997e94cf60e246decd0d66f04e}\label{classpsm_1_1map__dtl_1_1iterator_ab25b23997e94cf60e246decd0d66f04e} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator-\/-\/@{operator-\/-\/}}
+\index{operator-\/-\/@{operator-\/-\/}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_acb77d73162b32f4575b16d282fc23473}\label{classpsm_1_1map__dtl_1_1iterator_acb77d73162b32f4575b16d282fc23473} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator-\/-\/@{operator-\/-\/}}
+\index{operator-\/-\/@{operator-\/-\/}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a5491c85f1badac4c5555ae639493523e}\label{classpsm_1_1map__dtl_1_1iterator_a5491c85f1badac4c5555ae639493523e} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a13e0088584d59c26945f181e2f7c2b3b}\label{classpsm_1_1map__dtl_1_1iterator_a13e0088584d59c26945f181e2f7c2b3b} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{reference}} \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_af02bd3f9727d95be9661946e10228e0d}\label{classpsm_1_1map__dtl_1_1iterator_af02bd3f9727d95be9661946e10228e0d} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!value@{value}}
+\index{value@{value}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr Value \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_af28962d4f79b825922acd61a92d85c3c}\label{classpsm_1_1map__dtl_1_1iterator_af28962d4f79b825922acd61a92d85c3c} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!value@{value}}
+\index{value@{value}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const Value \& \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator}}$<$ Key, Value $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_ac889bc51835a3284c5c1fdd2b458f66f}\label{classpsm_1_1map__dtl_1_1iterator_ac889bc51835a3284c5c1fdd2b458f66f} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!const\_iterator@{const\_iterator}}
+\index{const\_iterator@{const\_iterator}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+template$<$typename , typename $>$ \\
+friend class \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{const\+\_\+iterator}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_aa5ae5a76e90313dfb2236c59215caed1}\label{classpsm_1_1map__dtl_1_1iterator_aa5ae5a76e90313dfb2236c59215caed1} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator+}{operator+}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}}}]{n,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a8895777657a265a868266a748861eab2}\label{classpsm_1_1map__dtl_1_1iterator_a8895777657a265a868266a748861eab2} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator+}{operator+}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}} operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a358bfac559e4c7e18d99b9af08bd7819}\label{classpsm_1_1map__dtl_1_1iterator_a358bfac559e4c7e18d99b9af08bd7819} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/}{operator-}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_aaeb27a5ed04015d54637b7200e3698ed}{difference\+\_\+type}} operator-\/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{b,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a77cff321f22a9c70ec62d7fde5cc1f23}\label{classpsm_1_1map__dtl_1_1iterator_a77cff321f22a9c70ec62d7fde5cc1f23} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$}{operator<}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool operator$<$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it1,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a534cd0347ed5f1989ba68d06ff255b09}\label{classpsm_1_1map__dtl_1_1iterator_a534cd0347ed5f1989ba68d06ff255b09} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator$<$=@{operator$<$=}}
+\index{operator$<$=@{operator$<$=}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$=}{operator<=}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool operator$<$= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it1,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a2ce2ca06bf780fc71177a128b96a672d}\label{classpsm_1_1map__dtl_1_1iterator_a2ce2ca06bf780fc71177a128b96a672d} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator==}{operator==}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it1,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a458a9ffd64dfb4776389cf9decc29cc9}\label{classpsm_1_1map__dtl_1_1iterator_a458a9ffd64dfb4776389cf9decc29cc9} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator$>$}{operator>}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool operator$>$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it1,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a8383b93a24f8ada9e21fa576981ba8cf}\label{classpsm_1_1map__dtl_1_1iterator_a8383b93a24f8ada9e21fa576981ba8cf} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!operator$>$=@{operator$>$=}}
+\index{operator$>$=@{operator$>$=}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator$>$=}{operator>=}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool operator$>$= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it1,  }\item[{\mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{iterator}}$<$ Key, Value $>$}]{it2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classpsm_1_1map__dtl_1_1iterator_a7f150049546727fee8483a64b80648fa}\label{classpsm_1_1map__dtl_1_1iterator_a7f150049546727fee8483a64b80648fa} 
+\index{psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}!psm::FixedMap@{psm::FixedMap}}
+\index{psm::FixedMap@{psm::FixedMap}!psm::map\_dtl::iterator$<$ Key, Value $>$@{psm::map\_dtl::iterator$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{psm::FixedMap}{psm::FixedMap}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+template$<$typename , typename , size\+\_\+t , typename $>$ \\
+friend class \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixed__map_8hpp}{fixed\+\_\+map.\+hpp}}\end{DoxyCompactItemize}

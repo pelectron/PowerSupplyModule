@@ -1,0 +1,122 @@
+\doxysection{cli\+::Command\+Base\texorpdfstring{$<$}{<} Derived, Cmd\+Name, Description, Type \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4}{}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4}\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+
+
+{\ttfamily \#include $<$cli/command.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a28088df7be978f34421fa0480e150630}{sub\+\_\+command\+\_\+list}} = \mbox{\hyperlink{namespacecli_ae978bafe583624d9b466298925dc04c3}{Type\+List}}$<$$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a70ca65de2565be729e2966f8a3c698f7}{Command\+Base}} ()=\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{default}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a566fc5c9201d8a188c1706db9a8aa55a}{Command\+Base}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&)=\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{default}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_aa361fbda2d01f34a82041744c1f3ed77}{Command\+Base}} (\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&\&)=\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{default}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a9291b1f0a216fda6ac3a3cd7638b9f9e}{operator=}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&)=\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{default}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_ab0d23b9b5bd0b20578ca7fb9b8ba200b}{operator=}} (\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \&\&)=\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{default}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_af03e8c4041556697f86c33860c8f2606}{execute}} (\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{Exec\+Type}} \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a07ab0705af97a17e7f22cd2fcf286b41}{type}}, \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} args, std\+::span$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char}} $>$ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{out}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Cmd\+Name \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a6f7efcda372c9ff0e939d63221e9473b}{name}} \{\}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Description \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a1497a35288450bc6610f53e8a6f6b891}{description}} \{\}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Type \mbox{\hyperlink{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a07ab0705af97a17e7f22cd2fcf286b41}{type}} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a28088df7be978f34421fa0480e150630}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a28088df7be978f34421fa0480e150630} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!sub\_command\_list@{sub\_command\_list}}
+\index{sub\_command\_list@{sub\_command\_list}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{sub\_command\_list}{sub\_command\_list}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::sub\+\_\+command\+\_\+list = \mbox{\hyperlink{namespacecli_ae978bafe583624d9b466298925dc04c3}{Type\+List}}$<$$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a70ca65de2565be729e2966f8a3c698f7}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a70ca65de2565be729e2966f8a3c698f7} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!CommandBase@{CommandBase}}
+\index{CommandBase@{CommandBase}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{CommandBase()}{CommandBase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::\+Command\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a566fc5c9201d8a188c1706db9a8aa55a}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a566fc5c9201d8a188c1706db9a8aa55a} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!CommandBase@{CommandBase}}
+\index{CommandBase@{CommandBase}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{CommandBase()}{CommandBase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::\+Command\+Base (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_aa361fbda2d01f34a82041744c1f3ed77}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_aa361fbda2d01f34a82041744c1f3ed77} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!CommandBase@{CommandBase}}
+\index{CommandBase@{CommandBase}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{CommandBase()}{CommandBase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::\+Command\+Base (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_af03e8c4041556697f86c33860c8f2606}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_af03e8c4041556697f86c33860c8f2606} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!execute@{execute}}
+\index{execute@{execute}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{Exec\+Type}}}]{type,  }\item[{\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}}]{args,  }\item[{std\+::span$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char}} $>$ \&}]{out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_ab0d23b9b5bd0b20578ca7fb9b8ba200b}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_ab0d23b9b5bd0b20578ca7fb9b8ba200b} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a9291b1f0a216fda6ac3a3cd7638b9f9e}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a9291b1f0a216fda6ac3a3cd7638b9f9e} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}} \& \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a1497a35288450bc6610f53e8a6f6b891}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a1497a35288450bc6610f53e8a6f6b891} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!description@{description}}
+\index{description@{description}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{description}{description}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Description \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::description \{\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a6f7efcda372c9ff0e939d63221e9473b}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a6f7efcda372c9ff0e939d63221e9473b} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!name@{name}}
+\index{name@{name}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Cmd\+Name \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::name \{\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a07ab0705af97a17e7f22cd2fcf286b41}\label{classcli_1_1_command_base_3_01_derived_00_01_cmd_name_00_01_description_00_01_type_01_4_a07ab0705af97a17e7f22cd2fcf286b41} 
+\index{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}!type@{type}}
+\index{type@{type}!cli::CommandBase$<$ Derived, CmdName, Description, Type $>$@{cli::CommandBase$<$ Derived, CmdName, Description, Type $>$}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}} , Name Cmd\+Name, Name Description, Name Type$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} Type \mbox{\hyperlink{classcli_1_1_command_base}{cli\+::\+Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Derived}}, Cmd\+Name, Description, Type $>$\+::type \{\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{command_8hpp}{command.\+hpp}}\end{DoxyCompactItemize}

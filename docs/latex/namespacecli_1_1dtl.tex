@@ -1,0 +1,56 @@
+\doxysection{cli\+::dtl Namespace Reference}
+\hypertarget{namespacecli_1_1dtl}{}\label{namespacecli_1_1dtl}\index{cli::dtl@{cli::dtl}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1dtl_1_1to__lower}{to\+\_\+lower}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1dtl_1_1to__lower_3_01string__constant_3_01_cs_8_8_8_01_4_01_4}{to\+\_\+lower$<$ string\+\_\+constant$<$ Cs... $>$ $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , class... Args, std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{namespacecli_1_1dtl_af8b9b17e02b2fa804a4e67b22b6886e7}{for\+\_\+each\+\_\+impl}} (std\+::index\+\_\+sequence$<$ Is... $>$, F \&\&f, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}}) \mbox{\hyperlink{namespacecli_1_1dtl_af7e514f2bf8b16633ed3f8feccaa3b2b}{apply\+\_\+impl}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, F \&\&f, std\+::index\+\_\+sequence$<$ Is... $>$)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::pair$<$ \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8}{Control}}, \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} $>$ \mbox{\hyperlink{namespacecli_1_1dtl_a6e029409fb783ed7d887fac83185a8d8}{esc\+\_\+sequences}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecli_1_1dtl_af7e514f2bf8b16633ed3f8feccaa3b2b}\label{namespacecli_1_1dtl_af7e514f2bf8b16633ed3f8feccaa3b2b} 
+\index{cli::dtl@{cli::dtl}!apply\_impl@{apply\_impl}}
+\index{apply\_impl@{apply\_impl}!cli::dtl@{cli::dtl}}
+\doxysubsubsection{\texorpdfstring{apply\_impl()}{apply\_impl()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , std\+::size\+\_\+t... Is$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}}) cli\+::dtl\+::apply\+\_\+impl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&}]{t,  }\item[{F \&\&}]{f,  }\item[{std\+::index\+\_\+sequence$<$ Is... $>$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1dtl_af8b9b17e02b2fa804a4e67b22b6886e7}\label{namespacecli_1_1dtl_af8b9b17e02b2fa804a4e67b22b6886e7} 
+\index{cli::dtl@{cli::dtl}!for\_each\_impl@{for\_each\_impl}}
+\index{for\_each\_impl@{for\_each\_impl}!cli::dtl@{cli::dtl}}
+\doxysubsubsection{\texorpdfstring{for\_each\_impl()}{for\_each\_impl()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , class... Args, std\+::size\+\_\+t... Is$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} cli\+::dtl\+::for\+\_\+each\+\_\+impl (\begin{DoxyParamCaption}\item[{std\+::index\+\_\+sequence$<$ Is... $>$}]{,  }\item[{F \&\&}]{f,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&}]{t,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecli_1_1dtl_a6e029409fb783ed7d887fac83185a8d8}\label{namespacecli_1_1dtl_a6e029409fb783ed7d887fac83185a8d8} 
+\index{cli::dtl@{cli::dtl}!esc\_sequences@{esc\_sequences}}
+\index{esc\_sequences@{esc\_sequences}!cli::dtl@{cli::dtl}}
+\doxysubsubsection{\texorpdfstring{esc\_sequences}{esc\_sequences}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::pair$<$\mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8}{Control}}, \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}$>$ cli\+::dtl\+::esc\+\_\+sequences\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \{Control::cursor\_right,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[C"{}}\},\ \{Control::cursor\_left,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[D"{}}\},}
+\DoxyCodeLine{\ \ \ \ \{Control::save\_cursor,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[s"{}}\},\ \ \{Control::restore\_cursor,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[u"{}}\},}
+\DoxyCodeLine{\ \ \ \ \{Control::insert\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[@"{}}\},\ \ \{Control::delete\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[1;P"{}}\},}
+\DoxyCodeLine{\ \ \ \ \{Control::delete\_char,\ \textcolor{stringliteral}{"{}\(\backslash\)x1B[1;X"{}}\}\}}
+
+\end{DoxyCode}

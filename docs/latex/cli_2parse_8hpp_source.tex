@@ -1,0 +1,1187 @@
+\doxysection{parse.\+hpp}
+\hypertarget{cli_2parse_8hpp_source}{}\label{cli_2parse_8hpp_source}\index{cli/parse.hpp@{cli/parse.hpp}}
+\mbox{\hyperlink{cli_2parse_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_PARSE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_PARSE\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ctti_8hpp}{cli/ctti.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{enums_8hpp}{cli/enums.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{traits_8hpp}{cli/traits.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{u64_8hpp}{cli/u64.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{util_8hpp}{cli/util.hpp}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <bit>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli_1_1parse}{cli::parse}}\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00023\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_value}{Value}}\ =\ std::is\_object\_v<std::decay\_t<T>>;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ R>}
+\DoxyCodeLine{00026\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{Result}}\ =\ \textcolor{keyword}{requires}(R\ \&\&r)\ \{}
+\DoxyCodeLine{00027\ \ \ \{\ r.error\ \}\ -\/>\ std::convertible\_to<Error>;}
+\DoxyCodeLine{00028\ \ \ \{\ r.value\ \}\ -\/>\ \mbox{\hyperlink{conceptcli_1_1parse_1_1_value}{Value}};}
+\DoxyCodeLine{00029\ \ \ \{\ r.rest\ \}\ -\/>\ std::convertible\_to<ByteView>;}
+\DoxyCodeLine{00030\ \ \ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(r)\ \};}
+\DoxyCodeLine{00031\ \};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ P>}
+\DoxyCodeLine{00034\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser}}\ =\ \textcolor{keyword}{requires}(P\ \&\&p,\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00035\ \ \ \{\ p(str)\ \}\ -\/>\ \mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{Result}};}
+\DoxyCodeLine{00036\ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <Parser\ P>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1parse_1_1value__type}{value\_type}}\ \{}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1parse_1_1value__type_a7663a91a3b7b156294107b1cabb64fa8}{type}}\ =\ std::decay\_t<decltype(std::declval<decltype(std::declval<P>()(}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::declval<ByteView>()))>()}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .value)>;}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ \textcolor{keyword}{template}\ <Parser\ P>\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacecli_1_1parse_a090aa3e82c893f8363fd194f6346abb6}{value\_type\_t}}\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1parse_1_1value__type_a7663a91a3b7b156294107b1cabb64fa8}{value\_type<P>::type}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ P,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00046\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_parser_of}{ParserOf}}\ =\ \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser<P>}}\ and\ std::same\_as<T,\ value\_type\_t<P>>;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{from\_error\_t}}\ \{}
+\DoxyCodeLine{00049\ \}\ \mbox{\hyperlink{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba}{from\_error}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{from\_value\_t}}\ \{}
+\DoxyCodeLine{00052\ \}\ \mbox{\hyperlink{namespacecli_1_1parse_a27c1d432bff84a50054d97372105ff99}{from\_value}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult}}\ \{}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a123916e3bf01b038c2f84d85efa4991a}{ParseResult}}(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}})\ :\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\{\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\{\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\{\}\ \{\}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a7ecd7bae26b8a33743f2aa285847a426}{ParseResult}}(\textcolor{keyword}{const}\ T\ \&\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}},\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\ =\ \{\})}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\{\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}::\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\{\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\{\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\}\ \{\}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a06dcc7e97802ebda8acf89c675a6a567}{ParseResult}}(T\ \&\&\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}},\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\ =\ \{\})}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\{\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}::\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\{std::move(\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}})\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\{\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\}\ \{\}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ U>}
+\DoxyCodeLine{00065\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_afe380f2a4614c0cd887d3d19b31869bd}{ParseResult}}(\mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{from\_value\_t}},\ U\ \&\&\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}},\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\ =\ \{\})}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\{\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}::\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\{std::forward<U>(\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}})\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\{\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\}\ \{\}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a75ed62606feb062bb1eac3a15cd919a9}{ParseResult}}(\mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{from\_error\_t}},\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ e)\ :\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\{e\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}\{\},\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}\{\}\ \{\}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ bool()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}}\ ==\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};\ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a2fd308dcd2bb17ad6cb44f7ed2da05d9}{operator<=>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult}}\ \&)\ \textcolor{keyword}{const}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}};}
+\DoxyCodeLine{00074\ \ \ T\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}};}
+\DoxyCodeLine{00075\ \ \ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}};}
+\DoxyCodeLine{00076\ \};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<std::remove\_cvref\_t<T>}}>\ \mbox{\hyperlink{namespacecli_1_1parse_a72502c4aaec674bd68d879c498b460eb}{ok}}(T\ \&\&t)\ \{}
+\DoxyCodeLine{00079\ \ \ \textcolor{keywordflow}{return}\ \{std::forward<T>(t),\ \{\}\};}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{namespacecli_1_1parse_addd9ad6a74437e8bd2089ff411472245}{error}}(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ e)\ \{}
+\DoxyCodeLine{00083\ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba}{from\_error}},\ e\};}
+\DoxyCodeLine{00084\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{static\_assert}(Result<ParseResult<int>>);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[i]\ ==\ \textcolor{charliteral}{'\ '}\ or\ str[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)t'})}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.substr(i);}
+\DoxyCodeLine{00094\ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{00096\ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{static\_assert}(\mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}())\ ==\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}());}
+\DoxyCodeLine{00099\ \textcolor{keyword}{static\_assert}(\mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}hello"{}}))\ ==\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00100\ \textcolor{keyword}{static\_assert}(\mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}\ hello"{}}))\ ==\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00101\ \textcolor{keyword}{static\_assert}(\mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}\ \ \ hello"{}}))\ ==\ \mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{template}\ <traits::Integer\ T,\ Fmt\ Format\ =\ Fmt::normal\ |\ Fmt::hex\ |\ Fmt::binary>}
+\DoxyCodeLine{00109\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int}}\ \{}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1traits_1_1integer__traits}{traits}}\ =\ \mbox{\hyperlink{structcli_1_1traits_1_1integer__traits}{cli::traits::integer\_traits<T>}};}
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1integer__traits_a83f28277d3fcadbee1157102dbc1d663}{traits::type}};}
+\DoxyCodeLine{00112\ \ \ \textcolor{keyword}{using\ }unsigned\_type\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1integer__traits_a0a93e34dc8b4efb778fc102016e39bdf}{traits::unsigned\_type}};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00115\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a2081423264255dd6560538bf35bf61e7}{max\_hex\_length}}()\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a7fc01812cd626aa5ef8cc8a1b0b9d4ff}{max\_bin\_length}}()\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 32;}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 32;}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a2481cf1d2e414d39f687886c110db080}{max\_dec\_length}}()\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\mbox{\hyperlink{structcli_1_1traits_1_1integer__traits_a541120f3dca78a304e22689198265018}{traits::is\_signed}})\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \}}
+\DoxyCodeLine{00164\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a761eb4e016d1fcfc1743d38b3f569fe4}{parse\_hex}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str,\ std::size\_t\ offset)\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ to\_hex\ =\ [](uint8\_t\ c)\ -\/>\ uint8\_t\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'0'}\ and\ c\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'A'}\ and\ c\ <=\ \textcolor{charliteral}{'F'})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'a'}\ and\ c\ <=\ \textcolor{charliteral}{'f'})\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10;}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0xFFu;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =\ std::min(}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a2081423264255dd6560538bf35bf61e7}{max\_hex\_length}}()\ +\ offset,\ str.size());\ \textcolor{comment}{//\ the\ maximum\ amount\ of\ digits}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ can\ consume\ with\ 32\ bits.}}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ str[i];}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ bits\ =\ to\_hex(c);\ bits\ <=\ 0x0Fu)\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ v\ =\ (v\ *\ 16u)\ +\ bits;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00195\ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a00e1ee78d870545ab12bc77d41f931c1}{parse\_bin}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str,\ std::size\_t\ offset)\ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =\ std::min(}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a7fc01812cd626aa5ef8cc8a1b0b9d4ff}{max\_bin\_length}}()\ +\ offset,\ str.size());\ \textcolor{comment}{//\ the\ maximum\ amount\ of\ digits}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ can\ consume\ with\ 32\ bits.}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ str[i];}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'0'})\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ v\ =\ v\ <<\ 1u;}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'1'})\ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ v\ =\ (v\ <<\ 1u)\ |\ 1u;}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00216\ \ \ \ \ \}}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00218\ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a40b7af424a6391453939b4b44d9b3628}{parse\_dec}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ \mbox{\hyperlink{structcli_1_1traits_1_1integer__traits_a541120f3dca78a304e22689198265018}{traits::is\_signed}})\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ std::size\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'+'})\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ offset\ =\ 1;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 1)}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ std::min(offset\ +\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a2481cf1d2e414d39f687886c110db080}{max\_dec\_length}}(),\ str.size());}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ >=\ \textcolor{charliteral}{'0'}\ and\ ch\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ v\ =\ v\ *\ 10\ +\ (ch\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00245\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ std::size\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ negative\ =\ str[0]\ ==\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'+'}\ or\ negative)\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ offset\ =\ 1;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 1)}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ max\_size\ =}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ std::min(offset\ +\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a2481cf1d2e414d39f687886c110db080}{max\_dec\_length}}(),\ str.size());}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ >=\ \textcolor{charliteral}{'0'}\ and\ ch\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ v\ =\ v\ *\ 10u\ +\ (ch\ -\/\ u\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)\ \{}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(\string~v\ +\ 1),\ str.substr(i)\};}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(\string~v\ +\ 1),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00275\ \ \ \ \ \}}
+\DoxyCodeLine{00276\ \ \ \}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00279\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_abee0f9c8c03f7e57a3a5398ecd862afe}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{Fmt::hex}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{Fmt::hex}})\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ hexadecimal\ number,\ starts\ with\ 0x,\ 0X,\ x,\ X,\ or\ \#}}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0x"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0X"{}}))}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a761eb4e016d1fcfc1743d38b3f569fe4}{parse\_hex}}(str,\ 2);}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a761eb4e016d1fcfc1743d38b3f569fe4}{parse\_hex}}(str,\ 1);}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{Fmt::binary}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{Fmt::binary}})\ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ binary\ number,\ starts\ with\ 0b,\ 0B,\ b,\ or\ B}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0b"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0B"{}}))}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a00e1ee78d870545ab12bc77d41f931c1}{parse\_bin}}(str,\ 2);}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a00e1ee78d870545ab12bc77d41f931c1}{parse\_bin}}(str,\ 1);}
+\DoxyCodeLine{00297\ \ \ \ \ \}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{Fmt::normal}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{Fmt::normal}})\ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ decimal\ number}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a40b7af424a6391453939b4b44d9b3628}{parse\_dec}}(str);}
+\DoxyCodeLine{00302\ \ \ \ \ \}}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}};}
+\DoxyCodeLine{00305\ \ \ \}}
+\DoxyCodeLine{00306\ \};}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00327\ \textcolor{keyword}{template}\ <traits::String\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_string}{String}}\ \{}
+\DoxyCodeLine{00328\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00329\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_string_a958794d818ee53dd79ac5b4a28555e05}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'"{}'})\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 1;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ 0x20u\ or\ ch\ >\ 0x7E)\ \textcolor{comment}{//\ ch\ is\ a\ non\ printable\ character}}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea752ae9fca0b917dcc60e73db45d1a3c0}{Error::unescaped\_string}};}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'"{}'}\ and\ str[i\ -\/\ 1]\ !=\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'})\ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reached\ end\ quote}}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ value\ =\ str.substr(1,\ i\ -\/\ 1);\ \textcolor{comment}{//\ -\/1\ to\ exclude\ quote}}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(value.data(),\ value.size()),}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str.substr(i\ +\ 1)\};\ \textcolor{comment}{//\ +1\ to\ exlude\ endquote}}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea752ae9fca0b917dcc60e73db45d1a3c0}{Error::unescaped\_string}};}
+\DoxyCodeLine{00348\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ 0x21u\ or\ ch\ >\ 0x7E\ or\ (ch\ ==\ \textcolor{charliteral}{'"{}'}\ and\ str[i\ -\/\ 1]\ !=\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}))\ \{}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ch\ is\ an\ invisible\ character}}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ value\ =\ str.substr(0,\ i);}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(value.data(),\ value.size()),\ str.substr(i)\};}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(str.data(),\ str.size())\};}
+\DoxyCodeLine{00358\ \ \ \ \ \}}
+\DoxyCodeLine{00359\ \ \ \}}
+\DoxyCodeLine{00360\ \};}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_float}{Float}}\ \{}
+\DoxyCodeLine{00363\ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>,}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ floating\ point\ parser\ is\ unimplemented\ for\ now"{}});}
+\DoxyCodeLine{00365\ \};}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{keyword}{template}\ <\mbox{\hyperlink{conceptcli_1_1traits_1_1_fix_point}{traits::FixPoint}}\ T,\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}}\ Format\ =\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{Fmt::normal}}\ |\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{Fmt::hex}}\ |\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{Fmt::binary}},}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ FixPointSeparator\ =\ \textcolor{charliteral}{'.'}>}
+\DoxyCodeLine{00369\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_fix_point}{FixPoint}}\ :\ \textcolor{keyword}{private}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int}}<unsigned\ long\ long,\ Format>\ \{}
+\DoxyCodeLine{00370\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classcli_1_1parse_1_1_int}{Base}}\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int<unsigned\ long\ long,\ Format>}};}
+\DoxyCodeLine{00371\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits}{traits}}\ =\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits}{traits::fixpoint\_traits<T>}};}
+\DoxyCodeLine{00372\ \ \ \textcolor{keyword}{using\ }unsigned\_t\ =\ std::make\_unsigned\_t<typename\ traits::raw\_value\_type>;}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ B,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ B\ cxpow(B\ base,\ U\ exp)\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordflow}{if}\ (exp\ ==\ 0)}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ B(1);}
+\DoxyCodeLine{00377\ \ \ \ \ B\ ret\ =\ base;}
+\DoxyCodeLine{00378\ \ \ \ \ -\/-\/exp;}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keywordflow}{while}\ (exp\ !=\ 0)\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ -\/-\/exp;}
+\DoxyCodeLine{00381\ \ \ \ \ \}}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00383\ \ \ \}}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ fraction\_mask\ =}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ (1u\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})\ -\/\ 1u;}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00388\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ max\_pow10\_exp\ =\ []\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})\ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19;}
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00398\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00400\ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{keywordflow}{case}\ 8:}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{keywordflow}{case}\ 9:}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{keywordflow}{case}\ 10:}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordflow}{case}\ 11:}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordflow}{case}\ 12:}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keywordflow}{case}\ 13:}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordflow}{case}\ 14:}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00420\ \ \ \ \ \textcolor{keywordflow}{case}\ 15:}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00422\ \ \ \ \ \textcolor{keywordflow}{case}\ 16:}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{keywordflow}{case}\ 17:}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00426\ \ \ \ \ \textcolor{keywordflow}{case}\ 18:}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00428\ \ \ \ \ \textcolor{keywordflow}{case}\ 19:}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keywordflow}{case}\ 20:}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keywordflow}{case}\ 21:}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keywordflow}{case}\ 22:}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordflow}{case}\ 23:}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00438\ \ \ \ \ \textcolor{keywordflow}{case}\ 24:}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{keywordflow}{case}\ 25:}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{keywordflow}{case}\ 26:}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00444\ \ \ \ \ \textcolor{keywordflow}{case}\ 27:}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00446\ \ \ \ \ \textcolor{keywordflow}{case}\ 28:}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{keywordflow}{case}\ 29:}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{keywordflow}{case}\ 30:}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordflow}{case}\ 31:}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00454\ \ \ \ \ \}}
+\DoxyCodeLine{00455\ \ \ \}();}
+\DoxyCodeLine{00456\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ frac\_factor\ =\ []\ \{}
+\DoxyCodeLine{00457\ \ \ \ \ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ r\{1\};}
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00461\ \ \ \}();}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ max\_pow10\ =\ []\ \{}
+\DoxyCodeLine{00464\ \ \ \ \ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ r\{1\};}
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00468\ \ \ \}();}
+\DoxyCodeLine{00469\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ integer\_mask\ =}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ (1u\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a2f76713e72dd9099d511038cb2b80020}{traits::num\_int\_digits}})\ -\/\ 1u;}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00472\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00473\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_fix_point_a660c480d0612df683b7bd44b3c70ef77}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{comment}{//\ TODO:\ figure\ out\ a\ way\ to\ parse\ fixpoint\ numbers\ with\ a\ large\ fractional}}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{comment}{//\ portion,\ i.e.\ more\ than\ 10\ decimal\ digits}}
+\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{Fmt::hex}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{Fmt::hex}})\ \{}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ hexadecimal\ number,\ starts\ with\ 0x,\ 0X,\ x,\ X,\ or\ \#}}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0x"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0X"{}}))\ \{}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a761eb4e016d1fcfc1743d38b3f569fe4}{Base::parse\_hex}}(str,\ 2))}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_ab38c8d93c330c11d877eeac5bf2371c7}{traits::raw\_value\_type}}(res.value),\ res.rest\};}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a761eb4e016d1fcfc1743d38b3f569fe4}{Base::parse\_hex}}(str,\ 1))}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_ab38c8d93c330c11d877eeac5bf2371c7}{traits::raw\_value\_type}}(res.value),\ res.rest\};}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00493\ \ \ \ \ \}}
+\DoxyCodeLine{00494\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{Fmt::binary}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{Fmt::binary}})\ \{}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ binary\ number,\ starts\ with\ 0b,\ 0B,\ b,\ or\ B}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0b"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0B"{}}))\ \{}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a00e1ee78d870545ab12bc77d41f931c1}{Base::parse\_bin}}(str,\ 2))}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_ab38c8d93c330c11d877eeac5bf2371c7}{traits::raw\_value\_type}}(res.value),\ res.rest\};}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}bB"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a00e1ee78d870545ab12bc77d41f931c1}{Base::parse\_bin}}(str,\ 2))}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_ab38c8d93c330c11d877eeac5bf2371c7}{traits::raw\_value\_type}}(res.value),\ res.rest\};}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00510\ \ \ \ \ \}}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{Fmt::normal}})\ ==\ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{Fmt::normal}})\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ [[maybe\_unused]]\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ negative\ =\ str[0]\ ==\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a87726a77b1026febe83449bd217349b1}{traits::is\_signed}})\ \{}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(1);}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \textcolor{comment}{//\ decimal\ format}}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ int\_res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int_a40b7af424a6391453939b4b44d9b3628}{Base::parse\_dec}}(str);}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ int\_res)}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ int\_res.error;}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.rest.size()\ ==\ 0\ or\ int\_res.rest[0]\ !=\ FixPointSeparator)}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_ab38c8d93c330c11d877eeac5bf2371c7}{traits::raw\_value\_type}}(int\_res.value}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})),}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\_res.rest\};}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.rest.size()\ <\ 2)}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \ \ \ \ \ \ str\ =\ int\_res.rest.substr(1);}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[0];}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ \textcolor{charliteral}{'0'}\ or\ ch\ >\ \textcolor{charliteral}{'9'})}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ fractional\ part\ (frac)\ is\ in\ base\ 10\string^-\/N=(2*5)\string^-\/N=5\string^-\/N*2\string^-\/N\ (N\ ==}}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \textcolor{comment}{//\ string\ size)\ we\ want\ to\ convert\ it\ to\ base\ 2\string^-\/num\_frac\_digits\ -\/>\ frac\ *}}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \textcolor{comment}{//\ 10\string^-\/N\ =\ i\ *\ 2\string^-\/num\_frac\_digits\ -\/>\ i\ is\ the\ integer\ value\ to\ store\ as}}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \textcolor{comment}{//\ fractional\ bits}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \textcolor{comment}{//\ i\ =\ frac\ *\ 10\string^-\/N\ /\ 2\string^-\/num\_frac\_digits\ =\ frac\ *}}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \textcolor{comment}{//\ 2\string^num\_frac\_digits\ /\ 10\string^N\ =\ (frac\ <<\ num\_frac\_digits)\ /\ 10\string^N}}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \textcolor{comment}{//\ parsing\ the\ fractional\ part}}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ value\{\textcolor{keyword}{static\_cast<}unsigned\_t\textcolor{keyword}{>}(ch\ -\/\ \textcolor{charliteral}{'0'})\};}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ pow10\{10\};}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 1;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ \textcolor{charliteral}{'0'}\ or\ ch\ >\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(i);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ pow10\ =\ pow10\ *\ 10;}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ value\ =\ value\ *\ 10\ +\ (ch\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1u64}{u64}}\ frac\{value\};}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ret\ =\ [\&int\_res,\ \&frac,\ \&str,\ \&negative]()\ -\/>\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a87726a77b1026febe83449bd217349b1}{traits::is\_signed}})\ \{}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ (void)negative;}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >\ integer\_mask)}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(integer\_mask)),\ str\};}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (int\_res.value\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})\ |}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))),}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ negative)\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >=\ (1ull\ <<\ (\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}}\ -\/\ 1)))\ \{}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1ull\ <<\ (\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}}\ +}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a2f76713e72dd9099d511038cb2b80020}{traits::num\_int\_digits}}\ -\/\ 1))\ -\/}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (int\_res.value\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})\ |}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))),}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00587\ }
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >\ integer\_mask)\ \{}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1ull\ <<\ (\mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}}\ +}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a2f76713e72dd9099d511038cb2b80020}{traits::num\_int\_digits}}\ -\/\ 1))\ -\/}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \string~((int\_res.value\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}})\ |}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))\ +}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00602\ }
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (frac\ ==\ 0)}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret();}
+\DoxyCodeLine{00605\ }
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pow10\ >\ max\_pow10)\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ pow10\ /\ max\_pow10;}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ frac\ =\ (frac\ /\ c)\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}};}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ \mbox{\hyperlink{structcli_1_1u64_aafeeba163512ebc3b971fc346656458d}{u64::div64\_with\_mod}}(frac,\ max\_pow10);}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ >\ (max\_pow10\ >>\ 1)\ and\ frac\ !=\ (fraction\_mask))\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ to\ round\ up}}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ frac\ =\ frac\ +\ 1;}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ frac\ =\ frac\ <<\ \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits_a041a50c9ae1299f9477babf49bc61193}{traits::num\_frac\_digits}};}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ \mbox{\hyperlink{structcli_1_1u64_aafeeba163512ebc3b971fc346656458d}{u64::div64\_with\_mod}}(frac,\ pow10);}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ >\ (pow10\ >>\ 1)\ and\ frac\ !=\ (fraction\_mask))\ \{}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ to\ round\ up}}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ frac\ =\ frac\ +\ 1;}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret();}
+\DoxyCodeLine{00624\ \ \ \ \ \}}
+\DoxyCodeLine{00625\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}};}
+\DoxyCodeLine{00626\ \ \ \}}
+\DoxyCodeLine{00627\ \};}
+\DoxyCodeLine{00628\ }
+\DoxyCodeLine{00629\ \textcolor{keyword}{template}\ <traits::Enum\ T,\ \textcolor{keywordtype}{bool}\ AllowNumbers>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_enum}{Enum}}\ \{}
+\DoxyCodeLine{00630\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00631\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_enum_aeb38f7775cc094a3ce7a93f3f6378a91}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00632\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\mbox{\hyperlink{conceptcli_1_1traits_1_1_flag_enum}{traits::FlagEnum<T>}})\ \{}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ T\ val\{\};}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ read\_one\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (str.size()\ !=\ 0)\ \{}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\_name\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ name]\ :\ ctti::dtl::enum\_name\_map<T>)\ \{}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ str.starts\_with(name))}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ read\_one\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ found\_name\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ val\ =\ val\ |\ e;}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(name.size());}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(str);}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.size()\ ==\ 0\ or\ s[0]\ !=\ \textcolor{charliteral}{'|'})}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{val,\ str\};}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(s.substr(1));}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ found\_name)}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (read\_one)}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{val,\ \{\}\};}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ AllowNumbers)}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}});}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int<std::underlying\_type\_t<T>}}>\{\}(str);}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}});}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(res.value),\ res.rest\};}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00666\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ name]\ :\ ctti::dtl::enum\_name\_map<T>)\ \{}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(name))\ \{}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{e,\ str.substr(name.size())\};}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ AllowNumbers)}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}});}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser}}\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int<std::underlying\_type\_t<T>}}>;}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser}}\{\}(str);}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{Error::invalid\_value}});}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(res.value),\ res.rest\};}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00683\ \ \ \ \ \}}
+\DoxyCodeLine{00684\ \ \ \}}
+\DoxyCodeLine{00685\ \};}
+\DoxyCodeLine{00690\ \textcolor{keyword}{template}\ <traits::Sequence\ T,\ ParserOf<\textcolor{keyword}{typename}\ T::value\_type>\ ElementParser,}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Delimiter\ =\ ','>}
+\DoxyCodeLine{00692\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_sequence}{Sequence}}\ :\ \textcolor{keyword}{private}\ ElementParser\ \{}
+\DoxyCodeLine{00693\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00694\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_sequence_afd8c6f81a9bdb6dde559a299afc1e7c9}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00695\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00697\ }
+\DoxyCodeLine{00698\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00700\ }
+\DoxyCodeLine{00701\ \ \ \ \ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(str.substr(1));}
+\DoxyCodeLine{00702\ }
+\DoxyCodeLine{00703\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00705\ }
+\DoxyCodeLine{00706\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T\{\},\ str.substr(1)\};}
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ \ \ \ \ T\ sequence;}
+\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordflow}{while}\ (str.size()\ >\ 0)\ \{}
+\DoxyCodeLine{00711\ }
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult}}\ res\ =\ parse\_value(str);}
+\DoxyCodeLine{00713\ }
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_adf6e0fb864fd79ae7ea07608d2f0e0a5}{error}};}
+\DoxyCodeLine{00716\ }
+\DoxyCodeLine{00717\ \ \ \ \ \ \ sequence.push\_back(std::move(res.\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_aac7e2020edbbc9ad1b3881e72057903a}{value}}));}
+\DoxyCodeLine{00718\ }
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res.\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}}.size()\ ==\ 0)}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00721\ }
+\DoxyCodeLine{00722\ \ \ \ \ \ \ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(res.\mbox{\hyperlink{structcli_1_1parse_1_1_parse_result_a4eb74a708ed3670351256fa00b98bdec}{rest}});}
+\DoxyCodeLine{00723\ }
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00726\ }
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{sequence,\ str.substr(1)\};}
+\DoxyCodeLine{00729\ }
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ \mbox{\hyperlink{namespacecli_ae6e97177407b9c789718a09b168d6d67}{Delimiter}})}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(str.substr(1));}
+\DoxyCodeLine{00734\ \ \ \ \ \}}
+\DoxyCodeLine{00735\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00736\ \ \ \}}
+\DoxyCodeLine{00737\ }
+\DoxyCodeLine{00738\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00739\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<typename\ T::value\_type>}}}
+\DoxyCodeLine{00740\ \ \ parse\_value(std::string\_view\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00741\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }ElementParser\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\textcolor{keyword}{operator}()(sv);}
+\DoxyCodeLine{00742\ \ \ \}}
+\DoxyCodeLine{00743\ \};}
+\DoxyCodeLine{00744\ }
+\DoxyCodeLine{00745\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{DefaultParse}};}
+\DoxyCodeLine{00746\ }
+\DoxyCodeLine{00747\ \textcolor{keyword}{template}\ <traits::Struct\ T>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{namespacecli_1_1parse_ac3ff6c02854b55cf3db81e200f23cabf}{generate\_regex}}()\ \{\};}
+\DoxyCodeLine{00748\ }
+\DoxyCodeLine{00749\ \textcolor{keyword}{template}\ <traits::Integer\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{DefaultParse}}<T>\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int}}<T>\ \{\};}
+\DoxyCodeLine{00750\ }
+\DoxyCodeLine{00751\ \textcolor{keyword}{template}\ <traits::Float\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{DefaultParse}}<T>\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcli_1_1parse_1_1_float}{Float}}<T>\ \{\};}
+\DoxyCodeLine{00752\ }
+\DoxyCodeLine{00753\ \textcolor{keyword}{template}\ <traits::FixPo\textcolor{keywordtype}{int}\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ FixPoint<T>\ \{\};}
+\DoxyCodeLine{00754\ }
+\DoxyCodeLine{00755\ \textcolor{keyword}{template}\ <traits::String\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ String<T>\ \{\};}
+\DoxyCodeLine{00756\ }
+\DoxyCodeLine{00757\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{DefaultParse}}<bool>\ \{}
+\DoxyCodeLine{00758\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::string\_view\ truthy[]\{\textcolor{stringliteral}{"{}true"{}},\ \textcolor{stringliteral}{"{}TRUE"{}},\ \textcolor{stringliteral}{"{}1"{}},\ \textcolor{stringliteral}{"{}yes"{}},\ \textcolor{stringliteral}{"{}y"{}}\};}
+\DoxyCodeLine{00759\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::string\_view\ falsy[]\{\textcolor{stringliteral}{"{}false"{}},\ \textcolor{stringliteral}{"{}FALSE"{}},\ \textcolor{stringliteral}{"{}0"{}},\ \textcolor{stringliteral}{"{}no"{}},\ \textcolor{stringliteral}{"{}n"{}}\};}
+\DoxyCodeLine{00760\ }
+\DoxyCodeLine{00761\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00762\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<bool>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse_3_01bool_01_4_a3b03cfbc8a8e795f35832c7dc319aa11}{operator()}}(std::string\_view\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00763\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00765\ }
+\DoxyCodeLine{00766\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&t\ :\ truthy)}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.starts\_with(t))}
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{true},\ sv.substr(t.size())\};}
+\DoxyCodeLine{00769\ }
+\DoxyCodeLine{00770\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&f\ :\ falsy)}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.starts\_with(f))}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{false},\ sv.substr(f.size())\};}
+\DoxyCodeLine{00773\ }
+\DoxyCodeLine{00774\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00775\ \ \ \}}
+\DoxyCodeLine{00776\ \};}
+\DoxyCodeLine{00777\ }
+\DoxyCodeLine{00778\ \textcolor{keyword}{template}\ <traits::Sequence\ T>}
+\DoxyCodeLine{00779\ \textcolor{keyword}{class\ }DefaultParse<T>}
+\DoxyCodeLine{00780\ \ \ \ \ :\ \textcolor{keyword}{public}\ Sequence<T,\ DefaultParse<typename\ T::value\_type>>\ \{\};}
+\DoxyCodeLine{00781\ }
+\DoxyCodeLine{00782\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},\ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},}
+\DoxyCodeLine{00783\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'},\ \textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00784\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_field_group}{FieldGroup}}\ \{}
+\DoxyCodeLine{00785\ \ \ \textcolor{keyword}{struct\ }State\ \{}
+\DoxyCodeLine{00786\ \ \ \ \ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ error\ =\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};}
+\DoxyCodeLine{00787\ \ \ \ \ std::size\_t\ consumed\ =\ 0;}
+\DoxyCodeLine{00788\ \ \ \ \ \textcolor{keywordtype}{bool}\ initialized[\textcolor{keyword}{sizeof}...(Fields)]\{\};}
+\DoxyCodeLine{00789\ \ \ \ \ std::tuple<Fields...>\ \&fields\_;}
+\DoxyCodeLine{00790\ \ \ \};}
+\DoxyCodeLine{00791\ }
+\DoxyCodeLine{00792\ \ \ \textcolor{keyword}{using\ }Pair\ =}
+\DoxyCodeLine{00793\ \ \ \ \ \ \ std::pair<std::string\_view,\ void\ (*)(State\ \&,\ std::string\_view\ \&)>;}
+\DoxyCodeLine{00794\ }
+\DoxyCodeLine{00795\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Pair\ parsers[]\{}
+\DoxyCodeLine{00796\ \ \ \ \ \ \ Pair\{std::string\_view(\textcolor{keyword}{typename}\ Fields::name\{\}),}
+\DoxyCodeLine{00797\ \ \ \ \ \ \ \ \ \ \ \ +[](State\ \&state,\ std::string\_view\ \&sv)\ \{}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{DefaultParse<typename\ Fields::type>}}\{\}(sv);}
+\DoxyCodeLine{00799\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state.error\ =\ res.error;}
+\DoxyCodeLine{00801\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00802\ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00803\ }
+\DoxyCodeLine{00804\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ index\ =}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ type\_list::index\_of\_v<Fields,\ std::tuple<Fields...>>;}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parse\ success\ -\/>\ set\ value\ and\ remember\ that\ this\ field}}
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ has\ been\ initialized}}
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::get<index>(state.fields\_).value\ =\ res.value;}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ state.initialized[index]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \ \ \ \ \ ++state.consumed;}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(res.rest);}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \ \ \ \}\}...\};}
+\DoxyCodeLine{00813\ }
+\DoxyCodeLine{00814\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00815\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult}}<std::tuple<Fields...>>}
+\DoxyCodeLine{00816\ \ \ \mbox{\hyperlink{classcli_1_1parse_1_1_field_group_a78391891fed84074be3688b475ae6c8f}{operator()}}(std::string\_view\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00817\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00818\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00819\ }
+\DoxyCodeLine{00820\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Prefix\ ==\ \textcolor{charliteral}{'\ '})}
+\DoxyCodeLine{00821\ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv);}
+\DoxyCodeLine{00822\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ ==\ Prefix)\ \{}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(1));}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00828\ \ \ \ \ \}}
+\DoxyCodeLine{00829\ }
+\DoxyCodeLine{00830\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00832\ \ \ \ \ std::tuple<Fields...>\ fields\{\};}
+\DoxyCodeLine{00833\ }
+\DoxyCodeLine{00834\ \ \ \ \ State\ s\{.error\ =\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}},}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ \ \ .consumed\ =\ 0,}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \ \ .initialized\ =\ \{\},}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \ \ \ \ .fields\_\ =\ fields\};}
+\DoxyCodeLine{00838\ }
+\DoxyCodeLine{00839\ \ \ \ \ std::size\_t\ pos\_index\ =\ 0;}
+\DoxyCodeLine{00840\ }
+\DoxyCodeLine{00841\ \ \ \ \ \textcolor{keywordflow}{while}\ (s.error\ ==\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}}\ and\ s.consumed\ <\ \textcolor{keyword}{sizeof}...(Fields))\ \{}
+\DoxyCodeLine{00842\ \ \ \ \ \ \ std::size\_t\ parser\_index\ =\ 0;}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_named\_member\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[name,\ parser]\ :\ parsers)\ \{}
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.starts\_with(name))\ \{}
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ stripping\ name}}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(name.size()));}
+\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00851\ }
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ now\ the\ assignment\ character\ is\ expected.\ If\ it\ is\ not\ present,}}
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ then\ this\ has\ to\ be\ a\ value}}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ Assignment)\ \{}
+\DoxyCodeLine{00855\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00856\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00857\ }
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ consume\ the\ assignment\ character\ and\ trailing\ whitespace}}
+\DoxyCodeLine{00859\ \ \ \ \ \ \ \ \ \ \ str\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(str.substr(1));}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00861\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00863\ }
+\DoxyCodeLine{00864\ \ \ \ \ \ \ \ \ \ \ sv\ =\ str;}
+\DoxyCodeLine{00865\ \ \ \ \ \ \ \ \ \ \ is\_named\_member\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00866\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00867\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ \ \ ++parser\_index;}
+\DoxyCodeLine{00869\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00870\ }
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ is\_named\_member)\ \{}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ member\ is\ unnamed,\ put\ it\ into\ the\ first\ uninitialized\ slot}}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pos\_index\ <\ \textcolor{keyword}{sizeof}...(Fields);\ ++pos\_index)\ \{}
+\DoxyCodeLine{00874\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ s.initialized[pos\_index])\ \{}
+\DoxyCodeLine{00875\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00876\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00878\ \ \ \ \ \ \ \ \ parser\_index\ =\ pos\_index;}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00880\ \ \ \ \ \ \ (*(parsers[parser\_index].second))(s,\ sv);}
+\DoxyCodeLine{00881\ }
+\DoxyCodeLine{00882\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.error\ !=\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}})\ \{}
+\DoxyCodeLine{00883\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.error;}
+\DoxyCodeLine{00884\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00885\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.consumed\ ==\ \textcolor{keyword}{sizeof}...(Fields))\ \{}
+\DoxyCodeLine{00886\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ should\ be\ done}}
+\DoxyCodeLine{00887\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Postfix\ ==\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00888\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{fields,\ sv\};}
+\DoxyCodeLine{00889\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00890\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00891\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00892\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Postfix)}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00895\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{fields,\ sv.substr(1)\};}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error\ ::too\_few\_characters;}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ MemberSeparator)}
+\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ s.error\ =\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00904\ }
+\DoxyCodeLine{00905\ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(1));}
+\DoxyCodeLine{00906\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00907\ \ \ \ \ \}}
+\DoxyCodeLine{00908\ \ \ \ \ \textcolor{keywordflow}{if}\ (s.error\ !=\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}})}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.error;}
+\DoxyCodeLine{00910\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00911\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fields;}
+\DoxyCodeLine{00912\ \ \ \}}
+\DoxyCodeLine{00913\ \};}
+\DoxyCodeLine{00914\ }
+\DoxyCodeLine{00915\ \textcolor{keyword}{template}\ <\mbox{\hyperlink{conceptcli_1_1traits_1_1_struct}{traits::Struct}}\ T,\ \textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},}
+\DoxyCodeLine{00916\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},\ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'}>}
+\DoxyCodeLine{00917\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for}{field\_parser\_for}}\ \{}
+\DoxyCodeLine{00918\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00919\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classcli_1_1parse_1_1_field_group}{type\_}}\ =}
+\DoxyCodeLine{00920\ \ \ \ \ \ \ \mbox{\hyperlink{classcli_1_1parse_1_1_field_group}{FieldGroup}}<Assignment,\ MemberSeparator,\ Prefix,\ Postfix,\ Fields...>;}
+\DoxyCodeLine{00921\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for_a00e888c54f503ce917ef0b874f1ae64b}{type}}\ =\ \mbox{\hyperlink{namespacecli_1_1type__list_a4d671555f17ada1ec24a98d23f10fdd9}{type\_list::apply\_t<type\_,\ typename\ ctti::TypeInfo<T>::fields}}>;}
+\DoxyCodeLine{00922\ \};}
+\DoxyCodeLine{00923\ }
+\DoxyCodeLine{00924\ \textcolor{keyword}{template}\ <traits::Struct\ T,\ \textcolor{keyword}{class}\ Name\ =\ \textcolor{keywordtype}{string}\_constant<>,}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Assignment\ =\ '=',\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ ',',\ \textcolor{keywordtype}{char}\ Prefix\ =\ '\{',}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ '\}'>}
+\DoxyCodeLine{00927\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_struct}{Struct}}}
+\DoxyCodeLine{00928\ \ \ \ \ :\ \mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for}{field\_parser\_for}}<T,\ Assignment,\ MemberSeparator,\ Prefix,\ Postfix>::type\ \{}
+\DoxyCodeLine{00929\ \ \ \textcolor{keyword}{using\ }Base\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for}{field\_parser\_for}}<T,\ Assignment,\ MemberSeparator,\ Prefix,}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Postfix>::type;}
+\DoxyCodeLine{00931\ }
+\DoxyCodeLine{00932\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00933\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<T>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_struct_afca7638a22152a8e2c325504a9b42ca8}{operator()}}(std::string\_view\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00934\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00935\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00936\ }
+\DoxyCodeLine{00937\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Name::string\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1_string_literal}{StringLiteral}}\ name\{\mbox{\hyperlink{conceptcli_1_1_name}{Name}}\{\}\};}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name.size()\ >\ 0\ and\ sv.starts\_with(name))\ \{}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ named\ struct}}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(name.size()));}
+\DoxyCodeLine{00942\ }
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00945\ }
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Assignment)}
+\DoxyCodeLine{00947\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00948\ }
+\DoxyCodeLine{00949\ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(1));}
+\DoxyCodeLine{00950\ }
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{Error::too\_few\_characters}};}
+\DoxyCodeLine{00953\ }
+\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Prefix)}
+\DoxyCodeLine{00955\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{Error::invalid\_character}};}
+\DoxyCodeLine{00956\ }
+\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ sv\ =\ \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\_ws}}(sv.substr(1));}
+\DoxyCodeLine{00958\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00959\ \ \ \ \ \}}
+\DoxyCodeLine{00960\ }
+\DoxyCodeLine{00961\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }Base\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\textcolor{keyword}{operator}()(sv))}
+\DoxyCodeLine{00962\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{ctti::from\_tuple<T>(res.value),\ res.rest\};}
+\DoxyCodeLine{00963\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00964\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00965\ \ \ \}}
+\DoxyCodeLine{00966\ \};}
+\DoxyCodeLine{00967\ }
+\DoxyCodeLine{00968\ \textcolor{keyword}{template}\ <traits::Struct\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ Struct<T>\ \{\};}
+\DoxyCodeLine{00969\ }
+\DoxyCodeLine{00970\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_null_parse}{NullParse}}\ \{}
+\DoxyCodeLine{00971\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00972\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{ParseResult<dummy>}}\ \mbox{\hyperlink{classcli_1_1parse_1_1_null_parse_a299cc2692b545666c8a3cc17d0634d4e}{operator()}}(\mbox{\hyperlink{namespacecli_abc45194999f8f7d611db983654ad0741}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00973\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\mbox{\hyperlink{structcli_1_1dummy}{dummy}}\{\},\ str\};}
+\DoxyCodeLine{00974\ \ \ \}}
+\DoxyCodeLine{00975\ \};}
+\DoxyCodeLine{00976\ }
+\DoxyCodeLine{00977\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{00978\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }Tuple,\ std::size\_t\ I,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00979\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ parse\_args\_impl(Tuple\ \&t,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{ArgVector}}\ \&v,}
+\DoxyCodeLine{00980\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::index\_sequence<I,\ Is...>)\ \{}
+\DoxyCodeLine{00981\ \ \ DefaultParse<std::tuple\_element\_t<I,\ Tuple>>\ parser;}
+\DoxyCodeLine{00982\ \ \ \textcolor{keyword}{auto}\ res\ =\ parser(v[I]);}
+\DoxyCodeLine{00983\ \ \ \textcolor{keywordflow}{if}\ (res.error\ !=\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}})}
+\DoxyCodeLine{00984\ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00985\ \ \ std::get<I>(t)\ =\ res.value;}
+\DoxyCodeLine{00986\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Is)\ ==\ 0)\ \{}
+\DoxyCodeLine{00987\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};}
+\DoxyCodeLine{00988\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00989\ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_args\_impl(t,\ v,\ std::index\_sequence<Is...>());}
+\DoxyCodeLine{00990\ \ \ \}}
+\DoxyCodeLine{00991\ \}}
+\DoxyCodeLine{00992\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{00993\ }
+\DoxyCodeLine{00994\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Tuple>}
+\DoxyCodeLine{00995\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}\ \mbox{\hyperlink{namespacecli_1_1parse_a2a8d64c41c99cec1405844cd46ce9c95}{parse\_args}}(Tuple\ \&t,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{ArgVector}}\ \&v)\ \{}
+\DoxyCodeLine{00996\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::tuple\_size\_v<Tuple>\ ==\ 0)}
+\DoxyCodeLine{00997\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{Error::none}};}
+\DoxyCodeLine{00998\ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00999\ \ \ \ \ \textcolor{keywordflow}{if}\ (v.size()\ !=\ std::tuple\_size\_v<Tuple>)\ \{}
+\DoxyCodeLine{01000\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea23ff7e9efb2f4295d3f14ee5b065a6c2}{Error::incorrect\_num\_params}};}
+\DoxyCodeLine{01001\ \ \ \ \ \}}
+\DoxyCodeLine{01002\ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_args\_impl(}
+\DoxyCodeLine{01003\ \ \ \ \ \ \ \ \ t,\ v,\ std::make\_index\_sequence<std::tuple\_size\_v<Tuple>>());}
+\DoxyCodeLine{01004\ \ \ \}}
+\DoxyCodeLine{01005\ \}}
+\DoxyCodeLine{01006\ }
+\DoxyCodeLine{01007\ \textcolor{comment}{//\ template\ <char\ Assignment\ =\ '=',\ char\ MemberSeparator\ =\ '\ ',}}
+\DoxyCodeLine{01008\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ char\ ListSeparator\ =\ ','>}}
+\DoxyCodeLine{01009\ \textcolor{comment}{//\ struct\ StructParseTraits\ \{}}
+\DoxyCodeLine{01010\ \textcolor{comment}{//\ \ \ //\ an\ identifier\ starts\ with\ an\ alphabetic\ character,\ folowed\ by\ any}}
+\DoxyCodeLine{01011\ \textcolor{comment}{//\ \ \ amount\ of}}
+\DoxyCodeLine{01012\ \textcolor{comment}{//\ \ \ //\ alphanumeric\ or\ '\_'\ characters,}}
+\DoxyCodeLine{01013\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ identifier\ =\ "{}([a-\/zA-\/Z]\(\backslash\)\(\backslash\)w*)"{}\_sc;}}
+\DoxyCodeLine{01014\ \textcolor{comment}{//\ \ \ //\ a\ value\ is\ a\ (quoted)\ string\ of\ non\ white\ space\ characters}}
+\DoxyCodeLine{01015\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\ =\ "{}(?:\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{})"{}\_sc;}}
+\DoxyCodeLine{01016\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\_with\_ws\ =}}
+\DoxyCodeLine{01017\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\(\backslash\)\(\backslash\)s*(?<value>\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{}|\(\backslash\)\(\backslash\)S+)"{}\_sc;}}
+\DoxyCodeLine{01018\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ any\_ws\ =\ "{}\(\backslash\)\(\backslash\)s*"{}\_sc;}}
+\DoxyCodeLine{01019\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ assignment\ =\ string\_constant<Assignment>\{\};}}
+\DoxyCodeLine{01020\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::conditional\_t<MemberSeparator\ ==\ '\ ',}}
+\DoxyCodeLine{01021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<decltype(any\_ws)>,}}
+\DoxyCodeLine{01022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ string\_constant<MemberSeparator>>}}
+\DoxyCodeLine{01023\ \textcolor{comment}{//\ \ \ \ \ \ \ separator\{\};}}
+\DoxyCodeLine{01024\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::conditional\_t<ListSeparator\ ==\ '\ ',}}
+\DoxyCodeLine{01025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<decltype(any\_ws)>,}}
+\DoxyCodeLine{01026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ string\_constant<ListSeparator>>}}
+\DoxyCodeLine{01027\ \textcolor{comment}{//\ \ \ \ \ \ \ list\_separator\{\};}}
+\DoxyCodeLine{01028\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\_list\ =\ value\ +\ list\_separator\ +\ "{}?"{}\_sc;}}
+\DoxyCodeLine{01029\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ id\_value\_pair\ =}}
+\DoxyCodeLine{01030\ \textcolor{comment}{//\ \ \ \ \ \ \ identifier\ +\ any\_ws\ +\ assignment\ +\ any\_ws\ +\ value;}}
+\DoxyCodeLine{01031\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ obj\_kv\_pair\ =}}
+\DoxyCodeLine{01032\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}(?<kv>(?<kv-\/id>[a-\/zA-\/Z]\(\backslash\)\(\backslash\)w*)"{}\_sc\ +\ any\_ws\ +\ assignment\ +\ any\_ws\ +}}
+\DoxyCodeLine{01033\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}(?<kv-\/value>\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{}))"{}\_sc;}}
+\DoxyCodeLine{01034\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ obj\_value\ =}}
+\DoxyCodeLine{01035\ \textcolor{comment}{//\ \ \ "{}(?<value>\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{})"{}\_sc;}}
+\DoxyCodeLine{01036\ \textcolor{comment}{//\ \ \ //\ objct:\ \{members...\}}}
+\DoxyCodeLine{01037\ \textcolor{comment}{//\ \ \ //\ mebers:\ value|id\_value\_pair|value\_list}}
+\DoxyCodeLine{01038\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ object\ =}}
+\DoxyCodeLine{01039\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\{"{}\_sc\ +\ obj\_value\ +\ "{}|"{}\_sc\ +\ obj\_kv\_pair\ +\ "{}|"{}\_sc\ +\ value\_list\ +}}
+\DoxyCodeLine{01040\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\}"{}\_sc;}}
+\DoxyCodeLine{01041\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::string\_view\ parse\_kv(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01042\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ w\ =\ ctre::match<id\_value\_pair.to\_fixed\_string()>(sv);\ w)}}
+\DoxyCodeLine{01043\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ w.to\_view();}}
+\DoxyCodeLine{01044\ \textcolor{comment}{//\ \ \ \ \ else}}
+\DoxyCodeLine{01045\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01046\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01047\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::string\_view\ parse\_vl(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01048\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ m\ =\ ctre::match<value\_list.to\_fixed\_string()>(sv);\ m)\ \{}}
+\DoxyCodeLine{01049\ \textcolor{comment}{//}}
+\DoxyCodeLine{01050\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ m.to\_view();}}
+\DoxyCodeLine{01051\ \textcolor{comment}{//\ \ \ \ \ \}\ else}}
+\DoxyCodeLine{01052\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01053\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01054\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::string\_view\ parse\_v(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01055\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ m\ =\ ctre::match<value.to\_fixed\_string()>(sv);\ m)}}
+\DoxyCodeLine{01056\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ m.to\_view();}}
+\DoxyCodeLine{01057\ \textcolor{comment}{//\ \ \ \ \ else}}
+\DoxyCodeLine{01058\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01059\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01060\ \textcolor{comment}{//}}
+\DoxyCodeLine{01061\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01062\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01063\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01064\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01065\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01066\ \textcolor{comment}{//\ \ \ \ \ std::string\_view\ value;}}
+\DoxyCodeLine{01067\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01068\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01069\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value.size()\ ==\ 0)}}
+\DoxyCodeLine{01070\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01071\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ !=\ Assignment)\ \{}}
+\DoxyCodeLine{01072\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01073\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01074\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(value.substr(1));}}
+\DoxyCodeLine{01075\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01076\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ sv;}}
+\DoxyCodeLine{01077\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01078\ \textcolor{comment}{//\ \ \ \ \ return\ DefaultParse<T>\{\}(value);}}
+\DoxyCodeLine{01079\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01080\ \textcolor{comment}{//}}
+\DoxyCodeLine{01081\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01082\ \textcolor{comment}{//\ \ \ \ \ requires\ traits::Sequence<T>}}
+\DoxyCodeLine{01083\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01084\ \textcolor{comment}{//\ \ \ \ \ using\ value\_type\ =\ typename\ T::value\_type;}}
+\DoxyCodeLine{01085\ \textcolor{comment}{//}}
+\DoxyCodeLine{01086\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01087\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01088\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01089\ \textcolor{comment}{//}}
+\DoxyCodeLine{01090\ \textcolor{comment}{//\ \ \ \ \ if\ (sv[0]\ ==\ '[')\ \{\ //\ unnamed\ field}}
+\DoxyCodeLine{01091\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01092\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01093\ \textcolor{comment}{//\ \ \ \ \ \ \ //\ named\ field}}
+\DoxyCodeLine{01094\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01095\ \textcolor{comment}{//}}
+\DoxyCodeLine{01096\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01097\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01098\ \textcolor{comment}{//}}
+\DoxyCodeLine{01099\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv[0]\ !=\ Assignment)}}
+\DoxyCodeLine{01100\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01101\ \textcolor{comment}{//}}
+\DoxyCodeLine{01102\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01103\ \textcolor{comment}{//}}
+\DoxyCodeLine{01104\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01105\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01106\ \textcolor{comment}{//}}
+\DoxyCodeLine{01107\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv[0]\ !=\ '[')}}
+\DoxyCodeLine{01108\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01109\ \textcolor{comment}{//}}
+\DoxyCodeLine{01110\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01111\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01112\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01113\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01114\ \textcolor{comment}{//}}
+\DoxyCodeLine{01115\ \textcolor{comment}{//\ \ \ \ \ DefaultParse<T>\ parse\_value;}}
+\DoxyCodeLine{01116\ \textcolor{comment}{//\ \ \ \ \ T\ sequence;}}
+\DoxyCodeLine{01117\ \textcolor{comment}{//\ \ \ \ \ std::string\_view\ value\ =\ sv;}}
+\DoxyCodeLine{01118\ \textcolor{comment}{//\ \ \ \ \ while\ (value.size()\ >\ 0)\ \{}}
+\DoxyCodeLine{01119\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ ==\ ']')}}
+\DoxyCodeLine{01120\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01121\ \textcolor{comment}{//}}
+\DoxyCodeLine{01122\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (auto\ res\ =\ parse\_value(value))\ \{}}
+\DoxyCodeLine{01123\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ //\ could\ parse\ a\ value}}
+\DoxyCodeLine{01124\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ sequence.push\_back(res.value);}}
+\DoxyCodeLine{01125\ \textcolor{comment}{//}}
+\DoxyCodeLine{01126\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (res.rest.size()\ ==\ 0)}}
+\DoxyCodeLine{01127\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01128\ \textcolor{comment}{//}}
+\DoxyCodeLine{01129\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ auto\ str\ =\ skip\_ws(res.rest);}}
+\DoxyCodeLine{01130\ \textcolor{comment}{//}}
+\DoxyCodeLine{01131\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str.size()\ ==\ 0)}}
+\DoxyCodeLine{01132\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01133\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str[0]\ ==\ ']')}}
+\DoxyCodeLine{01134\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01135\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str[0]\ !=\ ListSeparator)}}
+\DoxyCodeLine{01136\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01137\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ else\ \{}}
+\DoxyCodeLine{01138\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ value\ =\ skip\_ws(str.substr(1));}}
+\DoxyCodeLine{01139\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01140\ \textcolor{comment}{//\ \ \ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01141\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ //\ couldn't\ parse\ a\ value}}
+\DoxyCodeLine{01142\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (value[0]\ ==\ ']')}}
+\DoxyCodeLine{01143\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01144\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{01145\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ res.error;}}
+\DoxyCodeLine{01146\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01147\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01148\ \textcolor{comment}{//\ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01149\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01150\ \textcolor{comment}{//}}
+\DoxyCodeLine{01151\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01152\ \textcolor{comment}{//\ \ \ \ \ requires(not(traits::Struct<T>\ or\ traits::Sequence<T>))}}
+\DoxyCodeLine{01153\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(std::string\_view\ sv)\ \{}}
+\DoxyCodeLine{01154\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01155\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01156\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01157\ \textcolor{comment}{//\ \ \ \ \ std::string\_view\ value;}}
+\DoxyCodeLine{01158\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01159\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01160\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value.size()\ ==\ 0)}}
+\DoxyCodeLine{01161\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01162\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ !=\ Assignment)\ \{}}
+\DoxyCodeLine{01163\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01164\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01165\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(value.substr(1));}}
+\DoxyCodeLine{01166\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01167\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ sv;}}
+\DoxyCodeLine{01168\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01169\ \textcolor{comment}{//\ \ \ \ \ return\ DefaultParse<T>\{\}(value);}}
+\DoxyCodeLine{01170\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01171\ \textcolor{comment}{//}}
+\DoxyCodeLine{01172\ \textcolor{comment}{//\ \ \ template\ <std::size\_t\ N,\ class\ T>}}
+\DoxyCodeLine{01173\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_fields(std::string\_view\ sv,}}
+\DoxyCodeLine{01174\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ctti::field\_tuple\_t<T>}}
+\DoxyCodeLine{01175\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&fields)\ \{}}
+\DoxyCodeLine{01176\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01177\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01178\ \textcolor{comment}{//}}
+\DoxyCodeLine{01179\ \textcolor{comment}{//\ \ \ \ \ if\ (sv[0]\ !=\ '\{')\ \{}}
+\DoxyCodeLine{01180\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01181\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01182\ \textcolor{comment}{//}}
+\DoxyCodeLine{01183\ \textcolor{comment}{//\ \ \ \ \ using\ field\_type\ =}}
+\DoxyCodeLine{01184\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ typename\ type\_list::type\_at\_t<N,\ ctti::field\_tuple\_t<T>>::type;}}
+\DoxyCodeLine{01185\ \textcolor{comment}{//\ \ \ \ \ DefaultParse<std::string\_view>\ parse\_string;}}
+\DoxyCodeLine{01186\ \textcolor{comment}{//\ \ \ \ \ if\ constexpr\ (traits::Integer<field\_type>)\ \{}}
+\DoxyCodeLine{01187\ \textcolor{comment}{//\ \ \ \ \ \ \ DefaultParse<field\_type>\ parse\_int;}}
+\DoxyCodeLine{01188\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (auto\ res\ =\ parse\_int(sv))\ \{}}
+\DoxyCodeLine{01189\ \textcolor{comment}{//}}
+\DoxyCodeLine{01190\ \textcolor{comment}{//\ \ \ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01191\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01192\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Float<field\_type>)\ \{}}
+\DoxyCodeLine{01193\ \textcolor{comment}{//}}
+\DoxyCodeLine{01194\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::FixPoint<field\_type>)\ \{}}
+\DoxyCodeLine{01195\ \textcolor{comment}{//}}
+\DoxyCodeLine{01196\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::String<field\_type>)\ \{}}
+\DoxyCodeLine{01197\ \textcolor{comment}{//}}
+\DoxyCodeLine{01198\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Sequence<field\_type>)\ \{}}
+\DoxyCodeLine{01199\ \textcolor{comment}{//}}
+\DoxyCodeLine{01200\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Struct<field\_type>)\ \{}}
+\DoxyCodeLine{01201\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01202\ \textcolor{comment}{//\ \ \ \ \ const\ auto\ rest\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01203\ \textcolor{comment}{//}}
+\DoxyCodeLine{01204\ \textcolor{comment}{//\ \ \ \ \ using\ info\ =\ ctti::TypeInfo<T>;}}
+\DoxyCodeLine{01205\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01206\ \textcolor{comment}{//\ \};}}
+\DoxyCodeLine{01207\ }
+\DoxyCodeLine{01208\ \}\ \textcolor{comment}{//\ namespace\ cli::parse}}
+\DoxyCodeLine{01209\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

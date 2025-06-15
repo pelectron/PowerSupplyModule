@@ -1,0 +1,14 @@
+\doxysection{cli\+::String\+Of Concept Reference}
+\hypertarget{conceptcli_1_1_string_of}{}\label{conceptcli_1_1_string_of}\index{cli::StringOf@{cli::StringOf}}
+
+
+{\ttfamily \#include $<$cli/util.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ C>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1_string_of}{cli::StringOf}}\ =\ \ std::constructible\_from<const\ C\ *,\ const\ C\ *>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{or}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::constructible\_from<const\ C\ *,\ std::size\_t>}
+
+\end{DoxyCode}

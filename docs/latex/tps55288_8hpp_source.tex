@@ -1,0 +1,43 @@
+\doxysection{tps55288.\+hpp}
+\hypertarget{tps55288_8hpp_source}{}\label{tps55288_8hpp_source}\mbox{\hyperlink{tps55288_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_TPS55288\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_TPS55288\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{converter_8hpp}{converter.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{i2c_8hpp}{hal/i2c.hpp}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }tps55288\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a0229313ef20c70c958ba10db80a888e8}{TPS55288}}(\mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal::i2c::Master}}\ \&\mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a17f9d0cae5f2380fd62e456f97d68c1a}{i2c}},\ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \&enbale,}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \&\mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a1ae6cdcda763f22ff0f5e5480210adf9}{cdc}});}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal::i2c::Master}}\ \&\mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a17f9d0cae5f2380fd62e456f97d68c1a}{i2c}};}
+\DoxyCodeLine{00015\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a52fea43d206dc679bc6fbc8367ffa0d1}{enable}};}
+\DoxyCodeLine{00016\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_a1ae6cdcda763f22ff0f5e5480210adf9}{cdc}};}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs}{conv::Specs}}\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288_abc718ab4e6018add48eec72a28300587}{specs}}\{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ .\mbox{\hyperlink{structpsm_1_1conv_1_1_specs_a483ae40210d3f3566f7174157acd8ec2}{v\_min}}\{0.8f\},\ .v\_max\{22.0f\},\ .i\_min\{0.0f\},\ .i\_max\{10.0f\}\};}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a86b4132e4a234a3f5732646a9594d682}{get}}(conv::enabled,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv)\ \{\}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a1550eb870b339937c612ea20344ebaf7}{set}}(conv::enabled,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv,\ \textcolor{keywordtype}{bool}\ en)\ \{\}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a86b4132e4a234a3f5732646a9594d682}{get}}(conv::voltage,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv)\ \{\}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a1550eb870b339937c612ea20344ebaf7}{set}}(conv::voltage,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv,\ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ v)\ \{\}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a86b4132e4a234a3f5732646a9594d682}{get}}(conv::current,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv)\ \{\}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a1550eb870b339937c612ea20344ebaf7}{set}}(conv::current,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv,\ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ i)\ \{\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \mbox{\hyperlink{classpsm_1_1_celcius}{Celcius}}\ \mbox{\hyperlink{namespacepsm_1_1tps55288_a86b4132e4a234a3f5732646a9594d682}{get}}(conv::temperature,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv)\ \{\}}
+\DoxyCodeLine{00034\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs}{conv::Specs}}\ \&\mbox{\hyperlink{namespacepsm_1_1tps55288_a86b4132e4a234a3f5732646a9594d682}{get}}(conv::specs,\ \mbox{\hyperlink{structpsm_1_1tps55288_1_1_t_p_s55288}{TPS55288}}\ \&conv)\ \{\}}
+\DoxyCodeLine{00035\ \}\ \textcolor{comment}{//\ namespace\ tps55288}}
+\DoxyCodeLine{00036\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

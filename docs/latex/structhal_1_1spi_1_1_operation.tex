@@ -1,0 +1,145 @@
+\doxysection{hal\+::spi\+::Operation Struct Reference}
+\hypertarget{structhal_1_1spi_1_1_operation}{}\label{structhal_1_1spi_1_1_operation}\index{hal::spi::Operation@{hal::spi::Operation}}
+
+
+{\ttfamily \#include $<$hal/spi.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} \{ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}} = 0
+, \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a7a1a5f3e79fdc91edf2f5ead9d66abb4}{Read}} = 0b01
+, \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a1129c0e4d43f2d121652a7302712cff6}{Write}} = 0b10
+, \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a70a2a84088d405a2e3f1e3accaa16723}{Read\+Write}} = 0b11
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a4e620863122475288eb2f70685a40649}{invoke\+\_\+callback}} (\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}} e)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_adf835142f0d48730c82822fc95e1268b}{master}} = \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{nullptr}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a0f5da4c98d955f441c01962e9b3e3c3d}{callback}} \{\}
+\item 
+std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_af87159ca6ccddc9c50e79d775b18da9b}{write\+\_\+buf}} \{\}
+\item 
+std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_ab77e67f4b3ab866afb653fb0bed40e3d}{read\+\_\+buf}} \{\}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{volatile}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{size\+\_\+t}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a83d4068f97f9858fe233a76581618d33}{read\+\_\+idx}} = 0
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{volatile}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{size\+\_\+t}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a20af30638541386db8c0e778327f0a1b}{write\+\_\+idx}} = 0
+\item 
+\mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_ad08d617b99d185699133491c756c86f8}{next}} = \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{nullptr}}
+\item 
+\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_aa4ded90a0544d1e9789a73acc99a354e}{type}} = \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}{Type\+::none}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{friend}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_aad0c732f4c9dba52319ee1a450da1e7c}{operator\&}} (\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}}, \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}\label{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32} 
+\index{hal::spi::Operation@{hal::spi::Operation}!Type@{Type}}
+\index{Type@{Type}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{hal\+::spi\+::\+Operation\+::\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::spi::Operation@{hal::spi::Operation}}\index{hal::spi::Operation@{hal::spi::Operation}!none@{none}}}\Hypertarget{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Read@{Read}!hal::spi::Operation@{hal::spi::Operation}}\index{hal::spi::Operation@{hal::spi::Operation}!Read@{Read}}}\Hypertarget{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a7a1a5f3e79fdc91edf2f5ead9d66abb4}\label{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a7a1a5f3e79fdc91edf2f5ead9d66abb4} 
+Read&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Write@{Write}!hal::spi::Operation@{hal::spi::Operation}}\index{hal::spi::Operation@{hal::spi::Operation}!Write@{Write}}}\Hypertarget{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a1129c0e4d43f2d121652a7302712cff6}\label{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a1129c0e4d43f2d121652a7302712cff6} 
+Write&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ReadWrite@{ReadWrite}!hal::spi::Operation@{hal::spi::Operation}}\index{hal::spi::Operation@{hal::spi::Operation}!ReadWrite@{ReadWrite}}}\Hypertarget{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a70a2a84088d405a2e3f1e3accaa16723}\label{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a70a2a84088d405a2e3f1e3accaa16723} 
+Read\+Write&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structhal_1_1spi_1_1_operation_a4e620863122475288eb2f70685a40649}\label{structhal_1_1spi_1_1_operation_a4e620863122475288eb2f70685a40649} 
+\index{hal::spi::Operation@{hal::spi::Operation}!invoke\_callback@{invoke\_callback}}
+\index{invoke\_callback@{invoke\_callback}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{invoke\_callback()}{invoke\_callback()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} hal\+::spi\+::\+Operation\+::invoke\+\_\+callback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{structhal_1_1spi_1_1_operation_aad0c732f4c9dba52319ee1a450da1e7c}\label{structhal_1_1spi_1_1_operation_aad0c732f4c9dba52319ee1a450da1e7c} 
+\index{hal::spi::Operation@{hal::spi::Operation}!operator\&@{operator\&}}
+\index{operator\&@{operator\&}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{operator\&}{operator\&}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{friend}} \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} operator\& (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}}]{a,  }\item[{\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structhal_1_1spi_1_1_operation_a0f5da4c98d955f441c01962e9b3e3c3d}\label{structhal_1_1spi_1_1_operation_a0f5da4c98d955f441c01962e9b3e3c3d} 
+\index{hal::spi::Operation@{hal::spi::Operation}!callback@{callback}}
+\index{callback@{callback}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{callback}{callback}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} hal\+::spi\+::\+Operation\+::callback \{\}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_adf835142f0d48730c82822fc95e1268b}\label{structhal_1_1spi_1_1_operation_adf835142f0d48730c82822fc95e1268b} 
+\index{hal::spi::Operation@{hal::spi::Operation}!master@{master}}
+\index{master@{master}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{master}{master}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}}\texorpdfstring{$\ast$}{*} hal\+::spi\+::\+Operation\+::master = \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{nullptr}}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_ad08d617b99d185699133491c756c86f8}\label{structhal_1_1spi_1_1_operation_ad08d617b99d185699133491c756c86f8} 
+\index{hal::spi::Operation@{hal::spi::Operation}!next@{next}}
+\index{next@{next}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}}\texorpdfstring{$\ast$}{*} hal\+::spi\+::\+Operation\+::next = \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{nullptr}}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_ab77e67f4b3ab866afb653fb0bed40e3d}\label{structhal_1_1spi_1_1_operation_ab77e67f4b3ab866afb653fb0bed40e3d} 
+\index{hal::spi::Operation@{hal::spi::Operation}!read\_buf@{read\_buf}}
+\index{read\_buf@{read\_buf}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{read\_buf}{read\_buf}}
+{\footnotesize\ttfamily std\+::span$<$\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}}$>$ hal\+::spi\+::\+Operation\+::read\+\_\+buf \{\}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_a83d4068f97f9858fe233a76581618d33}\label{structhal_1_1spi_1_1_operation_a83d4068f97f9858fe233a76581618d33} 
+\index{hal::spi::Operation@{hal::spi::Operation}!read\_idx@{read\_idx}}
+\index{read\_idx@{read\_idx}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{read\_idx}{read\_idx}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{volatile}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{size\+\_\+t}} hal\+::spi\+::\+Operation\+::read\+\_\+idx = 0}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_aa4ded90a0544d1e9789a73acc99a354e}\label{structhal_1_1spi_1_1_operation_aa4ded90a0544d1e9789a73acc99a354e} 
+\index{hal::spi::Operation@{hal::spi::Operation}!type@{type}}
+\index{type@{type}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}} hal\+::spi\+::\+Operation\+::type = \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}{Type\+::none}}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_af87159ca6ccddc9c50e79d775b18da9b}\label{structhal_1_1spi_1_1_operation_af87159ca6ccddc9c50e79d775b18da9b} 
+\index{hal::spi::Operation@{hal::spi::Operation}!write\_buf@{write\_buf}}
+\index{write\_buf@{write\_buf}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{write\_buf}{write\_buf}}
+{\footnotesize\ttfamily std\+::span$<$\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}}$>$ hal\+::spi\+::\+Operation\+::write\+\_\+buf \{\}}
+
+\Hypertarget{structhal_1_1spi_1_1_operation_a20af30638541386db8c0e778327f0a1b}\label{structhal_1_1spi_1_1_operation_a20af30638541386db8c0e778327f0a1b} 
+\index{hal::spi::Operation@{hal::spi::Operation}!write\_idx@{write\_idx}}
+\index{write\_idx@{write\_idx}!hal::spi::Operation@{hal::spi::Operation}}
+\doxysubsubsection{\texorpdfstring{write\_idx}{write\_idx}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{volatile}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{size\+\_\+t}} hal\+::spi\+::\+Operation\+::write\+\_\+idx = 0}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hal/\mbox{\hyperlink{spi_8hpp}{spi.\+hpp}}\end{DoxyCompactItemize}

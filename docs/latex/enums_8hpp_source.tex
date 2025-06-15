@@ -1,0 +1,82 @@
+\doxysection{enums.\+hpp}
+\hypertarget{enums_8hpp_source}{}\label{enums_8hpp_source}\index{cli/enums.hpp@{cli/enums.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_ENUMS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_ENUMS\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum\ class}\ Error\ :\ std::uint32\_t\ \{}
+\DoxyCodeLine{00008\ \ \ none,}
+\DoxyCodeLine{00009\ \ \ unimplemented,}
+\DoxyCodeLine{00010\ \ \ implementation\_error,}
+\DoxyCodeLine{00011\ \ \ io\_error,}
+\DoxyCodeLine{00012\ \ \ invalid\_argument,}
+\DoxyCodeLine{00013\ \ \ cant\_set\_param,}
+\DoxyCodeLine{00014\ \ \ cant\_read\_param,}
+\DoxyCodeLine{00015\ \ \ invalid\_cmd,}
+\DoxyCodeLine{00016\ \ \ too\_many\_splits,}
+\DoxyCodeLine{00017\ \ \ dual\_separators,}
+\DoxyCodeLine{00018\ \ \ buffer\_overflow,}
+\DoxyCodeLine{00019\ \ \ buffer\_underflow,}
+\DoxyCodeLine{00020\ \ \ incorrect\_num\_params,}
+\DoxyCodeLine{00021\ \ \ too\_many\_argments,}
+\DoxyCodeLine{00022\ \ \ too\_few\_arguments,}
+\DoxyCodeLine{00023\ \ \ invalid\_esc\_seq,}
+\DoxyCodeLine{00024\ \ \ invalid\_state,}
+\DoxyCodeLine{00025\ \ \ expected\_value,}
+\DoxyCodeLine{00026\ \ \ unexpected\_characters\_after\_closing\_paren,}
+\DoxyCodeLine{00027\ \ \ expected\_rparen,}
+\DoxyCodeLine{00028\ \ \ \textcolor{comment}{//\ parse\ errors}}
+\DoxyCodeLine{00029\ \ \ too\_few\_characters,}
+\DoxyCodeLine{00030\ \ \ invalid\_character,}
+\DoxyCodeLine{00031\ \ \ unescaped\_string,}
+\DoxyCodeLine{00032\ \ \ invalid\_value,}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ unknown}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{enum\ class}\ ExecType\ :\ std::uint8\_t\ \{\ get,\ set,\ call\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{namespace\ }ansi\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{enum}\ ASCII\_Codes\ :\ std::uint8\_t\ \{}
+\DoxyCodeLine{00041\ \ \ BEL\ =\ 0x07,}
+\DoxyCodeLine{00042\ \ \ BS\ =\ 0x08,}
+\DoxyCodeLine{00043\ \ \ HT\ =\ 0x09,}
+\DoxyCodeLine{00044\ \ \ LF\ =\ 0x0A,}
+\DoxyCodeLine{00045\ \ \ VT\ =\ 0x0B,}
+\DoxyCodeLine{00046\ \ \ FF\ =\ 0x0C,}
+\DoxyCodeLine{00047\ \ \ CR\ =\ 0x0D,}
+\DoxyCodeLine{00048\ \ \ ESC\ =\ 0x1B,}
+\DoxyCodeLine{00049\ \ \ DEL\ =\ 0x7F}
+\DoxyCodeLine{00050\ \};}
+\DoxyCodeLine{00056\ \textcolor{keyword}{enum}\ C1\ \{}
+\DoxyCodeLine{00057\ \ \ SS2\ =\ 0x8E,}
+\DoxyCodeLine{00058\ \ \ SS3\ =\ 0x8F,}
+\DoxyCodeLine{00059\ \ \ DCS\ =\ 0x90,}
+\DoxyCodeLine{00060\ \ \ CSI\ =\ 0x9B,}
+\DoxyCodeLine{00061\ \ \ ST\ =\ 0x9C,}
+\DoxyCodeLine{00062\ \ \ OSC\ =\ 0x9D,}
+\DoxyCodeLine{00063\ \ \ SOS\ =\ 0x98,}
+\DoxyCodeLine{00064\ \ \ PM\ =\ 0x9E,}
+\DoxyCodeLine{00065\ \ \ APC\ =\ 0x9F}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ \}\ \textcolor{comment}{//\ namespace\ ansi}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{enum\ class}\ Fmt\ \{\ normal\ =\ 1\ <<\ 0,\ hex\ =\ 1\ <<\ 1,\ binary\ =\ 1\ <<\ 2\ \};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{constexpr}\ Fmt\ operator|(Fmt\ a,\ Fmt\ b)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}Fmt\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(a)\ |\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(b));}
+\DoxyCodeLine{00073\ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{constexpr}\ Fmt\ operator\&(Fmt\ a,\ Fmt\ b)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}Fmt\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(a)\ \&\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(b));}
+\DoxyCodeLine{00077\ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,54 @@
+\doxysection{cli Namespace Reference}
+\hypertarget{namespacecli}{}\label{namespacecli}\index{cli@{cli}}
+
+
+This file provides a CLI enginge to build a remote interface upon a byte stream.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}
+\begin{DoxyCompactList}\small\item\em A std\+::string\+\_\+view equivalent. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1_cli}{Cli}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature}{extract\+\_\+signature}}
+\begin{DoxyCompactList}\small\item\em extracts the signature from a callable F, respecting const, volatile and noexcept qualifications. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}
+\begin{DoxyCompactList}\small\item\em A \doxylink{structcli_1_1string__constant}{string\+\_\+constant} is a compile time string. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1_terminal}{Terminal}}
+\begin{DoxyCompactList}\small\item\em The terminal represents the output device, i.\+e. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1_tracker}{Tracker}}
+\begin{DoxyCompactList}\small\item\em The \doxylink{classcli_1_1_tracker}{Tracker} is responsible for parsing the command name input into a Command\+Node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file provides a CLI enginge to build a remote interface upon a byte stream. 
+
+The basics\+:
+\begin{DoxyItemize}
+\item the cli is a hierarchical tree of commands
+\item a command has the following properties\+:
+\begin{DoxyItemize}
+\item a name\+: a string to identify the command
+\item a description\+: a string to display for help messages
+\item the function to execute
+\item and optionally, any amount of sub commands
+\item the command sequence\+: this sequence specifies the command to execute
+\item the arg sequence\+: this sequence specifies the command\textquotesingle{}s arguments
+\end{DoxyItemize}
+\item the root is owned by the \doxylink{classcli_1_1_cli}{Cli} structure.
+\item commands with the root as parents are called root commands.
+\end{DoxyItemize}
+
+c++ syntax\+: {\ttfamily auto my\+\_\+cli = cli\+::cli(config, commands...);} a command\+: {\ttfamily cli\+::cmd("{}\mbox{[}any.\+path.\mbox{]}name"{}, func)}\+: a "{}free function"{} command. This cannot have subcommands. {\ttfamily cli\+::cmd("{}\mbox{[}any.\+path.\mbox{]}name"{}, obj\+\_\+reference, sub\+\_\+commands...)\+: an "{}object"{} command is added. This must have subcommands }cli\+::cmd("{}\mbox{[}any.\+path.\mbox{]}name"{}, const\+\_\+obj\+\_\+reference, get)\+: a retrievable parameter is added.
+
+syntax\+:
+\begin{DoxyItemize}
+\item "{}cmd \mbox{[}args...\mbox{]}"{}\+: invoke the command "{}cmd"{} with optional args
+\item "{}cmd.\+sub \mbox{[}args...\mbox{]}"{}/"{}cmd sub \mbox{[}args...\mbox{]}"{}\+: invoke the command "{}cmd"{} with optional args
+\item "{}get obj.\+property"{}\+: returns the obj\textquotesingle{}s property\textquotesingle{}s value
+\item "{}get.\+obj.\+property"{}\+: returns the obj\textquotesingle{}s property\textquotesingle{}s value
+\item "{}set obj.\+property arg"{}\+: set obj\textquotesingle{}s property value to arg
+\item "{}set.\+obj.\+property arg"{}\+: set obj\textquotesingle{}s property value to arg 
+\end{DoxyItemize}

@@ -1,0 +1,37 @@
+\doxysection{ldo.\+hpp}
+\hypertarget{ldo_8hpp_source}{}\label{ldo_8hpp_source}\mbox{\hyperlink{ldo_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LDO\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LDO\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ad5293_8hpp}{ad5293.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{i2c_8hpp}{hal/i2c.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{spi_8hpp}{hal/spi.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{mcp45_h_v51_8hpp}{mcp45HV51.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{units_8hpp}{units.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_ldo}{Ldo}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_ldo_ac7b743d7cab6b4b677c3883b8aeb020d}{Ldo}}(\mbox{\hyperlink{classhal_1_1spi_1_1_master}{hal::spi::Master}}\ \&spi,\ \mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal::i2c::Master}}\ \&i2c,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \&wlat,\ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ \&shdn);}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}}\ \{\};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}}\ \mbox{\hyperlink{classpsm_1_1_ldo_a79ce8b3ba671a5f680a20cc73193eec9}{enable}}();}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}}\ \mbox{\hyperlink{classpsm_1_1_ldo_ad41638313330b79c8264b61a9ea97a66}{disable}}();}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}}\ \mbox{\hyperlink{classpsm_1_1_ldo_a759fdddbdf541d37acc7f0c6f42a3745}{set\_voltage}}(\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ v);}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}}\ \mbox{\hyperlink{classpsm_1_1_ldo_a00fa24a45f8ab4f91b0090e3bb46f40d}{set\_current}}(\mbox{\hyperlink{classpsm_1_1_current}{Current}}\ i);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{classpsm_1_1_ldo_aea266ee25fa314395df1c0546908298e}{get\_voltage}}();}
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{classpsm_1_1_ldo_a76cb8e16e8cf77fa897c4cca1f1453e3}{get\_current}}();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{class_m_c_p45_h_v51}{MCP45HV51}}\ i\_set\_resistor\_;}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{classpsm_1_1_a_d5293}{AD5293}}\ v\_set\_resistor\_;}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

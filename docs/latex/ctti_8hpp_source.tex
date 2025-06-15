@@ -1,0 +1,1279 @@
+\doxysection{ctti.\+hpp}
+\hypertarget{ctti_8hpp_source}{}\label{ctti_8hpp_source}\index{cli/ctti.hpp@{cli/ctti.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_CTTI\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_CTTI\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/traits.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <source\_location>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ \&\&\ !defined(\_MSC\_VER)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_PREFIX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ "{}std::string\_view\ cli::ctti::dtl::name()\ [T\ =\ "{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_SUFFIX\ "{}]"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)\ \&\&\ !defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_PREFIX\ "{}std::string\_view\ cli::ctti::dtl::name()\ [T\ =\ "{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_SUFFIX\ "{}]"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_PREFIX\ "{}std::string\_view\ \_\_cdecl\ cli::ctti::dtl::name(void)\ [T\ =\ "{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_SUFFIX\ "{}]"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_PREFIX\ "{}class\ std::basic\_string\_view<char,struct\ std::char\_traits<char>\ >\ \_\_cdecl\ cli::ctti::dtl::name<"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_SUFFIX\ "{}>(void)"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#error\ "{}No\ support\ for\ this\ compiler."{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_LEFT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ (sizeof(CTTI\_TYPE\_PRETTY\_FUNCTION\_PREFIX)\ -\/\ 1)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ CTTI\_TYPE\_PRETTY\_FUNCTION\_RIGHT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ (sizeof(CTTI\_TYPE\_PRETTY\_FUNCTION\_SUFFIX)\ -\/\ 1)}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{namespace\ }cli::ctti\ \{}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{template}\ <Name\ N,\ \textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }Field\ \{}
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{using\ }name\ =\ N;}
+\DoxyCodeLine{00042\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00043\ \ \ T\ value;}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00047\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{consteval}\ std::string\_view\ name\_impl()\ \{}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{constexpr}\ std::string\_view\ name\{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ std::source\_location::current().function\_name()\};}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ and\ not\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00052\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}\ "{}})\ +\ 1);}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}\ "{}})\ +\ 1);}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00059\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}\ "{}})\ +\ 1);}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}>"{}}));}
+\DoxyCodeLine{00062\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ pos\ =\ split.find(\textcolor{stringliteral}{"{}impl<"{}});}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split2\ =\ split.substr(pos\ +\ 5);}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ pos\ =\ split2.find(\textcolor{stringliteral}{"{}\ "{}});\ pos\ !=\ std::string\_view::npos)}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return}\ split2.substr(pos\ +\ 1);}
+\DoxyCodeLine{00066\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{return}\ split2;}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00070\ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ name()\ \{}
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordflow}{return}\ []<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{return}\ string\_constant<name\_impl<T>().data()[Is]...>\{\};}
+\DoxyCodeLine{00075\ \ \ \}(std::make\_index\_sequence<name\_impl<T>().size()>());}
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{struct\ }any\_type\ \{}
+\DoxyCodeLine{00079\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ T();}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ TPtr>\ \textcolor{keyword}{struct\ }ptr\ \{}
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{const}\ TPtr\ *ptr;}
+\DoxyCodeLine{00084\ \ \ \textcolor{keyword}{using\ }type\ =\ TPtr;}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ T\ external;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{template}\ <auto\ Ptr>}
+\DoxyCodeLine{00090\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ member\_name\_impl()\ -\/>\ std::string\_view\ \{}
+\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ name\ =}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ std::string\_view\{std::source\_location::current().function\_name()\};}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ and\ not\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00094\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find(\textcolor{stringliteral}{"{}\}]"{}})\ -\/\ 1);}
+\DoxyCodeLine{00095\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}."{}})\ +\ 1);}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00097\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find(\textcolor{stringliteral}{"{})\}"{}}));}
+\DoxyCodeLine{00098\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:"{}})\ +\ 1);}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00101\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find(\textcolor{stringliteral}{"{}\}"{}}));}
+\DoxyCodeLine{00102\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}."{}})\ +\ 1);}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00104\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find(\textcolor{stringliteral}{"{}\}>"{}}));}
+\DoxyCodeLine{00105\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find(\textcolor{stringliteral}{"{}-\/>"{}})\ +\ 2);}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00108\ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{keyword}{template}\ <auto\ Value>}
+\DoxyCodeLine{00111\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ value\_name\_impl()\ -\/>\ std::string\_view\ \{}
+\DoxyCodeLine{00112\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ name\ =}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ std::string\_view\{std::source\_location::current().function\_name()\};}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ and\ not\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00115\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00118\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{};"{}}));}
+\DoxyCodeLine{00119\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00123\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}>"{}}));}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split2\ =\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ <"{}})\ +\ 1);}
+\DoxyCodeLine{00127\ \ \ \textcolor{keywordflow}{return}\ split2.substr(0,\ split2.find\_first\_of(\textcolor{stringliteral}{"{}("{}}));}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00130\ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{template}\ <auto\ \&Value>}
+\DoxyCodeLine{00133\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ object\_name\_impl()\ -\/>\ std::string\_view\ \{}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ name\ =}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ std::string\_view\{std::source\_location::current().function\_name()\};}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ and\ not\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00140\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{};"{}}));}
+\DoxyCodeLine{00141\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00145\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00147\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}>"{}}));}
+\DoxyCodeLine{00148\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split2\ =\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ <"{}})\ +\ 1);}
+\DoxyCodeLine{00149\ \ \ \textcolor{keywordflow}{return}\ split2.substr(0,\ split2.find\_first\_of(\textcolor{stringliteral}{"{}("{}}));}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00152\ \}}
+\DoxyCodeLine{00153\ \textcolor{keyword}{template}\ <auto\ Value>}
+\DoxyCodeLine{00154\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ enum\_name\_impl()\ -\/>\ std::string\_view\ \{}
+\DoxyCodeLine{00155\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ name\ =}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ std::string\_view\{std::source\_location::current().function\_name()\};}
+\DoxyCodeLine{00157\ \ \ \textcolor{keywordflow}{return}\ name;}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)\ and\ not\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00159\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#elif\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{00162\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{};"{}}));}
+\DoxyCodeLine{00163\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#elif\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{00166\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}]"{}}));}
+\DoxyCodeLine{00167\ \ \ \textcolor{keywordflow}{return}\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ "{}})\ +\ 1);}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split\ =\ name.substr(0,\ name.find\_last\_of(\textcolor{stringliteral}{"{}>"{}}));}
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ split2\ =\ split.substr(split.find\_last\_of(\textcolor{stringliteral}{"{}:\ <"{}})\ +\ 1);}
+\DoxyCodeLine{00171\ \ \ \textcolor{keywordflow}{return}\ split2.substr(0,\ split2.find\_first\_of(\textcolor{stringliteral}{"{}("{}}));}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00174\ \}}
+\DoxyCodeLine{00175\ \textcolor{keyword}{template}\ <auto\ V>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ value\_name()\ \{}
+\DoxyCodeLine{00176\ \ \ \textcolor{keywordflow}{return}\ []<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{return}\ string\_constant<value\_name\_impl<V>().data()[Is]...>\{\};}
+\DoxyCodeLine{00178\ \ \ \}(std::make\_index\_sequence<value\_name\_impl<V>().size()>());}
+\DoxyCodeLine{00179\ \}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{template}\ <auto\ \&V>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ object\_name()\ \{}
+\DoxyCodeLine{00182\ \ \ \textcolor{keywordflow}{return}\ []<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{return}\ string\_constant<object\_name\_impl<V>().data()[Is]...>\{\};}
+\DoxyCodeLine{00184\ \ \ \}(std::make\_index\_sequence<object\_name\_impl<V>().size()>());}
+\DoxyCodeLine{00185\ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_identifier(std::string\_view\ sv)\ \{}
+\DoxyCodeLine{00188\ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00190\ \ \ \textcolor{keywordflow}{if}\ (not((sv[0]\ >=\ \textcolor{charliteral}{'a'}\ and\ sv[0]\ <=\ \textcolor{charliteral}{'z'})\ or\ (sv[0]\ >=\ \textcolor{charliteral}{'A'}\ and\ sv[0]\ <=\ \textcolor{charliteral}{'Z'})\ or}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ sv[0]\ ==\ \textcolor{charliteral}{'\_'}))\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00193\ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 1;\ i\ <\ sv.size();\ ++i)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{if}\ ((sv[0]\ >=\ \textcolor{charliteral}{'a'}\ and\ sv[0]\ <=\ \textcolor{charliteral}{'z'})\ or\ (sv[0]\ >=\ \textcolor{charliteral}{'A'}\ and\ sv[0]\ <=\ \textcolor{charliteral}{'Z'})\ or}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ (sv[0]\ >=\ \textcolor{charliteral}{'0'}\ and\ sv[0]\ <=\ \textcolor{charliteral}{'9'})\ or\ sv[0]\ ==\ \textcolor{charliteral}{'\_'})}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00200\ \ \ \}}
+\DoxyCodeLine{00201\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }E,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00205\ \textcolor{keyword}{consteval}\ std::size\_t\ generate\_enum\_names\_size(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00206\ \ \ std::array<std::pair<E,\ std::string\_view>,\ \textcolor{keyword}{sizeof}...(Is)>\ strings\{std::pair<}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ E,\ std::string\_view>\{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(traits::enum\_traits<E>::min\ +\ Is),}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ value\_name\_impl<\textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(traits::enum\_traits<E>::min\ +\ Is)>()\}...\};}
+\DoxyCodeLine{00210\ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00211\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ strings)\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_identifier(s))\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00214\ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \}}
+\DoxyCodeLine{00216\ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00217\ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }E,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00220\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ generate\_enum\_names(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00221\ \ \ std::array<std::pair<E,\ std::string\_view>,\ \textcolor{keyword}{sizeof}...(Is)>\ strings\{std::pair<}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ E,\ std::string\_view>\{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(traits::enum\_traits<E>::min\ +\ Is),}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ value\_name\_impl<\textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(traits::enum\_traits<E>::min\ +\ Is)>()\}...\};}
+\DoxyCodeLine{00225\ \ \ std::array<std::pair<E,\ std::string\_view>,}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ generate\_enum\_names\_size<E>(std::index\_sequence<Is...>())>}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ ret\{\};}
+\DoxyCodeLine{00228\ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00229\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ strings)\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_identifier(s))\ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ ret[size++]\ =\ \{e,\ s\};}
+\DoxyCodeLine{00232\ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00235\ \}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }E,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00238\ \ \ \textcolor{keyword}{requires}\ traits::FlagEnum<E>}
+\DoxyCodeLine{00239\ \textcolor{keyword}{consteval}\ std::size\_t\ generate\_enum\_names\_size(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00240\ \ \ std::array<std::pair<E,\ std::string\_view>,\ \textcolor{keyword}{sizeof}...(Is)>\ strings\{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ std::pair<E,\ std::string\_view>\{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(1u\ <<\ Is),}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ value\_name\_impl<\textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(1u\ <<\ Is)>()\}...\};}
+\DoxyCodeLine{00244\ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00245\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ strings)\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_identifier(s))\ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+\DoxyCodeLine{00249\ \ \ \}}
+\DoxyCodeLine{00250\ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00251\ \}}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }E,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00254\ \ \ \textcolor{keyword}{requires}\ traits::FlagEnum<E>}
+\DoxyCodeLine{00255\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ generate\_enum\_names(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00256\ \ \ std::array<std::pair<E,\ std::string\_view>,\ \textcolor{keyword}{sizeof}...(Is)>\ strings\{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ std::pair<E,\ std::string\_view>\{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(1u\ <<\ Is),}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ value\_name\_impl<\textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(1u\ <<\ Is)>()\}...\};}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ std::array<std::pair<E,\ std::string\_view>,}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ generate\_enum\_names\_size<E>(std::index\_sequence<Is...>())>}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ ret\{\};}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00266\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ strings)\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_identifier(s))\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ ret[size++]\ =\ \{e,\ s\};}
+\DoxyCodeLine{00269\ \ \ \ \ \}}
+\DoxyCodeLine{00270\ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00272\ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ E>}
+\DoxyCodeLine{00275\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ enum\_name\_map\ =\ generate\_enum\_names<E>(}
+\DoxyCodeLine{00276\ \ \ \ \ std::make\_index\_sequence<traits::enum\_traits<E>::max\ -\/}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::enum\_traits<E>::min\ +\ 1>\{\});}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ E>}
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{requires}\ traits::FlagEnum<E>}
+\DoxyCodeLine{00281\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ enum\_name\_map<E>\ =}
+\DoxyCodeLine{00282\ \ \ \ \ generate\_enum\_names<E>(std::make\_index\_sequence<\textcolor{keyword}{sizeof}(E)\ *\ 8>\{\});}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \textcolor{keyword}{template}\ <auto\ N>\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ nth(\textcolor{keyword}{auto}...\ args)\ \{}
+\DoxyCodeLine{00285\ \ \ \textcolor{keywordflow}{return}\ [\&]<std::size\_t...\ Ns>(std::index\_sequence<Ns...>)\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordflow}{return}\ [](\textcolor{keyword}{decltype}((\textcolor{keywordtype}{void}\ *)Ns)...,\ \textcolor{keyword}{auto}\ *nth,\ \textcolor{keyword}{auto}\ *...)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *nth;}
+\DoxyCodeLine{00288\ \ \ \ \ \}(\&args...);}
+\DoxyCodeLine{00289\ \ \ \}(std::make\_index\_sequence<N>\{\});}
+\DoxyCodeLine{00290\ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ num\_members()\ \{}
+\DoxyCodeLine{00293\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{return}\ 20;}
+\DoxyCodeLine{00300\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordflow}{return}\ 19;}
+\DoxyCodeLine{00308\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00316\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\}\};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00324\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00331\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00338\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00345\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\}\};}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00352\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00358\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00364\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00370\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00376\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00381\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00386\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00391\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\},}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ any\_type\{\}\};}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordflow}{return}\ 5;}
+\DoxyCodeLine{00396\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \})\ \{}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00400\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{\ T\{any\_type\{\},\ any\_type\{\},\ any\_type\{\}\};\ \})\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00402\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{\ T\{any\_type\{\},\ any\_type\{\}\};\ \})\ \{}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00404\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{requires}\ \{\ T\{any\_type\{\}\};\ \})\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00406\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00408\ \ \ \}}
+\DoxyCodeLine{00409\ \}}
+\DoxyCodeLine{00410\ \textcolor{keyword}{template}\ <auto\ N,\ \textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ get(T\ \&\&t)\ \{}
+\DoxyCodeLine{00411\ \ \ \textcolor{keyword}{static\_assert}(num\_members<std::remove\_cvref\_t<T>>()\ >\ 0,}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}T\ must\ have\ at\ least\ one\ and\ less\ than\ 20\ members."{}});}
+\DoxyCodeLine{00413\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 20)\ \{}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18,\ p19,\ p20]\ =\ t;}
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 15)}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p16)>\{\&p16\};}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 16)}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p17)>\{\&p17\};}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 17)}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p18)>\{\&p18\};}
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 18)}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p19)>\{\&p19\};}
+\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 19)}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p20)>\{\&p20\};}
+\DoxyCodeLine{00457\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 19)\ \{}
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18,\ p19]\ =\ t;}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00469\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00485\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00487\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00489\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 15)}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p16)>\{\&p16\};}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 16)}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p17)>\{\&p17\};}
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 17)}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p18)>\{\&p18\};}
+\DoxyCodeLine{00497\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 18)}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p19)>\{\&p19\};}
+\DoxyCodeLine{00499\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 18)\ \{}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18]\ =\ t;}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00507\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00509\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00517\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00519\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00527\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00533\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 15)}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p16)>\{\&p16\};}
+\DoxyCodeLine{00535\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 16)}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p17)>\{\&p17\};}
+\DoxyCodeLine{00537\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 17)}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p18)>\{\&p18\};}
+\DoxyCodeLine{00539\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 17)\ \{}
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17]\ =\ t;}
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00543\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00547\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00549\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00553\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00555\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00557\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00561\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00563\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00565\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00567\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00569\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00571\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00573\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 15)}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p16)>\{\&p16\};}
+\DoxyCodeLine{00575\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 16)}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p17)>\{\&p17\};}
+\DoxyCodeLine{00577\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 16)\ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ p16]\ =\ t;}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00581\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00583\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00585\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00587\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00593\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00595\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00597\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00603\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00605\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00607\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 15)}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p16)>\{\&p16\};}
+\DoxyCodeLine{00613\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 15)\ \{}
+\DoxyCodeLine{00614\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15]\ =}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ t;}
+\DoxyCodeLine{00616\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00617\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00619\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00621\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00623\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00625\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00629\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00635\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00637\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00639\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00641\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00645\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 14)}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p15)>\{\&p15\};}
+\DoxyCodeLine{00647\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 14)\ \{}
+\DoxyCodeLine{00648\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14]\ =\ t;}
+\DoxyCodeLine{00649\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00650\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00654\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00656\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00658\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00660\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00662\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00664\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00666\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00668\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00670\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00672\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00674\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00676\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 13)}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p14)>\{\&p14\};}
+\DoxyCodeLine{00678\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 13)\ \{}
+\DoxyCodeLine{00679\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13]\ =\ t;}
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00681\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00683\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00685\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00687\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00689\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00691\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00693\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00695\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00697\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00699\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00701\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00703\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 12)}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p13)>\{\&p13\};}
+\DoxyCodeLine{00707\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 12)\ \{}
+\DoxyCodeLine{00708\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12]\ =\ t;}
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00710\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00712\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00714\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00716\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00720\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00722\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00724\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00726\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00728\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00730\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00732\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 11)}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p12)>\{\&p12\};}
+\DoxyCodeLine{00734\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 11)\ \{}
+\DoxyCodeLine{00735\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11]\ =\ t;}
+\DoxyCodeLine{00736\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00737\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00741\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00742\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00743\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00745\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00747\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00748\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00749\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00751\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00753\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00755\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00757\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 10)}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p11)>\{\&p11\};}
+\DoxyCodeLine{00759\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 10)\ \{}
+\DoxyCodeLine{00760\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10]\ =\ t;}
+\DoxyCodeLine{00761\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00762\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00764\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00766\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00768\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00770\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00772\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00774\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00776\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00778\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00780\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 9)}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p10)>\{\&p10\};}
+\DoxyCodeLine{00782\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 9)\ \{}
+\DoxyCodeLine{00783\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9]\ =\ t;}
+\DoxyCodeLine{00784\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00785\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00787\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00789\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00790\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00791\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00793\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00795\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00796\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00797\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00801\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 8)}
+\DoxyCodeLine{00802\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p9)>\{\&p9\};}
+\DoxyCodeLine{00803\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 8)\ \{}
+\DoxyCodeLine{00804\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8]\ =\ t;}
+\DoxyCodeLine{00805\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00806\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00808\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00810\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00812\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00814\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00815\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00816\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00817\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00818\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00820\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 7)}
+\DoxyCodeLine{00821\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p8)>\{\&p8\};}
+\DoxyCodeLine{00822\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 7)\ \{}
+\DoxyCodeLine{00823\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7]\ =\ t;}
+\DoxyCodeLine{00824\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00825\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00827\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00829\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00831\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00833\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00835\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00837\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 6)}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p7)>\{\&p7\};}
+\DoxyCodeLine{00839\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 6)\ \{}
+\DoxyCodeLine{00840\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6]\ =\ t;}
+\DoxyCodeLine{00841\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00842\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00844\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00846\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00848\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00850\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00852\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 5)}
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p6)>\{\&p6\};}
+\DoxyCodeLine{00854\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 5)\ \{}
+\DoxyCodeLine{00855\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5]\ =\ t;}
+\DoxyCodeLine{00856\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00857\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00859\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00861\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00863\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00864\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00865\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 4)}
+\DoxyCodeLine{00866\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p5)>\{\&p5\};}
+\DoxyCodeLine{00867\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 4)\ \{}
+\DoxyCodeLine{00868\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4]\ =\ t;}
+\DoxyCodeLine{00869\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00870\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00872\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00874\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00875\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00876\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 3)}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p4)>\{\&p4\};}
+\DoxyCodeLine{00878\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 3)\ \{}
+\DoxyCodeLine{00879\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3]\ =\ t;}
+\DoxyCodeLine{00880\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00881\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00882\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00883\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00884\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00885\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 2)}
+\DoxyCodeLine{00886\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p3)>\{\&p3\};}
+\DoxyCodeLine{00887\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 2)\ \{}
+\DoxyCodeLine{00888\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2]\ =\ t;}
+\DoxyCodeLine{00889\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00890\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00891\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00892\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 1)}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p2)>\{\&p2\};}
+\DoxyCodeLine{00894\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<std::remove\_cvref\_t<T>>()\ ==\ 1)\ \{}
+\DoxyCodeLine{00895\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1]\ =\ t;}
+\DoxyCodeLine{00896\ \ \ \ \ \textcolor{comment}{//\ structure\ bindings\ is\ not\ constexpr\ :/}}
+\DoxyCodeLine{00897\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (N\ ==\ 0)}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr<\textcolor{keyword}{decltype}(p1)>\{\&p1\};}
+\DoxyCodeLine{00899\ \ \ \}}
+\DoxyCodeLine{00900\ \}}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ auto\ N>\ \textcolor{keyword}{struct\ }member\_type\ \{}
+\DoxyCodeLine{00903\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<typename\ decltype(get<N>(}
+\DoxyCodeLine{00904\ \ \ \ \ \ \ external<std::remove\_cvref\_t<T>>))::type>;}
+\DoxyCodeLine{00905\ \};}
+\DoxyCodeLine{00906\ }
+\DoxyCodeLine{00907\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ auto\ N>\ [[nodiscard]]\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ member\_name()\ \{}
+\DoxyCodeLine{00908\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ name\ =}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ member\_name\_impl<get<N>(external<std::remove\_cvref\_t<T>>)>();}
+\DoxyCodeLine{00910\ \ \ \textcolor{keywordflow}{return}\ [\&]<\textcolor{keyword}{auto}...\ Ns>(std::index\_sequence<Ns...>)\ \{}
+\DoxyCodeLine{00911\ \ \ \ \ \textcolor{keywordflow}{return}\ string\_constant<name[Ns]...>\{\};}
+\DoxyCodeLine{00912\ \ \ \}(std::make\_index\_sequence<name.size()>\{\});}
+\DoxyCodeLine{00913\ \}}
+\DoxyCodeLine{00914\ }
+\DoxyCodeLine{00915\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ auto\ N>\ \textcolor{keyword}{using\ }member\_name\_t\ =\ \textcolor{keyword}{decltype}(member\_name<T,\ N>());}
+\DoxyCodeLine{00916\ }
+\DoxyCodeLine{00917\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ to\_tuple(T\ \&\&t)\ \{}
+\DoxyCodeLine{00918\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00919\ \ \ \textcolor{keyword}{using\ }T\_\ =\ std::remove\_cvref\_t<T>;}
+\DoxyCodeLine{00920\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 20)\ \{}
+\DoxyCodeLine{00921\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18,\ p19,\ p20]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{00923\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{00929\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{00935\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\},}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 15>,\ \textcolor{keyword}{decltype}(p16)>\{.value\ =\ p16\},}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 16>,\ \textcolor{keyword}{decltype}(p17)>\{.value\ =\ p17\},}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 17>,\ \textcolor{keyword}{decltype}(p18)>\{.value\ =\ p18\},}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 18>,\ \textcolor{keyword}{decltype}(p19)>\{.value\ =\ p19\},}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 19>,\ \textcolor{keyword}{decltype}(p20)>\{.value\ =\ p20\});}
+\DoxyCodeLine{00944\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 19)\ \{}
+\DoxyCodeLine{00945\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18,\ p19]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{00947\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{00948\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{00949\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{00953\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{00955\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{00956\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{00958\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{00959\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{00960\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{00961\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{00962\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\},}
+\DoxyCodeLine{00963\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 15>,\ \textcolor{keyword}{decltype}(p16)>\{.value\ =\ p16\},}
+\DoxyCodeLine{00964\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 16>,\ \textcolor{keyword}{decltype}(p17)>\{.value\ =\ p17\},}
+\DoxyCodeLine{00965\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 17>,\ \textcolor{keyword}{decltype}(p18)>\{.value\ =\ p18\},}
+\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 18>,\ \textcolor{keyword}{decltype}(p19)>\{.value\ =\ p19\});}
+\DoxyCodeLine{00967\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 18)\ \{}
+\DoxyCodeLine{00968\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00969\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17,\ p18]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{00970\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{00971\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{00972\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{00973\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{00974\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{00975\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{00976\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{00977\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{00978\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{00979\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{00980\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{00981\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{00982\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{00983\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{00984\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{00985\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\},}
+\DoxyCodeLine{00986\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 15>,\ \textcolor{keyword}{decltype}(p16)>\{.value\ =\ p16\},}
+\DoxyCodeLine{00987\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 16>,\ \textcolor{keyword}{decltype}(p17)>\{.value\ =\ p17\},}
+\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 17>,\ \textcolor{keyword}{decltype}(p18)>\{.value\ =\ p18\});}
+\DoxyCodeLine{00989\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 17)\ \{}
+\DoxyCodeLine{00990\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{00991\ \ \ \ \ \ \ \ \ \ \ \ \ p16,\ p17]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{00992\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{00994\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{00995\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{00996\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{00997\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{00998\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{00999\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01000\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01001\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01002\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01003\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01004\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{01005\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{01006\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{01007\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\},}
+\DoxyCodeLine{01008\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 15>,\ \textcolor{keyword}{decltype}(p16)>\{.value\ =\ p16\},}
+\DoxyCodeLine{01009\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 16>,\ \textcolor{keyword}{decltype}(p17)>\{.value\ =\ p17\});}
+\DoxyCodeLine{01010\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 16)\ \{}
+\DoxyCodeLine{01011\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15,}
+\DoxyCodeLine{01012\ \ \ \ \ \ \ \ \ \ \ \ \ p16]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01013\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01014\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01015\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01016\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01017\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01018\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01019\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01020\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01021\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01022\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01023\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01024\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01025\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{01026\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{01027\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{01028\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\},}
+\DoxyCodeLine{01029\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 15>,\ \textcolor{keyword}{decltype}(p16)>\{.value\ =\ p16\});}
+\DoxyCodeLine{01030\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 15)\ \{}
+\DoxyCodeLine{01031\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14,\ p15]\ =}
+\DoxyCodeLine{01032\ \ \ \ \ \ \ \ \ std::forward<T>(t);}
+\DoxyCodeLine{01033\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01034\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01035\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01036\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01037\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01038\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01039\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01040\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01041\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01042\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01043\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01044\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01045\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{01046\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{01047\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\},}
+\DoxyCodeLine{01048\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 14>,\ \textcolor{keyword}{decltype}(p15)>\{.value\ =\ p15\});}
+\DoxyCodeLine{01049\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 14)\ \{}
+\DoxyCodeLine{01050\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13,\ p14]\ =}
+\DoxyCodeLine{01051\ \ \ \ \ \ \ \ \ std::forward<T>(t);}
+\DoxyCodeLine{01052\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01053\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01054\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01055\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01056\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01057\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01058\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01059\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01060\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01061\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01062\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01063\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01064\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{01065\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\},}
+\DoxyCodeLine{01066\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 13>,\ \textcolor{keyword}{decltype}(p14)>\{.value\ =\ p14\});}
+\DoxyCodeLine{01067\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 13)\ \{}
+\DoxyCodeLine{01068\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12,\ p13]\ =}
+\DoxyCodeLine{01069\ \ \ \ \ \ \ \ \ std::forward<T>(t);}
+\DoxyCodeLine{01070\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01071\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01072\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01073\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01074\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01075\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01076\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01077\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01078\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01079\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01080\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01081\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01082\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\},}
+\DoxyCodeLine{01083\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 12>,\ \textcolor{keyword}{decltype}(p13)>\{.value\ =\ p13\});}
+\DoxyCodeLine{01084\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 12)\ \{}
+\DoxyCodeLine{01085\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11,\ p12]\ =}
+\DoxyCodeLine{01086\ \ \ \ \ \ \ \ \ std::forward<T>(t);}
+\DoxyCodeLine{01087\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01088\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01089\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01090\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01091\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01092\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01093\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01094\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01095\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01096\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01097\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01098\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\},}
+\DoxyCodeLine{01099\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 11>,\ \textcolor{keyword}{decltype}(p12)>\{.value\ =\ p12\});}
+\DoxyCodeLine{01100\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 11)\ \{}
+\DoxyCodeLine{01101\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10,\ p11]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01102\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(}
+\DoxyCodeLine{01103\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01104\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01105\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01106\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01107\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01108\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01109\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01110\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01111\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01112\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\},}
+\DoxyCodeLine{01113\ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 10>,\ \textcolor{keyword}{decltype}(p11)>\{.value\ =\ p11\});}
+\DoxyCodeLine{01114\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 10)\ \{}
+\DoxyCodeLine{01115\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9,\ p10]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01116\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\},}
+\DoxyCodeLine{01125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 9>,\ \textcolor{keyword}{decltype}(p10)>\{.value\ =\ p10\});}
+\DoxyCodeLine{01126\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 9)\ \{}
+\DoxyCodeLine{01127\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8,\ p9]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01128\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\},}
+\DoxyCodeLine{01136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 8>,\ \textcolor{keyword}{decltype}(p9)>\{.value\ =\ p9\});}
+\DoxyCodeLine{01137\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 8)\ \{}
+\DoxyCodeLine{01138\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7,\ p8]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01139\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\},}
+\DoxyCodeLine{01146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 7>,\ \textcolor{keyword}{decltype}(p8)>\{.value\ =\ p8\});}
+\DoxyCodeLine{01147\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 7)\ \{}
+\DoxyCodeLine{01148\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6,\ p7]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01149\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\},}
+\DoxyCodeLine{01155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 6>,\ \textcolor{keyword}{decltype}(p7)>\{.value\ =\ p7\});}
+\DoxyCodeLine{01156\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 6)\ \{}
+\DoxyCodeLine{01157\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5,\ p6]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01158\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\},}
+\DoxyCodeLine{01163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 5>,\ \textcolor{keyword}{decltype}(p6)>\{.value\ =\ p6\});}
+\DoxyCodeLine{01164\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 5)\ \{}
+\DoxyCodeLine{01165\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4,\ p5]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01166\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\},}
+\DoxyCodeLine{01170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 4>,\ \textcolor{keyword}{decltype}(p5)>\{.value\ =\ p5\});}
+\DoxyCodeLine{01171\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 4)\ \{}
+\DoxyCodeLine{01172\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3,\ p4]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01173\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\},}
+\DoxyCodeLine{01176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 3>,\ \textcolor{keyword}{decltype}(p4)>\{.value\ =\ p4\});}
+\DoxyCodeLine{01177\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 3)\ \{}
+\DoxyCodeLine{01178\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2,\ p3]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01179\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\},}
+\DoxyCodeLine{01181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 2>,\ \textcolor{keyword}{decltype}(p3)>\{.value\ =\ p3\});}
+\DoxyCodeLine{01182\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 2)\ \{}
+\DoxyCodeLine{01183\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1,\ p2]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01184\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\},}
+\DoxyCodeLine{01185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field<member\_name\_t<T\_,\ 1>,\ \textcolor{keyword}{decltype}(p2)>\{.value\ =\ p2\});}
+\DoxyCodeLine{01186\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (num\_members<T\_>()\ ==\ 1)\ \{}
+\DoxyCodeLine{01187\ \ \ \ \ \textcolor{keyword}{auto}\ \&\&[p1]\ =\ std::forward<T>(t);}
+\DoxyCodeLine{01188\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(Field<member\_name\_t<T\_,\ 0>,\ \textcolor{keyword}{decltype}(p1)>\{.value\ =\ p1\});}
+\DoxyCodeLine{01189\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01190\ \ \ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{01191\ \ \ \ \ \ \ \ \ num\_members<T\_>()\ !=\ 0,}
+\DoxyCodeLine{01192\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ convert\ T\ to\ a\ tuple\ because\ it\ either\ cannot\ be\ deconstructed\ "{}}}
+\DoxyCodeLine{01193\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}as\ a\ structured\ binding,\ or\ because\ it\ has\ too\ many\ members."{}});}
+\DoxyCodeLine{01194\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{comment}{/*std::tuple()*/};}
+\DoxyCodeLine{01195\ \ \ \}}
+\DoxyCodeLine{01196\ \}}
+\DoxyCodeLine{01197\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{01198\ }
+\DoxyCodeLine{01199\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{using\ }name\_t\ =\ \textcolor{keyword}{decltype}(::cli::ctti::dtl::name<T>());}
+\DoxyCodeLine{01200\ }
+\DoxyCodeLine{01201\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ name()\ \{\ \textcolor{keywordflow}{return}\ dtl::name<T>();\ \}}
+\DoxyCodeLine{01202\ }
+\DoxyCodeLine{01203\ \textcolor{keyword}{template}\ <auto\ V>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ value\_name()\ \{\ \textcolor{keywordflow}{return}\ dtl::value\_name<V>();\ \}}
+\DoxyCodeLine{01204\ }
+\DoxyCodeLine{01205\ \textcolor{keyword}{template}\ <auto\ \&V>\ \textcolor{keyword}{consteval}\ \textcolor{keyword}{auto}\ object\_name()\ \{}
+\DoxyCodeLine{01206\ \ \ \textcolor{keywordflow}{return}\ dtl::object\_name<V>();}
+\DoxyCodeLine{01207\ \}}
+\DoxyCodeLine{01208\ }
+\DoxyCodeLine{01209\ \textcolor{keyword}{template}\ <traits::Enum\ E>}
+\DoxyCodeLine{01210\ \ \ \textcolor{keyword}{requires}(not\ traits::FlagEnum<E>)}
+\DoxyCodeLine{01211\ \textcolor{keyword}{constexpr}\ std::string\_view\ enum\_name(E\ value)\ \{}
+\DoxyCodeLine{01212\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ dtl::enum\_name\_map<E>)\ \{}
+\DoxyCodeLine{01213\ \ \ \ \ \textcolor{keywordflow}{if}\ (e\ ==\ value)}
+\DoxyCodeLine{01214\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s;}
+\DoxyCodeLine{01215\ \ \ \}}
+\DoxyCodeLine{01216\ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}<"{}}\_sc\ +\ name<E>()\ +\ \textcolor{stringliteral}{"{}::unknown>"{}}\_sc;}
+\DoxyCodeLine{01217\ \}}
+\DoxyCodeLine{01218\ }
+\DoxyCodeLine{01219\ \textcolor{keyword}{template}\ <traits::Enum\ E>}
+\DoxyCodeLine{01220\ \ \ \textcolor{keyword}{requires}\ traits::FlagEnum<E>}
+\DoxyCodeLine{01221\ \textcolor{keyword}{constexpr}\ std::size\_t\ enum\_name(E\ value)\ \{}
+\DoxyCodeLine{01222\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ s]\ :\ dtl::enum\_name\_map<E>)\ \{}
+\DoxyCodeLine{01223\ \ \ \ \ \textcolor{keywordflow}{if}\ ((e\ \&\ value)\ ==\ e)}
+\DoxyCodeLine{01224\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s;}
+\DoxyCodeLine{01225\ \ \ \}}
+\DoxyCodeLine{01226\ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}<"{}}\_sc\ +\ name<E>()\ +\ \textcolor{stringliteral}{"{}::unknown>"{}}\_sc;}
+\DoxyCodeLine{01227\ \}}
+\DoxyCodeLine{01228\ }
+\DoxyCodeLine{01229\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{01230\ \ \ \textcolor{keyword}{requires}\ std::is\_aggregate\_v<T>}
+\DoxyCodeLine{01231\ \textcolor{keyword}{struct\ }StructInfo\ \{}
+\DoxyCodeLine{01233\ \ \ \textcolor{keyword}{using\ }fields\ =\ \textcolor{keyword}{decltype}(dtl::to\_tuple(std::declval<T>()));}
+\DoxyCodeLine{01234\ \};}
+\DoxyCodeLine{01235\ }
+\DoxyCodeLine{01236\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }TypeInfo\ \{}
+\DoxyCodeLine{01237\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{01238\ \ \ \textcolor{keyword}{using\ }name\ =\ cli::ctti::name\_t<T>;}
+\DoxyCodeLine{01239\ \ \ \textcolor{keyword}{using\ }fields\ =\ TypeList<>;}
+\DoxyCodeLine{01240\ \ \ \textcolor{keyword}{using\ }field\_tuple\ =\ std::tuple<>;}
+\DoxyCodeLine{01241\ \};}
+\DoxyCodeLine{01242\ }
+\DoxyCodeLine{01243\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{01244\ \ \ \textcolor{keyword}{requires}\ std::is\_aggregate\_v<std::remove\_cvref\_t<T>>}
+\DoxyCodeLine{01245\ \textcolor{keyword}{struct\ }TypeInfo<T>\ \{}
+\DoxyCodeLine{01246\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{01247\ \ \ \textcolor{keyword}{using\ }name\ =\ cli::ctti::name\_t<T>;}
+\DoxyCodeLine{01249\ \ \ \textcolor{keyword}{using\ }fields\ =\ \textcolor{keyword}{decltype}([]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{01250\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{01251\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple<Field<decltype(member\_name<T,\ Is>()),}
+\DoxyCodeLine{01252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ member\_type<T,\ Is>::type>...>\{\};}
+\DoxyCodeLine{01253\ \ \ \}(std::make\_index\_sequence<dtl::num\_members<T>()>()));}
+\DoxyCodeLine{01254\ \};}
+\DoxyCodeLine{01255\ }
+\DoxyCodeLine{01256\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{01257\ \textcolor{keyword}{using\ }field\_tuple\_t\ =}
+\DoxyCodeLine{01258\ \ \ \ \ \textcolor{keyword}{decltype}([]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{01259\ \ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{01260\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple<Field<decltype(member\_name<T,\ Is>()),}
+\DoxyCodeLine{01261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ member\_type<T,\ Is>::type>...>\{\};}
+\DoxyCodeLine{01262\ \ \ \ \ \}(std::make\_index\_sequence<dtl::num\_members<T>()>()));}
+\DoxyCodeLine{01263\ }
+\DoxyCodeLine{01271\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{01272\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ to\_tuple(T\ \&\&t)\ \textcolor{comment}{/*\ -\/>\ field\_tuple\_t<T>\ */}\ \{}
+\DoxyCodeLine{01273\ \ \ \textcolor{keywordflow}{return}\ dtl::to\_tuple(std::forward<T>(t));}
+\DoxyCodeLine{01274\ \}}
+\DoxyCodeLine{01282\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{01283\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ T\ from\_tuple(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \textcolor{comment}{/*\ field\_tuple\_t<T>\ */}\ \&tuple)\ \{}
+\DoxyCodeLine{01284\ \ \ \textcolor{keywordflow}{return}\ [\&]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{01285\ \ \ \ \ \textcolor{keywordflow}{return}\ T\{std::get<Is>(tuple).value...\};}
+\DoxyCodeLine{01286\ \ \ \}(std::make\_index\_sequence<std::tuple\_size\_v<field\_tuple\_t<T>>>());}
+\DoxyCodeLine{01287\ \}}
+\DoxyCodeLine{01288\ \}\ \textcolor{comment}{//\ namespace\ cli::ctti}}
+\DoxyCodeLine{01289\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

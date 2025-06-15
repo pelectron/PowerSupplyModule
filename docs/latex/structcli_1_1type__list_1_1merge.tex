@@ -1,0 +1,26 @@
+\doxysection{cli\+::type\+\_\+list\+::merge\texorpdfstring{$<$}{<} Lists \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcli_1_1type__list_1_1merge}{}\label{structcli_1_1type__list_1_1merge}\index{cli::type\_list::merge$<$ Lists $>$@{cli::type\_list::merge$<$ Lists $>$}}
+
+
+merges Lists into a single type list.  
+
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class... Lists$>$\newline
+struct cli\+::type\+\_\+list\+::merge$<$ Lists $>$}
+merges Lists into a single type list. 
+
+If sizeof...(Lists) is 0 then an Type\+List$<$$>$ is returned. If a mixture of type list templates is used, e.\+g. mixing \doxylink{structcli_1_1type__list_1_1_type_list}{Type\+List} with std\+::variant and std\+::tuple, then the result will use the underlying template of the first element in Lists.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Lists} & a pack of type lists \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/type\+\_\+list.\+hpp\end{DoxyCompactItemize}

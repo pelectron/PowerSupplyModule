@@ -1,0 +1,14 @@
+\doxysection{cli\+::format\+::Formatter Concept Reference}
+\hypertarget{conceptcli_1_1format_1_1_formatter}{}\label{conceptcli_1_1format_1_1_formatter}\index{cli::format::Formatter@{cli::format::Formatter}}
+
+
+{\ttfamily \#include $<$cli/format.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1format_1_1_formatter}{cli::format::Formatter}}\ =\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}}\ std::same\_as<void,\ typename\ formatter\_value\_type<F>::type>}
+
+\end{DoxyCode}

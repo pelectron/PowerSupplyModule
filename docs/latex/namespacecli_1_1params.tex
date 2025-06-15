@@ -1,0 +1,92 @@
+\doxysection{cli\+::params Namespace Reference}
+\hypertarget{namespacecli_1_1params}{}\label{namespacecli_1_1params}\index{cli::params@{cli::params}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli_1_1params_1_1dtl}{dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1params_1_1getter__value__type}{getter\+\_\+value\+\_\+type}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1params_1_1setter__value__type}{setter\+\_\+value\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1params_1_1_getter_of}{Getter\+Of}}
+\begin{DoxyCompactList}\small\item\em concept for a Getter with value type V \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1params_1_1_setter_of}{Setter\+Of}}
+\begin{DoxyCompactList}\small\item\em concept for a Setter with value type V \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}
+\begin{DoxyCompactList}\small\item\em A Getter G retrieves the value of a parameter. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}
+\begin{DoxyCompactList}\small\item\em A Setter S sets the value of a parameter. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1params_ae5d84879701948b6ac3980d9afea1da9}{getter\+\_\+value\+\_\+type\+\_\+t}}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1params_aa3111ee03027e55d7bcdb0a95e18ae50}{setter\+\_\+value\+\_\+type\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Name Cmd\+Name, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}}) $>$ 0)}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}} (Cmd\+Name name, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a "{}virtual"{} command, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}}) $>$ 0)}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga11cf3205c6380204f56e0b046925cf4a}{param}} (Cmd\+Name name, Description description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a "{}virtual"{} command, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , Command... Sub\+Commands$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga03f159995b9ddc7846e03b04f2820e2b}{param}} (Cmd\+Name name, T \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , Command... Sub\+Commands$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga444c6a50e6dfb9680227bc4347c987b9}{param}} (Cmd\+Name name, Description description, T \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, Name Type, Getter Get, Setter Set, parse\+::\+Parser Parse, format\+::\+Formatter Format, validate\+::\+Validator Validate, Command... Sub\+Commands$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga061584c20bd0ae0e1f4c6e30a096699b}{param}} (Cmd\+Name name, Description description, Type type, Get \&\&\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3caab5eda0a74558a342cf659187f06f746f}{get}}, Set \&\&\mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3caacdaeeeba9b4a4c5ebf042c0215a7bb0e}{set}}, Parse \&\&parse, Format \&\&format, Validate \&\&validate, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command from its individual parts. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga416d355659710674637e8fde8e75e42d}{param}} (Cmd\+Name name, T \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{obj}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Command\+Or\+Member\+Data\+Or\+Member\+Function}} \&\&...\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{m}})
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_gacce965e6a80d3bd9f23f67ada4bb1319}{param}} (Cmd\+Name name, Description description, T \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{obj}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Command\+Or\+Member\+Data\+Or\+Member\+Function}} \&\&...\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{m}})
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& Obj, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga6f79fed81cae67a5597c2909431c7da5}{param}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Command\+Or\+Member\+Data\+Or\+Member\+Function}} \&\&...\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{m}})
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& Obj, Name Description, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga6783b78dc7379d4aae41992689ab3d9f}{param}} (Description description, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Command\+Or\+Member\+Data\+Or\+Member\+Function}} \&\&...\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{m}})
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_gaade55ceb526378ee8e98c3b7dcfacaae}{param}} (T \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{obj}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Command\+Or\+Member\+Data\+Or\+Member\+Function}} \&\&...\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{m}})
+\item 
+{\footnotesize template$<$Name Cmd\+Name, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Pointer}} , Command... Sub\+Commands$>$ \newline
+requires std\+::is\+\_\+member\+\_\+pointer\+\_\+v$<$std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Pointer}}$>$$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga4b0786c4b26f10ec6a4e43ac25c913e9}{mem\+\_\+data}} (Cmd\+Name, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Pointer}} f, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} Member\+Pointer, Command... Sub\+Commands$>$ \newline
+requires std\+::is\+\_\+member\+\_\+pointer\+\_\+v$<$ std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Pointer}})$>$$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{group__parameters_ga426210f88ac90561a1bdf805aa942e06}{mem\+\_\+data}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Sub\+Commands}} \&\&...cmds)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{namespacecli_1_1params_ae5d84879701948b6ac3980d9afea1da9}\label{namespacecli_1_1params_ae5d84879701948b6ac3980d9afea1da9} 
+\index{cli::params@{cli::params}!getter\_value\_type\_t@{getter\_value\_type\_t}}
+\index{getter\_value\_type\_t@{getter\_value\_type\_t}!cli::params@{cli::params}}
+\doxysubsubsection{\texorpdfstring{getter\_value\_type\_t}{getter\_value\_type\_t}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1params_ae5d84879701948b6ac3980d9afea1da9}{cli\+::params\+::getter\+\_\+value\+\_\+type\+\_\+t}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{typename}\ getter\_value\_type<std::remove\_cvref\_t<T>>::type}
+
+\end{DoxyCode}
+\Hypertarget{namespacecli_1_1params_aa3111ee03027e55d7bcdb0a95e18ae50}\label{namespacecli_1_1params_aa3111ee03027e55d7bcdb0a95e18ae50} 
+\index{cli::params@{cli::params}!setter\_value\_type\_t@{setter\_value\_type\_t}}
+\index{setter\_value\_type\_t@{setter\_value\_type\_t}!cli::params@{cli::params}}
+\doxysubsubsection{\texorpdfstring{setter\_value\_type\_t}{setter\_value\_type\_t}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1params_aa3111ee03027e55d7bcdb0a95e18ae50}{cli\+::params\+::setter\+\_\+value\+\_\+type\+\_\+t}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{typename}\ setter\_value\_type<std::remove\_cvref\_t<T>>::type}
+
+\end{DoxyCode}

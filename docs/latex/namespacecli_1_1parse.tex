@@ -1,0 +1,134 @@
+\doxysection{cli\+::parse Namespace Reference}
+\hypertarget{namespacecli_1_1parse}{}\label{namespacecli_1_1parse}\index{cli::parse@{cli::parse}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{Default\+Parse}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse_3_01bool_01_4}{Default\+Parse$<$ bool $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse_3_01_t_01_4}{Default\+Parse$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_enum}{Enum}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_field}{Field}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for}{field\+\_\+parser\+\_\+for}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_field_group}{Field\+Group}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_field_with_out_default}{Field\+With\+Out\+Default}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_fix_point}{Fix\+Point}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_float}{Float}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{from\+\_\+error\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{from\+\_\+value\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int}}
+\begin{DoxyCompactList}\small\item\em A parser for integers. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_null_parse}{Null\+Parse}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_sequence}{Sequence}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_string}{String}}
+\begin{DoxyCompactList}\small\item\em A parser for strings. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_struct}{Struct}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1to__parse__field}{to\+\_\+parse\+\_\+field}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1value__type}{value\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_value}{Value}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{Result}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser_of}{Parser\+Of}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Parser P$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1parse_ad2d74524d45382dc0cf2b85d59c8b256}{value\+\_\+type\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1parse_1_1value__type}{value\+\_\+type}}$<$std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}}$>$$>$\+::type
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ T $>$ $>$ \mbox{\hyperlink{namespacecli_1_1parse_a72502c4aaec674bd68d879c498b460eb}{ok}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ T $>$ \mbox{\hyperlink{namespacecli_1_1parse_addd9ad6a74437e8bd2089ff411472245}{error}} (\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{e}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{skip\+\_\+ws}} (\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{str}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{namespacecli_1_1parse_a2a8d64c41c99cec1405844cd46ce9c95}{parse\+\_\+args}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{v}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{cli\+::parse\+::from\+\_\+error\+\_\+t}} \mbox{\hyperlink{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba}{from\+\_\+error}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{cli\+::parse\+::from\+\_\+value\+\_\+t}} \mbox{\hyperlink{namespacecli_1_1parse_a27c1d432bff84a50054d97372105ff99}{from\+\_\+value}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{namespacecli_1_1parse_ad2d74524d45382dc0cf2b85d59c8b256}\label{namespacecli_1_1parse_ad2d74524d45382dc0cf2b85d59c8b256} 
+\index{cli::parse@{cli::parse}!value\_type\_t@{value\_type\_t}}
+\index{value\_type\_t@{value\_type\_t}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{value\_type\_t}{value\_type\_t}}
+{\footnotesize\ttfamily template$<$Parser P$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1parse_ad2d74524d45382dc0cf2b85d59c8b256}{cli\+::parse\+::value\+\_\+type\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1parse_1_1value__type}{value\+\_\+type}}$<$std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}}$>$$>$\+::type}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecli_1_1parse_addd9ad6a74437e8bd2089ff411472245}\label{namespacecli_1_1parse_addd9ad6a74437e8bd2089ff411472245} 
+\index{cli::parse@{cli::parse}!error@{error}}
+\index{error@{error}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ T $>$ cli\+::parse\+::error (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1parse_a72502c4aaec674bd68d879c498b460eb}\label{namespacecli_1_1parse_a72502c4aaec674bd68d879c498b460eb} 
+\index{cli::parse@{cli::parse}!ok@{ok}}
+\index{ok@{ok}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{ok()}{ok()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ T $>$ $>$ cli\+::parse\+::ok (\begin{DoxyParamCaption}\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1parse_a2a8d64c41c99cec1405844cd46ce9c95}\label{namespacecli_1_1parse_a2a8d64c41c99cec1405844cd46ce9c95} 
+\index{cli::parse@{cli::parse}!parse\_args@{parse\_args}}
+\index{parse\_args@{parse\_args}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{parse\_args()}{parse\_args()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} cli\+::parse\+::parse\+\_\+args (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&}]{t,  }\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}\label{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe} 
+\index{cli::parse@{cli::parse}!skip\_ws@{skip\_ws}}
+\index{skip\_ws@{skip\_ws}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{skip\_ws()}{skip\_ws()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} cli\+::parse\+::skip\+\_\+ws (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba}\label{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba} 
+\index{cli::parse@{cli::parse}!from\_error@{from\_error}}
+\index{from\_error@{from\_error}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{from\_error}{from\_error}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{cli\+::parse\+::from\+\_\+error\+\_\+t}} cli\+::parse\+::from\+\_\+error}
+
+\Hypertarget{namespacecli_1_1parse_a27c1d432bff84a50054d97372105ff99}\label{namespacecli_1_1parse_a27c1d432bff84a50054d97372105ff99} 
+\index{cli::parse@{cli::parse}!from\_value@{from\_value}}
+\index{from\_value@{from\_value}!cli::parse@{cli::parse}}
+\doxysubsubsection{\texorpdfstring{from\_value}{from\_value}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{cli\+::parse\+::from\+\_\+value\+\_\+t}} cli\+::parse\+::from\+\_\+value}
+

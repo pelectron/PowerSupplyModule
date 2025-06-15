@@ -1,0 +1,13 @@
+\doxysection{cli\+::parse\+::Value Concept Reference}
+\hypertarget{conceptcli_1_1parse_1_1_value}{}\label{conceptcli_1_1parse_1_1_value}\index{cli::parse::Value@{cli::parse::Value}}
+
+
+{\ttfamily \#include $<$cli/parse.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_value}{cli::parse::Value}}\ =\ \ std::is\_object\_v<std::decay\_t<T>>}
+
+\end{DoxyCode}

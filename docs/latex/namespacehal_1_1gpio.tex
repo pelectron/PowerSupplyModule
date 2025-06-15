@@ -1,0 +1,451 @@
+\doxysection{hal\+::gpio Namespace Reference}
+\hypertarget{namespacehal_1_1gpio}{}\label{namespacehal_1_1gpio}\index{hal::gpio@{hal::gpio}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_alternate_function_config}{Alternate\+Function\+Config}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{Config}}
+\begin{DoxyCompactList}\small\item\em general gpio configuration structure \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_input}{Input}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_input_config}{Input\+Config}}
+\begin{DoxyCompactList}\small\item\em gpio input configuration structure. Defaults to slow input without pull up or pull down. Converts implicitly to \doxylink{structhal_1_1gpio_1_1_config}{gpio\+::\+Config}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{Output}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{Output\+Config}}
+\begin{DoxyCompactList}\small\item\em gpio output configuration structure. Defaults to a slow, push-\/pull output without pull up/down resistor and reset initial state (0V). Converts implicitly to \doxylink{structhal_1_1gpio_1_1_config}{gpio\+::\+Config}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{Pin}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca7fc56270e7a70fa81a5935b72eacbe29}{A}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca9d5ed678fe57bcca610140957afab571}{B}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca0d61f8370cad1d412f80b84d143e1257}{C}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf623e75af30e62bbd73d6df5b50bb7b5}{D}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca3a3ea00cfc35332cedf6e5e9a32e94da}{E}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca800618943025315f869e4e1f09471012}{F}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadfcf28d0734569a6a693bc8194de62bf}{G}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cac1d9f50f86825a1a2302ec2449c17196}{H}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadd7536794b63bf90eccfd37f9b147d7f}{I}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caff44570aca8241914870afbc310cdb85}{J}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caa5f3c6a11b03839d46af9fb43c97c188}{K}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{L}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca69691c7bdcc3ce6d5d8a1361f22d04ac}{M}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca8d9c307cb7f3c4a32822a51922d1ceaa}{N}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf186217753c37b9b9f958d906208506e}{O}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca44c29edb103a2872f519ad0c9a0fdaaa}{P}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf09564c9ca56850d4cd6b3319e541aee}{Q}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cae1e1d3d40573127e9ee0480caf1283d6}{R}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5dbc98dcc983a70728bd082d1a47546e}{S}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}{T}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca4c614360da93c0a041b22e537de151eb}{U}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5206560a306a2e085a437fd258eb57ce}{V}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca61e9c06ea9a85a5088a499df6458d276}{W}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca02129bb861061d1a052c592e2dc6b383}{X}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca57cec4137b614c87cb4e24a3d003a3e0}{Y}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca21c2e59531c8710156d34a3c30ac81d5}{Z}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} \+: uint16\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7afedb2d84cafe20862cb4399751a8a7e3}{invalid}} = 0
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} \{ \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a86266ee937d97f812a8e57d22b62ee29}{reset}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059acdaeeeba9b4a4c5ebf042c0215a7bb0e}{set}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a9dd4e461268c8034f5c8564e155c67a6}{x}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333}{Function}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa43c1b0aa53a0c908810c06ab1ff3967}{input}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a78e6221f6393d1356681db398f14ce6d}{output}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a02c9adc0d63e270f7ea08ef4008e81bf}{analog}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa13a40f51bb5a8bd2a918d20d2e1fa41}{alternate}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135}{Mode}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a387945c85c85d3e32e47644d6101b23f}{push\+\_\+pull}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a1b702b541fd7de7cba26951b2b9a8e8a}{open\+\_\+drain}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9}{Speed}} \+: std\+::uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a4fe9dfe784a2be25dd8aec3b403c3654}{slow}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a075a3e36a0a52dcbc568c05788e8a713}{medium}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a31d4541b8e926a24f0c9b835b68cfdf3}{fast}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a5e7a87a43d0aa438336008233cadc08b}{very\+\_\+fast}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0}{Pull}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a46c48bec0d282018b9d167eef7711b2c}{up}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a74e8333ad11685ff3bdae589c8f6e34d}{down}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903}{Alternate\+Function}} \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a22770fbdd1177351a869401a0e1427bc}{rx}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a7da685001e153f41a83eb6255069dc3d}{tx}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903af872f42cc51cf7029acc607881b3c72b}{sclk}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ac4388174c77e6510e828cb9d53d16dcc}{mosi}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ae2061ec2dfba21931ffacc217340c02c}{miso}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a4d6c337a3e6b95ddea8fb109f7c0ad19}{nss}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} \mbox{\hyperlink{namespacehal_1_1gpio_a67e9aadab0dd712763b3ee838ec9cc65}{operator\texorpdfstring{$\vert$}{|}}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{p}}, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{pin\+\_\+num}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} \mbox{\hyperlink{namespacehal_1_1gpio_a74674b233d31cf6576ddbb3a576590e9}{port}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} pin) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} \mbox{\hyperlink{namespacehal_1_1gpio_a6294a66899cca656e23582d3270eb718}{pin\+\_\+nr}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} pin) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} \mbox{\hyperlink{namespacehal_1_1gpio_a7b07ba76317fff458a230ebd8b61a7c0}{operator!}} (\mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} s)
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{Pin}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_af87ab137f55fd56bd8ae78776f216c7c}{configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{bool}} \mbox{\hyperlink{namespacehal_1_1gpio_aaf0d27f1c0c154fe8526b6987248f611}{pin\+\_\+exists}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} id) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{Output}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_a2f9b0dd7310a0d3ac37b79803e893219}{configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{Output\+Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_input}{Input}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_a2581823da7c159e15b60f9a5673b44ba}{configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_input_config}{Input\+Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903} 
+\index{hal::gpio@{hal::gpio}!AlternateFunction@{AlternateFunction}}
+\index{AlternateFunction@{AlternateFunction}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{AlternateFunction}{AlternateFunction}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903}{hal\+::gpio\+::\+Alternate\+Function}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!none@{none}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{rx@{rx}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!rx@{rx}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a22770fbdd1177351a869401a0e1427bc}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a22770fbdd1177351a869401a0e1427bc} 
+rx&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tx@{tx}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!tx@{tx}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a7da685001e153f41a83eb6255069dc3d}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a7da685001e153f41a83eb6255069dc3d} 
+tx&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{sclk@{sclk}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!sclk@{sclk}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903af872f42cc51cf7029acc607881b3c72b}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903af872f42cc51cf7029acc607881b3c72b} 
+sclk&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{mosi@{mosi}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!mosi@{mosi}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ac4388174c77e6510e828cb9d53d16dcc}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ac4388174c77e6510e828cb9d53d16dcc} 
+mosi&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{miso@{miso}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!miso@{miso}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ae2061ec2dfba21931ffacc217340c02c}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ae2061ec2dfba21931ffacc217340c02c} 
+miso&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{nss@{nss}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!nss@{nss}}}\Hypertarget{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a4d6c337a3e6b95ddea8fb109f7c0ad19}\label{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a4d6c337a3e6b95ddea8fb109f7c0ad19} 
+nss&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333}\label{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333} 
+\index{hal::gpio@{hal::gpio}!Function@{Function}}
+\index{Function@{Function}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Function}{Function}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333}{hal\+::gpio\+::\+Function}} \+: std\+::uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{input@{input}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!input@{input}}}\Hypertarget{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa43c1b0aa53a0c908810c06ab1ff3967}\label{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa43c1b0aa53a0c908810c06ab1ff3967} 
+input&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{output@{output}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!output@{output}}}\Hypertarget{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a78e6221f6393d1356681db398f14ce6d}\label{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a78e6221f6393d1356681db398f14ce6d} 
+output&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{analog@{analog}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!analog@{analog}}}\Hypertarget{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a02c9adc0d63e270f7ea08ef4008e81bf}\label{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a02c9adc0d63e270f7ea08ef4008e81bf} 
+analog&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{alternate@{alternate}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!alternate@{alternate}}}\Hypertarget{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa13a40f51bb5a8bd2a918d20d2e1fa41}\label{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa13a40f51bb5a8bd2a918d20d2e1fa41} 
+alternate&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}\label{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7} 
+\index{hal::gpio@{hal::gpio}!Id@{Id}}
+\index{Id@{Id}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Id}{Id}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal\+::gpio\+::\+Id}} \+: \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint16\+\_\+t}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid@{invalid}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!invalid@{invalid}}}\Hypertarget{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7afedb2d84cafe20862cb4399751a8a7e3}\label{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7afedb2d84cafe20862cb4399751a8a7e3} 
+invalid&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135}\label{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135} 
+\index{hal::gpio@{hal::gpio}!Mode@{Mode}}
+\index{Mode@{Mode}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Mode}{Mode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135}{hal\+::gpio\+::\+Mode}} \+: std\+::uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!none@{none}}}\Hypertarget{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{push\_pull@{push\_pull}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!push\_pull@{push\_pull}}}\Hypertarget{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a387945c85c85d3e32e47644d6101b23f}\label{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a387945c85c85d3e32e47644d6101b23f} 
+push\+\_\+pull&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{open\_drain@{open\_drain}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!open\_drain@{open\_drain}}}\Hypertarget{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a1b702b541fd7de7cba26951b2b9a8e8a}\label{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a1b702b541fd7de7cba26951b2b9a8e8a} 
+open\+\_\+drain&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c} 
+\index{hal::gpio@{hal::gpio}!Port@{Port}}
+\index{Port@{Port}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Port}{Port}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{hal\+::gpio\+::\+Port}} \+: \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!none@{none}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{A@{A}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!A@{A}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca7fc56270e7a70fa81a5935b72eacbe29}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca7fc56270e7a70fa81a5935b72eacbe29} 
+A&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{B@{B}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!B@{B}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca9d5ed678fe57bcca610140957afab571}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca9d5ed678fe57bcca610140957afab571} 
+B&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C@{C}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!C@{C}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca0d61f8370cad1d412f80b84d143e1257}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca0d61f8370cad1d412f80b84d143e1257} 
+C&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{D@{D}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!D@{D}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf623e75af30e62bbd73d6df5b50bb7b5}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf623e75af30e62bbd73d6df5b50bb7b5} 
+D&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E@{E}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!E@{E}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca3a3ea00cfc35332cedf6e5e9a32e94da}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca3a3ea00cfc35332cedf6e5e9a32e94da} 
+E&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F@{F}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!F@{F}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca800618943025315f869e4e1f09471012}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca800618943025315f869e4e1f09471012} 
+F&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G@{G}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!G@{G}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadfcf28d0734569a6a693bc8194de62bf}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadfcf28d0734569a6a693bc8194de62bf} 
+G&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{H@{H}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!H@{H}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cac1d9f50f86825a1a2302ec2449c17196}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cac1d9f50f86825a1a2302ec2449c17196} 
+H&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{I@{I}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!I@{I}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadd7536794b63bf90eccfd37f9b147d7f}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadd7536794b63bf90eccfd37f9b147d7f} 
+I&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{J@{J}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!J@{J}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caff44570aca8241914870afbc310cdb85}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caff44570aca8241914870afbc310cdb85} 
+J&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{K@{K}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!K@{K}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caa5f3c6a11b03839d46af9fb43c97c188}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caa5f3c6a11b03839d46af9fb43c97c188} 
+K&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L@{L}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!L@{L}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587} 
+L&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{M@{M}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!M@{M}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca69691c7bdcc3ce6d5d8a1361f22d04ac}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca69691c7bdcc3ce6d5d8a1361f22d04ac} 
+M&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N@{N}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!N@{N}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca8d9c307cb7f3c4a32822a51922d1ceaa}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca8d9c307cb7f3c4a32822a51922d1ceaa} 
+N&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{O@{O}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!O@{O}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf186217753c37b9b9f958d906208506e}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf186217753c37b9b9f958d906208506e} 
+O&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P@{P}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!P@{P}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca44c29edb103a2872f519ad0c9a0fdaaa}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca44c29edb103a2872f519ad0c9a0fdaaa} 
+P&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Q@{Q}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!Q@{Q}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf09564c9ca56850d4cd6b3319e541aee}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf09564c9ca56850d4cd6b3319e541aee} 
+Q&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R@{R}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!R@{R}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cae1e1d3d40573127e9ee0480caf1283d6}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cae1e1d3d40573127e9ee0480caf1283d6} 
+R&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S@{S}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!S@{S}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5dbc98dcc983a70728bd082d1a47546e}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5dbc98dcc983a70728bd082d1a47546e} 
+S&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{T@{T}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!T@{T}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3} 
+T&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{U@{U}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!U@{U}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca4c614360da93c0a041b22e537de151eb}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca4c614360da93c0a041b22e537de151eb} 
+U&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{V@{V}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!V@{V}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5206560a306a2e085a437fd258eb57ce}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5206560a306a2e085a437fd258eb57ce} 
+V&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{W@{W}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!W@{W}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca61e9c06ea9a85a5088a499df6458d276}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca61e9c06ea9a85a5088a499df6458d276} 
+W&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{X@{X}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!X@{X}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca02129bb861061d1a052c592e2dc6b383}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca02129bb861061d1a052c592e2dc6b383} 
+X&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Y@{Y}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!Y@{Y}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca57cec4137b614c87cb4e24a3d003a3e0}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca57cec4137b614c87cb4e24a3d003a3e0} 
+Y&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Z@{Z}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!Z@{Z}}}\Hypertarget{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca21c2e59531c8710156d34a3c30ac81d5}\label{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca21c2e59531c8710156d34a3c30ac81d5} 
+Z&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0}\label{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0} 
+\index{hal::gpio@{hal::gpio}!Pull@{Pull}}
+\index{Pull@{Pull}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Pull}{Pull}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0}{hal\+::gpio\+::\+Pull}} \+: std\+::uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!none@{none}}}\Hypertarget{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{up@{up}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!up@{up}}}\Hypertarget{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a46c48bec0d282018b9d167eef7711b2c}\label{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a46c48bec0d282018b9d167eef7711b2c} 
+up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{down@{down}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!down@{down}}}\Hypertarget{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a74e8333ad11685ff3bdae589c8f6e34d}\label{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a74e8333ad11685ff3bdae589c8f6e34d} 
+down&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9} 
+\index{hal::gpio@{hal::gpio}!Speed@{Speed}}
+\index{Speed@{Speed}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{Speed}{Speed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9}{hal\+::gpio\+::\+Speed}} \+: std\+::uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!none@{none}}}\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{slow@{slow}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!slow@{slow}}}\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a4fe9dfe784a2be25dd8aec3b403c3654}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a4fe9dfe784a2be25dd8aec3b403c3654} 
+slow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{medium@{medium}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!medium@{medium}}}\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a075a3e36a0a52dcbc568c05788e8a713}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a075a3e36a0a52dcbc568c05788e8a713} 
+medium&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fast@{fast}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!fast@{fast}}}\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a31d4541b8e926a24f0c9b835b68cfdf3}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a31d4541b8e926a24f0c9b835b68cfdf3} 
+fast&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{very\_fast@{very\_fast}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!very\_fast@{very\_fast}}}\Hypertarget{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a5e7a87a43d0aa438336008233cadc08b}\label{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a5e7a87a43d0aa438336008233cadc08b} 
+very\+\_\+fast&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}\label{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059} 
+\index{hal::gpio@{hal::gpio}!State@{State}}
+\index{State@{State}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{enum}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{class}} \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{hal\+::gpio\+::\+State}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{reset@{reset}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!reset@{reset}}}\Hypertarget{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a86266ee937d97f812a8e57d22b62ee29}\label{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a86266ee937d97f812a8e57d22b62ee29} 
+reset&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{set@{set}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!set@{set}}}\Hypertarget{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059acdaeeeba9b4a4c5ebf042c0215a7bb0e}\label{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059acdaeeeba9b4a4c5ebf042c0215a7bb0e} 
+set&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{x@{x}!hal::gpio@{hal::gpio}}\index{hal::gpio@{hal::gpio}!x@{x}}}\Hypertarget{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a9dd4e461268c8034f5c8564e155c67a6}\label{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a9dd4e461268c8034f5c8564e155c67a6} 
+x&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacehal_1_1gpio_af87ab137f55fd56bd8ae78776f216c7c}\label{namespacehal_1_1gpio_af87ab137f55fd56bd8ae78776f216c7c} 
+\index{hal::gpio@{hal::gpio}!configure@{configure}}
+\index{configure@{configure}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{configure()}{configure()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{Pin}} $>$ hal\+::gpio\+::configure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{Config}} \&}]{cfg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_a2581823da7c159e15b60f9a5673b44ba}\label{namespacehal_1_1gpio_a2581823da7c159e15b60f9a5673b44ba} 
+\index{hal::gpio@{hal::gpio}!configure@{configure}}
+\index{configure@{configure}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{configure()}{configure()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_input}{Input}} $>$ hal\+::gpio\+::configure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_input_config}{Input\+Config}} \&}]{cfg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_a2f9b0dd7310a0d3ac37b79803e893219}\label{namespacehal_1_1gpio_a2f9b0dd7310a0d3ac37b79803e893219} 
+\index{hal::gpio@{hal::gpio}!configure@{configure}}
+\index{configure@{configure}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{configure()}{configure()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{Output}} $>$ hal\+::gpio\+::configure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{Output\+Config}} \&}]{cfg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_a7b07ba76317fff458a230ebd8b61a7c0}\label{namespacehal_1_1gpio_a7b07ba76317fff458a230ebd8b61a7c0} 
+\index{hal::gpio@{hal::gpio}!operator"!@{operator"!}}
+\index{operator"!@{operator"!}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{operator"!()}{operator!()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} hal\+::gpio\+::operator! (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}}}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacehal_1_1gpio_a67e9aadab0dd712763b3ee838ec9cc65}\label{namespacehal_1_1gpio_a67e9aadab0dd712763b3ee838ec9cc65} 
+\index{hal::gpio@{hal::gpio}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{operator\texttt{"|}()}{operator|()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} hal\+::gpio\+::operator\texorpdfstring{$\vert$}{|} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}}}]{p,  }\item[{\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}}}]{pin\+\_\+num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_aaf0d27f1c0c154fe8526b6987248f611}\label{namespacehal_1_1gpio_aaf0d27f1c0c154fe8526b6987248f611} 
+\index{hal::gpio@{hal::gpio}!pin\_exists@{pin\_exists}}
+\index{pin\_exists@{pin\_exists}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{pin\_exists()}{pin\_exists()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{bool}} hal\+::gpio\+::pin\+\_\+exists (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}}}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_a6294a66899cca656e23582d3270eb718}\label{namespacehal_1_1gpio_a6294a66899cca656e23582d3270eb718} 
+\index{hal::gpio@{hal::gpio}!pin\_nr@{pin\_nr}}
+\index{pin\_nr@{pin\_nr}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{pin\_nr()}{pin\_nr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} hal\+::gpio\+::pin\+\_\+nr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}}}]{pin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{namespacehal_1_1gpio_a74674b233d31cf6576ddbb3a576590e9}\label{namespacehal_1_1gpio_a74674b233d31cf6576ddbb3a576590e9} 
+\index{hal::gpio@{hal::gpio}!port@{port}}
+\index{port@{port}!hal::gpio@{hal::gpio}}
+\doxysubsubsection{\texorpdfstring{port()}{port()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} hal\+::gpio\+::port (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}}}]{pin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+

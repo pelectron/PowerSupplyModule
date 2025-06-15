@@ -1,0 +1,336 @@
+\doxysection{psm\+::signed\+\_\+fixed\texorpdfstring{$<$}{<} Int\+Digits, Frac\+Digits \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1signed__fixed}{}\label{classpsm_1_1signed__fixed}\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+
+
+Signed fix point type with basic math and formatting support.  
+
+
+
+
+{\ttfamily \#include $<$fixpoint.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} = \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$Frac\+Digits + Int\+Digits$>$
+\begin{DoxyCompactList}\small\item\em smallest unsigned integer type with required bit width \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\+\_\+fixed}} ()=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a903e0af718c79eb8cb06d93389381dc9}{signed\+\_\+fixed}} (const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a0aa8e7cb4cf5cd5b621563db2c38e938}{signed\+\_\+fixed}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \& \mbox{\hyperlink{classpsm_1_1signed__fixed_ab53baf271137d01595ac8a4d7b6cc966}{operator=}} (const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \& \mbox{\hyperlink{classpsm_1_1signed__fixed_a627b1779020aa16eb2993c76433b826e}{operator=}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \&\&)=default
+\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a75df4216d99d4009c5f65b0036b18d27}{signed\+\_\+fixed}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ other) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a09774e081d10ec6d241d82a2339be7f8}{signed\+\_\+fixed}} (\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}) noexcept
+\begin{DoxyCompactList}\small\item\em construct from binary value. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}} () const noexcept
+\begin{DoxyCompactList}\small\item\em access the fixpoint\textquotesingle{}s raw value (stored in two\textquotesingle{}s complement) \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$ Int\+Digits $>$ \mbox{\hyperlink{classpsm_1_1signed__fixed_af5f0a508931dd92dfccdaa3880bb9083}{integer}} () const
+\begin{DoxyCompactList}\small\item\em get the sign extended integer bits \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$ Frac\+Digits $>$ \mbox{\hyperlink{classpsm_1_1signed__fixed_a0b0b10708340c03a0d7d39e9c41b2ed5}{fraction}} () const
+\begin{DoxyCompactList}\small\item\em get the raw fraction bits \end{DoxyCompactList}\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\+\_\+negative}} () const noexcept
+\begin{DoxyCompactList}\small\item\em check if this is negative. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a887e1fa0f2772c353b44404f991d790a}{signed\+\_\+fixed}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{\+::raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}) noexcept
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_aa56109846c9bb16d02c995266c16b86a}{signed\+\_\+fixed}} (float \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}) noexcept
+\begin{DoxyCompactList}\small\item\em construct from floating point. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_aea67e4c58a002b035553e3448b873e63}{signed\+\_\+fixed}} (double \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}) noexcept
+\end{DoxyCompactItemize}
+
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\+\_\+frac\+\_\+digits}} = Frac\+Digits
+\begin{DoxyCompactList}\small\item\em number of fractional bits \end{DoxyCompactList}\item 
+static constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}{num\+\_\+int\+\_\+digits}} = Int\+Digits
+\begin{DoxyCompactList}\small\item\em number of integer bits \end{DoxyCompactList}\item 
+static constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63}{num\+\_\+digits}} = \mbox{\hyperlink{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}{num\+\_\+int\+\_\+digits}} + \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\+\_\+frac\+\_\+digits}}
+\begin{DoxyCompactList}\small\item\em total number of bits \end{DoxyCompactList}\item 
+static constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\+\_\+mask}}
+\begin{DoxyCompactList}\small\item\em mask for fractional part \end{DoxyCompactList}\item 
+static constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\+\_\+mask}}
+\begin{DoxyCompactList}\small\item\em mask for integer part \end{DoxyCompactList}\item 
+static constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\+\_\+mask}}
+\begin{DoxyCompactList}\small\item\em mask for whole value \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$\newline
+class psm\+::signed\+\_\+fixed$<$ Int\+Digits, Frac\+Digits $>$}
+Signed fix point type with basic math and formatting support. 
+
+Holds its value in two\textquotesingle{}s complement, unused upper bits are 0 (not sign extended).
+
+The operations this type supports are the follwoing\+:
+\begin{DoxyItemize}
+\item conversion to and from float and double
+\item conversion to and from bit pattern
+\item addition, subtraction, multiplication and division only using integer math.
+\item formatting with to\+\_\+chars(). See "{}sgl/format.\+hpp"{}. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Int\+Digits} & number of integer digits \\
+\hline
+{\em Frac\+Digits} & number of fractional digits \\
+\hline
+\end{DoxyTemplParams}
+
+\end{DoxyItemize}
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}\label{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!raw\_value\_type@{raw\_value\_type}}
+\index{raw\_value\_type@{raw\_value\_type}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{raw\_value\_type}{raw\_value\_type}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+using \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::raw\+\_\+value\+\_\+type = \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$Frac\+Digits + Int\+Digits$>$}
+
+
+
+smallest unsigned integer type with required bit width 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}\label{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a903e0af718c79eb8cb06d93389381dc9}\label{classpsm_1_1signed__fixed_a903e0af718c79eb8cb06d93389381dc9} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a0aa8e7cb4cf5cd5b621563db2c38e938}\label{classpsm_1_1signed__fixed_a0aa8e7cb4cf5cd5b621563db2c38e938} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a75df4216d99d4009c5f65b0036b18d27}\label{classpsm_1_1signed__fixed_a75df4216d99d4009c5f65b0036b18d27} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+template$<$size\+\_\+t I, size\+\_\+t F$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a09774e081d10ec6d241d82a2339be7f8}\label{classpsm_1_1signed__fixed_a09774e081d10ec6d241d82a2339be7f8} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+construct from binary value. 
+
+\Hypertarget{classpsm_1_1signed__fixed_aa56109846c9bb16d02c995266c16b86a}\label{classpsm_1_1signed__fixed_aa56109846c9bb16d02c995266c16b86a} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{float}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+construct from floating point. 
+
+\Hypertarget{classpsm_1_1signed__fixed_aea67e4c58a002b035553e3448b873e63}\label{classpsm_1_1signed__fixed_aea67e4c58a002b035553e3448b873e63} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{double}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a887e1fa0f2772c353b44404f991d790a}\label{classpsm_1_1signed__fixed_a887e1fa0f2772c353b44404f991d790a} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!signed\_fixed@{signed\_fixed}}
+\index{signed\_fixed@{signed\_fixed}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{signed\_fixed()}{signed\_fixed()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::signed\+\_\+fixed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{\+::raw\+\_\+value\+\_\+type}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1signed__fixed_a0b0b10708340c03a0d7d39e9c41b2ed5}\label{classpsm_1_1signed__fixed_a0b0b10708340c03a0d7d39e9c41b2ed5} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!fraction@{fraction}}
+\index{fraction@{fraction}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{fraction()}{fraction()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$ Frac\+Digits $>$ \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::fraction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+get the raw fraction bits 
+
+\begin{DoxyReturn}{Returns}
+smallest unsigned integer with at least num\+\_\+frac\+\_\+digits bits 
+\end{DoxyReturn}
+\Hypertarget{classpsm_1_1signed__fixed_af5f0a508931dd92dfccdaa3880bb9083}\label{classpsm_1_1signed__fixed_af5f0a508931dd92dfccdaa3880bb9083} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!integer@{integer}}
+\index{integer@{integer}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{integer()}{integer()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\+\_\+value\+\_\+type\+\_\+t}}$<$ Int\+Digits $>$ \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::integer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+get the sign extended integer bits 
+
+\begin{DoxyReturn}{Returns}
+smallest unsigned integer with at least num\+\_\+int\+\_\+digits bits 
+\end{DoxyReturn}
+\Hypertarget{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}\label{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!is\_negative@{is\_negative}}
+\index{is\_negative@{is\_negative}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{is\_negative()}{is\_negative()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::is\+\_\+negative (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+check if this is negative. 
+
+\begin{DoxyReturn}{Returns}
+true if this is smaller than 0. 
+\end{DoxyReturn}
+\Hypertarget{classpsm_1_1signed__fixed_ab53baf271137d01595ac8a4d7b6cc966}\label{classpsm_1_1signed__fixed_ab53baf271137d01595ac8a4d7b6cc966} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \& \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_a627b1779020aa16eb2993c76433b826e}\label{classpsm_1_1signed__fixed_a627b1779020aa16eb2993c76433b826e} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}} \& \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$ \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}\label{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!value@{value}}
+\index{value@{value}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{\+::raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+access the fixpoint\textquotesingle{}s raw value (stored in two\textquotesingle{}s complement) 
+
+\begin{DoxyReturn}{Returns}
+smallest unsigned integer type with at least num\+\_\+digits bits 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}\label{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!fraction\_mask@{fraction\_mask}}
+\index{fraction\_mask@{fraction\_mask}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{fraction\_mask}{fraction\_mask}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::fraction\+\_\+mask\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ mask<raw\_value\_type,\ num\_frac\_digits>()}
+
+\end{DoxyCode}
+
+
+mask for fractional part 
+
+\Hypertarget{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}\label{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!integer\_mask@{integer\_mask}}
+\index{integer\_mask@{integer\_mask}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{integer\_mask}{integer\_mask}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::integer\+\_\+mask\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ mask<raw\_value\_type,\ num\_int\_digits>()}
+
+\end{DoxyCode}
+
+
+mask for integer part 
+
+\Hypertarget{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63}\label{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!num\_digits@{num\_digits}}
+\index{num\_digits@{num\_digits}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{num\_digits}{num\_digits}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::num\+\_\+digits = \mbox{\hyperlink{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}{num\+\_\+int\+\_\+digits}} + \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\+\_\+frac\+\_\+digits}}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+total number of bits 
+
+\Hypertarget{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}\label{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!num\_frac\_digits@{num\_frac\_digits}}
+\index{num\_frac\_digits@{num\_frac\_digits}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{num\_frac\_digits}{num\_frac\_digits}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::num\+\_\+frac\+\_\+digits = Frac\+Digits\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+number of fractional bits 
+
+\Hypertarget{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}\label{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!num\_int\_digits@{num\_int\_digits}}
+\index{num\_int\_digits@{num\_int\_digits}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{num\_int\_digits}{num\_int\_digits}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::num\+\_\+int\+\_\+digits = Int\+Digits\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+number of integer bits 
+
+\Hypertarget{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}\label{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518} 
+\index{psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}!value\_mask@{value\_mask}}
+\index{value\_mask@{value\_mask}!psm::signed\_fixed$<$ IntDigits, FracDigits $>$@{psm::signed\_fixed$<$ IntDigits, FracDigits $>$}}
+\doxysubsubsection{\texorpdfstring{value\_mask}{value\_mask}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Int\+Digits, size\+\_\+t Frac\+Digits$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\+\_\+value\+\_\+type}} \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed}}$<$ Int\+Digits, Frac\+Digits $>$\+::value\+\_\+mask\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ mask<raw\_value\_type,\ num\_digits>()}
+
+\end{DoxyCode}
+
+
+mask for whole value 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixpoint_8hpp}{fixpoint.\+hpp}}\end{DoxyCompactItemize}

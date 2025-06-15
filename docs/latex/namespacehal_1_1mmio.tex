@@ -1,0 +1,219 @@
+\doxysection{hal\+::mmio Namespace Reference}
+\hypertarget{namespacehal_1_1mmio}{}\label{namespacehal_1_1mmio}\index{hal::mmio@{hal::mmio}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}{set}} (volatile T \&mem, U value)
+\begin{DoxyCompactList}\small\item\em set the value of mem to value, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U , typename V $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a97960fcfb1629b399eb9e74c79baead1}{set}} (volatile T \&mem, U mask, V value, unsigned shift=0)
+\begin{DoxyCompactList}\small\item\em set a bit fields value, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a3f5e57f4088bfb73f6ad73849a298cfd}{set\+\_\+bits}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em set bits to 1 in mem, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_afd856630950846043b8a66d1ea658a16}{reset\+\_\+bits}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em reset bits to 0 in mem, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\T \mbox{\hyperlink{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}{get}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em read bits of mem. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\T \mbox{\hyperlink{namespacehal_1_1mmio_ab80c32294e38eda15f32085223442089}{get}} (volatile T \&mem, U mask, unsigned shift)
+\begin{DoxyCompactList}\small\item\em read bits of mem and right shift the result by shift bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}\label{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f} 
+\index{hal::mmio@{hal::mmio}!get@{get}}
+\index{get@{get}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+T hal\+::mmio\+::get (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{bits }\end{DoxyParamCaption})}
+
+
+
+read bits of mem. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+{\em U} & the bits type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em bits} & a mask of bits to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+mem \& bits 
+\end{DoxyReturn}
+\Hypertarget{namespacehal_1_1mmio_ab80c32294e38eda15f32085223442089}\label{namespacehal_1_1mmio_ab80c32294e38eda15f32085223442089} 
+\index{hal::mmio@{hal::mmio}!get@{get}}
+\index{get@{get}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+T hal\+::mmio\+::get (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{mask,  }\item[{unsigned}]{shift }\end{DoxyParamCaption})}
+
+
+
+read bits of mem and right shift the result by shift bits. 
+
+Example\+: reading the bits 6-\/9 of a register. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{\ \ REG\_ADDRESS\ =\ 0xdeadbeef,}
+\DoxyCodeLine{\ \ FIELD\ =\ 0b1111\ <<\ 6,}
+\DoxyCodeLine{\ \ FIELD\_POS\ =\ 6}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{volatile}\ uint32\_t\&\ reg\ =\ *\textcolor{keyword}{reinterpret\_cast<}voaltile\ uint32\_t*\textcolor{keyword}{>}(REG\_ADDRESS);}
+\DoxyCodeLine{uint32\_t\ field\ =\ \mbox{\hyperlink{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}{hal::mmio::get}}(reg,\ FIELD,\ FIELD\_POS);}
+\DoxyCodeLine{\textcolor{comment}{//\ can\ now\ use\ field\ without\ needing\ any\ more\ shifts.}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+{\em U} & the mask type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em mask} & a mask of bits to read \\
+\hline
+{\em shift} & the amount to right shift the read result. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(mem \& mask) \texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>} shift 
+\end{DoxyReturn}
+\Hypertarget{namespacehal_1_1mmio_afd856630950846043b8a66d1ea658a16}\label{namespacehal_1_1mmio_afd856630950846043b8a66d1ea658a16} 
+\index{hal::mmio@{hal::mmio}!reset\_bits@{reset\_bits}}
+\index{reset\_bits@{reset\_bits}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{reset\_bits()}{reset\_bits()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+void hal\+::mmio\+::reset\+\_\+bits (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{bits }\end{DoxyParamCaption})}
+
+
+
+reset bits to 0 in mem, i.\+e. 
+
+performs {\ttfamily mem \&= \texorpdfstring{$\sim$}{\string~}bits}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+{\em U} & the bits type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em bits} & a mask of bits to reset \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacehal_1_1mmio_a97960fcfb1629b399eb9e74c79baead1}\label{namespacehal_1_1mmio_a97960fcfb1629b399eb9e74c79baead1} 
+\index{hal::mmio@{hal::mmio}!set@{set}}
+\index{set@{set}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U , typename V $>$ \\
+void hal\+::mmio\+::set (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{mask,  }\item[{V}]{value,  }\item[{unsigned}]{shift = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+set a bit fields value, i.\+e. 
+
+performs {\ttfamily mem = (mem \& \texorpdfstring{$\sim$}{\string~}mask) \texorpdfstring{$\vert$}{|} (value \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} shift)}.
+
+Example\+: setting the bits 6-\/9 on a register to a value of 5. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{\ \ REG\_ADDRESS\ =\ 0xdeadbeef,}
+\DoxyCodeLine{\ \ FIELD\ =\ 0b1111\ <<\ 6,}
+\DoxyCodeLine{\ \ FIELD\_POS\ =\ 6}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{volatile}\ uint32\_t\&\ reg\ =\ *\textcolor{keyword}{reinterpret\_cast<}voaltile\ uint32\_t*\textcolor{keyword}{>}(REG\_ADDRESS);}
+\DoxyCodeLine{\mbox{\hyperlink{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}{hal::mmio::set}}(reg,\ FIELD,\ 5,\ FIELD\_POS);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+{\em U} & the mask type \\
+\hline
+{\em V} & the value type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em mask} & the mask used to clear the relevant bits in mem. A 1 in the mask means that a bit will be cleared. \\
+\hline
+{\em value} & the value to write \\
+\hline
+{\em shift} & how much value is shifted to the left \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}\label{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629} 
+\index{hal::mmio@{hal::mmio}!set@{set}}
+\index{set@{set}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+void hal\+::mmio\+::set (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{value }\end{DoxyParamCaption})}
+
+
+
+set the value of mem to value, i.\+e. 
+
+performs {\ttfamily mem = value}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em value} & the value to set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{namespacehal_1_1mmio_a3f5e57f4088bfb73f6ad73849a298cfd}\label{namespacehal_1_1mmio_a3f5e57f4088bfb73f6ad73849a298cfd} 
+\index{hal::mmio@{hal::mmio}!set\_bits@{set\_bits}}
+\index{set\_bits@{set\_bits}!hal::mmio@{hal::mmio}}
+\doxysubsubsection{\texorpdfstring{set\_bits()}{set\_bits()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+void hal\+::mmio\+::set\+\_\+bits (\begin{DoxyParamCaption}\item[{volatile T \&}]{mem,  }\item[{U}]{bits }\end{DoxyParamCaption})}
+
+
+
+set bits to 1 in mem, i.\+e. 
+
+performs {\ttfamily mem \texorpdfstring{$\vert$}{|}= bits}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the register type \\
+\hline
+{\em U} & the bits type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & the memory location, i.\+e. the register \\
+\hline
+{\em bits} & a mask of bits to set \\
+\hline
+\end{DoxyParams}

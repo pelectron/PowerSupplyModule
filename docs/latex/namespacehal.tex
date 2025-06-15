@@ -1,0 +1,298 @@
+\doxysection{hal Namespace Reference}
+\hypertarget{namespacehal}{}\label{namespacehal}\index{hal@{hal}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1clock}{clock}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1gpio}{gpio}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1i2c}{i2c}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1irq}{irq}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1mmio}{mmio}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1spi}{spi}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1uart}{uart}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{Config\+Error}} \{ \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076}{success}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a18fd4cc2101f27eef8d831e04892bb02}{already\+\_\+locked}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a2e61e63e9415049f2b3773c42e6f365f}{invalid\+\_\+config}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0355f6b3a360aa38b5824481dd4e53e3}{invalid\+\_\+port}}
+, \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8f6ef4f6040174a903813edc42b9b932}{invalid\+\_\+pin\+\_\+nr}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0a552ad01ef5df0e47b7504766bbe6c5}{invalid\+\_\+function}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a44cb09916461e04a5dace5f49a86938b}{invalid\+\_\+mode}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a03a31751fdc2584b6767a0b2e03109ea}{invalid\+\_\+speed}}
+, \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac8ca51c60a98840e97ee29c0618ad43e}{invalid\+\_\+pull}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a1528b2e7d0051d6d859b53639dd6f49c}{invalid\+\_\+state}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93aced57dc5058751395719703d8d77c6ff}{invalid\+\_\+alternate}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a54c300075c37a04e7248f6a83711a406}{invalid\+\_\+enumerator}}
+, \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac514c6bab483efbf318ef18ed3685014}{invalid\+\_\+phase}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a9b87498a0cc75ec232acabddb86a9a80}{invalid\+\_\+polarity}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8e40c21d17487b141e798359ee241411}{invalid\+\_\+format}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8c48ae18b144e6ff102109f5e2ac49c1}{invalid\+\_\+baudrate}}
+, \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a4b08c4476e80881248e9e17a8d0c2e67}{invalid\+\_\+id}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a3ef60a512741e2d5b8a3b4de70b7991e}{invalid\+\_\+sclk}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ab7b217131a7180e43e8276cea41be45b}{invalid\+\_\+mosi}}
+, \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a018708b865a58f88d24baf0aba36b3b6}{invalid\+\_\+miso}}
+, \newline
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a76e0cef759bad4b028b02961586c8377}{invalid\+\_\+cs}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}} \{ \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa39401275d1b300aa789fb22aea4148a}{flash}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a128d2ab4b71b0aaca5d6cdd9defcc306}{pwr}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa018881f8fefba70a163172087b7f45c}{rcc}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a29fa19e764c47fa898f697bf7bb940db}{crs}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a955871c9778abe2297251e689899dcdc}{gpio}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa190bd9e2ebc85c0a4504abfde0c4fff}{syscfg}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a695578cfd3a6c798fefb9d3f475360ba}{dma}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8908734f7f70e91e2802e800462e9ae6}{dmamux}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a57b5eef3774cc60acaede6f5b8bddc67}{nvic}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a18e0b301bdfe78f568a39540832dc4a5}{exti}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a225e8a3fe20e95f6cd9b9e10bfe5eb69}{adc}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1add8bce167fe170bece08e8b20ba97ddd}{tim1}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a77b6fc6736661135bfe5f07d508ac397}{tim2}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a49bd0c5907255e0ccbf7f8e57b5c5e60}{tim3}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a2c3b56ef748938ae11156d67b2d65992}{tim14}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a728ad7fd9d9bab4d55ca42c3767afa37}{tim15}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8e1c5a64c4cfe6458271babadeeec728}{tim16}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a1a88bd75789933d28c0d8fcda73551c9}{tim17}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a901ffb3e43ed5567da86a358bd54d4f0}{irtim}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1afd666fdf5092ee79d167a92f7445211f}{iwdg}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a4b49e367ea9c07b0a8d6059f5f29361f}{wwdg}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a68154466f81bfb532cd70f8c71426356}{rtc}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aab36abef0cdebd2f84424ad4d17e286b}{i2c}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a73779081aa94be2a1da67e6380a9746f}{uart}}
+, \newline
+\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a0b0760e072413088ea8460c3b4f43dbe}{spi}}
+, \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1ab1da4861a4edf5615ec39f07963ea8db}{dbg}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93} 
+\index{hal@{hal}!ConfigError@{ConfigError}}
+\index{ConfigError@{ConfigError}!hal@{hal}}
+\doxysubsubsection{\texorpdfstring{ConfigError}{ConfigError}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{hal\+::\+Config\+Error}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{success@{success}!hal@{hal}}\index{hal@{hal}!success@{success}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076} 
+success&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{already\_locked@{already\_locked}!hal@{hal}}\index{hal@{hal}!already\_locked@{already\_locked}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a18fd4cc2101f27eef8d831e04892bb02}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a18fd4cc2101f27eef8d831e04892bb02} 
+already\+\_\+locked&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_config@{invalid\_config}!hal@{hal}}\index{hal@{hal}!invalid\_config@{invalid\_config}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a2e61e63e9415049f2b3773c42e6f365f}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a2e61e63e9415049f2b3773c42e6f365f} 
+invalid\+\_\+config&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_port@{invalid\_port}!hal@{hal}}\index{hal@{hal}!invalid\_port@{invalid\_port}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0355f6b3a360aa38b5824481dd4e53e3}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0355f6b3a360aa38b5824481dd4e53e3} 
+invalid\+\_\+port&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_pin\_nr@{invalid\_pin\_nr}!hal@{hal}}\index{hal@{hal}!invalid\_pin\_nr@{invalid\_pin\_nr}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8f6ef4f6040174a903813edc42b9b932}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8f6ef4f6040174a903813edc42b9b932} 
+invalid\+\_\+pin\+\_\+nr&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_function@{invalid\_function}!hal@{hal}}\index{hal@{hal}!invalid\_function@{invalid\_function}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0a552ad01ef5df0e47b7504766bbe6c5}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0a552ad01ef5df0e47b7504766bbe6c5} 
+invalid\+\_\+function&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_mode@{invalid\_mode}!hal@{hal}}\index{hal@{hal}!invalid\_mode@{invalid\_mode}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a44cb09916461e04a5dace5f49a86938b}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a44cb09916461e04a5dace5f49a86938b} 
+invalid\+\_\+mode&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_speed@{invalid\_speed}!hal@{hal}}\index{hal@{hal}!invalid\_speed@{invalid\_speed}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a03a31751fdc2584b6767a0b2e03109ea}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a03a31751fdc2584b6767a0b2e03109ea} 
+invalid\+\_\+speed&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_pull@{invalid\_pull}!hal@{hal}}\index{hal@{hal}!invalid\_pull@{invalid\_pull}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac8ca51c60a98840e97ee29c0618ad43e}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac8ca51c60a98840e97ee29c0618ad43e} 
+invalid\+\_\+pull&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_state@{invalid\_state}!hal@{hal}}\index{hal@{hal}!invalid\_state@{invalid\_state}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a1528b2e7d0051d6d859b53639dd6f49c}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a1528b2e7d0051d6d859b53639dd6f49c} 
+invalid\+\_\+state&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_alternate@{invalid\_alternate}!hal@{hal}}\index{hal@{hal}!invalid\_alternate@{invalid\_alternate}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93aced57dc5058751395719703d8d77c6ff}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93aced57dc5058751395719703d8d77c6ff} 
+invalid\+\_\+alternate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_enumerator@{invalid\_enumerator}!hal@{hal}}\index{hal@{hal}!invalid\_enumerator@{invalid\_enumerator}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a54c300075c37a04e7248f6a83711a406}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a54c300075c37a04e7248f6a83711a406} 
+invalid\+\_\+enumerator&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_phase@{invalid\_phase}!hal@{hal}}\index{hal@{hal}!invalid\_phase@{invalid\_phase}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac514c6bab483efbf318ef18ed3685014}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac514c6bab483efbf318ef18ed3685014} 
+invalid\+\_\+phase&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_polarity@{invalid\_polarity}!hal@{hal}}\index{hal@{hal}!invalid\_polarity@{invalid\_polarity}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a9b87498a0cc75ec232acabddb86a9a80}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a9b87498a0cc75ec232acabddb86a9a80} 
+invalid\+\_\+polarity&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_format@{invalid\_format}!hal@{hal}}\index{hal@{hal}!invalid\_format@{invalid\_format}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8e40c21d17487b141e798359ee241411}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8e40c21d17487b141e798359ee241411} 
+invalid\+\_\+format&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_baudrate@{invalid\_baudrate}!hal@{hal}}\index{hal@{hal}!invalid\_baudrate@{invalid\_baudrate}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8c48ae18b144e6ff102109f5e2ac49c1}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8c48ae18b144e6ff102109f5e2ac49c1} 
+invalid\+\_\+baudrate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_id@{invalid\_id}!hal@{hal}}\index{hal@{hal}!invalid\_id@{invalid\_id}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a4b08c4476e80881248e9e17a8d0c2e67}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a4b08c4476e80881248e9e17a8d0c2e67} 
+invalid\+\_\+id&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_sclk@{invalid\_sclk}!hal@{hal}}\index{hal@{hal}!invalid\_sclk@{invalid\_sclk}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a3ef60a512741e2d5b8a3b4de70b7991e}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a3ef60a512741e2d5b8a3b4de70b7991e} 
+invalid\+\_\+sclk&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_mosi@{invalid\_mosi}!hal@{hal}}\index{hal@{hal}!invalid\_mosi@{invalid\_mosi}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ab7b217131a7180e43e8276cea41be45b}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ab7b217131a7180e43e8276cea41be45b} 
+invalid\+\_\+mosi&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_miso@{invalid\_miso}!hal@{hal}}\index{hal@{hal}!invalid\_miso@{invalid\_miso}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a018708b865a58f88d24baf0aba36b3b6}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a018708b865a58f88d24baf0aba36b3b6} 
+invalid\+\_\+miso&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_cs@{invalid\_cs}!hal@{hal}}\index{hal@{hal}!invalid\_cs@{invalid\_cs}}}\Hypertarget{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a76e0cef759bad4b028b02961586c8377}\label{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a76e0cef759bad4b028b02961586c8377} 
+invalid\+\_\+cs&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1} 
+\index{hal@{hal}!Peripheral@{Peripheral}}
+\index{Peripheral@{Peripheral}!hal@{hal}}
+\doxysubsubsection{\texorpdfstring{Peripheral}{Peripheral}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{hal\+::\+Peripheral}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{flash@{flash}!hal@{hal}}\index{hal@{hal}!flash@{flash}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa39401275d1b300aa789fb22aea4148a}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa39401275d1b300aa789fb22aea4148a} 
+flash&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{pwr@{pwr}!hal@{hal}}\index{hal@{hal}!pwr@{pwr}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a128d2ab4b71b0aaca5d6cdd9defcc306}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a128d2ab4b71b0aaca5d6cdd9defcc306} 
+pwr&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{rcc@{rcc}!hal@{hal}}\index{hal@{hal}!rcc@{rcc}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa018881f8fefba70a163172087b7f45c}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa018881f8fefba70a163172087b7f45c} 
+rcc&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{crs@{crs}!hal@{hal}}\index{hal@{hal}!crs@{crs}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a29fa19e764c47fa898f697bf7bb940db}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a29fa19e764c47fa898f697bf7bb940db} 
+crs&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{gpio@{gpio}!hal@{hal}}\index{hal@{hal}!gpio@{gpio}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a955871c9778abe2297251e689899dcdc}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a955871c9778abe2297251e689899dcdc} 
+gpio&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{syscfg@{syscfg}!hal@{hal}}\index{hal@{hal}!syscfg@{syscfg}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa190bd9e2ebc85c0a4504abfde0c4fff}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aa190bd9e2ebc85c0a4504abfde0c4fff} 
+syscfg&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{dma@{dma}!hal@{hal}}\index{hal@{hal}!dma@{dma}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a695578cfd3a6c798fefb9d3f475360ba}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a695578cfd3a6c798fefb9d3f475360ba} 
+dma&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{dmamux@{dmamux}!hal@{hal}}\index{hal@{hal}!dmamux@{dmamux}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8908734f7f70e91e2802e800462e9ae6}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8908734f7f70e91e2802e800462e9ae6} 
+dmamux&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{nvic@{nvic}!hal@{hal}}\index{hal@{hal}!nvic@{nvic}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a57b5eef3774cc60acaede6f5b8bddc67}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a57b5eef3774cc60acaede6f5b8bddc67} 
+nvic&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{exti@{exti}!hal@{hal}}\index{hal@{hal}!exti@{exti}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a18e0b301bdfe78f568a39540832dc4a5}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a18e0b301bdfe78f568a39540832dc4a5} 
+exti&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{adc@{adc}!hal@{hal}}\index{hal@{hal}!adc@{adc}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a225e8a3fe20e95f6cd9b9e10bfe5eb69}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a225e8a3fe20e95f6cd9b9e10bfe5eb69} 
+adc&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim1@{tim1}!hal@{hal}}\index{hal@{hal}!tim1@{tim1}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1add8bce167fe170bece08e8b20ba97ddd}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1add8bce167fe170bece08e8b20ba97ddd} 
+tim1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim2@{tim2}!hal@{hal}}\index{hal@{hal}!tim2@{tim2}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a77b6fc6736661135bfe5f07d508ac397}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a77b6fc6736661135bfe5f07d508ac397} 
+tim2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim3@{tim3}!hal@{hal}}\index{hal@{hal}!tim3@{tim3}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a49bd0c5907255e0ccbf7f8e57b5c5e60}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a49bd0c5907255e0ccbf7f8e57b5c5e60} 
+tim3&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim14@{tim14}!hal@{hal}}\index{hal@{hal}!tim14@{tim14}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a2c3b56ef748938ae11156d67b2d65992}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a2c3b56ef748938ae11156d67b2d65992} 
+tim14&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim15@{tim15}!hal@{hal}}\index{hal@{hal}!tim15@{tim15}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a728ad7fd9d9bab4d55ca42c3767afa37}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a728ad7fd9d9bab4d55ca42c3767afa37} 
+tim15&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim16@{tim16}!hal@{hal}}\index{hal@{hal}!tim16@{tim16}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8e1c5a64c4cfe6458271babadeeec728}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a8e1c5a64c4cfe6458271babadeeec728} 
+tim16&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{tim17@{tim17}!hal@{hal}}\index{hal@{hal}!tim17@{tim17}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a1a88bd75789933d28c0d8fcda73551c9}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a1a88bd75789933d28c0d8fcda73551c9} 
+tim17&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{irtim@{irtim}!hal@{hal}}\index{hal@{hal}!irtim@{irtim}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a901ffb3e43ed5567da86a358bd54d4f0}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a901ffb3e43ed5567da86a358bd54d4f0} 
+irtim&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{iwdg@{iwdg}!hal@{hal}}\index{hal@{hal}!iwdg@{iwdg}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1afd666fdf5092ee79d167a92f7445211f}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1afd666fdf5092ee79d167a92f7445211f} 
+iwdg&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{wwdg@{wwdg}!hal@{hal}}\index{hal@{hal}!wwdg@{wwdg}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a4b49e367ea9c07b0a8d6059f5f29361f}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a4b49e367ea9c07b0a8d6059f5f29361f} 
+wwdg&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{rtc@{rtc}!hal@{hal}}\index{hal@{hal}!rtc@{rtc}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a68154466f81bfb532cd70f8c71426356}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a68154466f81bfb532cd70f8c71426356} 
+rtc&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{i2c@{i2c}!hal@{hal}}\index{hal@{hal}!i2c@{i2c}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aab36abef0cdebd2f84424ad4d17e286b}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1aab36abef0cdebd2f84424ad4d17e286b} 
+i2c&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{uart@{uart}!hal@{hal}}\index{hal@{hal}!uart@{uart}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a73779081aa94be2a1da67e6380a9746f}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a73779081aa94be2a1da67e6380a9746f} 
+uart&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{spi@{spi}!hal@{hal}}\index{hal@{hal}!spi@{spi}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a0b0760e072413088ea8460c3b4f43dbe}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1a0b0760e072413088ea8460c3b4f43dbe} 
+spi&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{dbg@{dbg}!hal@{hal}}\index{hal@{hal}!dbg@{dbg}}}\Hypertarget{namespacehal_a7149ed559d0b48776c8f0ecb910734e1ab1da4861a4edf5615ec39f07963ea8db}\label{namespacehal_a7149ed559d0b48776c8f0ecb910734e1ab1da4861a4edf5615ec39f07963ea8db} 
+dbg&\\
+\hline
+
+\end{DoxyEnumFields}

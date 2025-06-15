@@ -1,0 +1,89 @@
+\doxysection{cli/enums.hpp File Reference}
+\hypertarget{enums_8hpp}{}\label{enums_8hpp}\index{cli/enums.hpp@{cli/enums.hpp}}
+{\ttfamily \#include $<$cstdint$>$}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1ansi}{cli\+::ansi}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{cli\+::\+Error}} \+: std\+::uint32\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea334c4a4c42fdb79d7ebc3e73b517e6f8}{cli\+::none}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea4316423dfe3ade85c292aa38185f9817}{cli\+::unimplemented}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea79ceaf8ec19fe8851cd601a5311bedf6}{cli\+::implementation\+\_\+error}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eae55d43eabeefe5a8271b4a3c898bd18f}{cli\+::invalid\+\_\+argument}}
+, \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaaad3195f8fe44ff07f91180a5d8a40c2}{cli\+::cant\+\_\+set\+\_\+param}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea81f9e4a050a78e8c419c2a3327cd9385}{cli\+::cant\+\_\+read\+\_\+param}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eac1157476197d4ed6c18d80ddfcaa0534}{cli\+::invalid\+\_\+cmd}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea862387ead9423480fae4caaa4db4af7e}{cli\+::too\+\_\+many\+\_\+splits}}
+, \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea1ba876f96d563282bfbd098589c90f43}{cli\+::dual\+\_\+separators}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea0d998bc644f3d7bb85b68137d2bd62c2}{cli\+::buffer\+\_\+overflow}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea512ae76a9b442434076b3d1779939d76}{cli\+::buffer\+\_\+underflow}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea23ff7e9efb2f4295d3f14ee5b065a6c2}{cli\+::incorrect\+\_\+num\+\_\+params}}
+, \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eac942f0d37a2c7562cc80316dd6c56b78}{cli\+::too\+\_\+many\+\_\+argments}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eab3c4ea60ab665ed026fc2faf54af6dbe}{cli\+::too\+\_\+few\+\_\+arguments}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eace56afbb7e0e3629ec194c4ee8d4012c}{cli\+::invalid\+\_\+esc\+\_\+seq}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea1528b2e7d0051d6d859b53639dd6f49c}{cli\+::invalid\+\_\+state}}
+, \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eafc5586801c30a30c08abb7be5b93cd0d}{cli\+::expected\+\_\+value}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea17b738ba69ef26fbf3d0f9a3a304de27}{cli\+::unexpected\+\_\+characters\+\_\+after\+\_\+closing\+\_\+paren}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eab33c20997681626ce929357185ed0a1f}{cli\+::expected\+\_\+rparen}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eaf2409621d2c97b05d61659c1a1eed444}{cli\+::too\+\_\+few\+\_\+characters}}
+, \newline
+\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332eadd83009b482779fb2e0b1bd7a064f4b8}{cli\+::invalid\+\_\+character}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea752ae9fca0b917dcc60e73db45d1a3c0}{cli\+::unescaped\+\_\+string}}
+, \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332ea24fe18195f0e29f8d3ef5ad3110cfc24}{cli\+::invalid\+\_\+value}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{cli\+::\+Exec\+Type}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3caab5eda0a74558a342cf659187f06f746f}{cli\+::get}}
+, \mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3caacdaeeeba9b4a4c5ebf042c0215a7bb0e}{cli\+::set}}
+, \mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3caa53b9e9679a8ea25880376080b76f98ad}{cli\+::call}}
+ \}
+\item 
+enum \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351}{cli\+::ansi\+::\+ASCII\+\_\+\+Codes}} \+: std\+::uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351af5db41393d3eac8f15153c412fc741ad}{cli\+::ansi\+::\+BEL}} = 0x07
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a600abb050263f5a4323989220d24a540}{cli\+::ansi\+::\+BS}} = 0x08
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a3dd251378910d193f0e3469e6e22d2c7}{cli\+::ansi\+::\+HT}} = 0x09
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a3467fe9e41dab2b1270d7243ce3f2d91}{cli\+::ansi\+::\+LF}} = 0x0A
+, \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a80fdb7580cc10b59db32bd8ee5f6b2a8}{cli\+::ansi\+::\+VT}} = 0x0B
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351ac8b4e35b0407070cf747f8d26409d96a}{cli\+::ansi\+::\+FF}} = 0x0C
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a2f1daf924996467bfd972b0e8c32d70a}{cli\+::ansi\+::\+CR}} = 0x0D
+, \mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351ac1d7e31a1404477c7cc204aaa8849e90}{cli\+::ansi\+::\+ESC}} = 0x1B
+, \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_aa75167389646750a2d4d732376d07351a47ed881bbb7bf321e9bd5b2f9dc3f6de}{cli\+::ansi\+::\+DEL}} = 0x7F
+ \}
+\item 
+enum \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724}{cli\+::ansi\+::\+C1}} \{ \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a660430ed2458e539cd0c00203fb65d99}{cli\+::ansi\+::\+SS2}} = 0x8E
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a7f31da18de73312654bad3b3cec99605}{cli\+::ansi\+::\+SS3}} = 0x8F
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a342cc3ebb6b81cd55c2f717ac30f06e7}{cli\+::ansi\+::\+DCS}} = 0x90
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a9ae8224556725528c320804e92194c13}{cli\+::ansi\+::\+CSI}} = 0x9B
+, \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a4cbfaf3d95ae65debb4b244be02eb369}{cli\+::ansi\+::\+ST}} = 0x9C
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a6a5a96ccabcdc02f7dbbe716fbcaa253}{cli\+::ansi\+::\+OSC}} = 0x9D
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a47f33bdbe404507426d53f9ab7755d01}{cli\+::ansi\+::\+SOS}} = 0x98
+, \mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724a2523bac143ef8f47d326cb4e68632c37}{cli\+::ansi\+::\+PM}} = 0x9E
+, \newline
+\mbox{\hyperlink{namespacecli_1_1ansi_a2aadde7c95e801e5db40a950e41e9724aeb9ac8d896cda5f4b564eb5a5b8513f9}{cli\+::ansi\+::\+APC}} = 0x9F
+ \}
+\begin{DoxyCompactList}\small\item\em Wikipedia\+: If the ESC is followed by a byte in the range 0x40 to 0x5F, the escape sequence is of type Fe. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{cli\+::\+Fmt}} \{ \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74afea087517c26fadd409bd4b9dc642555}{cli\+::normal}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 0
+, \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74ab8d1b43eae73587ba56baef574709ecb}{cli\+::hex}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 1
+, \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74a9d7183f16acce70658f686ae7f1a4d20}{cli\+::binary}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_ad10e9bc41793f7eb104fcb3ee1df9a0e}{cli\+::operator\texorpdfstring{$\vert$}{|}}} (\mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}, \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{b}}) \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_a1d09f6faa55d92176dc2a20ece6c3b02}{cli\+::operator\&}} (\mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}, \mbox{\hyperlink{namespacecli_aeffb3773a1f735db136749348d053b74}{Fmt}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{b}}) \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\end{DoxyCompactItemize}

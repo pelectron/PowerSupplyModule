@@ -1,0 +1,141 @@
+\doxysection{Functions}
+\hypertarget{group___functions}{}\label{group___functions}\index{Functions@{Functions}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Name Func\+Name, Name Description, Name Help, Callable F, class... Args$>$ }\\constexpr auto \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{cli\+::funcs\+::func}} (Func\+Name, Description, Help, F \&\&f, Args \&\&...args)
+\item 
+{\footnotesize template$<$Name Func\+Name, class Member\+Function\+Pointer , class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$Member\+Function\+Pointer$>$}\\constexpr auto \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{cli\+::funcs\+::mem\+\_\+fun}} (Func\+Name name, Member\+Function\+Pointer mem\+\_\+fun, Args \&\&...args)
+\begin{DoxyCompactList}\small\item\em creates a member function command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$auto Member\+Function\+Pointer, class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$decltype(Member\+Function\+Pointer)$>$}\\constexpr auto \mbox{\hyperlink{group___functions_ga4ffb7c6ca466f02c9419c2acc93a0bcf}{cli\+::funcs\+::mem\+\_\+fun}} (Args \&\&...args)
+\begin{DoxyCompactList}\small\item\em creates a member function command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}\label{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa} 
+\index{Functions@{Functions}!func@{func}}
+\index{func@{func}!Functions@{Functions}}
+\doxysubsubsection{\texorpdfstring{func()}{func()}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, Name Description, Name Help, Callable F, class... Args$>$ \\
+constexpr auto cli\+::funcs\+::func (\begin{DoxyParamCaption}\item[{Func\+Name}]{,  }\item[{Description}]{,  }\item[{Help}]{,  }\item[{F \&\&}]{f,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & \\
+\hline
+{\em args} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{group___functions_ga4ffb7c6ca466f02c9419c2acc93a0bcf}\label{group___functions_ga4ffb7c6ca466f02c9419c2acc93a0bcf} 
+\index{Functions@{Functions}!mem\_fun@{mem\_fun}}
+\index{mem\_fun@{mem\_fun}!Functions@{Functions}}
+\doxysubsubsection{\texorpdfstring{mem\_fun()}{mem\_fun()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$auto Member\+Function\+Pointer, class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$decltype(Member\+Function\+Pointer)$>$\\
+constexpr auto cli\+::funcs\+::mem\+\_\+fun (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a member function command. 
+
+This command cannot be used standalone. Its parent command must be an object that this member function can be called on.
+
+Intended usage\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }Foo\{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{void}\ bar(\textcolor{keywordtype}{int}\ param);}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ baz();}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{static}\ Foo\ foo;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{classcli_1_1_cli}{cli::Cli}}\ my\_cli(...,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::param(\textcolor{stringliteral}{"{}foo"{}}\_sc,\ foo,\ \textcolor{comment}{//\ <-\/\ foo\ must\ be\ direct\ parent}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ of\ bar\ and\ baz}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::mem\_fun<\&Foo::bar>(\textcolor{stringliteral}{"{}param"{}}\_arg),\ \textcolor{comment}{//\ name\ is}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ deduced}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::mem\_fun<\&Foo::baz>(),\ \textcolor{comment}{//\ name\ is\ deduced}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...\ ),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...);}
+
+\end{DoxyCode}
+
+
+This is used to avoid repeating the object, i.\+e. {\ttfamily foo}, for every member function added, as would be the case when using cli\+::func().
+
+Additionally, the name of the function is automatically deduced.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the member function \\
+\hline
+{\em mem\+\_\+fun} & pointer to the member function \\
+\hline
+{\em args} & the arguments, i.\+e. something created with \doxylink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{funcs\+::arg} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a partial Command 
+\end{DoxyReturn}
+\Hypertarget{group___functions_gacf55204507a85fa59808754b48b953f5}\label{group___functions_gacf55204507a85fa59808754b48b953f5} 
+\index{Functions@{Functions}!mem\_fun@{mem\_fun}}
+\index{mem\_fun@{mem\_fun}!Functions@{Functions}}
+\doxysubsubsection{\texorpdfstring{mem\_fun()}{mem\_fun()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$Name Func\+Name, class Member\+Function\+Pointer , class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$Member\+Function\+Pointer$>$\\
+constexpr auto cli\+::funcs\+::mem\+\_\+fun (\begin{DoxyParamCaption}\item[{Func\+Name}]{name,  }\item[{Member\+Function\+Pointer}]{mem\+\_\+fun,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a member function command. 
+
+This command cannot be used standalone. Its parent command must be an object that this member function can be called on.
+
+Intended usage\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }Foo\{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{void}\ bar(\textcolor{keywordtype}{int}\ param);}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ baz();}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{static}\ Foo\ foo;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{classcli_1_1_cli}{cli::Cli}}\ my\_cli(...,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::param(\textcolor{stringliteral}{"{}foo"{}}\_sc,\ foo,\ \textcolor{comment}{//\ <-\/\ foo\ must\ be\ direct\ parent}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ of\ bar\ and\ baz}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::mem\_fun(\textcolor{stringliteral}{"{}bar"{}}\_sc,\ \&Foo::bar,\ \textcolor{stringliteral}{"{}param"{}}\_arg),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::mem\_fun(\textcolor{stringliteral}{"{}baz"{}}\_sc,\ \&Foo::baz),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...\ ),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ...);}
+
+\end{DoxyCode}
+
+
+This is used to avoid repeating the object, i.\+e. {\ttfamily foo}, for every member function added, as would be the case when using cli\+::func().
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the member function \\
+\hline
+{\em mem\+\_\+fun} & pointer to the member function \\
+\hline
+{\em args} & the arguments, i.\+e. something created with \doxylink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{funcs\+::arg} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a partial Command 
+\end{DoxyReturn}

@@ -1,0 +1,56 @@
+\doxysection{Arguments}
+\hypertarget{group___arguments}{}\label{group___arguments}\index{Arguments@{Arguments}}
+\doxysubsubsection*{Topics}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__optional-args}{Optional Arguments}}
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__required-args}{Required Arguments}}
+\begin{DoxyCompactList}\small\item\em \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Arguments are the elements that describe c++ function arguments. These argument specifications are then used by Functions to parse the char input into the specified values and validate them.
+
+There are two kinds of function arguments\+:
+
+
+\begin{DoxyItemize}
+\item required\+: these parameters must be specified, else it is an error.
+\item optional\+: these parameters can be left out because they have a default value.
+\end{DoxyItemize}
+
+Arguments are fully specified by their\+:
+
+
+\begin{DoxyItemize}
+\item name\+: the human readable name
+\item description\+: a string that is used by the help functionality
+\item type\+: the value type of the argument
+\item parser\+: used to parse a value the arguments type
+\item validator\+: used to validate a parsed value
+\item optionally, a default value
+\end{DoxyItemize}
+
+\doxylink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{cli\+::funcs\+::arg} is the templated overload set (sounds horrible, but bear with it) to use for creating arguments. There are two main templates forms, one for required and one for optional arguments.
+
+The base form for an optional arguments is written below\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{comment}{//\ the\ arguments\ type,\ must\ be\ explicitly\ specified}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ DefaultValue,\ \textcolor{comment}{//\ the\ default\ value,\ must\ be\ explicitly}}
+\DoxyCodeLine{specified\ Name\ ArgName,\ \textcolor{comment}{//\ deduced\ Name\ Description,\ //\ deduced\ parse::Parser}}
+\DoxyCodeLine{Parse,\ \textcolor{comment}{//\ deduced\ validate::Validator\ Validate\ //\ deduced}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ >}
+\DoxyCodeLine{\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(\ ArgName\ name,\ \textcolor{comment}{//\ the\ name}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\ description,\ \textcolor{comment}{//\ the\ description}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\ \&\&parse,\ \textcolor{comment}{//\ the\ parser}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&validate\ \textcolor{comment}{//\ the\ validator}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+ \input{group__optional-args}
+\input{group__required-args}

@@ -1,0 +1,23 @@
+\doxysection{cli\+::io\+::Ansi\+Output\+Stream\texorpdfstring{$<$}{<} Stream \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcli_1_1io_1_1_ansi_output_stream}{}\label{structcli_1_1io_1_1_ansi_output_stream}\index{cli::io::AnsiOutputStream$<$ Stream $>$@{cli::io::AnsiOutputStream$<$ Stream $>$}}
+
+
+The output device for ansi terminals.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Basic\+Output\+Stream Stream$>$\newline
+struct cli\+::io\+::\+Ansi\+Output\+Stream$<$ Stream $>$}
+The output device for ansi terminals. 
+
+It relies on a \doxylink{conceptcli_1_1io_1_1_basic_output_stream}{Basic\+Output\+Stream} to actually output characters. Next to passing through character and string writes, \doxylink{structcli_1_1io_1_1_ansi_output_stream}{Ansi\+Output\+Stream} transforms special events, such as backspace, cursor movement, etc., into ansi escape sequences. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/io.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,57 @@
+\doxysection{history.\+hpp}
+\hypertarget{history_8hpp_source}{}\label{history_8hpp_source}\index{cli/history.hpp@{cli/history.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_HISTORY\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_HISTORY\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ Depth,\ std::\textcolor{keywordtype}{size\_t}\ LineSize>\ \textcolor{keyword}{class\ }History\ \{}
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{using\ }String\ =\ StringLiteral<LineSize>;}
+\DoxyCodeLine{00009\ \ \ String\ lines[Depth];}
+\DoxyCodeLine{00010\ \ \ std::size\_t\ front\_\{0\};}
+\DoxyCodeLine{00011\ \ \ std::size\_t\ current\_\{0\};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{constexpr}\ ByteView\ get()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ lines[current\_];\ \}}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{constexpr}\ ByteView\ backward()\ noexcept\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_\ ==\ 0)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (front\_\ !=\ Depth\ -\/\ 1)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ current\_\ =\ Depth\ -\/\ 1;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lines[current\_];}
+\DoxyCodeLine{00021\ \ \ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_\ !=\ front\_\ +\ 1)}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ -\/-\/current\_;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ lines[current\_];}
+\DoxyCodeLine{00026\ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{constexpr}\ ByteView\ forward()\ noexcept\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_\ ==\ front\_)}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lines[current\_];}
+\DoxyCodeLine{00030\ \ \ \ \ ++current\_;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_\ ==\ Depth)}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ current\_\ =\ 0;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordflow}{return}\ lines[current\_];}
+\DoxyCodeLine{00034\ \ \ \}}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ push\_back(ByteView\ line)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (front\_\ ==\ Depth\ -\/\ 1)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ front\_\ =\ 0;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ ++front\_;}
+\DoxyCodeLine{00040\ \ \ \ \ lines[front\_]\ =\ String(line);}
+\DoxyCodeLine{00041\ \ \ \ \ current\_\ =\ front\_;}
+\DoxyCodeLine{00042\ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ reset()\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ front\_\ =\ 0;}
+\DoxyCodeLine{00045\ \ \ \ \ current\_\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&line\ :\ lines)}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ line.clear();}
+\DoxyCodeLine{00048\ \ \ \}}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

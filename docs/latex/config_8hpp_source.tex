@@ -1,0 +1,54 @@
+\doxysection{config.\+hpp}
+\hypertarget{config_8hpp_source}{}\label{config_8hpp_source}\index{hal/config.hpp@{hal/config.hpp}}
+\mbox{\hyperlink{config_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ HAL\_CONFIG\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ HAL\_CONFIG\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacehal}{hal}}\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{ConfigError}}\ \{}
+\DoxyCodeLine{00008\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076}{success}},}
+\DoxyCodeLine{00009\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a18fd4cc2101f27eef8d831e04892bb02}{already\_locked}},}
+\DoxyCodeLine{00010\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a2e61e63e9415049f2b3773c42e6f365f}{invalid\_config}},}
+\DoxyCodeLine{00011\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0355f6b3a360aa38b5824481dd4e53e3}{invalid\_port}},}
+\DoxyCodeLine{00012\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8f6ef4f6040174a903813edc42b9b932}{invalid\_pin\_nr}},}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a0a552ad01ef5df0e47b7504766bbe6c5}{invalid\_function}},}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a44cb09916461e04a5dace5f49a86938b}{invalid\_mode}},}
+\DoxyCodeLine{00015\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a03a31751fdc2584b6767a0b2e03109ea}{invalid\_speed}},}
+\DoxyCodeLine{00016\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac8ca51c60a98840e97ee29c0618ad43e}{invalid\_pull}},}
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a1528b2e7d0051d6d859b53639dd6f49c}{invalid\_state}},}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93aced57dc5058751395719703d8d77c6ff}{invalid\_alternate}},}
+\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a54c300075c37a04e7248f6a83711a406}{invalid\_enumerator}},}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ac514c6bab483efbf318ef18ed3685014}{invalid\_phase}},}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a9b87498a0cc75ec232acabddb86a9a80}{invalid\_polarity}},}
+\DoxyCodeLine{00022\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8e40c21d17487b141e798359ee241411}{invalid\_format}},}
+\DoxyCodeLine{00023\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a8c48ae18b144e6ff102109f5e2ac49c1}{invalid\_baudrate}},}
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a4b08c4476e80881248e9e17a8d0c2e67}{invalid\_id}},}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a3ef60a512741e2d5b8a3b4de70b7991e}{invalid\_sclk}},}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93ab7b217131a7180e43e8276cea41be45b}{invalid\_mosi}},}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a018708b865a58f88d24baf0aba36b3b6}{invalid\_miso}},}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a76e0cef759bad4b028b02961586c8377}{invalid\_cs}},}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Peripheral>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \{}
+\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{structhal_1_1_config_result_a256a60ee22efee06e952208a1d753078}{ConfigResult}}()\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result_a729dc3e6dde1e3c3794a02edc7178b00}{ConfigResult}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result_a97fd9fbfd63349159dea828b46055385}{ConfigResult}}(\mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result_aca9968ca0e1167ca4d4d0b0a95b26923}{ConfigResult}}(\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{ConfigError}}\ \mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}})\ :\ \mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}}(\mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}}),\ \mbox{\hyperlink{structhal_1_1_config_result_aa90342df98f71b3ffaba3a7c602b3524}{peripheral}}()\ \{\}}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result_ae5386e42756f6f7e51f44fca8e191187}{ConfigResult}}(\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}\ \&\&p)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}}(\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{ConfigError}}::\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076}{success}}),\ \mbox{\hyperlink{structhal_1_1_config_result_aa90342df98f71b3ffaba3a7c602b3524}{peripheral}}(std::move(p))\ \{\}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&\mbox{\hyperlink{structhal_1_1_config_result_a3cedab4870b5cef83378b8f30562fcdd}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&\mbox{\hyperlink{structhal_1_1_config_result_a7cedccbd11244ee74edb9afa90dc6c99}{operator=}}(\mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ bool()\ const\ noexcept\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}}\ ==\ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93a260ca9dd8a4577fc00b7bd5810298076}{ConfigError::success}};}
+\DoxyCodeLine{00042\ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{ConfigError}}\ \mbox{\hyperlink{structhal_1_1_config_result_ae842730e86e8bfe9f3c6902f9e6252f5}{error}};}
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}\ \mbox{\hyperlink{structhal_1_1_config_result_aa90342df98f71b3ffaba3a7c602b3524}{peripheral}};}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ \}\ \textcolor{comment}{//\ namespace\ hal}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

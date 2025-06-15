@@ -1,0 +1,104 @@
+\doxysection{cli/cli.hpp File Reference}
+\hypertarget{cli_8hpp}{}\label{cli_8hpp}\index{cli/cli.hpp@{cli/cli.hpp}}
+{\ttfamily \#include "{}cli/ctti.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/function.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/help.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/io.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/param.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/tracker.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$span$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcli_1_1_history_view}{cli\+::\+History\+View}}
+\item 
+class \mbox{\hyperlink{classcli_1_1_status}{cli\+::\+Status}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_deduced}{cli\+::\+Deduced}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_dummy_param}{cli\+::\+Dummy\+Param$<$ Name $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1config}{cli\+::config}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_control_sequence}{cli\+::\+Control\+Sequence}}
+\item 
+class \mbox{\hyperlink{classcli_1_1_cli}{cli\+::\+Cli$<$ Cfg, Stream, Commands $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1dtl}{cli\+::dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1_invocable_r}{cli\+::\+InvocableR}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1_config}{cli\+::\+Config}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_ab3e43667389348533b597f901255303b}{cli\+::\+Command\+Signature}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacecli_ae6e97177407b9c789718a09b168d6d67}{cli\+::\+Delimiter}} \{ \mbox{\hyperlink{namespacecli_ae6e97177407b9c789718a09b168d6d67a324d8a1d3f81e730d5099a48cee0c5b6}{cli\+::cr}}
+, \mbox{\hyperlink{namespacecli_ae6e97177407b9c789718a09b168d6d67a69011ae7d1f3c17284b99c42254aca2d}{cli\+::lf}}
+, \mbox{\hyperlink{namespacecli_ae6e97177407b9c789718a09b168d6d67a9df56ad3b9634f16d00f717b3e0fcc00}{cli\+::crlf}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8}{cli\+::\+Control}} \{ \newline
+\mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a5528770f4bce9c9b0ce9bbb8645aef45}{cli\+::backspace}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a7bb66a7d08c1f4a2837ba0f90c55db53}{cli\+::autocomplete}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8aa20f6811be5b8a2403e30ce1378018f0}{cli\+::cursor\+\_\+up}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a158807cd6c49fadf794db05f1b28ba5e}{cli\+::cursor\+\_\+down}}
+, \newline
+\mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a6bb10065fca583fdeed20262aa83bb18}{cli\+::cursor\+\_\+left}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a6cea15306f9a37c086d6a740d72f8402}{cli\+::cursor\+\_\+right}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8aca44d77543bfe62e4ba1d559ae721e8d}{cli\+::insert\+\_\+char}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8aba05271d38c8bfe424e5f0a0b4a3b650}{cli\+::delete\+\_\+char}}
+, \newline
+\mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a57177cb38fa282e1b39a13fa3973f2c6}{cli\+::erase\+\_\+char}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a3ac802ffaeb4baf487db0c66f2296168}{cli\+::save\+\_\+cursor}}
+, \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8a08f77563d58e12412eaafcaac470deb8}{cli\+::restore\+\_\+cursor}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444}{cli\+::\+State}} \{ \newline
+\mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444ac76a5e84e4bdee527e274ea30c680d79}{cli\+::active}}
+, \mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444a6e3d5439251250b6cfcde61fad15a141}{cli\+::args\+\_\+start}}
+, \mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444a0715d123e1e9f680ae280d86e91a9acb}{cli\+::set\+\_\+params\+\_\+start}}
+, \mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444a7c3901ac4ee4cd017f3d24ada0afed69}{cli\+::call\+\_\+params\+\_\+start}}
+, \newline
+\mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444a684d519c966e59c7e2c42beaa6306740}{cli\+::call\+\_\+params}}
+, \mbox{\hyperlink{namespacecli_aa45a62057fe86907316ee9be83204444ae099965fddb012147595dd26ee127e48}{cli\+::set\+\_\+params}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{namespacecli_aa9bb93d2e8c3e090779ac7d3f0177afc}{cli\+::parse\+\_\+args}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{v}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{template}}$<$ class... $>$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} L, class... Commands$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_a01ff500a8afb9518d0c5364f60fda51c}{cli\+::generate\+\_\+names}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{L}}$<$ Commands... $>$) -\/$>$ std\+::array$<$ \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}, sizeof...(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Commands}})$>$
+\item 
+{\footnotesize template$<$Config Cfg, io\+::\+Output\+Stream Stream, Command... Commands$>$ }\\\mbox{\hyperlink{namespacecli_af8bcd25d7602452501afcdb72ca09dad}{cli\+::\+Cli}} (Cfg \&\&, Stream \&\&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Commands}} \&\&...) -\/$>$ Cli$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Cfg $>$, std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$, std\+::remove\+\_\+cvref\+\_\+t$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Commands}} $>$... $>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::pair$<$ \mbox{\hyperlink{namespacecli_a82ec0944f459a00a4992b8a11d2c11f8}{Control}}, \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} $>$ \mbox{\hyperlink{namespacecli_1_1dtl_a6e029409fb783ed7d887fac83185a8d8}{cli\+::dtl\+::esc\+\_\+sequences}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}

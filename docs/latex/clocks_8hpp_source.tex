@@ -1,0 +1,626 @@
+\doxysection{clocks.\+hpp}
+\hypertarget{clocks_8hpp_source}{}\label{clocks_8hpp_source}\index{hal/clocks.hpp@{hal/clocks.hpp}}
+\mbox{\hyperlink{clocks_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ STM32C0\_HAL\_CLOCK\_HPP}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ STM32C0\_HAL\_CLOCK\_HPP}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}cortex/common.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{peripheral_8hpp}{peripheral.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacehal}{hal}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }clock\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \{\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}},\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3aa3ef1e12501238ddcca5063cc730a494}{operation\_unsupported}},\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3ad251e6fb723481cde9cc592fa724dd10}{invalid\_parameter}}\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ \{}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cafedb2d84cafe20862cb4399751a8a7e3}{invalid}}\ =\ 0,}
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cac9257cf1d5aaf6afea2f4701ebd6d6d5}{HSI48}},\ \ \ \ \textcolor{comment}{//<\ \ high-\/speed\ fully-\/integrated\ RC\ oscillator\ producing\ HSI48\ clock}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//(48\ MHz)}}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca227629d88ddba9532fd22078fdbe4541}{HSIUSB48}},\ \textcolor{comment}{//<\ a\ high-\/speed\ fully-\/integrated\ RC\ oscillator\ producing}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ HSIUSB48\ clock\ for\ USB\ (about\ 48\ MHz).\ Only\ applies\ to}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ STM32C071xx.}}
+\DoxyCodeLine{00029\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cad597c271a829f7fbe0c01fd4109854ee}{HSE}},\ \ \ \ \ \ \textcolor{comment}{//<\ a\ high-\/speed\ oscillator\ with\ external\ crystal/ceramic\ resonator}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ or\ external\ clock\ source,\ producing\ HSE\ clock\ (4\ to\ 48\ MHz)}}
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca08bb16f49592497b8d95a506bd494910}{LSI}},\ \ \ \ \ \ \textcolor{comment}{//<\ a\ low-\/speed\ fully-\/integrated\ RC\ oscillator\ producing\ LSI\ clock}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//(about\ 32\ kHz)}}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca022c9c355248b48d98413c3d5b7870ae}{LSE}},\ \ \ \ \ \ \textcolor{comment}{//<\ \ a\ low-\/speed\ oscillator\ with\ external\ crystal/ceramic\ resonator}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \textcolor{comment}{//\ or\ external\ clock\ source,\ producing\ LSE\ clock\ (accurate\ 32.768\ kHz}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \textcolor{comment}{//\ or\ external\ clock\ up\ to\ 1\ MHz)}}
+\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca95749adecd06bce3ab4b16503a7d3fe1}{I2S\_CKIN}},\ \textcolor{comment}{//<\ -\/\ pin\ for\ direct\ clock\ input\ for\ I2S1\ peripheral}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00041\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca21483b5733fbfd43e9323160be9efd3b}{HSISYS}},\ \textcolor{comment}{//<\ a\ clock\ derived\ from\ HSI48\ through\ division\ by\ a\ factor}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ programmable\ from\ 1\ to\ 128.\ Used\ as\ system\ clock\ source\ after}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ startup\ from\ reset,\ with\ the\ division\ by\ four\ (producing\ 12\ MHz}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ frequency)}}
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca22d401dd4ae87bd383fc39ef8b71cae6}{SYSCLK}},\ \textcolor{comment}{//<\ \ a\ clock\ obtained\ through\ selecting\ one\ of\ LSE,\ LSI,\ HSE,}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ HSIUSB48,\ and\ HSISYS\ clocks}}
+\DoxyCodeLine{00047\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa3b8b88e91d2c316c3ed95c17238393e}{HSIKER}},\ \textcolor{comment}{//<\ a\ clock\ derived\ from\ HSI48\ through\ division\ by\ a\ factor}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ programmable\ from\ 1\ to\ 8}}
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca81d7ab7449e0da73c41ef75b82c25e67}{HCLK}},\ \ \ \textcolor{comment}{//<\ a\ clock\ derived\ from\ SYSCLK\ through\ division\ by\ a\ factor}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ programmable\ from\ 1\ to\ 512.\ Used\ for\ clocking\ the\ AHB\ domains.}}
+\DoxyCodeLine{00051\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cadb06a515e5e0dee9818e92ba7327331b}{HCLK8}},\ \ \textcolor{comment}{//<\ \ a\ clock\ derived\ from\ HCLK\ through\ division\ by\ eight}}
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca7dbc1c0e363ff3da443f05c8ea5197cb}{PCLK}},\ \textcolor{comment}{//<\ a\ clock\ derived\ from\ HCLK\ through\ division\ by\ a\ factor\ programmable}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ from\ 1\ to\ 16.\ Used\ for\ clocking\ the\ APB\ domains.}}
+\DoxyCodeLine{00054\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caead0bcbb02347233eac6ed751a1b4cc4}{TIMPCLK}},\ \textcolor{comment}{//<\ a\ clock\ derived\ from\ PCLK,\ running\ at\ PCLK\ frequency\ if\ the\ APB}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ prescaler\ division\ factor\ is\ set\ to\ 1,\ or\ at\ twice\ the\ PCLK}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ frequency\ otherwise}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cacfc724f2c3f579265e777816b4ca1ff7}{RTCCLK}},}
+\DoxyCodeLine{00062\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa6692231f77175435769d774b61ed537}{USART1CLK}},}
+\DoxyCodeLine{00063\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca803865c2fcae5ab3bb21af98be99b46a}{I2C1CLK}},}
+\DoxyCodeLine{00064\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caecdb2975c3384d1970f1d35abde7eeae}{ADCCLK}},}
+\DoxyCodeLine{00065\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca914ff2f4dffac040364a943653664344}{I2S1CLK}},}
+\DoxyCodeLine{00067\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca8457a69c682a24c1342612b3a5cddd07}{FDCAN1}},\ \textcolor{comment}{//<\ Only\ applies\ to\ STM32C092xx}}
+\DoxyCodeLine{00068\ \};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00071\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ *\mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_a1506a3067a66c2ca8f210e9a6b97aee0}{input\_clock}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00072\ \ \ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_a47c1b3a3c005f21e29a29c06d5492e49}{name}}\ =\ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cafedb2d84cafe20862cb4399751a8a7e3}{Clock::invalid}};}
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_aea032c1c45a9f17eaac742b02c696fca}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00074\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_a009242f43848367118e20d9c5b782a1d}{divider}}\ =\ 0;}
+\DoxyCodeLine{00075\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_ac3b01091292255f563185ba0d25bc102}{multiplier}}\ =\ 0;}
+\DoxyCodeLine{00076\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config_af1fcd528fa52a7c21cb11b23cad38074}{frequency}}\ =\ 0;}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e}{HSE}}\ \{}
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a1f57d980a793ed9a301e777afa916041}{Mode}}\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a1f57d980a793ed9a301e777afa916041a89e91a9836259f22053c3c8bf5f23ec8}{crystal}},\ \textcolor{comment}{//<\ crystal/ceramic\ resonator\ mode}}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a1f57d980a793ed9a301e777afa916041a460dc81cdd168ceff02c1c03b8c6022d}{bypass}}\ \ \ \textcolor{comment}{//<\ external\ clock\ mode}}
+\DoxyCodeLine{00086\ \ \ \};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a2c9df00117de38a13f460d828ee7516b}{enabled}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00089\ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a1f57d980a793ed9a301e777afa916041}{Mode}}\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_aebee5e801d4ab0b31b1b9c1307f3d068}{mode}}\ =\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a1f57d980a793ed9a301e777afa916041a89e91a9836259f22053c3c8bf5f23ec8}{crystal}};}
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e_a55f276337a99411be78756bda1a9c7ed}{use\_output\_enable}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00091\ \};}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i}{HSI}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00097\ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i_a20051674c0e79248c6121c66aaec63ff}{calibrate}}();}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \textcolor{comment}{//\ static\ Error\ enable()\ \{}}
+\DoxyCodeLine{00100\ \ \ \textcolor{comment}{//\ SET\_BIT(RCC-\/>CR,\ RCC\_CR\_HSION);}}
+\DoxyCodeLine{00101\ \ \ \textcolor{comment}{//\ while\ (not\ is\_stable())\ \{}}
+\DoxyCodeLine{00102\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00103\ \ \ \textcolor{comment}{//\ return\ Error::none;}}
+\DoxyCodeLine{00104\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \textcolor{comment}{//\ static\ Error\ disable()\ \{}}
+\DoxyCodeLine{00107\ \ \ \textcolor{comment}{//\ CLEAR\_BIT(RCC-\/>CR,\ RCC\_CR\_HSION);}}
+\DoxyCodeLine{00108\ \ \ \textcolor{comment}{//\ while\ (is\_stable())\ \{}}
+\DoxyCodeLine{00109\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00110\ \ \ \textcolor{comment}{//\ return\ Error::none;}}
+\DoxyCodeLine{00111\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \textcolor{comment}{//\ static\ void\ enable\_irq()\ \{\ SET\_BIT(RCC-\/>CIER,\ RCC\_CIER\_HSIRDYIE);\ \}}}
+\DoxyCodeLine{00114\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00115\ \ \ \textcolor{comment}{//\ static\ void\ disable\_irq()\ \{\ CLEAR\_BIT(RCC-\/>CIER,\ RCC\_CIER\_HSIRDYIE);\ \}}}
+\DoxyCodeLine{00116\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00117\ \ \ \textcolor{comment}{//\ static\ bool\ is\_stable()\ \{}}
+\DoxyCodeLine{00118\ \ \ \textcolor{comment}{//\ \ \ return\ READ\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIRDY)\ ==\ RCC\_CR\_HSIRDY;}}
+\DoxyCodeLine{00119\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00120\ \};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e}{LSE}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a848f6179dbfb7505a41b48b98e72c555}{Mode}}\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a848f6179dbfb7505a41b48b98e72c555a70aeeeff399cac51b298d9a77ac6a0c7}{crystal}},\ \textcolor{comment}{//<\ crystal/ceramic\ resonator\ mode}}
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a848f6179dbfb7505a41b48b98e72c555a273a327f609a228ebf75a7e59f1a406f}{bypass}}\ \ \ \textcolor{comment}{//<\ external\ clock\ mode}}
+\DoxyCodeLine{00129\ \ \ \};}
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_adb90b04a4e204f2a5a9fabad40110a22}{DriveStrength}}\ \{\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_adb90b04a4e204f2a5a9fabad40110a22a275c6966df541210c4e2bba214af5c46}{medium}},\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_adb90b04a4e204f2a5a9fabad40110a22a2a36966ea0d93bbe8e4a9169eb883e42}{high}}\ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a848f6179dbfb7505a41b48b98e72c555}{Mode}}\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_ad5778c70dd149fb6458ca28976b9b62f}{mode}}\ =\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a848f6179dbfb7505a41b48b98e72c555a70aeeeff399cac51b298d9a77ac6a0c7}{crystal}};}
+\DoxyCodeLine{00133\ \ \ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_adb90b04a4e204f2a5a9fabad40110a22}{DriveStrength}}\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_a855d1a063449f09b3145d344e008ff32}{drive\_strength}}\ =\ \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e_adb90b04a4e204f2a5a9fabad40110a22a275c6966df541210c4e2bba214af5c46}{medium}};}
+\DoxyCodeLine{00134\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00135\ \ \ \textcolor{comment}{//\ constexpr\ LSE(bool\ enabled\ =\ false,\ Mode\ mode\ =\ crystal,}}
+\DoxyCodeLine{00136\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DriveStrength\ drv\ =\ medium)}}
+\DoxyCodeLine{00137\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00138\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::LSE\_OSC,}}
+\DoxyCodeLine{00139\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00140\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 32768\},}}
+\DoxyCodeLine{00141\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ mode\{mode\},\ drive\_strength\{drv\}\ \{\}}}
+\DoxyCodeLine{00142\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00143\ \ \ \textcolor{comment}{//\ static\ Error\ enable()\ \{}}
+\DoxyCodeLine{00144\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CSR1,\ RCC\_CSR1\_LSEON);}}
+\DoxyCodeLine{00145\ \ \ \textcolor{comment}{//\ \ \ while\ (not\ is\_stable())\ \{}}
+\DoxyCodeLine{00146\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00147\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00148\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00149\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00150\ \ \ \textcolor{comment}{//\ static\ Error\ disable()\ \{}}
+\DoxyCodeLine{00151\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CSR1,\ RCC\_CSR1\_LSEON);}}
+\DoxyCodeLine{00152\ \ \ \textcolor{comment}{//\ \ \ while\ (is\_stable())\ \{}}
+\DoxyCodeLine{00153\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00154\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00155\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00156\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00157\ \ \ \textcolor{comment}{//\ static\ void\ enable\_irq()\ \{\ SET\_BIT(RCC-\/>CIER,\ RCC\_CIER\_LSERDYIE);\ \}}}
+\DoxyCodeLine{00158\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00159\ \ \ \textcolor{comment}{//\ static\ void\ disable\_irq()\ \{\ CLEAR\_BIT(RCC-\/>CIER,\ RCC\_CIER\_LSERDYIE);\ \}}}
+\DoxyCodeLine{00160\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00161\ \ \ \textcolor{comment}{//\ static\ bool\ is\_stable()\ \{}}
+\DoxyCodeLine{00162\ \ \ \textcolor{comment}{//\ \ \ return\ READ\_BIT(RCC-\/>CSR1,\ RCC\_CSR1\_LSERDY)\ ==\ (RCC\_CSR1\_LSERDY);}}
+\DoxyCodeLine{00163\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00164\ \};}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00169\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_l_s_i__t}{LSI\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00170\ \ \ \textcolor{comment}{//\ constexpr\ LSI\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00171\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00172\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::LSI\_RC,}}
+\DoxyCodeLine{00173\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00174\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 32768\}\ \{\}}}
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00176\ \ \ \textcolor{comment}{//\ static\ Error\ enable()\ \{}}
+\DoxyCodeLine{00177\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CSR2,\ RCC\_CSR2\_LSION);}}
+\DoxyCodeLine{00178\ \ \ \textcolor{comment}{//\ \ \ while\ (not\ is\_stable())\ \{}}
+\DoxyCodeLine{00179\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00180\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00181\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00182\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00183\ \ \ \textcolor{comment}{//\ static\ Error\ disable()\ \{}}
+\DoxyCodeLine{00184\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CSR2,\ RCC\_CSR2\_LSION);}}
+\DoxyCodeLine{00185\ \ \ \textcolor{comment}{//\ \ \ while\ (is\_stable())\ \{}}
+\DoxyCodeLine{00186\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00187\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00188\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00189\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00190\ \ \ \textcolor{comment}{//\ static\ void\ enable\_irq()\ \{\ SET\_BIT(RCC-\/>CIER,\ RCC\_CIER\_LSIRDYIE);\ \}}}
+\DoxyCodeLine{00191\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00192\ \ \ \textcolor{comment}{//\ static\ void\ disable\_irq()\ \{\ CLEAR\_BIT(RCC-\/>CIER,\ RCC\_CIER\_LSIRDYIE);\ \}}}
+\DoxyCodeLine{00193\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00194\ \ \ \textcolor{comment}{//\ static\ bool\ is\_stable()\ const\ \{}}
+\DoxyCodeLine{00195\ \ \ \textcolor{comment}{//\ \ \ return\ READ\_BIT(RCC-\/>CSR2,\ RCC\_CSR2\_LSIRDY)\ ==\ (RCC\_CSR2\_LSIRDY);}}
+\DoxyCodeLine{00196\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00197\ \};}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i_s_y_s__t}{HSISYS\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00200\ \ \ \textcolor{comment}{//\ constexpr\ HSISYS\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00201\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&HSI48,}}
+\DoxyCodeLine{00202\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::HSISYS,}}
+\DoxyCodeLine{00203\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00204\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00205\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00206\ \ \ \textcolor{comment}{//\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00207\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00208\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00209\ \ \ \textcolor{comment}{//\ static\ bool\ is\_stable()\ const\ \{}}
+\DoxyCodeLine{00210\ \ \ \textcolor{comment}{//\ \ \ return\ READ\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIRDY)\ ==\ RCC\_CR\_HSIRDY;}}
+\DoxyCodeLine{00211\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00212\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00213\ \ \ \textcolor{comment}{//\ static\ Error\ enable()\ \{}}
+\DoxyCodeLine{00214\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CR,\ RCC\_CR\_HSION);}}
+\DoxyCodeLine{00215\ \ \ \textcolor{comment}{//\ \ \ while\ (not\ is\_stable())\ \{}}
+\DoxyCodeLine{00216\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00217\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00218\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00219\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00220\ \ \ \textcolor{comment}{//\ static\ Error\ disable()\ \{}}
+\DoxyCodeLine{00221\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CR,\ RCC\_CR\_HSION);}}
+\DoxyCodeLine{00222\ \ \ \textcolor{comment}{//\ \ \ while\ (is\_stable())\ \{}}
+\DoxyCodeLine{00223\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00224\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00225\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00226\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00227\ \ \ \textcolor{comment}{//\ static\ Error\ set\_divider(unsigned\ div)\ \{}}
+\DoxyCodeLine{00228\ \ \ \textcolor{comment}{//\ \ \ unsigned\ field\ =\ 0;}}
+\DoxyCodeLine{00229\ \ \ \textcolor{comment}{//\ \ \ switch\ (div)\ \{}}
+\DoxyCodeLine{00230\ \ \ \textcolor{comment}{//\ \ \ case\ 1:}}
+\DoxyCodeLine{00231\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 0;}}
+\DoxyCodeLine{00232\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00233\ \ \ \textcolor{comment}{//\ \ \ case\ 2:}}
+\DoxyCodeLine{00234\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 1;}}
+\DoxyCodeLine{00235\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00236\ \ \ \textcolor{comment}{//\ \ \ case\ 4:}}
+\DoxyCodeLine{00237\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 2;}}
+\DoxyCodeLine{00238\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00239\ \ \ \textcolor{comment}{//\ \ \ case\ 8:}}
+\DoxyCodeLine{00240\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 3;}}
+\DoxyCodeLine{00241\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00242\ \ \ \textcolor{comment}{//\ \ \ case\ 16:}}
+\DoxyCodeLine{00243\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 4;}}
+\DoxyCodeLine{00244\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00245\ \ \ \textcolor{comment}{//\ \ \ case\ 32:}}
+\DoxyCodeLine{00246\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 5;}}
+\DoxyCodeLine{00247\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00248\ \ \ \textcolor{comment}{//\ \ \ case\ 64:}}
+\DoxyCodeLine{00249\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 6;}}
+\DoxyCodeLine{00250\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00251\ \ \ \textcolor{comment}{//\ \ \ case\ 128:}}
+\DoxyCodeLine{00252\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 7;}}
+\DoxyCodeLine{00253\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00254\ \ \ \textcolor{comment}{//\ \ \ default:}}
+\DoxyCodeLine{00255\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::invalid\_parameter;}}
+\DoxyCodeLine{00256\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00257\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIDIV\_Msk);}}
+\DoxyCodeLine{00258\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CR,\ field\ <<\ RCC\_CR\_HSIDIV\_Pos);}}
+\DoxyCodeLine{00259\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00260\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00261\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00262\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock)\ \{\ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00263\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00264\ \};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i_k_e_r__t}{HSIKER\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00267\ \ \ \textcolor{comment}{//\ constexpr\ HSIKER\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00268\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&HSI48,}}
+\DoxyCodeLine{00269\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::HSIKER,}}
+\DoxyCodeLine{00270\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00271\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00272\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00273\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00274\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00275\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00276\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00277\ \ \ \textcolor{comment}{//\ static\ Error\ enable()\ \{}}
+\DoxyCodeLine{00278\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIKERON);}}
+\DoxyCodeLine{00279\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00280\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00281\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00282\ \ \ \textcolor{comment}{//\ static\ Error\ disable()\ \{}}
+\DoxyCodeLine{00283\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIKERON);}}
+\DoxyCodeLine{00284\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00285\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00286\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00287\ \ \ \textcolor{comment}{//\ static\ Error\ set\_divider(unsigned\ div)\ \{}}
+\DoxyCodeLine{00288\ \ \ \textcolor{comment}{//\ \ \ unsigned\ field\ =\ 0;}}
+\DoxyCodeLine{00289\ \ \ \textcolor{comment}{//\ \ \ switch\ (div)\ \{}}
+\DoxyCodeLine{00290\ \ \ \textcolor{comment}{//\ \ \ case\ 1:}}
+\DoxyCodeLine{00291\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 0;}}
+\DoxyCodeLine{00292\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00293\ \ \ \textcolor{comment}{//\ \ \ case\ 2:}}
+\DoxyCodeLine{00294\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 1;}}
+\DoxyCodeLine{00295\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00296\ \ \ \textcolor{comment}{//\ \ \ case\ 4:}}
+\DoxyCodeLine{00297\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 2;}}
+\DoxyCodeLine{00298\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00299\ \ \ \textcolor{comment}{//\ \ \ case\ 8:}}
+\DoxyCodeLine{00300\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 3;}}
+\DoxyCodeLine{00301\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00302\ \ \ \textcolor{comment}{//\ \ \ case\ 16:}}
+\DoxyCodeLine{00303\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 4;}}
+\DoxyCodeLine{00304\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00305\ \ \ \textcolor{comment}{//\ \ \ case\ 32:}}
+\DoxyCodeLine{00306\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 5;}}
+\DoxyCodeLine{00307\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00308\ \ \ \textcolor{comment}{//\ \ \ case\ 64:}}
+\DoxyCodeLine{00309\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 6;}}
+\DoxyCodeLine{00310\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00311\ \ \ \textcolor{comment}{//\ \ \ case\ 128:}}
+\DoxyCodeLine{00312\ \ \ \textcolor{comment}{//\ \ \ \ \ field\ =\ 7;}}
+\DoxyCodeLine{00313\ \ \ \textcolor{comment}{//\ \ \ \ \ break;}}
+\DoxyCodeLine{00314\ \ \ \textcolor{comment}{//\ \ \ default:}}
+\DoxyCodeLine{00315\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::invalid\_parameter;}}
+\DoxyCodeLine{00316\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00317\ \ \ \textcolor{comment}{//\ \ \ CLEAR\_BIT(RCC-\/>CR,\ RCC\_CR\_HSIKERDIV\_Msk);}}
+\DoxyCodeLine{00318\ \ \ \textcolor{comment}{//\ \ \ SET\_BIT(RCC-\/>CR,\ field\ <<\ RCC\_CR\_HSIKERDIV\_Pos);}}
+\DoxyCodeLine{00319\ \ \ \textcolor{comment}{//\ \ \ return\ Error::none;}}
+\DoxyCodeLine{00320\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00321\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00322\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock)\ \{\ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00323\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00324\ \};}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_s_y_s_c_l_k__t}{SYSCLK\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00327\ \ \ \textcolor{comment}{//\ \ \ constexpr\ SYSCLK\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00328\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&HSI48,}}
+\DoxyCodeLine{00329\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::SYSCLK,}}
+\DoxyCodeLine{00330\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00331\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00332\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00333\ \ \ \textcolor{comment}{//\ \ \ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00334\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00335\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00336\ \ \ \textcolor{comment}{//\ \ \ /**}}
+\DoxyCodeLine{00337\ \ \ \textcolor{comment}{//\ \ \ \ *\ @note\ Only\ applies\ to\ STM32C051xx,\ STM32C071xx,\ and\ STM32C091xx/92xx.}}
+\DoxyCodeLine{00338\ \ \ \textcolor{comment}{//\ \ \ \ */}}
+\DoxyCodeLine{00339\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_divider(unsigned\ div)\ \{}}
+\DoxyCodeLine{00340\ \ \ \textcolor{comment}{//\ \#if\ defined(STM32C051XX)\ ||\ defined(STM32C071XX)\ ||\ defined(STM32C091XX)\ ||}}
+\DoxyCodeLine{00341\ \ \ \textcolor{comment}{//\ \(\backslash\)}}
+\DoxyCodeLine{00342\ \textcolor{comment}{//\ \ \ \ \ defined(STM32C092XX)}}
+\DoxyCodeLine{00343\ \ \ \textcolor{comment}{//\ \ \ \ \ if\ (div\ ==\ 0\ or\ div\ >\ 8)}}
+\DoxyCodeLine{00344\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::invalid\_parameter;}}
+\DoxyCodeLine{00345\ \ \ \textcolor{comment}{//\ \ \ \ \ SET\_BIT(RCC-\/>CR,\ ((div\ -\/\ 1)\ <<\ (RCC\_CR\_SYSDIV\_Pos)));}}
+\DoxyCodeLine{00346\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::none;}}
+\DoxyCodeLine{00347\ \ \ \textcolor{comment}{//\ \#else}}
+\DoxyCodeLine{00348\ \ \ \textcolor{comment}{//\ \ \ \ \ (void)div;}}
+\DoxyCodeLine{00349\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00350\ \ \ \textcolor{comment}{//\ \#endif}}
+\DoxyCodeLine{00351\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00352\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00353\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00354\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00355\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_input\_clock(const\ LSI\_t\ \&LSI)\ \{\}}}
+\DoxyCodeLine{00356\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_input\_clock(const\ LSE\ \&LSE)\ \{\}}}
+\DoxyCodeLine{00357\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_input\_clock(const\ HSI48\_t\ \&HSI)\ \{\}}}
+\DoxyCodeLine{00358\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_input\_clock(const\ HSE\ \&HSE)\ \{\}}}
+\DoxyCodeLine{00359\ \ \ \textcolor{comment}{//\ \#ifdef\ STM32C071XX}}
+\DoxyCodeLine{00360\ \ \ \textcolor{comment}{//\ \ \ /**}}
+\DoxyCodeLine{00361\ \ \ \textcolor{comment}{//\ \ \ \ *\ @note\ Only\ available\ on\ STM32C071xx\ devices.}}
+\DoxyCodeLine{00362\ \ \ \textcolor{comment}{//\ \ \ \ */}}
+\DoxyCodeLine{00363\ \ \ \textcolor{comment}{//\ \ \ Error\ set\_input\_clock(const\ HSIUSB48\_t\ \&HSI)\ \{\}}}
+\DoxyCodeLine{00364\ \ \ \textcolor{comment}{//\ \#endif}}
+\DoxyCodeLine{00365\ \};}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_c_l_k__t}{HCLK\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00368\ \ \ \textcolor{comment}{//\ constexpr\ HCLK\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00369\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&SYSCLK,}}
+\DoxyCodeLine{00370\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::HCLK,}}
+\DoxyCodeLine{00371\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00372\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00373\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1,}}
+\DoxyCodeLine{00374\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 0\}\ \{\}}}
+\DoxyCodeLine{00375\ \ \ \textcolor{comment}{//\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00376\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00377\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00378\ \ \ \textcolor{comment}{//\ static\ Error\ set\_divider(unsigned\ div);}}
+\DoxyCodeLine{00379\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_input\_clock(Clock)\ \{}}
+\DoxyCodeLine{00380\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00381\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00382\ \};}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_h_c_l_k8__t}{HCLK8\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00385\ \ \ \textcolor{comment}{//\ constexpr\ HCLK8\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00386\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&HCLK,}}
+\DoxyCodeLine{00387\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::HCLK8,}}
+\DoxyCodeLine{00388\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00389\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 8,}}
+\DoxyCodeLine{00390\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1,}}
+\DoxyCodeLine{00391\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 0\}\ \{\}}}
+\DoxyCodeLine{00392\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00393\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00394\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00395\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00396\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00397\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00398\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_input\_clock(Clock)\ \{}}
+\DoxyCodeLine{00399\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00400\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00401\ \};}
+\DoxyCodeLine{00402\ }
+\DoxyCodeLine{00403\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_p_c_l_k__t}{PCLK\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00404\ \ \ \textcolor{comment}{//\ \ \ constexpr\ PCLK\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00405\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&HCLK,}}
+\DoxyCodeLine{00406\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::PCLK,}}
+\DoxyCodeLine{00407\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00408\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00409\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1,}}
+\DoxyCodeLine{00410\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 0\}\ \{\}}}
+\DoxyCodeLine{00411\ \ \ \textcolor{comment}{//\ \ \ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00412\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00413\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00414\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_divider(unsigned\ div);}}
+\DoxyCodeLine{00415\ \ \ \textcolor{comment}{//\ \ \ static\ constexpr\ Error\ set\_input\_clock(Clock)\ \{}}
+\DoxyCodeLine{00416\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00417\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00418\ \};}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_t_i_m_p_c_l_k__t}{TIMPCLK\_t}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00421\ \ \ \textcolor{comment}{//\ \ \ constexpr\ TIMPCLK\_t(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00422\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ \&PCLK,}}
+\DoxyCodeLine{00423\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::TIMPCLK,}}
+\DoxyCodeLine{00424\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00425\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00426\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1,}}
+\DoxyCodeLine{00427\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .frequency\ =\ 0\}\ \{\}}}
+\DoxyCodeLine{00428\ \ \ \textcolor{comment}{//\ \ \ static\ Error\ set\_multiplier(unsigned\ mult)\ \{\}}}
+\DoxyCodeLine{00429\ \ \ \textcolor{comment}{//\ \ \ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00430\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00431\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00432\ \ \ \textcolor{comment}{//\ \ \ static\ constexpr\ Error\ set\_input\_clock(Clock)\ \{}}
+\DoxyCodeLine{00433\ \ \ \textcolor{comment}{//\ \ \ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00434\ \ \ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{00435\ \};}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_r_t_c_c_l_k}{RTCCLK}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00438\ \ \ \textcolor{comment}{//\ constexpr\ RTCCLK(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00439\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00440\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::RTCCLK,}}
+\DoxyCodeLine{00441\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00442\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00443\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00444\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00445\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00446\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00447\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00448\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00449\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00450\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00451\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00452\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00453\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00454\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00455\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00456\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00457\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ LSI\_t\ \&LSI)\ \{\}}}
+\DoxyCodeLine{00458\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ LSE\ \&LSE)\ \{\}}}
+\DoxyCodeLine{00459\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSE\ \&HSE)\ \{\}}}
+\DoxyCodeLine{00460\ \};}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_u_s_a_r_t1}{USART1}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00463\ \ \ \textcolor{comment}{//\ constexpr\ USART1(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00464\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00465\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::USART1CLK,}}
+\DoxyCodeLine{00466\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00467\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00468\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00469\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00470\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00471\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00472\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00473\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00474\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00475\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00476\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00477\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00478\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00479\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00480\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00481\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00482\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ PCLK\_t\ \&PCLK)\ \{\}}}
+\DoxyCodeLine{00483\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ LSE\ \&LSE)\ \{\}}}
+\DoxyCodeLine{00484\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSIKER\_t\ \&HSIKER)\ \{\}}}
+\DoxyCodeLine{00485\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ SYSCLK\_t\ \&SYSCLK)\ \{\}}}
+\DoxyCodeLine{00486\ \};}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_i2_c1}{I2C1}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00489\ \ \ \textcolor{comment}{//\ constexpr\ I2C1(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00490\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00491\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::I2C1CLK,}}
+\DoxyCodeLine{00492\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00493\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00494\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00495\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00496\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00497\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00498\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00499\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00500\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00501\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00502\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00503\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00504\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00505\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00506\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00507\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00508\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ PCLK\_t\ \&PCLK)\ \{\}}}
+\DoxyCodeLine{00509\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSIKER\_t\ \&HSIKER)\ \{\}}}
+\DoxyCodeLine{00510\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ SYSCLK\_t\ \&SYSCLK)\ \{\}}}
+\DoxyCodeLine{00511\ \};}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00513\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_f_d_c_a_n}{FDCAN}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00514\ \ \ \textcolor{comment}{//\ constexpr\ FDCAN(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00515\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00516\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::FDCAN1CLK,}}
+\DoxyCodeLine{00517\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00518\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00519\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00520\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00521\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00522\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00523\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00524\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00525\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00526\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00527\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00528\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00529\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00530\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00531\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00532\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00533\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ PCLK\_t\ \&PCLK)\ \{\}}}
+\DoxyCodeLine{00534\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSIKER\_t\ \&HSIKER)\ \{\}}}
+\DoxyCodeLine{00535\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSE\ \&HSE)\ \{\}}}
+\DoxyCodeLine{00536\ \};}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_a_d_c}{ADC}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00539\ \ \ \textcolor{comment}{//\ constexpr\ ADC(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00540\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00541\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::ADCCLK,}}
+\DoxyCodeLine{00542\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00543\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00544\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00545\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00546\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00547\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00548\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00549\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00550\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00551\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00552\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00553\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00554\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00555\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00556\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00557\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00558\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ SYSCLK\_t\ \&SYSCLK)\ \{\}}}
+\DoxyCodeLine{00559\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSIKER\_t\ \&HSIKER)\ \{\}}}
+\DoxyCodeLine{00560\ \};}
+\DoxyCodeLine{00561\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_i2_s___c_k_i_n}{I2S\_CKIN}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00562\ \ \ \textcolor{comment}{//\ constexpr\ I2S\_CKIN(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00563\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00564\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::I2S\_CKIN,}}
+\DoxyCodeLine{00565\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00566\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00567\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00568\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00569\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00570\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00571\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00572\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00573\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00574\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00575\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00576\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00577\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00578\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00579\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_input\_clock(Clock)\ \{}}
+\DoxyCodeLine{00580\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00581\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00582\ \};}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_i2_s1}{I2S1}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00585\ \ \ \textcolor{comment}{//\ constexpr\ I2S1(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00586\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00587\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::I2S1CLK,}}
+\DoxyCodeLine{00588\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00589\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00590\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00591\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00592\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00593\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00594\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00595\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00596\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00597\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00598\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00599\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00600\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00601\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00602\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00603\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00604\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ SYSCLK\_t\ \&SYSCLK)\ \{\}}}
+\DoxyCodeLine{00605\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSIKER\_t\ \&HSIKER)\ \{\}}}
+\DoxyCodeLine{00606\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ I2S\_CKIN\ \&I2S\_CKIN)\ \{\}}}
+\DoxyCodeLine{00607\ \};}
+\DoxyCodeLine{00608\ }
+\DoxyCodeLine{00609\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1clock_1_1_u_s_b}{USB}}\ :\ \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{ClockConfig}}\ \{}
+\DoxyCodeLine{00610\ \ \ \textcolor{comment}{//\ constexpr\ USB(bool\ enabled\ =\ false)}}
+\DoxyCodeLine{00611\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ ClockConfig\{.input\_clock\ =\ nullptr,}}
+\DoxyCodeLine{00612\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .name\ =\ Clock::USBCLK,}}
+\DoxyCodeLine{00613\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .enabled\ =\ enabled,}}
+\DoxyCodeLine{00614\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .divider\ =\ 1,}}
+\DoxyCodeLine{00615\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .multiplier\ =\ 1\}\ \{\}}}
+\DoxyCodeLine{00616\ \ \ \textcolor{comment}{//\ static\ Error\ enable();}}
+\DoxyCodeLine{00617\ \ \ \textcolor{comment}{//\ static\ Error\ disable();}}
+\DoxyCodeLine{00618\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00619\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_multiplier(unsigned)\ \{}}
+\DoxyCodeLine{00620\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00621\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00622\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00623\ \ \ \textcolor{comment}{//\ static\ constexpr\ Error\ set\_divider(unsigned)\ \{}}
+\DoxyCodeLine{00624\ \ \ \textcolor{comment}{//\ \ \ return\ Error::operation\_unsupported;}}
+\DoxyCodeLine{00625\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00626\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00627\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(Clock\ clock);}}
+\DoxyCodeLine{00628\ \ \ \textcolor{comment}{//\ static\ Error\ set\_input\_clock(const\ HSE\ \&HSE)\ \{\}}}
+\DoxyCodeLine{00629\ \};}
+\DoxyCodeLine{00630\ }
+\DoxyCodeLine{00631\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_a18fd276f028389c43dc259b344e893dc}{enable\_irq}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00632\ }
+\DoxyCodeLine{00633\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_a72187fff2e0242d31f421f497c0af9e0}{disable\_irq}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00634\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacehal_1_1clock_a774492f6da56422a16ede083034a6795}{is\_stable}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00635\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_ac9fecb17dce0e40d7fe6065b90fe55a5}{enable}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00636\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_ac9fecb17dce0e40d7fe6065b90fe55a5}{enable}}(\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}\ p);}
+\DoxyCodeLine{00637\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_a5ae321866d744cba420f1739cdbbe3c3}{disable}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00638\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_a6fa0a1b063447d7a152821d10eb42344}{set\_source}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock,\ \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ source);}
+\DoxyCodeLine{00639\ \textcolor{comment}{//\ Error\ calibrate(Clock\ clock);}}
+\DoxyCodeLine{00640\ }
+\DoxyCodeLine{00641\ std::uint32\_t\ \mbox{\hyperlink{namespacehal_1_1clock_aebad4c1e2d4fcbba49fe7625dc5d7e09}{frequency}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock);}
+\DoxyCodeLine{00642\ std::uint32\_t\ \mbox{\hyperlink{namespacehal_1_1clock_aebad4c1e2d4fcbba49fe7625dc5d7e09}{frequency}}(\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}\ p);}
+\DoxyCodeLine{00643\ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}}\ \mbox{\hyperlink{namespacehal_1_1clock_abe05e732f8a8bcc47b404dea476ef7b7}{set\_frequency}}(\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}\ clock,\ \textcolor{keywordtype}{unsigned}\ f);}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \}\ \textcolor{comment}{//\ namespace\ clock}}
+\DoxyCodeLine{00646\ \}\ \textcolor{comment}{//\ namespace\ hal}}
+\DoxyCodeLine{00647\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

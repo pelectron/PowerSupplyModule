@@ -1,0 +1,736 @@
+\doxysection{function.\+hpp}
+\hypertarget{function_8hpp_source}{}\label{function_8hpp_source}\index{cli/function.hpp@{cli/function.hpp}}
+\mbox{\hyperlink{function_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ CLI\_FUNCTION\_HPP}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ CLI\_FUNCTION\_HPP}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}cli/ctti.hpp"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}cli/format.hpp"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}cli/parse.hpp"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}cli/type\_list.hpp"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}cli/validator.hpp"{}}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }cli::funcs\ \{}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ A>}
+\DoxyCodeLine{00034\ \textcolor{keyword}{concept\ }FuncArg\ =\ \textcolor{keyword}{requires}(A\ \&\&\mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}})\ \{}
+\DoxyCodeLine{00035\ \ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<A>::name\{\}\ \}\ -\/>\ Name;}
+\DoxyCodeLine{00036\ \ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<A>::description\{\}\ \}\ -\/>\ Name;}
+\DoxyCodeLine{00037\ \ \ \{\ arg.parse\ \}\ -\/>\ parse::Parser;}
+\DoxyCodeLine{00038\ \ \ \{\ arg.validate\ \}\ -\/>\ validate::Validator;}
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00040\ \ \ \textcolor{comment}{//\ \ \ std::remove\_cvref\_t<A>::default\_value}}
+\DoxyCodeLine{00041\ \ \ \textcolor{comment}{//\ \}\ /*\ -\/>\ std::same\_as<typename\ std::remove\_cvref\_t<A>::type>\ */;}}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{struct\ }Deduced\ \{}
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{constexpr}\ Deduced()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00046\ \}\ deduced\{\};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00050\ \textcolor{keyword}{struct\ }FunctionArg\ \{}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{using\ }name\ =\ ArgName;}
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{using\ }description\ =\ Description;}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(DefaultValue)>;}
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{using\ }parser\ =\ Parse;}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{using\ }validator\ =\ Validate;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{template}\ <parse::Parser\ P,\ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}ator\ V>}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{constexpr}\ FunctionArg(ArgName,\ Description,\ identity<T>,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ constant<DefaultValue>,\ P\ \&\&parse,\ V\ \&\&validate)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ :\ parse(std::forward<P>(parse)),\ validate(std::forward<V>(validate))\ \{\}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{keyword}{template}\ <parse::Parser\ P,\ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}ator\ V>}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{constexpr}\ FunctionArg(ArgName,\ Description,\ constant<DefaultValue>,\ P\ \&\&parse,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ V\ \&\&validate)}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ :\ parse(std::forward<P>(parse)),\ validate(std::forward<V>(validate))\ \{\}}
+\DoxyCodeLine{00066\ \ \ \textcolor{keyword}{template}\ <parse::Parser\ P,\ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}ator\ V>}
+\DoxyCodeLine{00067\ \ \ \textcolor{keyword}{constexpr}\ FunctionArg(ArgName,\ Description,\ P\ \&\&parse,\ V\ \&\&validate)}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ :\ parse(std::forward<P>(parse)),\ validate(std::forward<V>(validate))\ \{\}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Parse\ parse\{\};}
+\DoxyCodeLine{00071\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Validate\ validate\{\};}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00076\ FunctionArg(ArgName,\ Description,\ identity<T>,\ constant<DefaultValue>,\ Parse\ \&\&,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&)}
+\DoxyCodeLine{00078\ \ \ \ \ -\/>\ FunctionArg<ArgName,\ Description,\ T,\ DefaultValue,}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Parse>,\ std::remove\_cvref\_t<Validate>>;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00083\ FunctionArg(ArgName,\ Description,\ constant<DefaultValue>,\ Parse\ \&\&,\ Validate\ \&\&)}
+\DoxyCodeLine{00084\ \ \ \ \ -\/>\ FunctionArg<ArgName,\ Description,\ parse::value\_type\_t<Parse>,}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultValue,\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Validate>>;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00090\ FunctionArg(ArgName,\ Description,\ Parse\ \&\&,\ Validate\ \&\&)}
+\DoxyCodeLine{00091\ \ \ \ \ -\/>\ FunctionArg<ArgName,\ Description,\ parse::value\_type\_t<Parse>,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::value\_type\_t<Parse>\{\},\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Validate>>;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{typename}\ T,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00097\ \textcolor{keyword}{struct\ }FunctionArgWithoutDefault\ \{}
+\DoxyCodeLine{00098\ \ \ \textcolor{keyword}{using\ }name\ =\ ArgName;}
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{using\ }description\ =\ Description;}
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00101\ \ \ \textcolor{keyword}{using\ }parser\ =\ Parse;}
+\DoxyCodeLine{00102\ \ \ \textcolor{keyword}{using\ }validator\ =\ Validate;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{keyword}{template}\ <parse::Parser\ P,\ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}ator\ V>}
+\DoxyCodeLine{00105\ \ \ \textcolor{keyword}{constexpr}\ FunctionArgWithoutDefault(ArgName,\ Description,\ identity<T>,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ P\ \&\&parse,\ V\ \&\&validate)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ :\ parse(std::forward<P>(parse)),\ validate(std::forward<V>(validate))\ \{\}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \textcolor{keyword}{template}\ <parse::Parser\ P,\ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}ator\ V>}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{constexpr}\ FunctionArgWithoutDefault(ArgName,\ Description,\ P\ \&\&parse,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ V\ \&\&validate)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ :\ parse(std::forward<P>(parse)),\ validate(std::forward<V>(validate))\ \{\}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Parse\ parse\{\};}
+\DoxyCodeLine{00115\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Validate\ validate\{\};}
+\DoxyCodeLine{00116\ \};}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{typename}\ T,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00120\ FunctionArgWithoutDefault(ArgName,\ Description,\ identity<T>,\ Parse\ \&\&,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&)}
+\DoxyCodeLine{00122\ \ \ \ \ -\/>\ FunctionArgWithoutDefault<ArgName,\ Description,\ T,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Validate>>;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00128\ FunctionArgWithoutDefault(ArgName,\ Description,\ Parse\ \&\&,\ Validate\ \&\&)}
+\DoxyCodeLine{00129\ \ \ \ \ -\/>\ FunctionArgWithoutDefault<}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ ArgName,\ Description,\ parse::value\_type\_t<Parse>,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Parse>,\ std::remove\_cvref\_t<Validate>>;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description>\ \textcolor{keyword}{struct\ }UndeducedArg\ \{}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{using\ }name\ =\ ArgName;}
+\DoxyCodeLine{00135\ \ \ \textcolor{keyword}{using\ }description\ =\ Description;}
+\DoxyCodeLine{00136\ \ \ \textcolor{keyword}{using\ }type\ =\ Deduced;}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{using\ }parser\ =\ parse::DefaultParse<Deduced>;}
+\DoxyCodeLine{00138\ \ \ \textcolor{keyword}{using\ }validator\ =\ validate::DefaultValidate<Deduced>;}
+\DoxyCodeLine{00139\ \};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00142\ \textcolor{keyword}{template}\ <Callable\ F,\ std::size\_t\ I,\ Name\ N,\ Name\ D,\ \textcolor{keyword}{class\ }T,\ parse::Parser\ P,}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ V>}
+\DoxyCodeLine{00144\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduce\_arg(\textcolor{keyword}{const}\ FunctionArgWithoutDefault<N,\ D,\ T,\ P,\ V>\ \&arg)\ \{}
+\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{using\ }args\ =\ \textcolor{keyword}{typename}\ function\_traits<F>::arguments;}
+\DoxyCodeLine{00146\ \ \ \textcolor{keyword}{using\ }arg\_type\ =\ std::remove\_cvref\_t<type\_list::type\_at\_t<I,\ args>>;}
+\DoxyCodeLine{00147\ \ \ \textcolor{keyword}{static\_assert}(parse::ParserOf<P,\ T>);}
+\DoxyCodeLine{00148\ \ \ \textcolor{keyword}{static\_assert}(validate::ValidatorOf<V,\ T>);}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ std::same\_as<arg\_type,\ T>,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ I-\/th\ arg's\ explicitly\ set\ type\ does\ not\ match\ F's\ I-\/th\ argument"{}});}
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}};}
+\DoxyCodeLine{00153\ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{template}\ <Callable\ F,\ std::size\_t\ I,\ Name\ N,\ Name\ D,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DV,}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ P,\ validate::Validator\ V>}
+\DoxyCodeLine{00157\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduce\_arg(\textcolor{keyword}{const}\ FunctionArg<N,\ D,\ T,\ DV,\ P,\ V>\ \&arg)\ \{}
+\DoxyCodeLine{00158\ \ \ \textcolor{keyword}{using\ }args\ =\ \textcolor{keyword}{typename}\ function\_traits<F>::arguments;}
+\DoxyCodeLine{00159\ \ \ \textcolor{keyword}{using\ }arg\_type\ =\ std::remove\_cvref\_t<type\_list::type\_at\_t<I,\ args>>;}
+\DoxyCodeLine{00160\ \ \ \textcolor{keyword}{static\_assert}(parse::ParserOf<P,\ T>);}
+\DoxyCodeLine{00161\ \ \ \textcolor{keyword}{static\_assert}(validate::ValidatorOf<V,\ T>);}
+\DoxyCodeLine{00162\ \ \ \textcolor{keyword}{static\_assert}(std::constructible\_from<T,\ \textcolor{keyword}{decltype}(DV)>);}
+\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ std::same\_as<arg\_type,\ T>,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ I-\/th\ arg's\ explicitly\ set\ type\ does\ not\ match\ F's\ I-\/th\ argument"{}});}
+\DoxyCodeLine{00166\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}};}
+\DoxyCodeLine{00167\ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{keyword}{template}\ <Callable\ F,\ std::\textcolor{keywordtype}{size\_t}\ I,\ Name\ N,\ Name\ D>}
+\DoxyCodeLine{00170\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduce\_arg(\textcolor{keyword}{const}\ UndeducedArg<N,\ D>\ \&arg)\ \{}
+\DoxyCodeLine{00171\ \ \ \textcolor{keyword}{using\ }args\ =\ \textcolor{keyword}{typename}\ function\_traits<F>::arguments;}
+\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<type\_list::type\_at\_t<I,\ args>>;}
+\DoxyCodeLine{00173\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<D,\ string\_constant<>>\ or}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::is\_same\_v<D,\ NoDescription>)}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ FunctionArgWithoutDefault\{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ N\{\},\ cli::ctti::name<type>(),\ identity<type>\{\},}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ parse::DefaultParse<type>\{\},\ validate::DefaultValidate<type>\{\}\};}
+\DoxyCodeLine{00178\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{return}\ FunctionArgWithoutDefault\{N\{\},\ D\{\},\ identity<type>\{\},}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<type>\{\},}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<type>\{\}\};}
+\DoxyCodeLine{00182\ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{keyword}{template}\ <Callable\ F,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00185\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduce\_args(\textcolor{keyword}{const}\ Args\ \&...args)\ \{}
+\DoxyCodeLine{00186\ \ \ \textcolor{keywordflow}{return}\ [\&]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(deduce\_arg<F,\ Is>(args)...);}
+\DoxyCodeLine{00188\ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(Args)>());}
+\DoxyCodeLine{00189\ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00193\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{00194\ pretty\_arg\_name(\textcolor{keyword}{const}\ FunctionArgWithoutDefault<ArgName,\ Description,\ T,\ Parse,}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate>\ \&)\ \{}
+\DoxyCodeLine{00196\ \ \ \textcolor{keywordflow}{return}\ ArgName\{\}\ +\ \textcolor{stringliteral}{"{}:\ "{}}\_sc\ +\ ctti::name<T>();}
+\DoxyCodeLine{00197\ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00201\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{00202\ pretty\_arg\_name(\textcolor{keyword}{const}\ FunctionArg<ArgName,\ Description,\ T,\ DefaultValue,\ Parse,}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate>\ \&)\ \{}
+\DoxyCodeLine{00204\ \ \ \textcolor{keywordflow}{return}\ ArgName\{\}\ +\ \textcolor{stringliteral}{"{}:\ "{}}\_sc\ +\ ctti::name<T>()\ +\ \textcolor{stringliteral}{"{}?"{}}\_sc;}
+\DoxyCodeLine{00205\ \}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \textcolor{keyword}{template}\ <FuncArg\ A,\ FuncArg...\ As>}
+\DoxyCodeLine{00208\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ make\_pretty\_signature\_name(\textcolor{keyword}{const}\ A\ \&arg,\ \textcolor{keyword}{const}\ As\ \&...args)\ \{}
+\DoxyCodeLine{00209\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(As)\ ==\ 0)}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordflow}{return}\ pretty\_arg\_name(arg);}
+\DoxyCodeLine{00211\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordflow}{return}\ pretty\_arg\_name(arg)\ +\ \textcolor{stringliteral}{"{},\ "{}}\_sc\ +\ make\_pretty\_signature\_name(args...);}
+\DoxyCodeLine{00213\ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \textcolor{keyword}{template}\ <Callable\ F,\ FuncArg...\ Args>}
+\DoxyCodeLine{00216\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ pretty\_signature\_name(\textcolor{keyword}{const}\ Args\ \&...args)\ \{}
+\DoxyCodeLine{00217\ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}("{}}\_sc\ +\ make\_pretty\_signature\_name(args...)\ +\ \textcolor{stringliteral}{"{})-\/>"{}}\_sc\ +}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ ctti::name<typename\ function\_traits<F>::return\_type>();}
+\DoxyCodeLine{00219\ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \textcolor{keyword}{template}\ <Callable\ F,\ FuncArg...\ Args>}
+\DoxyCodeLine{00222\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ pretty\_signature\_name(\textcolor{keyword}{const}\ std::tuple<Args...>\ \&args)\ \{}
+\DoxyCodeLine{00223\ \ \ \textcolor{keywordflow}{return}\ []<std::size\_t...\ Is>(std::index\_sequence<Is...>,}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<Args...>\ \&args)\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}("{}}\_sc\ +\ make\_pretty\_signature\_name(std::get<Is>(args)...)\ +}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{})-\/>"{}}\_sc\ +\ ctti::name<typename\ function\_traits<F>::return\_type>();}
+\DoxyCodeLine{00227\ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(Args)>(),\ args);}
+\DoxyCodeLine{00228\ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{keyword}{template}\ <Callable\ F>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ pretty\_signature\_name()\ \{}
+\DoxyCodeLine{00231\ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}()-\/>"{}}\_sc\ +\ ctti::name<typename\ function\_traits<F>::return\_type>();}
+\DoxyCodeLine{00232\ \}}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00234\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00236\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{00237\ parse\_field\_from\_arg(\textcolor{keyword}{const}\ FunctionArg<ArgName,\ Description,\ T,\ DefaultValue,}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse,\ Validate>\ \&arg)\ \{}
+\DoxyCodeLine{00239\ \ \ \textcolor{keywordflow}{return}\ parse::Field<ArgName,\ DefaultValue,\ Parse>\{DefaultValue,\ arg.parse\};}
+\DoxyCodeLine{00240\ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description,\ \textcolor{keyword}{typename}\ T,\ parse::Parser\ Parse,}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate>}
+\DoxyCodeLine{00244\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{00245\ parse\_field\_from\_arg(\textcolor{keyword}{const}\ FunctionArgWithoutDefault<ArgName,\ Description,\ T,}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse,\ Validate>\ \&arg)\ \{}
+\DoxyCodeLine{00247\ \ \ \textcolor{keywordflow}{return}\ parse::FieldWithOutDefault<ArgName,\ T,\ Parse>\{T\{\},\ arg.parse\};}
+\DoxyCodeLine{00248\ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00251\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ parse\_field\_from\_args(\textcolor{keyword}{const}\ std::tuple<Args...>\ \&args)\ \{}
+\DoxyCodeLine{00252\ \ \ \textcolor{keywordflow}{return}\ [\&args]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple(parse\_field\_from\_arg(std::get<Is>(args))...);}
+\DoxyCodeLine{00254\ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(Args)>\{\});}
+\DoxyCodeLine{00255\ \}}
+\DoxyCodeLine{00256\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00307\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00330\ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{00331\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ DefaultValue,\ Name\ ArgName,\ Name\ Description,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ validate::Validator\ Validate>}
+\DoxyCodeLine{00333\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name,\ Description\ description,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&validate)\ \{}
+\DoxyCodeLine{00335\ \ \ (void)name;}
+\DoxyCodeLine{00336\ \ \ (void)description;}
+\DoxyCodeLine{00337\ \ \ \textcolor{keywordflow}{return}\ FunctionArg\{ArgName\{\},\ Description\{\},\ constant<DefaultValue>\{\},}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Parse>(parse),}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Validate>(validate)\};}
+\DoxyCodeLine{00340\ \}}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00365\ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{00366\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{auto}\ DefaultValue,\ Name\ ArgName,\ Name\ Description,}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<T>\ Parse,\ validate::ValidatorOf<T>\ Validate>}
+\DoxyCodeLine{00368\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name,\ Description\ description,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&validate)\ \{}
+\DoxyCodeLine{00370\ \ \ (void)name;}
+\DoxyCodeLine{00371\ \ \ (void)description;}
+\DoxyCodeLine{00372\ \ \ \textcolor{keywordflow}{return}\ FunctionArg\{ArgName\{\},}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ identity<T>\{\},}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ constant<DefaultValue>\{\},}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Parse>(parse),}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Validate>(validate)\};}
+\DoxyCodeLine{00378\ \}}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00399\ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{00400\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ auto\ DefaultValue,\ Name\ ArgName,\ Name\ Description>}
+\DoxyCodeLine{00401\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name,\ Description\ description)\ \{}
+\DoxyCodeLine{00402\ \ \ (void)name;}
+\DoxyCodeLine{00403\ \ \ (void)description;}
+\DoxyCodeLine{00404\ \ \ \textcolor{keywordflow}{return}\ FunctionArg\{ArgName\{\},}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ identity<T>\{\},}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ constant<DefaultValue>\{\},}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<T>\{\}\};}
+\DoxyCodeLine{00410\ \}}
+\DoxyCodeLine{00411\ }
+\DoxyCodeLine{00412\ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{00430\ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{00431\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ auto\ DefaultValue,\ Name\ ArgName>}
+\DoxyCodeLine{00432\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name)\ \{}
+\DoxyCodeLine{00433\ \ \ (void)name;}
+\DoxyCodeLine{00434\ \ \ \textcolor{keywordflow}{return}\ FunctionArg\{ArgName\{\},}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ identity<T>\{\},}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ constant<DefaultValue>\{\},}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<T>\{\}\};}
+\DoxyCodeLine{00440\ \}}
+\DoxyCodeLine{00468\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ Name\ ArgName,\ Name\ Description,\ parse::ParserOf<T>\ Parse,}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}atorOf<T>\ Val\textcolor{keywordtype}{id}ate>}
+\DoxyCodeLine{00470\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name,\ Description\ description,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&validate)\ \{}
+\DoxyCodeLine{00472\ \ \ (void)name;}
+\DoxyCodeLine{00473\ \ \ (void)description;}
+\DoxyCodeLine{00474\ \ \ \textcolor{keywordflow}{return}\ FunctionArgWithoutDefault\{ArgName\{\},\ Description\{\},\ identity<T>\{\},}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Parse>(parse),}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Validate>(validate)\};}
+\DoxyCodeLine{00477\ \}}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00493\ \textcolor{keyword}{template}\ <Name\ ArgName,\ Name\ Description>}
+\DoxyCodeLine{00494\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name,\ Description\ description)\ \{}
+\DoxyCodeLine{00495\ \ \ (void)name;}
+\DoxyCodeLine{00496\ \ \ (void)description;}
+\DoxyCodeLine{00497\ \ \ \textcolor{keywordflow}{return}\ UndeducedArg<ArgName,\ Description>\{\};}
+\DoxyCodeLine{00498\ \}}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00514\ \textcolor{keyword}{template}\ <Name\ ArgName>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}(ArgName\ name)\ \{}
+\DoxyCodeLine{00515\ \ \ (void)name;}
+\DoxyCodeLine{00516\ \ \ \textcolor{keywordflow}{return}\ UndeducedArg<ArgName,\ NoDescription>\{\};}
+\DoxyCodeLine{00517\ \}}
+\DoxyCodeLine{00518\ }
+\DoxyCodeLine{00523\ \textcolor{keyword}{template}\ <cli::StringLiteral\ Name>\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \textcolor{keyword}{operator}\textcolor{stringliteral}{"{}"{}}\_arg()\ \{}
+\DoxyCodeLine{00524\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}}([\&]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structcli_1_1string__constant}{string\_constant}}<Name.s[Is]...>\{\};}
+\DoxyCodeLine{00526\ \ \ \}(std::make\_index\_sequence<Name.size()>()));}
+\DoxyCodeLine{00527\ \}}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00537\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Type,\ Callable\ F,}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ FuncArg...\ Args>}
+\DoxyCodeLine{00539\ \textcolor{keyword}{class\ }Function}
+\DoxyCodeLine{00540\ \ \ \ \ :\ \textcolor{keyword}{public}\ CommandBase<Function<FuncName,\ Description,\ Type,\ F,\ Args...>,}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FuncName,\ Description,\ Type>\ \{}
+\DoxyCodeLine{00542\ \ \ \textcolor{keyword}{using\ }Base\ =\ CommandBase<Function<FuncName,\ Description,\ Type,\ F,\ Args...>,}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FuncName,\ Description,\ Type>;}
+\DoxyCodeLine{00544\ \ \ \textcolor{keyword}{using\ }traits\ =\ function\_traits<F>;}
+\DoxyCodeLine{00545\ \ \ \textcolor{keyword}{using\ }arguments\ =\ \textcolor{keyword}{typename}\ traits::arguments;}
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00548\ \ \ \textcolor{keyword}{using\ }PartialParser\ =\ parse::FieldGroup<\textcolor{charliteral}{'='},\ \textcolor{charliteral}{','},\ \textcolor{charliteral}{'\ '},\ \textcolor{charliteral}{'\ '},\ Fields...>;}
+\DoxyCodeLine{00549\ \ \ \textcolor{keyword}{using\ }Parser\ =\ type\_list::apply\_t<PartialParser,}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{decltype}(dtl::parse\_field\_from\_args(}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::declval<std::tuple<Args...>>()))>;}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00553\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00554\ \ \ \textcolor{keyword}{using\ }Base::description;}
+\DoxyCodeLine{00555\ \ \ \textcolor{keyword}{using\ }Base::name;}
+\DoxyCodeLine{00556\ \ \ \textcolor{keyword}{using\ }Base::type;}
+\DoxyCodeLine{00557\ \ \ \textcolor{keyword}{using\ }sub\_command\_list\ =\ \mbox{\hyperlink{structcli_1_1type__list_1_1_type_list}{TypeList<>}};}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \textcolor{keyword}{using\ }signature\ =\ \textcolor{keyword}{typename}\ traits::signature\_type;}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \ \ \textcolor{keyword}{template}\ <Callable\ Func,\ FuncArg...\ A>}
+\DoxyCodeLine{00562\ \ \ \textcolor{keyword}{constexpr}\ Function(FuncName,\ Description,\ Type,\ Func\ \&\&function,\ A\ \&\&...args)}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ :\ func\_(std::forward<Func>(function)),\ args(std::forward<A>(args)...)\ \{\}}
+\DoxyCodeLine{00564\ }
+\DoxyCodeLine{00565\ \ \ \textcolor{keyword}{template}\ <Callable\ Func>}
+\DoxyCodeLine{00566\ \ \ \textcolor{keyword}{constexpr}\ Function(FuncName,\ Description,\ Type,\ Func\ \&\&function,}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<Args...>\ \&args)}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ :\ func\_(std::forward<Func>(function)),\ args(args)\ \{\}}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \ \ \textcolor{keyword}{template}\ <Callable\ Func>}
+\DoxyCodeLine{00571\ \ \ \textcolor{keyword}{constexpr}\ Function(FuncName,\ Description,\ Type,\ Func\ \&\&function,}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::tuple<Args...>\ \&\&args)}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ :\ func\_(std::forward<Func>(function)),\ args(std::move(args))\ \{\}}
+\DoxyCodeLine{00574\ }
+\DoxyCodeLine{00575\ \ \ Error\ execute(ExecType\ type,\ ArgVector\ args,}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [[maybe\_unused]]\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00577\ \ \ \ \ \textcolor{keyword}{using\ }Ret\ =\ \textcolor{keyword}{typename}\ traits::return\_type;}
+\DoxyCodeLine{00578\ }
+\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ ExecType::call)}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \ \ \ \ \textcolor{keyword}{const}\ Parser\ parse\{\};}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ parse(args);}
+\DoxyCodeLine{00585\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00587\ \ \ \ \ \textcolor{keywordflow}{return}\ [\&tuple\ =\ res.value,\ \&out,}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{this}]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \textcolor{keyword}{const}\ Error\ err\ =\ validate(tuple,\ std::index\_sequence<Is...>\{\});}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (err\ !=\ Error::none)}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<void,\ Ret>)\ \{}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}\textcolor{keyword}{>}(out);}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ func\_(std::get<Is>(tuple).value...);}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ func\_(std::get<Is>(tuple).value...);}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ format::DefaultFormat<Ret>\ format;}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ fmt\_result\ =\ format(out,\ res);}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ out\ =\ out.subspan(0,\ fmt\_result.size\_written);}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fmt\_result.error;}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00604\ \ \ \ \ \}(std::make\_index\_sequence<\textcolor{keyword}{sizeof}...(Args)>());}
+\DoxyCodeLine{00605\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unimplemented;}
+\DoxyCodeLine{00606\ \ \ \}}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00608\ \ \ \textcolor{keyword}{template}\ <std::size\_t\ I,\ std::size\_t...\ Is>}
+\DoxyCodeLine{00609\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ cli::Error\ validate(\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&tuple,}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::index\_sequence<I,\ Is...>)\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keyword}{auto}\ err\ =\ \textcolor{keyword}{typename}\ type\_list::type\_at\_t<I,\ TypeList<Args...>>::validator\{\}(}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ std::get<I>(tuple).value);}
+\DoxyCodeLine{00613\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Is)\ ==\ 0)}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (err\ !=\ Error::none)}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ validate(tuple,\ std::index\_sequence<Is...>\{\});}
+\DoxyCodeLine{00619\ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \ \ \}}
+\DoxyCodeLine{00621\ \ \ ByteView\ get\_help()\ \{\}}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00624\ \ \ F\ func\_\{\};}
+\DoxyCodeLine{00625\ \ \ std::tuple<Args...>\ args;}
+\DoxyCodeLine{00626\ \};}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Type,\ Callable\ F>}
+\DoxyCodeLine{00629\ \textcolor{keyword}{class\ }Function<FuncName,\ Description,\ Type,\ F>}
+\DoxyCodeLine{00630\ \ \ \ \ :\ \textcolor{keyword}{public}\ CommandBase<Function<FuncName,\ Description,\ Type,\ F>,\ FuncName,}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description,\ Type>\ \{}
+\DoxyCodeLine{00632\ \ \ \textcolor{keyword}{using\ }Base\ =\ CommandBase<Function<FuncName,\ Description,\ Type,\ F>,\ FuncName,}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description,\ Type>;}
+\DoxyCodeLine{00634\ \ \ \textcolor{keyword}{using\ }traits\ =\ function\_traits<F>;}
+\DoxyCodeLine{00635\ \ \ \textcolor{keyword}{using\ }arguments\ =\ \textcolor{keyword}{typename}\ traits::arguments;}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00638\ \ \ \textcolor{keyword}{using\ }Base::description;}
+\DoxyCodeLine{00639\ \ \ \textcolor{keyword}{using\ }Base::name;}
+\DoxyCodeLine{00640\ \ \ \textcolor{keyword}{using\ }Base::type;}
+\DoxyCodeLine{00641\ \ \ \textcolor{keyword}{using\ }sub\_command\_list\ =\ TypeList<>;}
+\DoxyCodeLine{00642\ }
+\DoxyCodeLine{00643\ \ \ \textcolor{keyword}{using\ }signature\ =\ \textcolor{keyword}{typename}\ traits::signature\_type;}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \ \ \textcolor{keyword}{template}\ <Callable\ Func>}
+\DoxyCodeLine{00646\ \ \ \textcolor{keyword}{constexpr}\ Function(FuncName,\ Description,\ Type,\ Func\ \&\&function)}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ :\ func\_(std::forward<Func>(function))\ \{\}}
+\DoxyCodeLine{00648\ }
+\DoxyCodeLine{00649\ \ \ Error\ execute(ExecType\ type,\ ArgVector\ args,}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [[maybe\_unused]]\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00651\ \ \ \ \ \textcolor{keyword}{using\ }Ret\ =\ \textcolor{keyword}{typename}\ traits::return\_type;}
+\DoxyCodeLine{00652\ }
+\DoxyCodeLine{00653\ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ ExecType::call)}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00655\ }
+\DoxyCodeLine{00656\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<void,\ Ret>)\ \{}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ func\_();}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00659\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ format\_(out,\ func\_());}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00662\ \ \ \ \ \}}
+\DoxyCodeLine{00663\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unimplemented;}
+\DoxyCodeLine{00664\ \ \ \}}
+\DoxyCodeLine{00665\ \ \ ByteView\ get\_help()\ \{\}}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00668\ \ \ F\ func\_\{\};}
+\DoxyCodeLine{00669\ \};}
+\DoxyCodeLine{00670\ }
+\DoxyCodeLine{00671\ \textcolor{comment}{//\ template\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ Callable\ F>}}
+\DoxyCodeLine{00672\ \textcolor{comment}{//\ Function(FuncName,\ Description,\ Help,\ F\ \&\&)}}
+\DoxyCodeLine{00673\ \textcolor{comment}{//\ \ \ \ \ -\/>\ Function<FuncName,\ Description,\ Help,\ std::remove\_cvref\_t<F>>;}}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00675\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Type,\ Callable\ F,}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ FuncArg...\ Args>}
+\DoxyCodeLine{00677\ Function(FuncName,\ Description,\ Type,\ F\ \&\&,\ Args\ \&\&...)}
+\DoxyCodeLine{00678\ \ \ \ \ -\/>\ Function<FuncName,\ Description,\ Type,\ std::remove\_cvref\_t<F>,}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Args>...>;}
+\DoxyCodeLine{00680\ }
+\DoxyCodeLine{00681\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Type,\ Callable\ F,}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \ \ FuncArg...\ Args>}
+\DoxyCodeLine{00683\ Function(FuncName,\ Description,\ Type,\ F\ \&\&,\ \textcolor{keyword}{const}\ std::tuple<Args...>\ \&)}
+\DoxyCodeLine{00684\ \ \ \ \ -\/>\ Function<FuncName,\ Description,\ Type,\ std::remove\_cvref\_t<F>,\ Args...>;}
+\DoxyCodeLine{00685\ }
+\DoxyCodeLine{00686\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Type,\ Callable\ F,}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ FuncArg...\ Args>}
+\DoxyCodeLine{00688\ Function(FuncName,\ Description,\ Type,\ F\ \&\&,\ std::tuple<Args...>\ \&\&)}
+\DoxyCodeLine{00689\ \ \ \ \ -\/>\ Function<FuncName,\ Description,\ Type,\ std::remove\_cvref\_t<F>,\ Args...>;}
+\DoxyCodeLine{00702\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ Callable\ F,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00703\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName,\ Description,\ Help,\ F\ \&\&f,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00704\ \ \ \textcolor{keywordflow}{return}\ Function<FuncName,\ Description,\ Help,\ std::decay\_t<F>,}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::decay\_t<Args>...>\{}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ FuncName\{\},\ Description\{\},\ Help\{\},\ std::forward<F>(f),}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ dtl::deduce\_args<F>(std::forward<Args>(args)...)\};}
+\DoxyCodeLine{00708\ \}}
+\DoxyCodeLine{00709\ }
+\DoxyCodeLine{00710\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Callable\ F,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00711\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName,\ Description,\ F\ \&\&f,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00712\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ type\_list::list\_size\_v<typename\ function\_traits<F>::arguments>\ ==}
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Args),}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}All\ arguments\ of\ F\ must\ be\ named"{}});}
+\DoxyCodeLine{00716\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00717\ \ \ \ \ \textcolor{keyword}{auto}\ deduced\ =\ dtl::deduce\_args<F>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<F>(deduced),\ std::forward<F>(f),}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deduced\};}
+\DoxyCodeLine{00721\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00722\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},\ dtl::pretty\_signature\_name<F>(),}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f)\};}
+\DoxyCodeLine{00724\ \ \ \}}
+\DoxyCodeLine{00725\ \}}
+\DoxyCodeLine{00726\ }
+\DoxyCodeLine{00727\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Callable\ F,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00728\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName,\ F\ \&\&f,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00729\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ type\_list::list\_size\_v<typename\ function\_traits<F>::arguments>\ ==}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Args),}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}All\ arguments\ of\ F\ must\ be\ named"{}});}
+\DoxyCodeLine{00733\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00734\ \ \ \ \ \textcolor{keyword}{auto}\ deduced\ =\ dtl::deduce\_args<F>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00735\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ NoDescription\{\},}
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<F>(deduced),\ std::forward<F>(f),}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deduced\};}
+\DoxyCodeLine{00738\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ NoDescription\{\},}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<F>(),\ std::forward<F>(f)\};}
+\DoxyCodeLine{00741\ \ \ \}}
+\DoxyCodeLine{00742\ \}}
+\DoxyCodeLine{00743\ }
+\DoxyCodeLine{00744\ \textcolor{keyword}{template}\ <Callable\ F,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00745\ \ \ \textcolor{keyword}{requires}(not\ std::is\_pointer\_v<std::decay\_t<F>>)}
+\DoxyCodeLine{00746\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(F\ \&\&f,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00747\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00748\ \ \ \ \ \ \ type\_list::list\_size\_v<typename\ function\_traits<F>::arguments>\ ==}
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Args),}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}All\ arguments\ of\ F\ must\ be\ named"{}});}
+\DoxyCodeLine{00751\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00752\ \ \ \ \ \textcolor{keyword}{auto}\ deduced\ =\ dtl::deduce\_args<F>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00753\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{to\_lower(ctti::name<std::remove\_cvref\_t<F>>()),}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NoDescription\{\},\ dtl::pretty\_signature\_name<F>(deduced),}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f),\ deduced\};}
+\DoxyCodeLine{00756\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00757\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{to\_lower(ctti::name<std::remove\_cvref\_t<F>>()),}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NoDescription\{\},\ dtl::pretty\_signature\_name<F>(),}
+\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<F>(f)\};}
+\DoxyCodeLine{00760\ \ \ \}}
+\DoxyCodeLine{00761\ \}}
+\DoxyCodeLine{00762\ }
+\DoxyCodeLine{00763\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class\ }MemberFunctionPointer,}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00765\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<MemberFunctionPointer>}
+\DoxyCodeLine{00766\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName\ name,\ Description\ description,\ T\ \&t,}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberFunctionPointer\ mem\_fun,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00768\ \ \ (void)name;}
+\DoxyCodeLine{00769\ \ \ (void)description;}
+\DoxyCodeLine{00770\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ type\_list::list\_size\_v<}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ function\_traits<MemberFunctionPointer>::arguments>\ ==}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Args),}
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}All\ arguments\ of\ mem\_fun\ must\ be\ named"{}});}
+\DoxyCodeLine{00775\ }
+\DoxyCodeLine{00776\ \ \ \textcolor{keyword}{using\ }Binder\ =\ MemFunBinder<T,\ MemberFunctionPointer>;}
+\DoxyCodeLine{00777\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00778\ \ \ \ \ \textcolor{keyword}{auto}\ deduced\ =}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ dtl::deduce\_args<MemberFunctionPointer>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00780\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<MemberFunctionPointer>(deduced),}
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Binder\{t,\ mem\_fun\},\ deduced\};}
+\DoxyCodeLine{00783\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00784\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<MemberFunctionPointer>(),}
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Binder\{t,\ mem\_fun\}\};}
+\DoxyCodeLine{00787\ \ \ \}}
+\DoxyCodeLine{00788\ \}}
+\DoxyCodeLine{00789\ }
+\DoxyCodeLine{00790\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class\ }MemberFunctionPointer,}
+\DoxyCodeLine{00791\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00792\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<MemberFunctionPointer>}
+\DoxyCodeLine{00793\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName\ name,\ Description\ description,\ \textcolor{keyword}{const}\ T\ \&t,}
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberFunctionPointer\ mem\_fun,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00795\ \ \ (void)name;}
+\DoxyCodeLine{00796\ \ \ (void)description;}
+\DoxyCodeLine{00797\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ type\_list::list\_size\_v<}
+\DoxyCodeLine{00799\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ function\_traits<MemberFunctionPointer>::arguments>\ ==}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}...(Args),}
+\DoxyCodeLine{00801\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}All\ arguments\ of\ mem\_fun\ must\ be\ named"{}});}
+\DoxyCodeLine{00802\ }
+\DoxyCodeLine{00803\ \ \ \textcolor{keyword}{using\ }Binder\ =\ MemFunBinder<const\ T,\ MemberFunctionPointer>;}
+\DoxyCodeLine{00804\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00805\ \ \ \ \ \textcolor{keyword}{auto}\ deduced\ =}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ dtl::deduce\_args<MemberFunctionPointer>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00807\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},}
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<MemberFunctionPointer>(deduced),}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Binder\{t,\ mem\_fun\},\ deduced\};}
+\DoxyCodeLine{00810\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00811\ \ \ \ \ \textcolor{keywordflow}{return}\ Function\{FuncName\{\},\ Description\{\},}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<MemberFunctionPointer>(),}
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Binder\{t,\ mem\_fun\}\};}
+\DoxyCodeLine{00814\ \ \ \}}
+\DoxyCodeLine{00815\ \}}
+\DoxyCodeLine{00816\ }
+\DoxyCodeLine{00817\ \textcolor{keyword}{template}\ <Name\ FuncName,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class\ }MemberFunctionPointer,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00818\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<MemberFunctionPointer>}
+\DoxyCodeLine{00819\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName\ name,\ T\ \&t,\ MemberFunctionPointer\ mem\_fun,}
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00821\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(name,\ NoDescription\{\},\ t,\ \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{mem\_fun}},\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00822\ \}}
+\DoxyCodeLine{00823\ }
+\DoxyCodeLine{00824\ \textcolor{keyword}{template}\ <Name\ FuncName,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class\ }MemberFunctionPointer,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00825\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<MemberFunctionPointer>}
+\DoxyCodeLine{00826\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(FuncName\ name,\ \textcolor{keyword}{const}\ T\ \&t,\ MemberFunctionPointer\ mem\_fun,}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00828\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{func}}(name,\ NoDescription\{\},\ t,\ \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{mem\_fun}},\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00829\ \}}
+\DoxyCodeLine{00830\ }
+\DoxyCodeLine{00835\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }Function,}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00837\ \textcolor{keyword}{struct\ }MemberFunction\ \{}
+\DoxyCodeLine{00838\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<Args...>;}
+\DoxyCodeLine{00839\ \ \ \textcolor{keyword}{static\_assert}(std::is\_member\_function\_pointer\_v<Function>,}
+\DoxyCodeLine{00840\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}A\ MemberFunctions\ Function\ template\ argument\ must\ be\ a\ "{}}}
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}pointer\ to\ member\ function"{}});}
+\DoxyCodeLine{00842\ \ \ Function\ f;}
+\DoxyCodeLine{00843\ \ \ std::tuple<Args...>\ args;}
+\DoxyCodeLine{00844\ }
+\DoxyCodeLine{00845\ \ \ \textcolor{keyword}{constexpr}\ MemberFunction(FuncName,\ Description,\ Help,\ Function\ mem\_fun\_ptr,}
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Args\ \&...args)\ noexcept}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ :\ f(mem\_fun\_ptr),\ args(args...)\ \{\}}
+\DoxyCodeLine{00848\ }
+\DoxyCodeLine{00849\ \ \ \textcolor{keyword}{constexpr}\ MemberFunction(FuncName,\ Description,\ Help,\ Function\ mem\_fun\_ptr,}
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<Args...>\ \&args)\ noexcept}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ :\ f(mem\_fun\_ptr),\ args(args)\ \{\}}
+\DoxyCodeLine{00852\ \};}
+\DoxyCodeLine{00853\ }
+\DoxyCodeLine{00854\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class}\ Function>}
+\DoxyCodeLine{00855\ \textcolor{keyword}{struct\ }MemberFunction<FuncName,\ Description,\ Help,\ Function>\ \{}
+\DoxyCodeLine{00856\ \ \ \textcolor{keyword}{using\ }arguments\ =\ TypeList<>;}
+\DoxyCodeLine{00857\ \ \ \textcolor{keyword}{static\_assert}(std::is\_member\_function\_pointer\_v<Function>,}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}A\ MemberFunctions\ Function\ template\ argument\ must\ be\ a\ "{}}}
+\DoxyCodeLine{00859\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}pointer\ to\ member\ function"{}});}
+\DoxyCodeLine{00860\ \ \ Function\ f;}
+\DoxyCodeLine{00861\ }
+\DoxyCodeLine{00862\ \ \ \textcolor{keyword}{constexpr}\ MemberFunction(FuncName,\ Description,\ Help,}
+\DoxyCodeLine{00863\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Function\ mem\_fun\_ptr)\ noexcept}
+\DoxyCodeLine{00864\ \ \ \ \ \ \ :\ f(mem\_fun\_ptr)\ \{\}}
+\DoxyCodeLine{00865\ \};}
+\DoxyCodeLine{00866\ }
+\DoxyCodeLine{00867\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }Function,}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00869\ MemberFunction(FuncName\ \&\&,\ Description\ \&\&,\ Help\ \&\&,\ Function\ \&\&,\ Args\ \&\&...)}
+\DoxyCodeLine{00870\ \ \ \ \ -\/>\ MemberFunction<std::remove\_cvref\_t<FuncName>,}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Help>,\ std::remove\_cvref\_t<Function>,}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Args>...>;}
+\DoxyCodeLine{00874\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }Function,}
+\DoxyCodeLine{00875\ \ \ \ \ \ \ \ \ \ \ FuncArg...\ Args>}
+\DoxyCodeLine{00876\ MemberFunction(FuncName\ \&\&,\ Description\ \&\&,\ Help\ \&\&,\ Function\ \&\&,}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<Args...>\ \&)}
+\DoxyCodeLine{00878\ \ \ \ \ -\/>\ MemberFunction<std::remove\_cvref\_t<FuncName>,}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00880\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Help>,\ std::remove\_cvref\_t<Function>,}
+\DoxyCodeLine{00881\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Args>...>;}
+\DoxyCodeLine{00882\ }
+\DoxyCodeLine{00883\ \textcolor{keyword}{template}\ <Name\ FuncName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class}\ Function>}
+\DoxyCodeLine{00884\ MemberFunction(FuncName\ \&\&,\ Description\ \&\&,\ Help\ \&\&,\ Function\ \&\&)}
+\DoxyCodeLine{00885\ \ \ \ \ -\/>\ MemberFunction<std::remove\_cvref\_t<FuncName>,}
+\DoxyCodeLine{00886\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00887\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Help>,\ std::remove\_cvref\_t<Function>>;}
+\DoxyCodeLine{00888\ }
+\DoxyCodeLine{00927\ \textcolor{keyword}{template}\ <Name\ FuncName,\ \textcolor{keyword}{class\ }MemberFunctionPointer,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00928\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<MemberFunctionPointer>}
+\DoxyCodeLine{00929\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{mem\_fun}}(FuncName\ name,\ MemberFunctionPointer\ mem\_fun,}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00931\ \ \ (void)name;}
+\DoxyCodeLine{00932\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00933\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduced\_args\ =}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ dtl::deduce\_args<decltype(mem\_fun)>(std::forward<Args>(args)...);}
+\DoxyCodeLine{00935\ \ \ \ \ \textcolor{keywordflow}{return}\ MemberFunction\{}
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ FuncName\{\},\ NoDescription\{\},}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<decltype(mem\_fun)>(deduced\_args),\ \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{mem\_fun}},}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ deduced\_args\};}
+\DoxyCodeLine{00939\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00940\ \ \ \ \ \textcolor{keywordflow}{return}\ MemberFunction\{FuncName\{\},\ NoDescription\{\},}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<decltype(mem\_fun)>(),}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mem\_fun\};}
+\DoxyCodeLine{00943\ \ \ \}}
+\DoxyCodeLine{00944\ \}}
+\DoxyCodeLine{00945\ }
+\DoxyCodeLine{00982\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ MemberFunctionPointer,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00983\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_function\_pointer\_v<\textcolor{keyword}{decltype}(MemberFunctionPointer)>}
+\DoxyCodeLine{00984\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{mem\_fun}}(Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00985\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ >\ 0)\ \{}
+\DoxyCodeLine{00986\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ deduced\_args\ =}
+\DoxyCodeLine{00987\ \ \ \ \ \ \ \ \ dtl::deduce\_args<decltype(MemberFunctionPointer)>(}
+\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...);}
+\DoxyCodeLine{00989\ \ \ \ \ \textcolor{keywordflow}{return}\ MemberFunction\{}
+\DoxyCodeLine{00990\ \ \ \ \ \ \ \ \ ctti::value\_name<MemberFunctionPointer>(),\ NoDescription\{\},}
+\DoxyCodeLine{00991\ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<decltype(MemberFunctionPointer)>(}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \ \ \ \ \ \ deduced\_args),}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ \ \ MemberFunctionPointer,\ deduced\_args\};}
+\DoxyCodeLine{00994\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00995\ \ \ \ \ \textcolor{keywordflow}{return}\ MemberFunction\{}
+\DoxyCodeLine{00996\ \ \ \ \ \ \ \ \ ctti::value\_name<MemberFunctionPointer>(),\ NoDescription\{\},}
+\DoxyCodeLine{00997\ \ \ \ \ \ \ \ \ dtl::pretty\_signature\_name<decltype(MemberFunctionPointer)>(),}
+\DoxyCodeLine{00998\ \ \ \ \ \ \ \ \ MemberFunctionPointer\};}
+\DoxyCodeLine{00999\ \ \ \}}
+\DoxyCodeLine{01000\ \}}
+\DoxyCodeLine{01001\ }
+\DoxyCodeLine{01006\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{01010\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ Name\ CmdName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }F,}
+\DoxyCodeLine{01011\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{01012\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}}
+\DoxyCodeLine{01013\ \mbox{\hyperlink{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}{to\_cmd}}(T\ \&obj,\ \textcolor{keyword}{const}\ MemberFunction<CmdName,\ Description,\ Help,\ F,\ Args...>}
+\DoxyCodeLine{01014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&member\_function)\ \{}
+\DoxyCodeLine{01015\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ ==\ 0)}
+\DoxyCodeLine{01016\ \ \ \ \ \textcolor{keywordflow}{return}\ Function(CmdName\{\},\ Description\{\},\ Help\{\},}
+\DoxyCodeLine{01017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemFunBinder(obj,\ member\_function.f));}
+\DoxyCodeLine{01018\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{01019\ \ \ \ \ \textcolor{keywordflow}{return}\ Function(CmdName\{\},\ Description\{\},\ Help\{\},}
+\DoxyCodeLine{01020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemFunBinder(obj,\ member\_function.f),\ member\_function.args);}
+\DoxyCodeLine{01021\ \}}
+\DoxyCodeLine{01025\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ Name\ CmdName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }F,}
+\DoxyCodeLine{01026\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{01027\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}{to\_cmd}}(\textcolor{keyword}{const}\ T\ \&obj,}
+\DoxyCodeLine{01028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ MemberFunction<CmdName,\ Description,\ Help,\ F,}
+\DoxyCodeLine{01029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args...>\ \&member\_function)\ \{}
+\DoxyCodeLine{01030\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Args)\ ==\ 0)}
+\DoxyCodeLine{01031\ \ \ \ \ \textcolor{keywordflow}{return}\ Function(CmdName\{\},\ Description\{\},\ Help\{\},}
+\DoxyCodeLine{01032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemFunBinder(obj,\ member\_function.f));}
+\DoxyCodeLine{01033\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{01034\ \ \ \ \ \textcolor{keywordflow}{return}\ Function(CmdName\{\},\ Description\{\},\ Help\{\},}
+\DoxyCodeLine{01035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemFunBinder(obj,\ member\_function.f),\ member\_function.args);}
+\DoxyCodeLine{01036\ \}}
+\DoxyCodeLine{01037\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{01038\ \}\ \textcolor{comment}{//\ namespace\ cli::funcs}}
+\DoxyCodeLine{01039\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

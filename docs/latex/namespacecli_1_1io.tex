@@ -1,0 +1,134 @@
+\doxysection{cli\+::io Namespace Reference}
+\hypertarget{namespacecli_1_1io}{}\label{namespacecli_1_1io}\index{cli::io@{cli::io}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli_1_1io_1_1dtl}{dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{Ansi\+Output\+Stream}}
+\begin{DoxyCompactList}\small\item\em The output device for ansi terminals. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1io_1_1_event}{Event}}
+\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}
+\begin{DoxyCompactList}\small\item\em This class represents an ansi input device, e.\+g. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}
+\begin{DoxyCompactList}\small\item\em This class is the interface used by the cli to control the output. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_queue}{Queue}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{Char\+Stream}}
+\begin{DoxyCompactList}\small\item\em A Char\+Stream is used to write a single character to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{String\+Stream}}
+\begin{DoxyCompactList}\small\item\em A String\+Stream is used to write a string of characters to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{Basic\+Output\+Stream}}
+\begin{DoxyCompactList}\small\item\em A Basic\+Output\+Stream is used to write raw characters to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{Output\+Stream}}
+\begin{DoxyCompactList}\small\item\em An Output\+Stream is the interface \doxylink{classcli_1_1io_1_1_output}{cli\+::io\+::\+Output} uses to write to an unbuffered output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15a}{Type}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aaa5b073d2349cd7dd3ce14df3216b0e81}{Auto\+Complete}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae3fb3f3381b848f57f35cb3558733f84}{Back\+Space}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa8e95e84813830072b7516cfaa7dbc1a9}{Char}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa49176da75a1269d7cda14dd52331c7da}{Cursor\+Up}}
+, \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa3f96d33d45dfd7be341bf60569f3e623}{Cursor\+Down}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa0ca3446825777aa103c92c11b4d7c18f}{Cursor\+Left}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae21c5ec9e15d9960f20eb95cddc0fca7}{Cursor\+Right}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa16c885b2d67a4c187016f935e9a35373}{New\+Line}}
+, \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa559c61010d100dc896b37a8f3ccecd58}{Erase\+In\+Display}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9e5d5b46e57b6a707a633fbe254b69a0}{Erase\+In\+Line}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9426dc2b6341736ad0042b0367047e2b}{Scroll\+Up}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa98fe5443327b84b86a98bc3472fadc79}{Scroll\+Down}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Basic\+Output\+Stream Stream$>$ }\\\mbox{\hyperlink{namespacecli_1_1io_a09eab13095456f4abede40bc6c709960}{Ansi\+Output\+Stream}} (Stream \&\&) -\/$>$ Ansi\+Output\+Stream$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$
+\item 
+{\footnotesize template$<$Output\+Stream Stream$>$ }\\\mbox{\hyperlink{namespacecli_1_1io_a32abba0dffa621dca4ef12d77af6ee47}{Output}} (Stream \&\&) -\/$>$ Output$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15a}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15a} 
+\index{cli::io@{cli::io}!Type@{Type}}
+\index{Type@{Type}!cli::io@{cli::io}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{enum}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15a}{cli\+::io\+::\+Type}} \+: \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{uint8\+\_\+t}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AutoComplete@{AutoComplete}!cli::io@{cli::io}}\index{cli::io@{cli::io}!AutoComplete@{AutoComplete}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aaa5b073d2349cd7dd3ce14df3216b0e81}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aaa5b073d2349cd7dd3ce14df3216b0e81} 
+Auto\+Complete&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BackSpace@{BackSpace}!cli::io@{cli::io}}\index{cli::io@{cli::io}!BackSpace@{BackSpace}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae3fb3f3381b848f57f35cb3558733f84}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae3fb3f3381b848f57f35cb3558733f84} 
+Back\+Space&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Char@{Char}!cli::io@{cli::io}}\index{cli::io@{cli::io}!Char@{Char}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa8e95e84813830072b7516cfaa7dbc1a9}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa8e95e84813830072b7516cfaa7dbc1a9} 
+Char&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CursorUp@{CursorUp}!cli::io@{cli::io}}\index{cli::io@{cli::io}!CursorUp@{CursorUp}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa49176da75a1269d7cda14dd52331c7da}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa49176da75a1269d7cda14dd52331c7da} 
+Cursor\+Up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CursorDown@{CursorDown}!cli::io@{cli::io}}\index{cli::io@{cli::io}!CursorDown@{CursorDown}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa3f96d33d45dfd7be341bf60569f3e623}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa3f96d33d45dfd7be341bf60569f3e623} 
+Cursor\+Down&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CursorLeft@{CursorLeft}!cli::io@{cli::io}}\index{cli::io@{cli::io}!CursorLeft@{CursorLeft}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa0ca3446825777aa103c92c11b4d7c18f}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa0ca3446825777aa103c92c11b4d7c18f} 
+Cursor\+Left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CursorRight@{CursorRight}!cli::io@{cli::io}}\index{cli::io@{cli::io}!CursorRight@{CursorRight}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae21c5ec9e15d9960f20eb95cddc0fca7}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae21c5ec9e15d9960f20eb95cddc0fca7} 
+Cursor\+Right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NewLine@{NewLine}!cli::io@{cli::io}}\index{cli::io@{cli::io}!NewLine@{NewLine}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa16c885b2d67a4c187016f935e9a35373}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa16c885b2d67a4c187016f935e9a35373} 
+New\+Line&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EraseInDisplay@{EraseInDisplay}!cli::io@{cli::io}}\index{cli::io@{cli::io}!EraseInDisplay@{EraseInDisplay}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa559c61010d100dc896b37a8f3ccecd58}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa559c61010d100dc896b37a8f3ccecd58} 
+Erase\+In\+Display&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EraseInLine@{EraseInLine}!cli::io@{cli::io}}\index{cli::io@{cli::io}!EraseInLine@{EraseInLine}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9e5d5b46e57b6a707a633fbe254b69a0}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9e5d5b46e57b6a707a633fbe254b69a0} 
+Erase\+In\+Line&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ScrollUp@{ScrollUp}!cli::io@{cli::io}}\index{cli::io@{cli::io}!ScrollUp@{ScrollUp}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9426dc2b6341736ad0042b0367047e2b}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9426dc2b6341736ad0042b0367047e2b} 
+Scroll\+Up&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ScrollDown@{ScrollDown}!cli::io@{cli::io}}\index{cli::io@{cli::io}!ScrollDown@{ScrollDown}}}\Hypertarget{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa98fe5443327b84b86a98bc3472fadc79}\label{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa98fe5443327b84b86a98bc3472fadc79} 
+Scroll\+Down&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecli_1_1io_a09eab13095456f4abede40bc6c709960}\label{namespacecli_1_1io_a09eab13095456f4abede40bc6c709960} 
+\index{cli::io@{cli::io}!AnsiOutputStream@{AnsiOutputStream}}
+\index{AnsiOutputStream@{AnsiOutputStream}!cli::io@{cli::io}}
+\doxysubsubsection{\texorpdfstring{AnsiOutputStream()}{AnsiOutputStream()}}
+{\footnotesize\ttfamily template$<$Basic\+Output\+Stream Stream$>$ \\
+cli\+::io\+::\+Ansi\+Output\+Stream (\begin{DoxyParamCaption}\item[{Stream \&\&}]{ }\end{DoxyParamCaption}) -\/$>$  Ansi\+Output\+Stream$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$}
+
+\Hypertarget{namespacecli_1_1io_a32abba0dffa621dca4ef12d77af6ee47}\label{namespacecli_1_1io_a32abba0dffa621dca4ef12d77af6ee47} 
+\index{cli::io@{cli::io}!Output@{Output}}
+\index{Output@{Output}!cli::io@{cli::io}}
+\doxysubsubsection{\texorpdfstring{Output()}{Output()}}
+{\footnotesize\ttfamily template$<$Output\+Stream Stream$>$ \\
+cli\+::io\+::\+Output (\begin{DoxyParamCaption}\item[{Stream \&\&}]{ }\end{DoxyParamCaption}) -\/$>$  Output$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$}
+

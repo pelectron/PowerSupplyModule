@@ -1,0 +1,49 @@
+\doxysection{cli\+::Ring\+Buffer\texorpdfstring{$<$}{<} T, Capacity \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1_ring_buffer}{}\label{classcli_1_1_ring_buffer}\index{cli::RingBuffer$<$ T, Capacity $>$@{cli::RingBuffer$<$ T, Capacity $>$}}
+
+
+{\ttfamily \#include $<$cli/ring\+\_\+buffer.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_ring_buffer_a6036429132df31d7c7f8072cb569da31}{Ring\+Buffer}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View$<$ T $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_aa2211a03bd3df0241a5af975d47587c8}{Ring\+Buf\+View}} (T \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{arr}}, std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e}{capacity}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a5e8dfab2258f3f7a0e73d52c2f3c2eb4}{is\+\_\+full}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a116fafd7df2e9643969af70450d7f435}{is\+\_\+empty}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_ab1ae585f426ed0f8378d98d9d7aa0a85}{size}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e}{capacity}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_af36dd51d50fe28d5e710886b5ccf5d69}{push\+\_\+back}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} T \&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_ad4faa9d33f853091df9bbf25f1fa3902}{push\+\_\+back}} (T \&\&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_af3ade8f0791f024914a06c28a2399493}{remove\+\_\+last}} (std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{n}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a87f3ff2d21d143812f0304a9774f0572}{pop}} (T \&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1_ring_buf_view_1_1write__iterator}{write\+\_\+iterator}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a86d51eb2209a1539808dbbd1d6cee6bd}{output}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcli_1_1_ring_buffer_a6036429132df31d7c7f8072cb569da31}\label{classcli_1_1_ring_buffer_a6036429132df31d7c7f8072cb569da31} 
+\index{cli::RingBuffer$<$ T, Capacity $>$@{cli::RingBuffer$<$ T, Capacity $>$}!RingBuffer@{RingBuffer}}
+\index{RingBuffer@{RingBuffer}!cli::RingBuffer$<$ T, Capacity $>$@{cli::RingBuffer$<$ T, Capacity $>$}}
+\doxysubsubsection{\texorpdfstring{RingBuffer()}{RingBuffer()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T , std\+::size\+\_\+t Capacity$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_ring_buffer}{cli\+::\+Ring\+Buffer}}$<$ T, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Capacity}} $>$\+::\+Ring\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{ring__buffer_8hpp}{ring\+\_\+buffer.\+hpp}}\end{DoxyCompactItemize}

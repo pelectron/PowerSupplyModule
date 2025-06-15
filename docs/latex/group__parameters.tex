@@ -1,0 +1,378 @@
+\doxysection{Parameters}
+\hypertarget{group__parameters}{}\label{group__parameters}\index{Parameters@{Parameters}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Name Cmd\+Name, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(Sub\+Commands) $>$ 0)}\\constexpr auto \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{cli\+::params\+::param}} (Cmd\+Name name, Sub\+Commands \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a "{}virtual"{} command, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(Sub\+Commands) $>$ 0)}\\constexpr auto \mbox{\hyperlink{group__parameters_ga11cf3205c6380204f56e0b046925cf4a}{cli\+::params\+::param}} (Cmd\+Name name, Description description, Sub\+Commands \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a "{}virtual"{} command, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, class T , Command... Sub\+Commands$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga03f159995b9ddc7846e03b04f2820e2b}{cli\+::params\+::param}} (Cmd\+Name name, T \&t, Sub\+Commands \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, class T , Command... Sub\+Commands$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga444c6a50e6dfb9680227bc4347c987b9}{cli\+::params\+::param}} (Cmd\+Name name, Description description, T \&t, Sub\+Commands \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, Name Type, Getter Get, Setter Set, parse\+::\+Parser Parse, format\+::\+Formatter Format, validate\+::\+Validator Validate, Command... Sub\+Commands$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga061584c20bd0ae0e1f4c6e30a096699b}{cli\+::params\+::param}} (Cmd\+Name name, Description description, Type type, Get \&\&get, Set \&\&set, Parse \&\&parse, Format \&\&format, Validate \&\&validate, Sub\+Commands \&\&...cmds)
+\begin{DoxyCompactList}\small\item\em creates a parameter command from its individual parts. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga416d355659710674637e8fde8e75e42d}{cli\+::params\+::param}} (Cmd\+Name name, T \&obj, Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...m)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Cmd\+Name, Name Description, class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_gacce965e6a80d3bd9f23f67ada4bb1319}{cli\+::params\+::param}} (Cmd\+Name name, Description description, T \&obj, Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...m)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$auto \& Obj, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga6f79fed81cae67a5597c2909431c7da5}{cli\+::params\+::param}} (Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...m)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$auto \& Obj, Name Description, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_ga6783b78dc7379d4aae41992689ab3d9f}{cli\+::params\+::param}} (Description description, Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...m)
+\begin{DoxyCompactList}\small\item\em creates a parameter command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ }\\constexpr auto \mbox{\hyperlink{group__parameters_gaade55ceb526378ee8e98c3b7dcfacaae}{cli\+::params\+::param}} (T \&obj, Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...m)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__parameters_ga11cf3205c6380204f56e0b046925cf4a}\label{group__parameters_ga11cf3205c6380204f56e0b046925cf4a} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [1/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, Name Description, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(Sub\+Commands) $>$ 0)\\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{Description}]{description,  }\item[{Sub\+Commands \&\&...}]{cmds }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a "{}virtual"{} command, i.\+e. 
+
+a parameter without a value ot set or get, but subcommands. Requires at least one sub command.
+
+Example\+: {\ttfamily auto p = param("{}cfg"{}\+\_\+sc, "{}configuration"{}\+\_\+sc, param("{}app"{}\+\_\+sc, ...), param("{}dbg"{}\+\_\+sc, ...))}
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em description} & the description of the parameter, used by the help functionality. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em cmds} & the sub commands. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_gacce965e6a80d3bd9f23f67ada4bb1319}\label{group__parameters_gacce965e6a80d3bd9f23f67ada4bb1319} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [2/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, Name Description, class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{Description}]{description,  }\item[{T \&}]{obj,  }\item[{Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. t, can then be retrieved by its name. This overload can take member data and member functions in addition to sub commands. Uses the default getter, setter, parsing, formatting, and validation facilities.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the parameters type \\
+\hline
+{\em Command\+Or\+Member\+Data\+Or\+Member\+Function} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em description} & the description of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em obj} & the parameter value and the object that member data and functions are called on. \\
+\hline
+{\em m} & an assortment of sub commands, member functions, and member data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga444c6a50e6dfb9680227bc4347c987b9}\label{group__parameters_ga444c6a50e6dfb9680227bc4347c987b9} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [3/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, Name Description, class T , Command... Sub\+Commands$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{Description}]{description,  }\item[{T \&}]{t,  }\item[{Sub\+Commands \&\&...}]{cmds }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. t, can then be retrieved by its name. This uses the default getter, setter, parsing, formatting, and validation facilities.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ T\ my\_var;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ p\ =\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(\textcolor{stringliteral}{"{}my-\/var"{}}\_sc,\ \textcolor{stringliteral}{"{}how\ much\ to\ foo"{}}\_sc,\ my\_var,\ ...);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the parameters type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em description} & the description of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em t} & the parameter value \\
+\hline
+{\em cmds} & optional subcommands \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga061584c20bd0ae0e1f4c6e30a096699b}\label{group__parameters_ga061584c20bd0ae0e1f4c6e30a096699b} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [4/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, Name Description, Name Type, Getter Get, Setter Set, parse\+::\+Parser Parse, format\+::\+Formatter Format, validate\+::\+Validator Validate, Command... Sub\+Commands$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{Description}]{description,  }\item[{Type}]{type,  }\item[{Get \&\&}]{get,  }\item[{Set \&\&}]{set,  }\item[{Parse \&\&}]{parse,  }\item[{Format \&\&}]{format,  }\item[{Validate \&\&}]{validate,  }\item[{Sub\+Commands \&\&...}]{cmds }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command from its individual parts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em description} & the parameter description, used by the help functionality. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em type} & the parameter type as a string, used by the help functionality. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em get} & the getter of the parameter. See \doxylink{conceptcli_1_1params_1_1_getter}{cli\+::params\+::\+Getter} for additional info. \\
+\hline
+{\em set} & the setter of the parameter. See \doxylink{conceptcli_1_1params_1_1_setter}{cli\+::params\+::\+Setter} for additional info. \\
+\hline
+{\em parse} & the parser of the parameter. See cli\+::parse\+::\+Parser for additional info. \\
+\hline
+{\em format} & the formatter of the parameter. See cli\+::format\+::\+Formatter for additional info. \\
+\hline
+{\em validate} & the validator of the parameter. See cli\+::validate\+::\+Validator for additional info. \\
+\hline
+{\em cmds} & additional optional subcommands \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_gad60a9dac846725de58d768a5de0823d2}\label{group__parameters_gad60a9dac846725de58d768a5de0823d2} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [5/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, Command... Sub\+Commands$>$ \newline
+requires (sizeof...(Sub\+Commands) $>$ 0)\\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{Sub\+Commands \&\&...}]{cmds }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a "{}virtual"{} command, i.\+e. 
+
+a parameter without a value ot set or get, but subcommands. Requires at least one sub command.
+
+Example\+: {\ttfamily auto p = param("{}my-\/cmd"{}\+\_\+sc, param(...), func(...))}
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em cmds} & the sub commands. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga416d355659710674637e8fde8e75e42d}\label{group__parameters_ga416d355659710674637e8fde8e75e42d} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [6/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{T \&}]{obj,  }\item[{Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. t, can then be retrieved by its name. This opverload can take member data and member functions in addition to sub commands. Uses the default getter, setter, parsing, formatting, and validation facilities.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the parameters type \\
+\hline
+{\em Command\+Or\+Member\+Data\+Or\+Member\+Function} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em obj} & the parameter value and the object that member data and functions are called on. \\
+\hline
+{\em m} & an assortment of sub commands, member functions, and member data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga03f159995b9ddc7846e03b04f2820e2b}\label{group__parameters_ga03f159995b9ddc7846e03b04f2820e2b} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [7/10]}}
+{\footnotesize\ttfamily template$<$Name Cmd\+Name, class T , Command... Sub\+Commands$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Cmd\+Name}]{name,  }\item[{T \&}]{t,  }\item[{Sub\+Commands \&\&...}]{cmds }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. t, can then be retrieved by its name. This uses the default getter, setter, parsing, formatting, and validation facilities.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{extern}\ T\ my\_var;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ p\ =\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(\textcolor{stringliteral}{"{}my-\/var"{}}\_sc,\ my\_var,\ ...);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & the parameters type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em t} & the parameter value \\
+\hline
+{\em cmds} & optional subcommands \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga6f79fed81cae67a5597c2909431c7da5}\label{group__parameters_ga6f79fed81cae67a5597c2909431c7da5} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [8/10]}}
+{\footnotesize\ttfamily template$<$auto \& Obj, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. Obj, can then be retrieved by its name, which is deduced. This overload can take member data and member functions in addition to sub commands. Uses the default getter, setter, parsing, formatting, and validation facilities.
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }Settings\{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ k;}
+\DoxyCodeLine{\ \ ...}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{\textcolor{keyword}{static}\ Settings\ settings\{...\};}
+\DoxyCodeLine{\textcolor{comment}{//\ p\ has\ the\ name\ "{}settings"{}}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ p\ =\ param<settings>(...);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Obj} & a reference to an aggrate. \\
+\hline
+{\em Command\+Or\+Member\+Data\+Or\+Member\+Function} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em m} & an assortment of sub commands, member functions, and member data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_ga6783b78dc7379d4aae41992689ab3d9f}\label{group__parameters_ga6783b78dc7379d4aae41992689ab3d9f} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [9/10]}}
+{\footnotesize\ttfamily template$<$auto \& Obj, Name Description, class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{Description}]{description,  }\item[{Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+creates a parameter command. 
+
+The value of the parameter, i.\+e. Obj, can then be retrieved by its name, which is deduced. This overload can take member data and member functions in addition to sub commands. Uses the default getter, setter, parsing, formatting, and validation facilities.
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }Settings\{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{int}\ k;}
+\DoxyCodeLine{\ \ ...}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{\textcolor{keyword}{static}\ Settings\ settings\{...\};}
+\DoxyCodeLine{\textcolor{comment}{//\ p\ has\ the\ name\ "{}settings"{}}}
+\DoxyCodeLine{\textcolor{keyword}{auto}\ p\ =\ param<settings>(\textcolor{stringliteral}{"{}global\ app\ settings"{}}\_sc,\ ...);}
+
+\end{DoxyCode}
+ 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Obj} & a reference to an aggrate. \\
+\hline
+{\em Command\+Or\+Member\+Data\+Or\+Member\+Function} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em description} & the description of the parameter. Must be a \doxylink{structcli_1_1string__constant}{cli\+::string\+\_\+constant}. \\
+\hline
+{\em m} & an assortment of sub commands, member functions, and member data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a Command 
+\end{DoxyReturn}
+\Hypertarget{group__parameters_gaade55ceb526378ee8e98c3b7dcfacaae}\label{group__parameters_gaade55ceb526378ee8e98c3b7dcfacaae} 
+\index{Parameters@{Parameters}!param@{param}}
+\index{param@{param}!Parameters@{Parameters}}
+\doxysubsubsection{\texorpdfstring{param()}{param()}\hspace{0.1cm}{\footnotesize\ttfamily [10/10]}}
+{\footnotesize\ttfamily template$<$class T , class... Command\+Or\+Member\+Data\+Or\+Member\+Function$>$ \\
+constexpr auto cli\+::params\+::param (\begin{DoxyParamCaption}\item[{T \&}]{obj,  }\item[{Command\+Or\+Member\+Data\+Or\+Member\+Function \&\&...}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+{\em Command\+Or\+Member\+Data\+Or\+Member\+Function} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & \\
+\hline
+{\em m} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}

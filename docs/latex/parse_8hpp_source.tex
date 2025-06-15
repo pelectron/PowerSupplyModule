@@ -1,0 +1,1249 @@
+\doxysection{parse.\+hpp}
+\hypertarget{parse_8hpp_source}{}\label{parse_8hpp_source}\index{cli/parse.hpp@{cli/parse.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_PARSE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_PARSE\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/ctti.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}cli/traits.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}cli/u64.hpp"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }cli::parse\ \{}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{concept\ }Value\ =\ std::is\_object\_v<std::decay\_t<T>>;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ R>}
+\DoxyCodeLine{00022\ \textcolor{keyword}{concept\ }Result\ =\ \textcolor{keyword}{requires}(R\ \&\&r)\ \{}
+\DoxyCodeLine{00023\ \ \ \{\ r.error\ \}\ -\/>\ std::convertible\_to<Error>;}
+\DoxyCodeLine{00024\ \ \ \{\ r.value\ \}\ -\/>\ Value;}
+\DoxyCodeLine{00025\ \ \ \{\ r.rest\ \}\ -\/>\ std::convertible\_to<ByteView>;}
+\DoxyCodeLine{00026\ \ \ \{\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(r)\ \};}
+\DoxyCodeLine{00027\ \};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ P>}
+\DoxyCodeLine{00030\ \textcolor{keyword}{concept\ }Parser\ =\ \textcolor{keyword}{requires}(std::remove\_cvref\_t<P>\ \&p,\ ByteView\ str)\ \{}
+\DoxyCodeLine{00031\ \ \ \{\ p(str)\ \}\ -\/>\ Result;}
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{template}\ <Parser\ P>\ \textcolor{keyword}{struct\ }value\_type\ \{}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{using\ }type\ =}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ std::remove\_cvref\_t<decltype(std::declval<decltype(std::declval<P\ \&>()(}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::declval<ByteView>()))>()}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .value)>;}
+\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{template}\ <Parser\ P>}
+\DoxyCodeLine{00042\ \textcolor{keyword}{using\ }value\_type\_t\ =\ \textcolor{keyword}{typename}\ value\_type<std::remove\_cvref\_t<P>>::type;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ P,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00045\ \textcolor{keyword}{concept\ }ParserOf\ =\ Parser<P>\ and\ std::same\_as<T,\ value\_type\_t<P>>;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{struct\ }from\_error\_t\ \{}
+\DoxyCodeLine{00048\ \}\ from\_error;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{struct\ }from\_value\_t\ \{}
+\DoxyCodeLine{00051\ \}\ from\_value;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }ParseResult\ \{}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{constexpr}\ ParseResult(Error\ error)\ :\ error\{error\},\ value\{\},\ rest\{\}\ \{\}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{constexpr}\ ParseResult(\textcolor{keyword}{const}\ T\ \&value,\ ByteView\ rest\ =\ \{\})}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ :\ error\{Error::none\},\ value\{value\},\ rest\{rest\}\ \{\}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{constexpr}\ ParseResult(T\ \&\&value,\ ByteView\ rest\ =\ \{\})}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ :\ error\{Error::none\},\ value\{std::move(value)\},\ rest\{rest\}\ \{\}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ U>}
+\DoxyCodeLine{00064\ \ \ \textcolor{keyword}{constexpr}\ ParseResult(from\_value\_t,\ U\ \&\&value,\ ByteView\ rest\ =\ \{\})}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ :\ error\{Error::none\},\ value\{std::forward<U>(value)\},\ rest\{rest\}\ \{\}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \textcolor{keyword}{constexpr}\ ParseResult(from\_error\_t,\ Error\ e)\ :\ error\{e\},\ value\{\},\ rest\{\}\ \{\}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ bool()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ error\ ==\ Error::none;\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ operator<=>(\textcolor{keyword}{const}\ ParseResult\ \&)\ \textcolor{keyword}{const}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ \ \ Error\ error;}
+\DoxyCodeLine{00073\ \ \ T\ value;}
+\DoxyCodeLine{00074\ \ \ ByteView\ rest;}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ ParseResult<std::remove\_cvref\_t<T>>\ ok(T\ \&\&t)\ \{}
+\DoxyCodeLine{00078\ \ \ \textcolor{keywordflow}{return}\ \{std::forward<T>(t),\ \{\}\};}
+\DoxyCodeLine{00079\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{constexpr}\ ParseResult<T>\ error(Error\ e)\ \{}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordflow}{return}\ \{from\_error,\ e\};}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{static\_assert}(Result<ParseResult<int>>);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{constexpr}\ ByteView\ skip\_ws(ByteView\ str)\ \{}
+\DoxyCodeLine{00088\ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[i]\ ==\ \textcolor{charliteral}{'\ '}\ or\ str[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)t'})}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.substr(i);}
+\DoxyCodeLine{00093\ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{00095\ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{keyword}{static\_assert}(skip\_ws(ByteView())\ ==\ ByteView());}
+\DoxyCodeLine{00098\ \textcolor{keyword}{static\_assert}(skip\_ws(ByteView(\textcolor{stringliteral}{"{}hello"{}}))\ ==\ ByteView(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00099\ \textcolor{keyword}{static\_assert}(skip\_ws(ByteView(\textcolor{stringliteral}{"{}\ hello"{}}))\ ==\ ByteView(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00100\ \textcolor{keyword}{static\_assert}(skip\_ws(ByteView(\textcolor{stringliteral}{"{}\ \ \ hello"{}}))\ ==\ ByteView(\textcolor{stringliteral}{"{}hello"{}}));}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{template}\ <traits::Integer\ T,\ Fmt\ Format\ =\ Fmt::normal\ |\ Fmt::hex\ |\ Fmt::binary>}
+\DoxyCodeLine{00108\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_int}{Int}}\ \{}
+\DoxyCodeLine{00109\ \ \ \textcolor{keyword}{using\ }traits\ =\ cli::traits::integer\_traits<T>;}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{using\ }type\ =\ \textcolor{keyword}{typename}\ traits::type;}
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{using\ }unsigned\_type\ =\ \textcolor{keyword}{typename}\ traits::unsigned\_type;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00114\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_hex\_length()\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_bin\_length()\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 32;}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 32;}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_dec\_length()\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\textcolor{keyword}{sizeof}(type))\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ ParseResult<T>\ parse\_hex(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ str,\ std::size\_t\ offset)\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ to\_hex\ =\ [](uint8\_t\ c)\ -\/>\ uint8\_t\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'0'}\ and\ c\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'A'}\ and\ c\ <=\ \textcolor{charliteral}{'F'})\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ \textcolor{charliteral}{'a'}\ and\ c\ <=\ \textcolor{charliteral}{'f'})\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ c\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0xFFu;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \};}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =\ std::min(}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ max\_hex\_length()\ +\ offset,\ str.size());\ \textcolor{comment}{//\ the\ maximum\ amount\ of\ digits}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ can\ consume\ with\ 32\ bits.}}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ str[i];}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ bits\ =\ to\_hex(c);\ bits\ <=\ 0x0Fu)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ v\ =\ (v\ *\ 16u)\ +\ bits;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00194\ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ ParseResult<T>\ parse\_bin(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ str,\ std::size\_t\ offset)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =\ std::min(}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ max\_bin\_length()\ +\ offset,\ str.size());\ \textcolor{comment}{//\ the\ maximum\ amount\ of\ digits}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ can\ consume\ with\ 32\ bits.}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ str[i];}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'0'})\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ v\ =\ v\ <<\ 1u;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ ==\ \textcolor{charliteral}{'1'})\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ v\ =\ (v\ <<\ 1u)\ |\ 1u;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ \}}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00217\ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ ParseResult<T>\ parse\_dec(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ traits::is\_signed)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ std::size\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'+'})\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ offset\ =\ 1;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 1)}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ max\_size\ =}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ std::min(offset\ +\ max\_dec\_length(),\ str.size());}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ >=\ \textcolor{charliteral}{'0'}\ and\ ch\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ v\ =\ v\ *\ 10\ +\ (ch\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00244\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ std::size\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ negative\ =\ str[0]\ ==\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'+'}\ or\ negative)\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ offset\ =\ 1;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 1)}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ v\ =\ 0;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ max\_size\ =}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ std::min(offset\ +\ max\_dec\_length(),\ str.size());}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ offset;\ i\ <\ max\_size;\ ++i)\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ >=\ \textcolor{charliteral}{'0'}\ and\ ch\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ v\ =\ v\ *\ 10u\ +\ (ch\ -\/\ u\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ invalid\ character\ encountered,\ only\ an\ error\ if\ it\ is\ the\ first}}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ character}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ offset)}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(\string~v\ +\ 1),\ str.substr(i)\};}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(i)\};}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)\ \{}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(\string~v\ +\ 1),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}type\textcolor{keyword}{>}(v),\ str.substr(max\_size)\};}
+\DoxyCodeLine{00274\ \ \ \ \ \}}
+\DoxyCodeLine{00275\ \ \ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00278\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::hex)\ ==\ Fmt::hex)\ \{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ hexadecimal\ number,\ starts\ with\ 0x,\ 0X,\ x,\ X,\ or\ \#}}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0x"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0X"{}}))}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_hex(str,\ 2);}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_hex(str,\ 1);}
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::binary)\ ==\ Fmt::binary)\ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ binary\ number,\ starts\ with\ 0b,\ 0B,\ b,\ or\ B}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0b"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0B"{}}))}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_bin(str,\ 2);}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_bin(str,\ 1);}
+\DoxyCodeLine{00296\ \ \ \ \ \}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::normal)\ ==\ Fmt::normal)\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ decimal\ number}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_dec(str);}
+\DoxyCodeLine{00301\ \ \ \ \ \}}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_value;}
+\DoxyCodeLine{00304\ \ \ \}}
+\DoxyCodeLine{00305\ \};}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00326\ \textcolor{keyword}{template}\ <traits::String\ T>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1parse_1_1_string}{String}}\ \{}
+\DoxyCodeLine{00327\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00328\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ str)\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{'"{}'})\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 1;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ 0x20u\ or\ ch\ >\ 0x7E)\ \textcolor{comment}{//\ ch\ is\ a\ non\ printable\ character}}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unescaped\_string;}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{'"{}'}\ and\ str[i\ -\/\ 1]\ !=\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'})\ \{}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reached\ end\ quote}}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ value\ =\ str.substr(1,\ i\ -\/\ 1);\ \textcolor{comment}{//\ -\/1\ to\ exclude\ quote}}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(value.data(),\ value.size()),}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str.substr(i\ +\ 1)\};\ \textcolor{comment}{//\ +1\ to\ exlude\ endquote}}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unescaped\_string;}
+\DoxyCodeLine{00347\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ 0x21u\ or\ ch\ >\ 0x7E\ or\ (ch\ ==\ \textcolor{charliteral}{'"{}'}\ and\ str[i\ -\/\ 1]\ !=\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}))\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ch\ is\ an\ invisible\ character}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ value\ =\ str.substr(0,\ i);}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(value.data(),\ value.size()),\ str.substr(i)\};}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(str.data(),\ str.size())\};}
+\DoxyCodeLine{00357\ \ \ \ \ \}}
+\DoxyCodeLine{00358\ \ \ \}}
+\DoxyCodeLine{00359\ \};}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }Float\ \{}
+\DoxyCodeLine{00362\ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>,}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ floating\ point\ parser\ is\ unimplemented\ for\ now"{}});}
+\DoxyCodeLine{00364\ \};}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \textcolor{keyword}{template}\ <traits::FixPoint\ T,\ Fmt\ Format\ =\ Fmt::normal\ |\ Fmt::hex\ |\ Fmt::binary,}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ FixPointSeparator\ =\ \textcolor{charliteral}{'.'}>}
+\DoxyCodeLine{00368\ \textcolor{keyword}{class\ }FixPoint\ :\ \textcolor{keyword}{private}\ Int<unsigned\ long\ long,\ Format>\ \{}
+\DoxyCodeLine{00369\ \ \ \textcolor{keyword}{using\ }Base\ =\ Int<unsigned\ long\ long,\ Format>;}
+\DoxyCodeLine{00370\ \ \ \textcolor{keyword}{using\ }traits\ =\ traits::fixpoint\_traits<T>;}
+\DoxyCodeLine{00371\ \ \ \textcolor{keyword}{using\ }unsigned\_t\ =\ std::make\_unsigned\_t<typename\ traits::raw\_value\_type>;}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ B,\ \textcolor{keyword}{typename}\ U>\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ B\ cxpow(B\ base,\ U\ exp)\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordflow}{if}\ (exp\ ==\ 0)}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ B(1);}
+\DoxyCodeLine{00376\ \ \ \ \ B\ ret\ =\ base;}
+\DoxyCodeLine{00377\ \ \ \ \ -\/-\/exp;}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordflow}{while}\ (exp\ !=\ 0)\ \{}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ -\/-\/exp;}
+\DoxyCodeLine{00380\ \ \ \ \ \}}
+\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00382\ \ \ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ fraction\_mask\ =}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ (1u\ <<\ traits::num\_frac\_digits)\ -\/\ 1u;}
+\DoxyCodeLine{00386\ }
+\DoxyCodeLine{00387\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ max\_pow10\_exp\ =\ []\ \{}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordflow}{switch}\ (traits::num\_frac\_digits)\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19;}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordflow}{case}\ 8:}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordflow}{case}\ 9:}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordflow}{case}\ 10:}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordflow}{case}\ 11:}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{case}\ 12:}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{keywordflow}{case}\ 13:}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordflow}{case}\ 14:}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordflow}{case}\ 15:}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{case}\ 16:}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordflow}{case}\ 17:}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordflow}{case}\ 18:}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{case}\ 19:}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordflow}{case}\ 20:}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordflow}{case}\ 21:}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordflow}{case}\ 22:}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordflow}{case}\ 23:}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordflow}{case}\ 24:}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordflow}{case}\ 25:}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordflow}{case}\ 26:}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{case}\ 27:}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{case}\ 28:}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordflow}{case}\ 29:}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordflow}{case}\ 30:}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordflow}{case}\ 31:}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00453\ \ \ \ \ \}}
+\DoxyCodeLine{00454\ \ \ \}();}
+\DoxyCodeLine{00455\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ frac\_factor\ =\ []\ \{}
+\DoxyCodeLine{00456\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00460\ \ \ \}();}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ max\_pow10\ =\ []\ \{}
+\DoxyCodeLine{00463\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00464\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00466\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00467\ \ \ \}();}
+\DoxyCodeLine{00468\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ integer\_mask\ =}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ (1u\ <<\ traits::num\_int\_digits)\ -\/\ 1u;}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00472\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(ByteView\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{comment}{//\ TODO:\ figure\ out\ a\ way\ to\ parse\ fixpoint\ numbers\ with\ a\ large\ fractional}}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{comment}{//\ portion,\ i.e.\ more\ than\ 10\ decimal\ digits}}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::hex)\ ==\ Fmt::hex)\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ hexadecimal\ number,\ starts\ with\ 0x,\ 0X,\ x,\ X,\ or\ \#}}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0x"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0X"{}}))\ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ Base::parse\_hex(str,\ 2))}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ traits::raw\_value\_type(res.value),\ res.rest\};}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}xX\#"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ Base::parse\_hex(str,\ 1))}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ traits::raw\_value\_type(res.value),\ res.rest\};}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00492\ \ \ \ \ \}}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::binary)\ ==\ Fmt::binary)\ \{}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ binary\ number,\ starts\ with\ 0b,\ 0B,\ b,\ or\ B}}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(\textcolor{stringliteral}{"{}0b"{}})\ or\ str.starts\_with(\textcolor{stringliteral}{"{}0B"{}}))\ \{}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ Base::parse\_bin(str,\ 2))}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ traits::raw\_value\_type(res.value),\ res.rest\};}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.find\_first\_of(\textcolor{stringliteral}{"{}bB"{}})\ ==\ 0)\ \{}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ Base::parse\_bin(str,\ 2))}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{typename}\ traits::raw\_value\_type(res.value),\ res.rest\};}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00509\ \ \ \ \ \}}
+\DoxyCodeLine{00510\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Format\ \&\ Fmt::normal)\ ==\ Fmt::normal)\ \{}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ [[maybe\_unused]]\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ negative\ =\ str[0]\ ==\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(1);}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative)}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \textcolor{comment}{//\ decimal\ format}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ int\_res\ =\ Base::parse\_dec(str);}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ int\_res)}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ int\_res.error;}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.rest.size()\ ==\ 0\ or\ int\_res.rest[0]\ !=\ FixPointSeparator)}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ traits::raw\_value\_type(int\_res.value}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ traits::num\_frac\_digits)),}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\_res.rest\};}
+\DoxyCodeLine{00528\ }
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.rest.size()\ <\ 2)}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \ \ str\ =\ int\_res.rest.substr(1);}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[0];}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ \textcolor{charliteral}{'0'}\ or\ ch\ >\ \textcolor{charliteral}{'9'})}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ fractional\ part\ (frac)\ is\ in\ base\ 10\string^-\/N=(2*5)\string^-\/N=5\string^-\/N*2\string^-\/N\ (N\ ==}}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \textcolor{comment}{//\ string\ size)\ we\ want\ to\ convert\ it\ to\ base\ 2\string^-\/num\_frac\_digits\ -\/>\ frac\ *}}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \textcolor{comment}{//\ 10\string^-\/N\ =\ i\ *\ 2\string^-\/num\_frac\_digits\ -\/>\ i\ is\ the\ integer\ value\ to\ store\ as}}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \textcolor{comment}{//\ fractional\ bits}}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \textcolor{comment}{//\ i\ =\ frac\ *\ 10\string^-\/N\ /\ 2\string^-\/num\_frac\_digits\ =\ frac\ *}}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \textcolor{comment}{//\ 2\string^num\_frac\_digits\ /\ 10\string^N\ =\ (frac\ <<\ num\_frac\_digits)\ /\ 10\string^N}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \textcolor{comment}{//\ parsing\ the\ fractional\ part}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ u64\ value\{\textcolor{keyword}{static\_cast<}unsigned\_t\textcolor{keyword}{>}(ch\ -\/\ \textcolor{charliteral}{'0'})\};}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ u64\ pow10\{10\};}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 1;\ i\ <\ str.size();\ ++i)\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ str[i];}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ <\ \textcolor{charliteral}{'0'}\ or\ ch\ >\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(i);}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ pow10\ =\ pow10\ *\ 10;}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ value\ =\ value\ *\ 10\ +\ (ch\ -\/\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \ \ u64\ frac\{value\};}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ret\ =\ [\&int\_res,\ \&frac,\ \&str,\ \&negative]()\ -\/>\ ParseResult<T>\ \{}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ traits::is\_signed)\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ (void)negative;}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >\ integer\_mask)}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(integer\_mask)),\ str\};}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (int\_res.value\ <<\ traits::num\_frac\_digits)\ |}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))),}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ negative)\ \{}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >=\ (1ull\ <<\ (traits::num\_frac\_digits\ -\/\ 1)))\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1ull\ <<\ (traits::num\_frac\_digits\ +}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::num\_int\_digits\ -\/\ 1))\ -\/}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (int\_res.value\ <<\ traits::num\_frac\_digits)\ |}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))),}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ }
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (int\_res.value\ >\ integer\_mask)\ \{}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (1ull\ <<\ (traits::num\_frac\_digits\ +}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::num\_int\_digits\ -\/\ 1))\ -\/}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T(\textcolor{keyword}{typename}\ T::raw\_value\_type(}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \string~((int\_res.value\ <<\ traits::num\_frac\_digits)\ |}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (fraction\_mask\ \&\ frac.low()))\ +}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1)),}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\};}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00601\ }
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (frac\ ==\ 0)}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret();}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pow10\ >\ max\_pow10)\ \{}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ c\ =\ pow10\ /\ max\_pow10;}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ frac\ =\ (frac\ /\ c)\ <<\ traits::num\_frac\_digits;}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ u64::div64\_with\_mod(frac,\ max\_pow10);}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ >\ (max\_pow10\ >>\ 1)\ and\ frac\ !=\ (fraction\_mask))\ \{}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ to\ round\ up}}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ frac\ =\ frac\ +\ 1;}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ frac\ =\ frac\ <<\ traits::num\_frac\_digits;}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rest\ =\ u64::div64\_with\_mod(frac,\ pow10);}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ >\ (pow10\ >>\ 1)\ and\ frac\ !=\ (fraction\_mask))\ \{}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ need\ to\ round\ up}}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ frac\ =\ frac\ +\ 1;}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret();}
+\DoxyCodeLine{00623\ \ \ \ \ \}}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_value;}
+\DoxyCodeLine{00625\ \ \ \}}
+\DoxyCodeLine{00626\ \};}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \textcolor{keyword}{template}\ <traits::Enum\ T,\ \textcolor{keywordtype}{bool}\ AllowNumbers>\ \textcolor{keyword}{class\ }Enum\ \{}
+\DoxyCodeLine{00629\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00630\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(ByteView\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::FlagEnum<T>)\ \{}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ T\ val\{\};}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ read\_one\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (str.size()\ !=\ 0)\ \{}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\_name\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ name]\ :\ ctti::dtl::enum\_name\_map<T>)\ \{}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ str.starts\_with(name))}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ read\_one\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ found\_name\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ val\ =\ val\ |\ e;}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ str\ =\ str.substr(name.size());}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ skip\_ws(str);}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.size()\ ==\ 0\ or\ s[0]\ !=\ \textcolor{charliteral}{'|'})}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{val,\ str\};}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ str\ =\ skip\_ws(s.substr(1));}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ found\_name)}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00652\ }
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (read\_one)}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{val,\ \{\}\};}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ AllowNumbers)}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(Error::invalid\_value);}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ Int<std::underlying\_type\_t<T>>\{\}(str);}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(Error::invalid\_value);}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(res.value),\ res.rest\};}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00665\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[e,\ name]\ :\ ctti::dtl::enum\_name\_map<T>)\ \{}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.starts\_with(name))\ \{}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{e,\ str.substr(name.size())\};}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (not\ AllowNumbers)}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(Error::invalid\_value);}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }Parser\ =\ Int<std::underlying\_type\_t<T>>;}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ Parser\{\}(str);}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error<T>(Error::invalid\_value);}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(res.value),\ res.rest\};}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00682\ \ \ \ \ \}}
+\DoxyCodeLine{00683\ \ \ \}}
+\DoxyCodeLine{00684\ \};}
+\DoxyCodeLine{00689\ \textcolor{keyword}{template}\ <traits::Sequence\ T,\ ParserOf<\textcolor{keyword}{typename}\ T::value\_type>\ ElementParser,}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Delimiter\ =\ ','>}
+\DoxyCodeLine{00691\ \textcolor{keyword}{class\ }Sequence\ :\ \textcolor{keyword}{private}\ ElementParser\ \{}
+\DoxyCodeLine{00692\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00693\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(ByteView\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00694\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00696\ }
+\DoxyCodeLine{00697\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00699\ }
+\DoxyCodeLine{00700\ \ \ \ \ str\ =\ skip\_ws(str.substr(1));}
+\DoxyCodeLine{00701\ }
+\DoxyCodeLine{00702\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00704\ }
+\DoxyCodeLine{00705\ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{T\{\},\ str.substr(1)\};}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ \ \ \ \ T\ sequence;}
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{keywordflow}{while}\ (str.size()\ >\ 0)\ \{}
+\DoxyCodeLine{00710\ }
+\DoxyCodeLine{00711\ \ \ \ \ \ \ ParseResult\ res\ =\ parse\_value(str);}
+\DoxyCodeLine{00712\ }
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00715\ }
+\DoxyCodeLine{00716\ \ \ \ \ \ \ sequence.push\_back(std::move(res.value));}
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res.rest.size()\ ==\ 0)}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00720\ }
+\DoxyCodeLine{00721\ \ \ \ \ \ \ str\ =\ skip\_ws(res.rest);}
+\DoxyCodeLine{00722\ }
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{sequence,\ str.substr(1)\};}
+\DoxyCodeLine{00728\ }
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ Delimiter)}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ str\ =\ skip\_ws(str.substr(1));}
+\DoxyCodeLine{00733\ \ \ \ \ \}}
+\DoxyCodeLine{00734\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00735\ \ \ \}}
+\DoxyCodeLine{00736\ }
+\DoxyCodeLine{00737\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00738\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<typename\ T::value\_type>\ parse\_value(ByteView\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }ElementParser\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\textcolor{keyword}{operator}()(sv);}
+\DoxyCodeLine{00740\ \ \ \}}
+\DoxyCodeLine{00741\ \};}
+\DoxyCodeLine{00742\ }
+\DoxyCodeLine{00743\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{class\ }DefaultParse\ \{}
+\DoxyCodeLine{00744\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00745\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(ByteView\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00746\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unimplemented;}
+\DoxyCodeLine{00747\ \ \ \}}
+\DoxyCodeLine{00748\ \};}
+\DoxyCodeLine{00749\ }
+\DoxyCodeLine{00750\ \textcolor{keyword}{template}\ <traits::Integer\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ Int<T>\ \{\};}
+\DoxyCodeLine{00751\ }
+\DoxyCodeLine{00752\ \textcolor{keyword}{template}\ <traits::Float\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ Float<T>\ \{\};}
+\DoxyCodeLine{00753\ }
+\DoxyCodeLine{00754\ \textcolor{keyword}{template}\ <traits::FixPo\textcolor{keywordtype}{int}\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ FixPoint<T>\ \{\};}
+\DoxyCodeLine{00755\ }
+\DoxyCodeLine{00756\ \textcolor{keyword}{template}\ <traits::String\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ String<T>\ \{\};}
+\DoxyCodeLine{00757\ }
+\DoxyCodeLine{00758\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{class\ }DefaultParse<bool>\ \{}
+\DoxyCodeLine{00759\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ ByteView\ truthy[]\{\textcolor{stringliteral}{"{}true"{}},\ \textcolor{stringliteral}{"{}TRUE"{}},\ \textcolor{stringliteral}{"{}1"{}},\ \textcolor{stringliteral}{"{}yes"{}},\ \textcolor{stringliteral}{"{}y"{}}\};}
+\DoxyCodeLine{00760\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ ByteView\ falsy[]\{\textcolor{stringliteral}{"{}false"{}},\ \textcolor{stringliteral}{"{}FALSE"{}},\ \textcolor{stringliteral}{"{}0"{}},\ \textcolor{stringliteral}{"{}no"{}},\ \textcolor{stringliteral}{"{}n"{}}\};}
+\DoxyCodeLine{00761\ }
+\DoxyCodeLine{00762\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00763\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<bool>\ operator()(ByteView\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00764\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00766\ }
+\DoxyCodeLine{00767\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&t\ :\ truthy)}
+\DoxyCodeLine{00768\ \ \ \ \ \ \ if\ (sv.starts\_with(t))}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ return\ \{true,\ sv.substr(t.size())\};}
+\DoxyCodeLine{00770\ }
+\DoxyCodeLine{00771\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&f\ :\ falsy)}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ if\ (sv.starts\_with(f))}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ return\ \{false,\ sv.substr(f.size())\};}
+\DoxyCodeLine{00774\ }
+\DoxyCodeLine{00775\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00776\ \ \ \}}
+\DoxyCodeLine{00777\ \};}
+\DoxyCodeLine{00778\ }
+\DoxyCodeLine{00779\ \textcolor{keyword}{template}\ <traits::Sequence\ T>}
+\DoxyCodeLine{00780\ \textcolor{keyword}{class\ }DefaultParse<T>}
+\DoxyCodeLine{00781\ \ \ \ \ :\ \textcolor{keyword}{public}\ Sequence<T,\ DefaultParse<typename\ T::value\_type>>\ \{\};}
+\DoxyCodeLine{00782\ }
+\DoxyCodeLine{00783\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }Name,\ \textcolor{keyword}{auto}\ DefaultValue,}
+\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }Parser\ =}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultParse<std::remove\_cvref\_t<\textcolor{keyword}{decltype}(DefaultValue)>>>}
+\DoxyCodeLine{00786\ \textcolor{keyword}{struct}\ Field\ \{}
+\DoxyCodeLine{00787\ \ \ \textcolor{keyword}{using\ }parser\ =\ Parser;}
+\DoxyCodeLine{00788\ \ \ \textcolor{keyword}{using\ }type\ =\ parse::value\_type\_t<Parser>;}
+\DoxyCodeLine{00789\ \ \ \textcolor{keyword}{using\ }name\ =\ Name;}
+\DoxyCodeLine{00790\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ has\_default\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00791\ \ \ type\ value\ =\ type(DefaultValue);}
+\DoxyCodeLine{00792\ \ \ Parser\ parse;}
+\DoxyCodeLine{00793\ \};}
+\DoxyCodeLine{00794\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Name,\ \textcolor{keyword}{class}\ Type,\ \textcolor{keyword}{class}\ Parser\ =\ DefaultParse<Type>>}
+\DoxyCodeLine{00795\ \textcolor{keyword}{struct\ }FieldWithOutDefault\ \{}
+\DoxyCodeLine{00796\ \ \ \textcolor{keyword}{using\ }parser\ =\ Parser;}
+\DoxyCodeLine{00797\ \ \ \textcolor{keyword}{using\ }type\ =\ Type;}
+\DoxyCodeLine{00798\ \ \ \textcolor{keyword}{using\ }name\ =\ Name;}
+\DoxyCodeLine{00799\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ has\_default\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00800\ \ \ Type\ value\{\};}
+\DoxyCodeLine{00801\ \ \ Parser\ parse\{\};}
+\DoxyCodeLine{00802\ \};}
+\DoxyCodeLine{00803\ }
+\DoxyCodeLine{00804\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},\ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'},\ \textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00806\ \textcolor{keyword}{class\ }FieldGroup\ \{}
+\DoxyCodeLine{00807\ }
+\DoxyCodeLine{00808\ \ \ \textcolor{comment}{//\ Error\ error\ =\ Error::none;}}
+\DoxyCodeLine{00809\ \ \ \textcolor{comment}{//\ std::size\_t\ consumed\ =\ 0;}}
+\DoxyCodeLine{00810\ \ \ \textcolor{comment}{//\ bool\ initialized[sizeof...(Fields)]\{\};}}
+\DoxyCodeLine{00811\ \ \ \textcolor{comment}{//\ bool\ optional[sizeof...(Fields)]\{\};}}
+\DoxyCodeLine{00812\ \ \ \textcolor{comment}{//\ std::tuple<Fields...>\ fields\{\};}}
+\DoxyCodeLine{00813\ \ \ \textcolor{keyword}{struct\ }State\ \{}
+\DoxyCodeLine{00814\ \ \ \ \ Error\ error\ =\ Error::none;}
+\DoxyCodeLine{00815\ \ \ \ \ std::size\_t\ consumed\ =\ 0;}
+\DoxyCodeLine{00816\ \ \ \ \ \textcolor{keywordtype}{bool}\ initialized[\textcolor{keyword}{sizeof}...(Fields)]\{\};}
+\DoxyCodeLine{00817\ \ \ \ \ \textcolor{keywordtype}{bool}\ optional[\textcolor{keyword}{sizeof}...(Fields)]\{\};}
+\DoxyCodeLine{00818\ \ \ \ \ std::tuple<Fields...>\ fields\{\};}
+\DoxyCodeLine{00819\ \ \ \};}
+\DoxyCodeLine{00820\ \ \ \textcolor{keyword}{using\ }Pair\ =\ std::pair<ByteView,\ void\ (*)(State\ \&,\ ByteView\ \&)>;}
+\DoxyCodeLine{00821\ }
+\DoxyCodeLine{00822\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Pair\ parsers[]\{}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ Pair\{ByteView(\textcolor{keyword}{typename}\ Fields::name\{\}),\ +[](State\ \&state,\ ByteView\ \&sv)\ \{}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ index\ =}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ type\_list::index\_of\_v<Fields,\ std::tuple<Fields...>>;}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ std::get<index>(state.fields).parse(sv);}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state.error\ =\ res.error;}
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00831\ }
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ parse\ success\ -\/>\ set\ value\ and\ remember\ that\ this\ field}}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ has\ been\ initialized}}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::get<index>(state.fields).value\ =\ res.value;}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ \ \ \ state.initialized[index]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \ \ \ ++state.consumed;}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(res.rest);}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \ \ \ \}\}...\};}
+\DoxyCodeLine{00839\ }
+\DoxyCodeLine{00840\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00841\ \ \ \textcolor{keyword}{constexpr}\ FieldGroup()\ \{\}}
+\DoxyCodeLine{00842\ }
+\DoxyCodeLine{00843\ \ \ \textcolor{keyword}{constexpr}\ FieldGroup(\textcolor{keyword}{const}\ FieldGroup\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00844\ \ \ \textcolor{keyword}{constexpr}\ FieldGroup(FieldGroup\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00845\ \ \ \textcolor{keyword}{constexpr}\ FieldGroup\ \&operator=(\textcolor{keyword}{const}\ FieldGroup\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00846\ \ \ \textcolor{keyword}{constexpr}\ FieldGroup\ \&operator=(FieldGroup\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00847\ }
+\DoxyCodeLine{00848\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<std::tuple<Fields...>>\ operator()(ByteView\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00849\ \ \ \ \ State\ s\{\};}
+\DoxyCodeLine{00850\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ ((Fields::has\_default\ \&\&\ ...))}
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.fields;}
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00855\ \ \ \ \ \}}
+\DoxyCodeLine{00856\ }
+\DoxyCodeLine{00857\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Prefix\ ==\ \textcolor{charliteral}{'\ '})}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv);}
+\DoxyCodeLine{00859\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ ==\ Prefix)\ \{}
+\DoxyCodeLine{00861\ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00863\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00864\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00865\ \ \ \ \ \}}
+\DoxyCodeLine{00866\ }
+\DoxyCodeLine{00867\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00869\ \ \ \ \ for\_each(}
+\DoxyCodeLine{00870\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&f,\ State\ \&self)\ \{}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }F\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(f)>;}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ index\ =}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ type\_list::index\_of\_v<F,\ std::tuple<Fields...>>;}
+\DoxyCodeLine{00874\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F::has\_default)\ \{}
+\DoxyCodeLine{00876\ \ \ \ \ \ \ \ \ \ \ \ \ self.optional[index]\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00878\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ s.fields,\ s);}
+\DoxyCodeLine{00880\ }
+\DoxyCodeLine{00881\ \ \ \ \ std::size\_t\ pos\_index\ =\ 0;}
+\DoxyCodeLine{00882\ \ \ \ \ \textcolor{keywordflow}{while}\ (s.error\ ==\ Error::none\ and\ s.consumed\ <\ \textcolor{keyword}{sizeof}...(Fields))\ \{}
+\DoxyCodeLine{00883\ \ \ \ \ \ \ std::size\_t\ parser\_index\ =\ 0;}
+\DoxyCodeLine{00884\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_named\_member\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00885\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&[name,\ parser]\ :\ parsers)\ \{}
+\DoxyCodeLine{00886\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.starts\_with(name))\ \{}
+\DoxyCodeLine{00887\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ stripping\ name}}
+\DoxyCodeLine{00888\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ str\ =\ skip\_ws(sv.substr(name.size()));}
+\DoxyCodeLine{00889\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00890\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00891\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00892\ }
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ now\ the\ assignment\ character\ is\ expected.\ If\ it\ is\ not\ present,}}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ then\ this\ has\ to\ be\ a\ value}}
+\DoxyCodeLine{00895\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str[0]\ !=\ Assignment)\ \{}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00898\ }
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ consume\ the\ assignment\ character\ and\ trailing\ whitespace}}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ \ \ str\ =\ skip\_ws(str.substr(1));}
+\DoxyCodeLine{00901\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00904\ }
+\DoxyCodeLine{00905\ \ \ \ \ \ \ \ \ \ \ sv\ =\ str;}
+\DoxyCodeLine{00906\ \ \ \ \ \ \ \ \ \ \ is\_named\_member\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00907\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00908\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ ++parser\_index;}
+\DoxyCodeLine{00910\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00911\ }
+\DoxyCodeLine{00912\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ is\_named\_member)\ \{}
+\DoxyCodeLine{00913\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ cache\_idx\ =\ pos\_index;}
+\DoxyCodeLine{00914\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ member\ is\ unnamed,\ put\ it\ into\ the\ first\ uninitialized\ slot}}
+\DoxyCodeLine{00915\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pos\_index\ <\ \textcolor{keyword}{sizeof}...(Fields);\ ++pos\_index)\ \{}
+\DoxyCodeLine{00916\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ s.initialized[pos\_index])\ \{}
+\DoxyCodeLine{00917\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00918\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00919\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00920\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\_index\ >=\ \textcolor{keyword}{sizeof}...(Fields))\ \{}
+\DoxyCodeLine{00921\ \ \ \ \ \ \ \ \ \ \ pos\_index\ =\ cache\_idx;}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ found\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pos\_index\ <\ \textcolor{keyword}{sizeof}...(Fields);\ ++pos\_index)\ \{}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.optional[pos\_index])\ \{}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ found\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00929\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ found)}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ parser\_index\ =\ pos\_index;}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ (*(parsers[parser\_index].second))(s,\ sv);}
+\DoxyCodeLine{00935\ }
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.error\ !=\ Error::none)\ \{}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.error;}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s.consumed\ ==\ \textcolor{keyword}{sizeof}...(Fields))\ \{}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ check\ that\ fields\ are\ initialized}}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Postfix\ ==\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{s.fields,\ sv\};}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00945\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Postfix)}
+\DoxyCodeLine{00947\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00948\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00949\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{s.fields,\ sv.substr(1)\};}
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)\ \{}
+\DoxyCodeLine{00953\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error\ ::too\_few\_characters;}
+\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00955\ }
+\DoxyCodeLine{00956\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ MemberSeparator)}
+\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{00958\ }
+\DoxyCodeLine{00959\ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}
+\DoxyCodeLine{00960\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00961\ \ \ \ \ \}}
+\DoxyCodeLine{00962\ \ \ \ \ \textcolor{keywordflow}{if}\ (s.error\ !=\ Error::none)}
+\DoxyCodeLine{00963\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.error;}
+\DoxyCodeLine{00964\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00965\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s.fields;}
+\DoxyCodeLine{00966\ \ \ \}}
+\DoxyCodeLine{00967\ \};}
+\DoxyCodeLine{00968\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ CttiField>\ \textcolor{keyword}{struct\ }to\_parse\_field\ \{}
+\DoxyCodeLine{00969\ \ \ \textcolor{keyword}{using\ }name\ =\ \textcolor{keyword}{typename}\ CttiField::name;}
+\DoxyCodeLine{00970\ \ \ \textcolor{keyword}{using\ }type\_\ =\ \textcolor{keyword}{typename}\ CttiField::type;}
+\DoxyCodeLine{00971\ \ \ \textcolor{keyword}{using\ }parser\ =\ DefaultParse<type\_>;}
+\DoxyCodeLine{00972\ \ \ \textcolor{keyword}{using\ }type\ =\ FieldWithOutDefault<name,\ type\_,\ parser>;}
+\DoxyCodeLine{00973\ \};}
+\DoxyCodeLine{00974\ }
+\DoxyCodeLine{00975\ \textcolor{keyword}{template}\ <traits::Struct\ T,\ \textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},}
+\DoxyCodeLine{00976\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},\ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'}>}
+\DoxyCodeLine{00977\ \textcolor{keyword}{struct\ }field\_parser\_for\ \{}
+\DoxyCodeLine{00978\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00979\ \ \ \textcolor{keyword}{using\ }type\_\ =}
+\DoxyCodeLine{00980\ \ \ \ \ \ \ FieldGroup<Assignment,\ MemberSeparator,\ Prefix,\ Postfix,\ Fields...>;}
+\DoxyCodeLine{00981\ \ \ \textcolor{keyword}{using\ }type\ =\ type\_list::apply\_t<}
+\DoxyCodeLine{00982\ \ \ \ \ \ \ type\_,\ type\_list::transform\_t<to\_parse\_field,}
+\DoxyCodeLine{00983\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ ctti::TypeInfo<T>::fields>>;}
+\DoxyCodeLine{00984\ \};}
+\DoxyCodeLine{00985\ }
+\DoxyCodeLine{00986\ \textcolor{keyword}{template}\ <traits::Struct\ T,\ \textcolor{keyword}{class}\ Name\ =\ \textcolor{keywordtype}{string}\_constant<>,}
+\DoxyCodeLine{00987\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Assignment\ =\ '=',\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ ',',\ \textcolor{keywordtype}{char}\ Prefix\ =\ '\{',}
+\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ '\}'>}
+\DoxyCodeLine{00989\ \textcolor{keyword}{class\ }Struct}
+\DoxyCodeLine{00990\ \ \ \ \ :\ field\_parser\_for<T,\ Assignment,\ MemberSeparator,\ Prefix,\ Postfix>::type\ \{}
+\DoxyCodeLine{00991\ \ \ \textcolor{keyword}{using\ }Base\ =\ \textcolor{keyword}{typename}\ field\_parser\_for<T,\ Assignment,\ MemberSeparator,\ Prefix,}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Postfix>::type;}
+\DoxyCodeLine{00993\ }
+\DoxyCodeLine{00994\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00995\ \ \ \textcolor{keyword}{constexpr}\ Struct()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00996\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<T>\ operator()(ByteView\ sv)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00997\ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{00998\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00999\ }
+\DoxyCodeLine{01000\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Name::string\_size\ >\ 0)\ \{}
+\DoxyCodeLine{01001\ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ StringLiteral\ name\{Name\{\}\};}
+\DoxyCodeLine{01002\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name.size()\ >\ 0\ and\ sv.starts\_with(name))\ \{}
+\DoxyCodeLine{01003\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ named\ struct}}
+\DoxyCodeLine{01004\ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(name.size()));}
+\DoxyCodeLine{01005\ }
+\DoxyCodeLine{01006\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{01007\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{01008\ }
+\DoxyCodeLine{01009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Assignment)}
+\DoxyCodeLine{01010\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{01011\ }
+\DoxyCodeLine{01012\ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}
+\DoxyCodeLine{01013\ }
+\DoxyCodeLine{01014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv.size()\ ==\ 0)}
+\DoxyCodeLine{01015\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{01016\ }
+\DoxyCodeLine{01017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sv[0]\ !=\ Prefix)}
+\DoxyCodeLine{01018\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_character;}
+\DoxyCodeLine{01019\ }
+\DoxyCodeLine{01020\ \ \ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}
+\DoxyCodeLine{01021\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01022\ \ \ \ \ \}}
+\DoxyCodeLine{01023\ }
+\DoxyCodeLine{01024\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }Base\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\textcolor{keyword}{operator}()(sv))}
+\DoxyCodeLine{01025\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{ctti::from\_tuple<T>(res.value),\ res.rest\};}
+\DoxyCodeLine{01026\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{01027\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{01028\ \ \ \}}
+\DoxyCodeLine{01029\ \};}
+\DoxyCodeLine{01030\ }
+\DoxyCodeLine{01031\ \textcolor{keyword}{template}\ <traits::Struct\ T>\ \textcolor{keyword}{class\ }DefaultParse<T>\ :\ \textcolor{keyword}{public}\ Struct<T>\ \{\};}
+\DoxyCodeLine{01032\ }
+\DoxyCodeLine{01033\ \textcolor{keyword}{class\ }NullParse\ \{}
+\DoxyCodeLine{01034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{01035\ \ \ \textcolor{keyword}{constexpr}\ ParseResult<dummy>\ operator()(ByteView\ str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{01036\ \ \ \ \ \textcolor{keywordflow}{return}\ \{dummy\{\},\ str\};}
+\DoxyCodeLine{01037\ \ \ \}}
+\DoxyCodeLine{01038\ \};}
+\DoxyCodeLine{01039\ }
+\DoxyCodeLine{01040\ \textcolor{keyword}{namespace\ }\{}
+\DoxyCodeLine{01041\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }Tuple,\ std::size\_t\ I,\ std::size\_t...\ Is>}
+\DoxyCodeLine{01042\ Error\ parse\_args\_impl(Tuple\ \&t,\ \textcolor{keyword}{const}\ ArgVector\ \&v,}
+\DoxyCodeLine{01043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::index\_sequence<I,\ Is...>)\ \{}
+\DoxyCodeLine{01044\ \ \ DefaultParse<std::tuple\_element\_t<I,\ Tuple>>\ parser;}
+\DoxyCodeLine{01045\ \ \ \textcolor{keyword}{auto}\ res\ =\ parser(v[I]);}
+\DoxyCodeLine{01046\ \ \ \textcolor{keywordflow}{if}\ (res.error\ !=\ Error::none)}
+\DoxyCodeLine{01047\ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{01048\ \ \ std::get<I>(t)\ =\ res.value;}
+\DoxyCodeLine{01049\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(Is)\ ==\ 0)\ \{}
+\DoxyCodeLine{01050\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{01051\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01052\ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_args\_impl(t,\ v,\ std::index\_sequence<Is...>());}
+\DoxyCodeLine{01053\ \ \ \}}
+\DoxyCodeLine{01054\ \}}
+\DoxyCodeLine{01055\ \}\ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{01056\ }
+\DoxyCodeLine{01057\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Tuple>}
+\DoxyCodeLine{01058\ \textcolor{keyword}{constexpr}\ Error\ parse\_args(Tuple\ \&t,\ \textcolor{keyword}{const}\ ArgVector\ \&v)\ \{}
+\DoxyCodeLine{01059\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::tuple\_size\_v<Tuple>\ ==\ 0)}
+\DoxyCodeLine{01060\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{01061\ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01062\ \ \ \ \ \textcolor{keywordflow}{if}\ (v.size()\ !=\ std::tuple\_size\_v<Tuple>)\ \{}
+\DoxyCodeLine{01063\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::incorrect\_num\_params;}
+\DoxyCodeLine{01064\ \ \ \ \ \}}
+\DoxyCodeLine{01065\ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_args\_impl(}
+\DoxyCodeLine{01066\ \ \ \ \ \ \ \ \ t,\ v,\ std::make\_index\_sequence<std::tuple\_size\_v<Tuple>>());}
+\DoxyCodeLine{01067\ \ \ \}}
+\DoxyCodeLine{01068\ \}}
+\DoxyCodeLine{01069\ }
+\DoxyCodeLine{01070\ \textcolor{comment}{//\ template\ <char\ Assignment\ =\ '=',\ char\ MemberSeparator\ =\ '\ ',}}
+\DoxyCodeLine{01071\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ char\ ListSeparator\ =\ ','>}}
+\DoxyCodeLine{01072\ \textcolor{comment}{//\ struct\ StructParseTraits\ \{}}
+\DoxyCodeLine{01073\ \textcolor{comment}{//\ \ \ //\ an\ identifier\ starts\ with\ an\ alphabetic\ character,\ folowed\ by\ any}}
+\DoxyCodeLine{01074\ \textcolor{comment}{//\ \ \ amount\ of}}
+\DoxyCodeLine{01075\ \textcolor{comment}{//\ \ \ //\ alphanumeric\ or\ '\_'\ characters,}}
+\DoxyCodeLine{01076\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ identifier\ =\ "{}([a-\/zA-\/Z]\(\backslash\)\(\backslash\)w*)"{}\_sc;}}
+\DoxyCodeLine{01077\ \textcolor{comment}{//\ \ \ //\ a\ value\ is\ a\ (quoted)\ string\ of\ non\ white\ space\ characters}}
+\DoxyCodeLine{01078\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\ =\ "{}(?:\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{})"{}\_sc;}}
+\DoxyCodeLine{01079\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\_with\_ws\ =}}
+\DoxyCodeLine{01080\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\(\backslash\)\(\backslash\)s*(?<value>\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{}|\(\backslash\)\(\backslash\)S+)"{}\_sc;}}
+\DoxyCodeLine{01081\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ any\_ws\ =\ "{}\(\backslash\)\(\backslash\)s*"{}\_sc;}}
+\DoxyCodeLine{01082\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ assignment\ =\ string\_constant<Assignment>\{\};}}
+\DoxyCodeLine{01083\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::conditional\_t<MemberSeparator\ ==\ '\ ',}}
+\DoxyCodeLine{01084\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<decltype(any\_ws)>,}}
+\DoxyCodeLine{01085\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ string\_constant<MemberSeparator>>}}
+\DoxyCodeLine{01086\ \textcolor{comment}{//\ \ \ \ \ \ \ separator\{\};}}
+\DoxyCodeLine{01087\ \textcolor{comment}{//\ \ \ static\ constexpr\ std::conditional\_t<ListSeparator\ ==\ '\ ',}}
+\DoxyCodeLine{01088\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<decltype(any\_ws)>,}}
+\DoxyCodeLine{01089\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ string\_constant<ListSeparator>>}}
+\DoxyCodeLine{01090\ \textcolor{comment}{//\ \ \ \ \ \ \ list\_separator\{\};}}
+\DoxyCodeLine{01091\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ value\_list\ =\ value\ +\ list\_separator\ +\ "{}?"{}\_sc;}}
+\DoxyCodeLine{01092\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ id\_value\_pair\ =}}
+\DoxyCodeLine{01093\ \textcolor{comment}{//\ \ \ \ \ \ \ identifier\ +\ any\_ws\ +\ assignment\ +\ any\_ws\ +\ value;}}
+\DoxyCodeLine{01094\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ obj\_kv\_pair\ =}}
+\DoxyCodeLine{01095\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}(?<kv>(?<kv-\/id>[a-\/zA-\/Z]\(\backslash\)\(\backslash\)w*)"{}\_sc\ +\ any\_ws\ +\ assignment\ +\ any\_ws\ +}}
+\DoxyCodeLine{01096\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}(?<kv-\/value>\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{}))"{}\_sc;}}
+\DoxyCodeLine{01097\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ obj\_value\ =}}
+\DoxyCodeLine{01098\ \textcolor{comment}{//\ \ \ "{}(?<value>\(\backslash\)\(\backslash\)S+|\(\backslash\)"{}(?:[\string^\(\backslash\)"{}\(\backslash\)\(\backslash\)\(\backslash\)\(\backslash\)]|\(\backslash\)\(\backslash\).)*\(\backslash\)"{})"{}\_sc;}}
+\DoxyCodeLine{01099\ \textcolor{comment}{//\ \ \ //\ objct:\ \{members...\}}}
+\DoxyCodeLine{01100\ \textcolor{comment}{//\ \ \ //\ mebers:\ value|id\_value\_pair|value\_list}}
+\DoxyCodeLine{01101\ \textcolor{comment}{//\ \ \ static\ constexpr\ auto\ object\ =}}
+\DoxyCodeLine{01102\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\{"{}\_sc\ +\ obj\_value\ +\ "{}|"{}\_sc\ +\ obj\_kv\_pair\ +\ "{}|"{}\_sc\ +\ value\_list\ +}}
+\DoxyCodeLine{01103\ \textcolor{comment}{//\ \ \ \ \ \ \ "{}\}"{}\_sc;}}
+\DoxyCodeLine{01104\ \textcolor{comment}{//\ \ \ static\ constexpr\ ByteView\ parse\_kv(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01105\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ w\ =\ ctre::match<id\_value\_pair.to\_fixed\_string()>(sv);\ w)}}
+\DoxyCodeLine{01106\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ w.to\_view();}}
+\DoxyCodeLine{01107\ \textcolor{comment}{//\ \ \ \ \ else}}
+\DoxyCodeLine{01108\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01109\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01110\ \textcolor{comment}{//\ \ \ static\ constexpr\ ByteView\ parse\_vl(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01111\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ m\ =\ ctre::match<value\_list.to\_fixed\_string()>(sv);\ m)\ \{}}
+\DoxyCodeLine{01112\ \textcolor{comment}{//}}
+\DoxyCodeLine{01113\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ m.to\_view();}}
+\DoxyCodeLine{01114\ \textcolor{comment}{//\ \ \ \ \ \}\ else}}
+\DoxyCodeLine{01115\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01116\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01117\ \textcolor{comment}{//\ \ \ static\ constexpr\ ByteView\ parse\_v(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01118\ \textcolor{comment}{//\ \ \ \ \ if\ (auto\ m\ =\ ctre::match<value.to\_fixed\_string()>(sv);\ m)}}
+\DoxyCodeLine{01119\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ m.to\_view();}}
+\DoxyCodeLine{01120\ \textcolor{comment}{//\ \ \ \ \ else}}
+\DoxyCodeLine{01121\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ \{\};}}
+\DoxyCodeLine{01122\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01123\ \textcolor{comment}{//}}
+\DoxyCodeLine{01124\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01125\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01126\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01127\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01128\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01129\ \textcolor{comment}{//\ \ \ \ \ ByteView\ value;}}
+\DoxyCodeLine{01130\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01131\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01132\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value.size()\ ==\ 0)}}
+\DoxyCodeLine{01133\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01134\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ !=\ Assignment)\ \{}}
+\DoxyCodeLine{01135\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01136\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01137\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(value.substr(1));}}
+\DoxyCodeLine{01138\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01139\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ sv;}}
+\DoxyCodeLine{01140\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01141\ \textcolor{comment}{//\ \ \ \ \ return\ DefaultParse<T>\{\}(value);}}
+\DoxyCodeLine{01142\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01143\ \textcolor{comment}{//}}
+\DoxyCodeLine{01144\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01145\ \textcolor{comment}{//\ \ \ \ \ requires\ traits::Sequence<T>}}
+\DoxyCodeLine{01146\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01147\ \textcolor{comment}{//\ \ \ \ \ using\ value\_type\ =\ typename\ T::value\_type;}}
+\DoxyCodeLine{01148\ \textcolor{comment}{//}}
+\DoxyCodeLine{01149\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01150\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01151\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01152\ \textcolor{comment}{//}}
+\DoxyCodeLine{01153\ \textcolor{comment}{//\ \ \ \ \ if\ (sv[0]\ ==\ '[')\ \{\ //\ unnamed\ field}}
+\DoxyCodeLine{01154\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01155\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01156\ \textcolor{comment}{//\ \ \ \ \ \ \ //\ named\ field}}
+\DoxyCodeLine{01157\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01158\ \textcolor{comment}{//}}
+\DoxyCodeLine{01159\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01160\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01161\ \textcolor{comment}{//}}
+\DoxyCodeLine{01162\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv[0]\ !=\ Assignment)}}
+\DoxyCodeLine{01163\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01164\ \textcolor{comment}{//}}
+\DoxyCodeLine{01165\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01166\ \textcolor{comment}{//}}
+\DoxyCodeLine{01167\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01168\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01169\ \textcolor{comment}{//}}
+\DoxyCodeLine{01170\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (sv[0]\ !=\ '[')}}
+\DoxyCodeLine{01171\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01172\ \textcolor{comment}{//}}
+\DoxyCodeLine{01173\ \textcolor{comment}{//\ \ \ \ \ \ \ sv\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01174\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01175\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01176\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01177\ \textcolor{comment}{//}}
+\DoxyCodeLine{01178\ \textcolor{comment}{//\ \ \ \ \ DefaultParse<T>\ parse\_value;}}
+\DoxyCodeLine{01179\ \textcolor{comment}{//\ \ \ \ \ T\ sequence;}}
+\DoxyCodeLine{01180\ \textcolor{comment}{//\ \ \ \ \ ByteView\ value\ =\ sv;}}
+\DoxyCodeLine{01181\ \textcolor{comment}{//\ \ \ \ \ while\ (value.size()\ >\ 0)\ \{}}
+\DoxyCodeLine{01182\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ ==\ ']')}}
+\DoxyCodeLine{01183\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01184\ \textcolor{comment}{//}}
+\DoxyCodeLine{01185\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (auto\ res\ =\ parse\_value(value))\ \{}}
+\DoxyCodeLine{01186\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ //\ could\ parse\ a\ value}}
+\DoxyCodeLine{01187\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ sequence.push\_back(res.value);}}
+\DoxyCodeLine{01188\ \textcolor{comment}{//}}
+\DoxyCodeLine{01189\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (res.rest.size()\ ==\ 0)}}
+\DoxyCodeLine{01190\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01191\ \textcolor{comment}{//}}
+\DoxyCodeLine{01192\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ auto\ str\ =\ skip\_ws(res.rest);}}
+\DoxyCodeLine{01193\ \textcolor{comment}{//}}
+\DoxyCodeLine{01194\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str.size()\ ==\ 0)}}
+\DoxyCodeLine{01195\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01196\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str[0]\ ==\ ']')}}
+\DoxyCodeLine{01197\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01198\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (str[0]\ !=\ ListSeparator)}}
+\DoxyCodeLine{01199\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01200\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ else\ \{}}
+\DoxyCodeLine{01201\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ value\ =\ skip\_ws(str.substr(1));}}
+\DoxyCodeLine{01202\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01203\ \textcolor{comment}{//\ \ \ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01204\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ //\ couldn't\ parse\ a\ value}}
+\DoxyCodeLine{01205\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (value[0]\ ==\ ']')}}
+\DoxyCodeLine{01206\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ sequence;}}
+\DoxyCodeLine{01207\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{01208\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ return\ res.error;}}
+\DoxyCodeLine{01209\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01210\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01211\ \textcolor{comment}{//\ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01212\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01213\ \textcolor{comment}{//}}
+\DoxyCodeLine{01214\ \textcolor{comment}{//\ \ \ template\ <typename\ Name,\ class\ T>}}
+\DoxyCodeLine{01215\ \textcolor{comment}{//\ \ \ \ \ requires(not(traits::Struct<T>\ or\ traits::Sequence<T>))}}
+\DoxyCodeLine{01216\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_field(ByteView\ sv)\ \{}}
+\DoxyCodeLine{01217\ \textcolor{comment}{//\ \ \ \ \ constexpr\ StringLiteral\ name\{Name\{\}\};}}
+\DoxyCodeLine{01218\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01219\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01220\ \textcolor{comment}{//\ \ \ \ \ ByteView\ value;}}
+\DoxyCodeLine{01221\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.starts\_with(name))\ \{}}
+\DoxyCodeLine{01222\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(sv.substr(name.size()));}}
+\DoxyCodeLine{01223\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value.size()\ ==\ 0)}}
+\DoxyCodeLine{01224\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01225\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (value[0]\ !=\ Assignment)\ \{}}
+\DoxyCodeLine{01226\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01227\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01228\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ skip\_ws(value.substr(1));}}
+\DoxyCodeLine{01229\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01230\ \textcolor{comment}{//\ \ \ \ \ \ \ value\ =\ sv;}}
+\DoxyCodeLine{01231\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01232\ \textcolor{comment}{//\ \ \ \ \ return\ DefaultParse<T>\{\}(value);}}
+\DoxyCodeLine{01233\ \textcolor{comment}{//\ \ \ \};}}
+\DoxyCodeLine{01234\ \textcolor{comment}{//}}
+\DoxyCodeLine{01235\ \textcolor{comment}{//\ \ \ template\ <std::size\_t\ N,\ class\ T>}}
+\DoxyCodeLine{01236\ \textcolor{comment}{//\ \ \ static\ constexpr\ ParseResult<T>\ parse\_fields(ByteView\ sv,}}
+\DoxyCodeLine{01237\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ctti::field\_tuple\_t<T>}}
+\DoxyCodeLine{01238\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&fields)\ \{}}
+\DoxyCodeLine{01239\ \textcolor{comment}{//\ \ \ \ \ if\ (sv.size()\ ==\ 0)}}
+\DoxyCodeLine{01240\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::too\_few\_characters;}}
+\DoxyCodeLine{01241\ \textcolor{comment}{//}}
+\DoxyCodeLine{01242\ \textcolor{comment}{//\ \ \ \ \ if\ (sv[0]\ !=\ '\{')\ \{}}
+\DoxyCodeLine{01243\ \textcolor{comment}{//\ \ \ \ \ \ \ return\ Error::invalid\_character;}}
+\DoxyCodeLine{01244\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01245\ \textcolor{comment}{//}}
+\DoxyCodeLine{01246\ \textcolor{comment}{//\ \ \ \ \ using\ field\_type\ =}}
+\DoxyCodeLine{01247\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ typename\ type\_list::type\_at\_t<N,\ ctti::field\_tuple\_t<T>>::type;}}
+\DoxyCodeLine{01248\ \textcolor{comment}{//\ \ \ \ \ DefaultParse<ByteView>\ parse\_string;}}
+\DoxyCodeLine{01249\ \textcolor{comment}{//\ \ \ \ \ if\ constexpr\ (traits::Integer<field\_type>)\ \{}}
+\DoxyCodeLine{01250\ \textcolor{comment}{//\ \ \ \ \ \ \ DefaultParse<field\_type>\ parse\_int;}}
+\DoxyCodeLine{01251\ \textcolor{comment}{//\ \ \ \ \ \ \ if\ (auto\ res\ =\ parse\_int(sv))\ \{}}
+\DoxyCodeLine{01252\ \textcolor{comment}{//}}
+\DoxyCodeLine{01253\ \textcolor{comment}{//\ \ \ \ \ \ \ \}\ else\ \{}}
+\DoxyCodeLine{01254\ \textcolor{comment}{//\ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{01255\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Float<field\_type>)\ \{}}
+\DoxyCodeLine{01256\ \textcolor{comment}{//}}
+\DoxyCodeLine{01257\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::FixPoint<field\_type>)\ \{}}
+\DoxyCodeLine{01258\ \textcolor{comment}{//}}
+\DoxyCodeLine{01259\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::String<field\_type>)\ \{}}
+\DoxyCodeLine{01260\ \textcolor{comment}{//}}
+\DoxyCodeLine{01261\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Sequence<field\_type>)\ \{}}
+\DoxyCodeLine{01262\ \textcolor{comment}{//}}
+\DoxyCodeLine{01263\ \textcolor{comment}{//\ \ \ \ \ \}\ else\ if\ constexpr\ (traits::Struct<field\_type>)\ \{}}
+\DoxyCodeLine{01264\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{01265\ \textcolor{comment}{//\ \ \ \ \ const\ auto\ rest\ =\ skip\_ws(sv.substr(1));}}
+\DoxyCodeLine{01266\ \textcolor{comment}{//}}
+\DoxyCodeLine{01267\ \textcolor{comment}{//\ \ \ \ \ using\ info\ =\ ctti::TypeInfo<T>;}}
+\DoxyCodeLine{01268\ \textcolor{comment}{//\ \ \ \}}}
+\DoxyCodeLine{01269\ \textcolor{comment}{//\ \};}}
+\DoxyCodeLine{01270\ }
+\DoxyCodeLine{01271\ \}\ \textcolor{comment}{//\ namespace\ cli::parse}}
+\DoxyCodeLine{01272\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

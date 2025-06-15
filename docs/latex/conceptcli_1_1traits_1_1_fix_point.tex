@@ -1,0 +1,25 @@
+\doxysection{cli\+::traits\+::Fix\+Point Concept Reference}
+\hypertarget{conceptcli_1_1traits_1_1_fix_point}{}\label{conceptcli_1_1traits_1_1_fix_point}\index{cli::traits::FixPoint@{cli::traits::FixPoint}}
+
+
+{\ttfamily \#include $<$cli/traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1traits_1_1_fix_point}{cli::traits::FixPoint}}\ =\ }
+\DoxyCodeLine{\ \ \ \ is\_fixpoint<T>::value\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}}
+\DoxyCodeLine{\ \ \ \ std::constructible\_from<T,\ typename\ T::raw\_value\_type>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}}
+\DoxyCodeLine{\ \ \ \ std::integral<typename\ T::raw\_value\_type>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}\ \textcolor{keyword}{requires}(T\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}},\ T\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{b}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ T::num\_int\_digits\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ T::num\_frac\_digits\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}.integer()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}.fraction()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}.value()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}\ <\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{b}}\ \};}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ -\/\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}\ \};}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{a}}\ =\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{b}}\ \};}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}

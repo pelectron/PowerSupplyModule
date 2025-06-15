@@ -1,0 +1,115 @@
+\doxysection{cli\+::Ring\+Buf\+View\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1_ring_buf_view}{}\label{classcli_1_1_ring_buf_view}\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+
+
+{\ttfamily \#include $<$cli/ring\+\_\+buffer.\+hpp$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_ring_buf_view_1_1write__iterator}{write\+\_\+iterator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_aa2211a03bd3df0241a5af975d47587c8}{Ring\+Buf\+View}} (T \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{arr}}, std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e}{capacity}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a5e8dfab2258f3f7a0e73d52c2f3c2eb4}{is\+\_\+full}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a116fafd7df2e9643969af70450d7f435}{is\+\_\+empty}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_ab1ae585f426ed0f8378d98d9d7aa0a85}{size}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e}{capacity}} () \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_af36dd51d50fe28d5e710886b5ccf5d69}{push\+\_\+back}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} T \&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_ad4faa9d33f853091df9bbf25f1fa3902}{push\+\_\+back}} (T \&\&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_af3ade8f0791f024914a06c28a2399493}{remove\+\_\+last}} (std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{n}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a87f3ff2d21d143812f0304a9774f0572}{pop}} (T \&t)
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1_ring_buf_view_1_1write__iterator}{write\+\_\+iterator}} \mbox{\hyperlink{classcli_1_1_ring_buf_view_a86d51eb2209a1539808dbbd1d6cee6bd}{output}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcli_1_1_ring_buf_view_aa2211a03bd3df0241a5af975d47587c8}\label{classcli_1_1_ring_buf_view_aa2211a03bd3df0241a5af975d47587c8} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!RingBufView@{RingBufView}}
+\index{RingBufView@{RingBufView}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{RingBufView()}{RingBufView()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::\+Ring\+Buf\+View (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{arr,  }\item[{std\+::size\+\_\+t}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e}\label{classcli_1_1_ring_buf_view_a8ebe09173e49b436979bfd8c38e47f6e} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!capacity@{capacity}}
+\index{capacity@{capacity}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_a116fafd7df2e9643969af70450d7f435}\label{classcli_1_1_ring_buf_view_a116fafd7df2e9643969af70450d7f435} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!is\_empty@{is\_empty}}
+\index{is\_empty@{is\_empty}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{is\_empty()}{is\_empty()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::is\+\_\+empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_a5e8dfab2258f3f7a0e73d52c2f3c2eb4}\label{classcli_1_1_ring_buf_view_a5e8dfab2258f3f7a0e73d52c2f3c2eb4} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!is\_full@{is\_full}}
+\index{is\_full@{is\_full}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{is\_full()}{is\_full()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_a86d51eb2209a1539808dbbd1d6cee6bd}\label{classcli_1_1_ring_buf_view_a86d51eb2209a1539808dbbd1d6cee6bd} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!output@{output}}
+\index{output@{output}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1_ring_buf_view_1_1write__iterator}{write\+\_\+iterator}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_a87f3ff2d21d143812f0304a9774f0572}\label{classcli_1_1_ring_buf_view_a87f3ff2d21d143812f0304a9774f0572} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!pop@{pop}}
+\index{pop@{pop}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{pop()}{pop()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::pop (\begin{DoxyParamCaption}\item[{T \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_af36dd51d50fe28d5e710886b5ccf5d69}\label{classcli_1_1_ring_buf_view_af36dd51d50fe28d5e710886b5ccf5d69} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} T \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_ad4faa9d33f853091df9bbf25f1fa3902}\label{classcli_1_1_ring_buf_view_ad4faa9d33f853091df9bbf25f1fa3902} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_af3ade8f0791f024914a06c28a2399493}\label{classcli_1_1_ring_buf_view_af3ade8f0791f024914a06c28a2399493} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!remove\_last@{remove\_last}}
+\index{remove\_last@{remove\_last}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_last()}{remove\_last()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::remove\+\_\+last (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classcli_1_1_ring_buf_view_ab1ae585f426ed0f8378d98d9d7aa0a85}\label{classcli_1_1_ring_buf_view_ab1ae585f426ed0f8378d98d9d7aa0a85} 
+\index{cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}!size@{size}}
+\index{size@{size}!cli::RingBufView$<$ T $>$@{cli::RingBufView$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{classcli_1_1_ring_buf_view}{cli\+::\+Ring\+Buf\+View}}$<$ T $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{ring__buffer_8hpp}{ring\+\_\+buffer.\+hpp}}\end{DoxyCompactItemize}

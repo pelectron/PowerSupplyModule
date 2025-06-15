@@ -1,0 +1,41 @@
+\doxysection{cli\+::parse\+::String\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1parse_1_1_string}{}\label{classcli_1_1parse_1_1_string}\index{cli::parse::String$<$ T $>$@{cli::parse::String$<$ T $>$}}
+
+
+A parser for strings.  
+
+
+
+
+{\ttfamily \#include $<$cli/parse.\+hpp$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$traits\+::\+String T$>$\newline
+class cli\+::parse\+::\+String$<$ T $>$}
+A parser for strings. 
+
+Strings in this context are a continous sequence of visible/printable characters, that is characters in the range 0x21 to 0x7E inclusive.
+
+Strings may be enclosed in "{} quotes.  In that case, 0x20 (space) can also be in the string content. The character "{} can be escaped with backslash.
+
+Example of valid strings and the resulting \textquotesingle{}contents\textquotesingle{}\+:
+\begin{DoxyItemize}
+\item {\ttfamily hello} -\/\texorpdfstring{$>$}{>} {\ttfamily hello}, no rest
+\item {\ttfamily "{}hello"{}} -\/\texorpdfstring{$>$}{>} {\ttfamily hello}, no rest
+\item {\ttfamily hello world} -\/\texorpdfstring{$>$}{>} {\ttfamily hello}, rest = {\ttfamily world}
+\item {\ttfamily "{}a complete sentence"{}} -\/\texorpdfstring{$>$}{>} {\ttfamily a complete sentence}, no rest
+\item {\ttfamily "{}a complete \textbackslash{}"{}sentence\textbackslash{}"{}$<$/tt$>$ -\/$>$ $<$tt$>$a complete "{}sentence"{}$<$/tt$>$, no rest -\/ $<$tt$>$word\textbackslash{}\textbackslash{}"{}xxx$<$/tt$>$ -\/$>$ $<$tt$>$word\textbackslash{}\textbackslash{}"{}xxx$<$/tt$>$, no rest -\/ $<$tt$>$word"{}xxx} -\/\texorpdfstring{$>$}{>} {\ttfamily word}, rest = {\ttfamily "{}xxx}
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/parse.\+hpp\end{DoxyCompactItemize}

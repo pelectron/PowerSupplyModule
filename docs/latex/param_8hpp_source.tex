@@ -1,0 +1,650 @@
+\doxysection{param.\+hpp}
+\hypertarget{param_8hpp_source}{}\label{param_8hpp_source}\index{cli/param.hpp@{cli/param.hpp}}
+\mbox{\hyperlink{param_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#ifndef\ CLI\_PARAM\_HPP}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ CLI\_PARAM\_HPP}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}cli/ctti.hpp"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}cli/format.hpp"{}}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{function_8hpp}{cli/function.hpp}}"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}cli/parse.hpp"{}}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}cli/type\_list.hpp"{}}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}cli/validator.hpp"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }cli::params\ \{}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }getter\_value\_type\ \{}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ type\_list::type\_at\_t<0,\ typename\ function\_traits<T>::arguments>>;}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }setter\_value\_type\ \{}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{using\ }type\ =\ std::remove\_cvref\_t<}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ type\_list::type\_at\_t<0,\ typename\ function\_traits<T>::arguments>>;}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00045\ \textcolor{keyword}{using\ }getter\_value\_type\_t\ =}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{typename}\ getter\_value\_type<std::remove\_cvref\_t<T>>::type;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00049\ \textcolor{keyword}{using\ }setter\_value\_type\_t\ =}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{typename}\ setter\_value\_type<std::remove\_cvref\_t<T>>::type;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ G,\ \textcolor{keyword}{class}\ V>}
+\DoxyCodeLine{00059\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_getter_of}{GetterOf}}\ =\ \textcolor{keyword}{requires}(G\ \&\&getter,\ V\ \&value)\ \{}
+\DoxyCodeLine{00060\ \ \ \{\ getter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00061\ \};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{00070\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_setter_of}{SetterOf}}\ =\ \textcolor{keyword}{requires}(S\ \&\&setter,\ \textcolor{keyword}{const}\ V\ \&value)\ \{}
+\DoxyCodeLine{00071\ \ \ \{\ setter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00072\ \};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ G>}
+\DoxyCodeLine{00085\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ =\ \textcolor{keyword}{requires}(G\ \&\&getter,\ getter\_value\_type\_t<G>\ \&value)\ \{}
+\DoxyCodeLine{00086\ \ \ \{\ getter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{00096\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ =\ \textcolor{keyword}{requires}(S\ \&\&setter,\ \textcolor{keyword}{const}\ setter\_value\_type\_t<S>\ \&value)\ \{}
+\DoxyCodeLine{00097\ \ \ \{\ setter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format,}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate,\ Command...\ SubCommands>}
+\DoxyCodeLine{00117\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ :\ \textcolor{keyword}{public}\ CommandBase<Param<CmdName,\ Description,\ Type,\ Get,\ Set,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse,\ Format,\ Validate,\ SubCommands...>,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CmdName,\ Description,\ Type,\ SubCommands...>\ \{}
+\DoxyCodeLine{00120\ \ \ \textcolor{keyword}{using\ }Base\ =\ CommandBase<\mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}<CmdName,\ Description,\ Type,\ Get,\ Set,\ Parse,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Format,\ Validate,\ SubCommands...>,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CmdName,\ Description,\ Type,\ SubCommands...>;}
+\DoxyCodeLine{00123\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ getter\_value\_type<Get>::type;}
+\DoxyCodeLine{00124\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ std::is\_same\_v<value\_type,\ typename\ setter\_value\_type<Set>::type>,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Get\ and\ Set\ must\ get/set\ a\ value\ of\ the\ same\ type"{}});}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{static\_assert}(std::is\_same\_v<value\_type,\ parse::value\_type\_t<Parse>>,}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Parse\ and\ Get/Set\ must\ have\ the\ same\ value\ type"{}});}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ std::is\_same\_v<value\_type,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ format::formatter\_value\_type<Format>::type>,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Format\ and\ Get/Set\ must\ have\ the\ same\ value\ type"{}});}
+\DoxyCodeLine{00133\ \ \ \textcolor{keyword}{static\_assert}(std::is\_same\_v<value\_type,\ validate::value\_type\_t<Validate>>,}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Validate,\ Parse\ and\ Get/Set\ must\ have\ the\ same\ value\ type"{}});}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00137\ \ \ \textcolor{comment}{//\ using\ Base::description;}}
+\DoxyCodeLine{00138\ \ \ \textcolor{comment}{//\ using\ Base::name;}}
+\DoxyCodeLine{00139\ \ \ \textcolor{comment}{//\ using\ Base::type;}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00142\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(\mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00143\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&operator=(\mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \textcolor{keyword}{template}\ <\mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get\_,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set\_,\ parse::Parser\ Parse\_,}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ format::Formatter\ Format\_,\ validate::Validator\ Validate\_,}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands\_>}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\_\ \&\&get,\ Set\_\ \&\&set,}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format,\ Validate\_\ \&\&validate,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SubCommands\_\ \&\&...cmds)}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ :\ Base(std::forward<SubCommands\_>(cmds)...),}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ get\_(std::forward<Get\_>(get)),\ set\_(std::forward<Set\_>(set)),}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ parse\_(std::forward<Parse\_>(parse)),}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ format\_(std::forward<Format\_>(format)),}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ validate\_(std::forward<Validate\_>(validate))\ \{\}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{comment}{//\ template\ <Getter\ Get\_,\ Setter\ Set\_,\ parse::Parser\ Parse\_,}}
+\DoxyCodeLine{00159\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ format::Formatter\ Format\_>}}
+\DoxyCodeLine{00160\ \ \ \textcolor{comment}{//\ \ \ requires(sizeof...(SubCommands)\ ==\ 0)}}
+\DoxyCodeLine{00161\ \ \ \textcolor{comment}{//\ constexpr\ Param(CmdName,\ Description,\ Help,\ Get\_\ \&\&get,\ Set\_\ \&\&set,}}
+\DoxyCodeLine{00162\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format)}}
+\DoxyCodeLine{00163\ \ \ \textcolor{comment}{//\ \ \ \ \ :\ Base(),\ get\_(std::forward<Get\_>(get)),\ set\_(std::forward<Set\_>(set)),}}
+\DoxyCodeLine{00164\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ parse\_(std::forward<Parse\_>(parse)),}}
+\DoxyCodeLine{00165\ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ format\_(std::forward<Format\_>(format))\ \{\}}}
+\DoxyCodeLine{00166\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00167\ \ \ \textcolor{keyword}{template}\ <\mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get\_,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set\_,\ parse::Parser\ Parse\_,}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ format::Formatter\ Format\_,\ validate::Validator\ Validate\_>}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{requires}(\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\_\ \&\&get,\ Set\_\ \&\&set,}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format,\ Validate\_\ \&\&validate,}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::tuple<SubCommands...>\ \&\&cmds)}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ :\ Base(std::move(cmds)),\ get\_(std::forward<Get\_>(get)),}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ set\_(std::forward<Set\_>(set)),\ parse\_(std::forward<Parse\_>(parse)),}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ format\_(std::forward<Format\_>(format)),}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ validate\_(std::forward<Validate\_>(validate))\ \{\}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \textcolor{keyword}{template}\ <\mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get\_,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set\_,\ parse::Parser\ Parse\_,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ format::Formatter\ Format\_,\ validate::Validator\ Validate\_>}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keyword}{requires}(\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00181\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\_\ \&\&get,\ Set\_\ \&\&set,}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format,\ Validate\_\ \&\&validate,}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<SubCommands...>\ \&cmds)}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ :\ Base(cmds),\ get\_(std::forward<Get\_>(get)),}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ set\_(std::forward<Set\_>(set)),\ parse\_(std::forward<Parse\_>(parse)),}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ format\_(std::forward<Format\_>(format)),}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ validate\_(std::forward<Validate\_>(validate))\ \{\}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \textcolor{comment}{//\ Param(Name\ /*name*/,\ const\ T\ \&value,\ Get\ getter,\ Set\ setter);}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ Error\ execute(ExecType\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ \&args,\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{switch}\ (type)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{case}\ ExecType::set:}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ set\_value(args);}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{case}\ ExecType::get:}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (args.size()\ !=\ 0)}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_many\_argments;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_value(out);}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00201\ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unimplemented;}
+\DoxyCodeLine{00203\ \ \ \}}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00206\ \ \ Error\ set\_value(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ArgVector}}\ \&args)\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordflow}{if}\ (args.size()\ ==\ 0)}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_arguments;}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keyword}{auto}\ parse\_result\ =\ parse\_(args);}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ parse\_result)}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_result.error;}
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordflow}{return}\ set\_(parse\_result.value);}
+\DoxyCodeLine{00213\ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ Error\ get\_value(std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ value\_type\ t\{\};}
+\DoxyCodeLine{00217\ \ \ \ \ get\_(t);}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ format\_(out,\ t);}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordflow}{if}\ (res.error\ !=\ Error::none)}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00221\ \ \ \ \ out\ =\ out.subspan(0,\ res.size\_written);}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00223\ \ \ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Get\ get\_;}
+\DoxyCodeLine{00226\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Set\ set\_;}
+\DoxyCodeLine{00227\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Parse\ parse\_;}
+\DoxyCodeLine{00228\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Format\ format\_;}
+\DoxyCodeLine{00229\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Validate\ validate\_;}
+\DoxyCodeLine{00230\ \};}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set,}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format,}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate,\ Command...\ SubCommands>}
+\DoxyCodeLine{00235\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\ \&\&get,\ Set\ \&\&set,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ Format\ \&\&format,\ Validate\ \&\&validate,\ SubCommands\ \&\&...cmds)}
+\DoxyCodeLine{00237\ \ \ \ \ -\/>\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param<std::remove\_cvref\_t<CmdName>}},\ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Type>,\ std::remove\_cvref\_t<Get>,}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Set>,\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Format>,\ std::remove\_cvref\_t<Validate>,}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<SubCommands>...>;}
+\DoxyCodeLine{00242\ \textcolor{comment}{//\ template\ <Name\ CmdName,\ Name\ Description,\ Name\ Help,\ Getter\ Get,\ Setter\ Set,}}
+\DoxyCodeLine{00243\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format>}}
+\DoxyCodeLine{00244\ \textcolor{comment}{//\ Param(CmdName,\ Description,\ Help,\ Get\ \&\&get,\ Set\ \&\&set,\ Parse\ \&\&parse,}}
+\DoxyCodeLine{00245\ \textcolor{comment}{//\ \ \ \ \ \ \ Format\ \&\&format)}}
+\DoxyCodeLine{00246\ \textcolor{comment}{//\ \ \ \ \ -\/>\ Param<std::remove\_cvref\_t<CmdName>,\ std::remove\_cvref\_t<Description>,}}
+\DoxyCodeLine{00247\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Help>,\ std::remove\_cvref\_t<Get>,}}
+\DoxyCodeLine{00248\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Set>,\ std::remove\_cvref\_t<Parse>,}}
+\DoxyCodeLine{00249\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Format>>;}}
+\DoxyCodeLine{00250\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set,}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format,}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate,\ Command...\ SubCommands>}
+\DoxyCodeLine{00253\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\ \&\&get,\ Set\ \&\&set,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ Format\ \&\&format,\ Validate\ \&\&validate,\ std::tuple<SubCommands...>\ \&\&cmds)}
+\DoxyCodeLine{00255\ \ \ \ \ -\/>\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param<std::remove\_cvref\_t<CmdName>}},\ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Type>,\ std::remove\_cvref\_t<Get>,}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Set>,\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Format>,\ std::remove\_cvref\_t<Validate>,}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<SubCommands>...>;}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{Getter}}\ Get,\ \mbox{\hyperlink{conceptcli_1_1params_1_1_setter}{Setter}}\ Set,}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format,}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate,\ Command...\ SubCommands>}
+\DoxyCodeLine{00264\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param}}(CmdName,\ Description,\ Type,\ Get\ \&\&get,\ Set\ \&\&set,\ Parse\ \&\&parse,}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ Format\ \&\&format,\ Validate\ \&\&validate,}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<SubCommands...>\ \&cmds)}
+\DoxyCodeLine{00267\ \ \ \ \ -\/>\ \mbox{\hyperlink{classcli_1_1params_1_1dtl_1_1_param}{Param<std::remove\_cvref\_t<CmdName>}},\ std::remove\_cvref\_t<Description>,}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Type>,\ std::remove\_cvref\_t<Get>,}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Set>,\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Format>,\ std::remove\_cvref\_t<Validate>,}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<SubCommands>...>;}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<mem\_data\_type<MemberPointer>>\ Parse,}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPointer>>\ Format,}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ validate::ValidatorOf<mem\_data\_type<MemberPointer>>\ Validate,}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00278\ \textcolor{keyword}{struct\ }MemberData\ \{}
+\DoxyCodeLine{00279\ \ \ MemberPointer\ f;}
+\DoxyCodeLine{00280\ \ \ std::tuple<SubCommands...>\ subcommands;}
+\DoxyCodeLine{00281\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Parse\ parse;}
+\DoxyCodeLine{00282\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Format\ format;}
+\DoxyCodeLine{00283\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Validate\ validate;}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \textcolor{keyword}{template}\ <parse::ParserOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Parse\_,}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Format\_,}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}atorOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Val\textcolor{keywordtype}{id}ate\_,}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands\_>}
+\DoxyCodeLine{00289\ \ \ \textcolor{keyword}{constexpr}\ MemberData(CmdName,\ Description,\ Type,\ MemberPointer\ f,}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format,\ Validate\_\ \&\&validate,}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SubCommands\_\ \&\&...cmds)}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ :\ f(f),\ subcommands(std::forward<SubCommands>(cmds)...),}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ parse(std::forward<Parse\_>(parse)),}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ format(std::forward<Format>(format)),}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ validate(std::forward<Validate\_>(validate))\ \{\}}
+\DoxyCodeLine{00296\ \};}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<mem\_data\_type<MemberPointer>>\ Parse,}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPointer>>\ Format,}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ validate::ValidatorOf<mem\_data\_type<MemberPointer>>\ Validate>}
+\DoxyCodeLine{00302\ \textcolor{keyword}{struct\ }MemberData<CmdName,\ Description,\ Help,\ MemberPointer,\ Parse,\ Format,}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate>\ \{}
+\DoxyCodeLine{00304\ \ \ MemberPointer\ f;}
+\DoxyCodeLine{00305\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Parse\ parse;}
+\DoxyCodeLine{00306\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Format\ format;}
+\DoxyCodeLine{00307\ \ \ CLI\_NO\_UNIQUE\_ADDRESS\ Validate\ validate;}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \textcolor{keyword}{template}\ <parse::ParserOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Parse\_,}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Format\_,}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ val\textcolor{keywordtype}{id}ate::Val\textcolor{keywordtype}{id}atorOf<mem\_data\_type<MemberPo\textcolor{keywordtype}{int}er>>\ Val\textcolor{keywordtype}{id}ate\_>}
+\DoxyCodeLine{00312\ \ \ \textcolor{keyword}{constexpr}\ MemberData(CmdName,\ Description,\ Help,\ MemberPointer\ f,}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse\_\ \&\&parse,\ Format\_\ \&\&format,\ Validate\_\ \&\&validate)}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ :\ f(f),\ parse(std::forward<Parse\_>(parse)),}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ format(std::forward<Format>(format)),}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ validate(std::forward<Validate\_>(validate))\ \{\}}
+\DoxyCodeLine{00317\ \};}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Help,\ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<mem\_data\_type<MemberPointer>>\ Parse,}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPointer>>\ Format,}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ validate::ValidatorOf<mem\_data\_type<MemberPointer>>\ Validate,}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00324\ MemberData(CmdName,\ Description,\ Help,\ MemberPointer,\ Parse\ \&\&,\ Format\ \&\&,}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&,\ SubCommands\ \&\&...)}
+\DoxyCodeLine{00326\ \ \ \ \ -\/>\ MemberData<std::remove\_cvref\_t<CmdName>,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Description>,\ std::remove\_cvref\_t<Help>,}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberPointer,\ std::remove\_cvref\_t<Parse>,}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<Format>,\ std::remove\_cvref\_t<Validate>,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<SubCommands>...>;}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \textcolor{keyword}{struct\ }NullGet\ \{}
+\DoxyCodeLine{00333\ \ \ \textcolor{keyword}{constexpr}\ NullGet()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00334\ \ \ \textcolor{keyword}{constexpr}\ NullGet(\textcolor{keyword}{const}\ NullGet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00335\ \ \ \textcolor{keyword}{constexpr}\ NullGet(NullGet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00336\ \ \ \textcolor{keyword}{constexpr}\ NullGet\ \&operator=(\textcolor{keyword}{const}\ NullGet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00337\ \ \ \textcolor{keyword}{constexpr}\ NullGet\ \&operator=(NullGet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00338\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(dummy\ \&)\ \{\ \textcolor{keywordflow}{return}\ Error::none;\ \}}
+\DoxyCodeLine{00339\ \};}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{struct\ }NullSet\ \{}
+\DoxyCodeLine{00342\ \ \ \textcolor{keyword}{constexpr}\ NullSet()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00343\ \ \ \textcolor{keyword}{constexpr}\ NullSet(\textcolor{keyword}{const}\ NullSet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00344\ \ \ \textcolor{keyword}{constexpr}\ NullSet(NullSet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00345\ \ \ \textcolor{keyword}{constexpr}\ NullSet\ \&operator=(\textcolor{keyword}{const}\ NullSet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00346\ \ \ \textcolor{keyword}{constexpr}\ NullSet\ \&operator=(NullSet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00347\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(\textcolor{keyword}{const}\ dummy\ \&)\ \{\ \textcolor{keywordflow}{return}\ Error::none;\ \}}
+\DoxyCodeLine{00348\ \};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }DefaultGet\ \{}
+\DoxyCodeLine{00351\ \ \ \textcolor{keyword}{const}\ T\ *value\_;}
+\DoxyCodeLine{00352\ \ \ \textcolor{keyword}{constexpr}\ DefaultGet(\textcolor{keyword}{const}\ T\ \&v)\ :\ value\_(\&v)\ \{\}}
+\DoxyCodeLine{00353\ \ \ \textcolor{keyword}{constexpr}\ DefaultGet(\textcolor{keyword}{const}\ DefaultGet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00354\ \ \ \textcolor{keyword}{constexpr}\ DefaultGet(DefaultGet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00355\ \ \ \textcolor{keyword}{constexpr}\ DefaultGet\ \&operator=(\textcolor{keyword}{const}\ DefaultGet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00356\ \ \ \textcolor{keyword}{constexpr}\ DefaultGet\ \&operator=(DefaultGet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(T\ \&t)\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::cant\_read\_param;}
+\DoxyCodeLine{00361\ \ \ \ \ t\ =\ *value\_;}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00363\ \ \ \}}
+\DoxyCodeLine{00364\ \};}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{struct\ }DefaultSet\ \{}
+\DoxyCodeLine{00367\ \ \ T\ *value\_;}
+\DoxyCodeLine{00368\ \ \ \textcolor{keyword}{constexpr}\ DefaultSet(T\ \&v)\ :\ value\_(\&v)\ \{\}}
+\DoxyCodeLine{00369\ \ \ \textcolor{keyword}{constexpr}\ DefaultSet(\textcolor{keyword}{const}\ DefaultSet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00370\ \ \ \textcolor{keyword}{constexpr}\ DefaultSet(DefaultSet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00371\ \ \ \textcolor{keyword}{constexpr}\ DefaultSet\ \&operator=(\textcolor{keyword}{const}\ DefaultSet\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00372\ \ \ \textcolor{keyword}{constexpr}\ DefaultSet\ \&operator=(DefaultSet\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(\textcolor{keyword}{const}\ T\ \&t)\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::cant\_set\_param;}
+\DoxyCodeLine{00377\ \ \ \ \ *value\_\ =\ t;}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00379\ \ \ \}}
+\DoxyCodeLine{00380\ \};}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00382\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ MemberPtr>\ \textcolor{keyword}{struct\ }MemDataGet\ \{}
+\DoxyCodeLine{00383\ \ \ \textcolor{keyword}{const}\ T\ \&value\_;}
+\DoxyCodeLine{00384\ \ \ MemberPtr\ member;}
+\DoxyCodeLine{00385\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(mem\_data\_type<MemberPtr>\ \&t)\ \{}
+\DoxyCodeLine{00386\ \ \ \ \ t\ =\ (value\_.*member);}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00388\ \ \ \}}
+\DoxyCodeLine{00389\ \};}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ MemberPtr>\ \textcolor{keyword}{struct\ }MemDataSet\ \{}
+\DoxyCodeLine{00392\ \ \ T\ \&value\_;}
+\DoxyCodeLine{00393\ \ \ MemberPtr\ member;}
+\DoxyCodeLine{00394\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(\textcolor{keyword}{const}\ mem\_data\_type<MemberPtr>\ \&t)\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ value\_.*member\ =\ t;}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00397\ \ \ \}}
+\DoxyCodeLine{00398\ \};}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ MemberPtr>}
+\DoxyCodeLine{00401\ \textcolor{keyword}{struct\ }MemDataSet<const\ T,\ MemberPtr>\ \{}
+\DoxyCodeLine{00402\ \ \ \textcolor{keyword}{constexpr}\ Error\ operator()(\textcolor{keyword}{const}\ mem\_data\_type<MemberPtr>\ \&)\ \{}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::cant\_set\_param;}
+\DoxyCodeLine{00404\ \ \ \}}
+\DoxyCodeLine{00405\ \};}
+\DoxyCodeLine{00406\ }
+\DoxyCodeLine{00407\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ Name\ CmdName,\ Name\ Description,\ Name\ Help,}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<mem\_data\_type<MemberPointer>>\ Parse,}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPointer>>\ Format,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ validate::ValidatorOf<mem\_data\_type<MemberPointer>>\ Validate,}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00413\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}{to\_cmd}}(T\ \&obj,}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberData<CmdName,\ Description,\ Help,\ MemberPointer,}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse,\ Format,\ Validate,\ SubCommands...>}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ member\_data)\ \{}
+\DoxyCodeLine{00417\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Help\{\},}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataGet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataSet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.parse),}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.format),}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.validate),}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.subcommands)\};}
+\DoxyCodeLine{00427\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00428\ \ \ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Help\{\},}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataGet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataSet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.parse),}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.format),}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.validate)\};}
+\DoxyCodeLine{00436\ \}}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ Name\ CmdName,\ Name\ Description,\ Name\ Help,}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ parse::ParserOf<mem\_data\_type<MemberPointer>>\ Parse,}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ format::FormatterOf<mem\_data\_type<MemberPointer>>\ Format,}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ validate::ValidatorOf<mem\_data\_type<MemberPointer>>\ Validate,}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00444\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}{to\_cmd}}(\textcolor{keyword}{const}\ T\ \&obj,}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberData<CmdName,\ Description,\ Help,\ MemberPointer,}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Parse,\ Format,\ Validate,\ SubCommands...>}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ member\_data)\ \{}
+\DoxyCodeLine{00448\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Help\{\},}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataGet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataSet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.parse),}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.format),}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.validate),}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.subcommands)\};}
+\DoxyCodeLine{00458\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Help\{\},}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataGet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemDataSet<T,\ MemberPointer>\{obj,\ member\_data.f\},}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.parse),}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.format),}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(member\_data.validate)\};}
+\DoxyCodeLine{00467\ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ \textcolor{keyword}{class}\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00470\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ transform(T\ \&obj,\ CommandOrMemberDataOrMemberFunction\ \&\&mem)\ \{}
+\DoxyCodeLine{00471\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Command<}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::remove\_cvref\_t<CommandOrMemberDataOrMemberFunction>>)\ \{}
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordflow}{return}\ mem;}
+\DoxyCodeLine{00474\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keyword}{using\ }dtl::to\_cmd;}
+\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keyword}{using\ }funcs::dtl::to\_cmd;}
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}{to\_cmd}}(obj,\ std::forward<CommandOrMemberDataOrMemberFunction>(mem));}
+\DoxyCodeLine{00478\ \ \ \}}
+\DoxyCodeLine{00479\ \}}
+\DoxyCodeLine{00480\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00481\ }
+\DoxyCodeLine{00500\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Command...\ SubCommands>}
+\DoxyCodeLine{00501\ \ \ \textcolor{keyword}{requires}(\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00502\ constexpr\ auto\ param(CmdName\ name,\ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00503\ \ \ (void)name;}
+\DoxyCodeLine{00504\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00505\ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}virtual"{}}\_sc,}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NullGet\{\},}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NullSet\{\},}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::NullParse\{\},}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ format::NullFormat\{\},}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::NullValidate\{\},}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00514\ \}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00530\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Command...\ SubCommands>}
+\DoxyCodeLine{00531\ \ \ \textcolor{keyword}{requires}(\textcolor{keyword}{sizeof}...(SubCommands)\ >\ 0)}
+\DoxyCodeLine{00532\ constexpr\ auto\ param(CmdName\ name,\ Description\ description,}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00534\ \ \ (void)name;}
+\DoxyCodeLine{00535\ \ \ (void)description;}
+\DoxyCodeLine{00536\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00537\ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}virtual"{}}\_sc,}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NullGet\{\},}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NullSet\{\},}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::NullParse\{\},}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ format::NullFormat\{\},}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::NullValidate\{\},}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00546\ \}}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00567\ \textcolor{keyword}{template}\ <Name\ CmdName,\ \textcolor{keyword}{class\ }T,\ Command...\ SubCommands>}
+\DoxyCodeLine{00568\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CmdName\ name,\ T\ \&t,\ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00569\ \ \ (void)name;}
+\DoxyCodeLine{00570\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00571\ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::ctti::name<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultGet<std::remove\_cvref\_t<T>>\{t\},}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultSet<std::remove\_cvref\_t<T>>\{t\},}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ format::DefaultFormat<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00580\ \}}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00603\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,\ Command...\ SubCommands>}
+\DoxyCodeLine{00604\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CmdName\ name,\ Description\ description,\ T\ \&t,}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00606\ \ \ (void)name;}
+\DoxyCodeLine{00607\ \ \ (void)description;}
+\DoxyCodeLine{00608\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00609\ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::ctti::name<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultGet<std::remove\_cvref\_t<T>>\{t\},}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultSet<std::remove\_cvref\_t<T>>\{t\},}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ format::DefaultFormat<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00618\ \}}
+\DoxyCodeLine{00619\ }
+\DoxyCodeLine{00641\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ Name\ Type,\ Getter\ Get,\ Setter\ Set,}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ parse::Parser\ Parse,\ format::Formatter\ Format,}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ validate::Validator\ Validate,\ Command...\ SubCommands>}
+\DoxyCodeLine{00644\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CmdName\ name,\ Description\ description,\ Type\ type,}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Get\ \&\&get,\ Set\ \&\&set,\ Parse\ \&\&parse,\ Format\ \&\&format,}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Validate\ \&\&validate,\ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00647\ \ \ (void)name;}
+\DoxyCodeLine{00648\ \ \ (void)description;}
+\DoxyCodeLine{00649\ \ \ (void)type;}
+\DoxyCodeLine{00650\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00651\ \ \ \textcolor{keywordflow}{return}\ Param\{CmdName\{\},}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Type\{\},}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Get>(get),}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Set>(set),}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Parse>(parse),}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Format>(parse),}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Validate>(validate),}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00660\ \}}
+\DoxyCodeLine{00661\ }
+\DoxyCodeLine{00676\ \textcolor{keyword}{template}\ <Name\ CmdName,\ \textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00677\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CmdName\ name,\ T\ \&obj,}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CommandOrMemberDataOrMemberFunction\ \&\&...m)\ \{}
+\DoxyCodeLine{00679\ \ \ (void)name;}
+\DoxyCodeLine{00680\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00681\ \ \ \textcolor{keywordflow}{return}\ Param\{}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ CmdName\{\},}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ cli::ctti::name<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ DefaultGet<T>\{obj\},}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ DefaultSet<T>\{obj\},}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ format::DefaultFormat<T>\{\},}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ dtl::transform(obj,}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<CommandOrMemberDataOrMemberFunction>(m))...\};}
+\DoxyCodeLine{00692\ \}}
+\DoxyCodeLine{00709\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ \textcolor{keyword}{class\ }T,}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00711\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CmdName\ name,\ Description\ description,\ T\ \&obj,}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CommandOrMemberDataOrMemberFunction\ \&\&...m)\ \{}
+\DoxyCodeLine{00713\ \ \ (void)name;}
+\DoxyCodeLine{00714\ \ \ (void)description;}
+\DoxyCodeLine{00715\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00716\ \ \ \textcolor{keywordflow}{return}\ Param\{}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ CmdName\{\},}
+\DoxyCodeLine{00718\ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ cli::ctti::name<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ DefaultGet<T>\{obj\},}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ DefaultSet<T>\{obj\},}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ format::DefaultFormat<T>\{\},}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ dtl::transform(obj,}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<CommandOrMemberDataOrMemberFunction>(m))...\};}
+\DoxyCodeLine{00727\ \}}
+\DoxyCodeLine{00728\ }
+\DoxyCodeLine{00750\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ \&Obj,\ \textcolor{keyword}{class}...\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00751\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(CommandOrMemberDataOrMemberFunction\ \&\&...m)\ \{}
+\DoxyCodeLine{00752\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00753\ \ \ \textcolor{keyword}{using\ }T\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(Obj)>;}
+\DoxyCodeLine{00754\ \ \ \textcolor{keywordflow}{return}\ Param\{}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ ctti::object\_name<Obj>(),}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ cli::ctti::name<T>(),}
+\DoxyCodeLine{00758\ \ \ \ \ \ \ DefaultGet<T>\{Obj\},}
+\DoxyCodeLine{00759\ \ \ \ \ \ \ DefaultSet<T>\{Obj\},}
+\DoxyCodeLine{00760\ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00761\ \ \ \ \ \ \ format::DefaultFormat<T>\{\},}
+\DoxyCodeLine{00762\ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ dtl::transform(Obj,}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<CommandOrMemberDataOrMemberFunction>(m))...\};}
+\DoxyCodeLine{00765\ \}}
+\DoxyCodeLine{00789\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ \&Obj,\ Name\ Description,}
+\DoxyCodeLine{00790\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00791\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(Description\ description,}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CommandOrMemberDataOrMemberFunction\ \&\&...m)\ \{}
+\DoxyCodeLine{00793\ \ \ (void)description;}
+\DoxyCodeLine{00794\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00795\ \ \ \textcolor{keyword}{using\ }T\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(Obj)>;}
+\DoxyCodeLine{00796\ \ \ \textcolor{keywordflow}{return}\ Param\{}
+\DoxyCodeLine{00797\ \ \ \ \ \ \ ctti::object\_name<Obj>(),}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00799\ \ \ \ \ \ \ cli::ctti::name<T>(),}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ DefaultGet<T>\{Obj\},}
+\DoxyCodeLine{00801\ \ \ \ \ \ \ DefaultSet<T>\{Obj\},}
+\DoxyCodeLine{00802\ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00803\ \ \ \ \ \ \ format::DefaultFormat<T>\{\},}
+\DoxyCodeLine{00804\ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ dtl::transform(Obj,}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<CommandOrMemberDataOrMemberFunction>(m))...\};}
+\DoxyCodeLine{00807\ \}}
+\DoxyCodeLine{00808\ }
+\DoxyCodeLine{00818\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ CommandOrMemberDataOrMemberFunction>}
+\DoxyCodeLine{00819\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ \mbox{\hyperlink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{param}}(T\ \&obj,\ CommandOrMemberDataOrMemberFunction\ \&\&...m)\ \{}
+\DoxyCodeLine{00820\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00821\ \ \ \textcolor{keywordflow}{return}\ Param\{}
+\DoxyCodeLine{00822\ \ \ \ \ \ \ cli::to\_lower(cli::ctti::name<std::remove\_cvref\_t<T>>()),}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ NoDescription\{\},}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ cli::ctti::name<std::remove\_cvref\_t<T>>(),}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ DefaultGet<T>\{obj\},}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ DefaultSet<T>\{obj\},}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ parse::DefaultParse<T>\{\},}
+\DoxyCodeLine{00828\ \ \ \ \ \ \ format::DefaultFormat<T>\{\},}
+\DoxyCodeLine{00829\ \ \ \ \ \ \ validate::DefaultValidate<std::remove\_cvref\_t<T>>\{\},}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ dtl::transform(obj,}
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<CommandOrMemberDataOrMemberFunction>(m))...\};}
+\DoxyCodeLine{00832\ \}}
+\DoxyCodeLine{00833\ }
+\DoxyCodeLine{00834\ \textcolor{keyword}{template}\ <Name\ CmdName,\ Name\ Description,\ \textcolor{keyword}{class\ }MemberPointer,}
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00836\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_pointer\_v<std::remove\_cvref\_t<MemberPointer>>}
+\DoxyCodeLine{00837\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ mem\_data(CmdName,\ Description,\ MemberPointer\ f,}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00839\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00840\ \ \ \textcolor{keywordflow}{return}\ MemberData\{CmdName\{\},}
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Description\{\},}
+\DoxyCodeLine{00842\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cli::ctti::name<mem\_data\_type<MemberPointer>>(),}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f,}
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parse::DefaultParse<mem\_data\_type<MemberPointer>>\{\},}
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ format::DefaultFormat<mem\_data\_type<MemberPointer>>\{\},}
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validate::DefaultValidate<mem\_data\_type<MemberPointer>>\{\},}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...\};}
+\DoxyCodeLine{00848\ \}}
+\DoxyCodeLine{00849\ \textcolor{keyword}{template}\ <Name\ CmdName,\ \textcolor{keyword}{class\ }MemberPointer,\ Command...\ SubCommands>}
+\DoxyCodeLine{00850\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_pointer\_v<std::remove\_cvref\_t<MemberPointer>>}
+\DoxyCodeLine{00851\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ mem\_data(CmdName,\ MemberPointer\ f,\ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00852\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00853\ \ \ \textcolor{keywordflow}{return}\ mem\_data(CmdName\{\},\ NoDescription\{\},\ f,}
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...);}
+\DoxyCodeLine{00855\ \}}
+\DoxyCodeLine{00856\ }
+\DoxyCodeLine{00857\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ MemberPointer,\ Name\ Description,\ Command...\ SubCommands>}
+\DoxyCodeLine{00858\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_pointer\_v<}
+\DoxyCodeLine{00859\ \ \ \ \ \ \ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(MemberPointer)>>}
+\DoxyCodeLine{00860\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ mem\_data(Description,\ SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00861\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00862\ \ \ \textcolor{keywordflow}{return}\ mem\_data(ctti::value\_name<MemberPointer>(),\ Description\{\},}
+\DoxyCodeLine{00863\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MemberPointer,\ std::forward<SubCommands>(cmds)...);}
+\DoxyCodeLine{00864\ \}}
+\DoxyCodeLine{00865\ }
+\DoxyCodeLine{00866\ \textcolor{keyword}{template}\ <\textcolor{keyword}{auto}\ MemberPointer,\ Command...\ SubCommands>}
+\DoxyCodeLine{00867\ \ \ \textcolor{keyword}{requires}\ std::is\_member\_pointer\_v<}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(MemberPointer)>>}
+\DoxyCodeLine{00869\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ mem\_data(SubCommands\ \&\&...cmds)\ \{}
+\DoxyCodeLine{00870\ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{00871\ \ \ \textcolor{keywordflow}{return}\ mem\_data<MemberPointer>(NoDescription\{\},}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<SubCommands>(cmds)...);}
+\DoxyCodeLine{00873\ \}}
+\DoxyCodeLine{00874\ }
+\DoxyCodeLine{00879\ \}\ \textcolor{comment}{//\ namespace\ cli::params}}
+\DoxyCodeLine{00880\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

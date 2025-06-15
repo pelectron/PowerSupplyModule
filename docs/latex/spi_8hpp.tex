@@ -1,0 +1,110 @@
+\doxysection{hal/spi.hpp File Reference}
+\hypertarget{spi_8hpp}{}\label{spi_8hpp}\index{hal/spi.hpp@{hal/spi.hpp}}
+{\ttfamily \#include "{}config.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/gpio.\+hpp"{}}\newline
+{\ttfamily \#include $<$cortex/function.\+hpp$>$}\newline
+{\ttfamily \#include $<$span$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{hal\+::spi\+::\+Master\+Config}}
+\item 
+class \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read}{hal\+::spi\+::\+Bytes\+Read}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written}{hal\+::spi\+::\+Bytes\+Written}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1spi_1_1_operation}{hal\+::spi\+::\+Operation}}
+\item 
+class \mbox{\hyperlink{classhal_1_1spi_1_1_master}{hal\+::spi\+::\+Master}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacehal}{hal}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1spi}{hal\+::spi}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{using}} \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{hal\+::spi\+::\+Callback}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83}{hal\+::spi\+::\+Id}} \{ \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83afedb2d84cafe20862cb4399751a8a7e3}{hal\+::spi\+::invalid}} = 0
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a7fc56270e7a70fa81a5935b72eacbe29}{hal\+::spi\+::A}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a9d5ed678fe57bcca610140957afab571}{hal\+::spi\+::B}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a0d61f8370cad1d412f80b84d143e1257}{hal\+::spi\+::C}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af623e75af30e62bbd73d6df5b50bb7b5}{hal\+::spi\+::D}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a3a3ea00cfc35332cedf6e5e9a32e94da}{hal\+::spi\+::E}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a800618943025315f869e4e1f09471012}{hal\+::spi\+::F}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83adfcf28d0734569a6a693bc8194de62bf}{hal\+::spi\+::G}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ac1d9f50f86825a1a2302ec2449c17196}{hal\+::spi\+::H}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83add7536794b63bf90eccfd37f9b147d7f}{hal\+::spi\+::I}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83aff44570aca8241914870afbc310cdb85}{hal\+::spi\+::J}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83aa5f3c6a11b03839d46af9fb43c97c188}{hal\+::spi\+::K}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{hal\+::spi\+::L}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a69691c7bdcc3ce6d5d8a1361f22d04ac}{hal\+::spi\+::M}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a8d9c307cb7f3c4a32822a51922d1ceaa}{hal\+::spi\+::N}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af186217753c37b9b9f958d906208506e}{hal\+::spi\+::O}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a44c29edb103a2872f519ad0c9a0fdaaa}{hal\+::spi\+::P}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af09564c9ca56850d4cd6b3319e541aee}{hal\+::spi\+::Q}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ae1e1d3d40573127e9ee0480caf1283d6}{hal\+::spi\+::R}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a5dbc98dcc983a70728bd082d1a47546e}{hal\+::spi\+::S}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ab9ece18c950afbfa6b0fdbfa4ff731d3}{hal\+::spi\+::T}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a4c614360da93c0a041b22e537de151eb}{hal\+::spi\+::U}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a5206560a306a2e085a437fd258eb57ce}{hal\+::spi\+::V}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a61e9c06ea9a85a5088a499df6458d276}{hal\+::spi\+::W}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a02129bb861061d1a052c592e2dc6b383}{hal\+::spi\+::X}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a57cec4137b614c87cb4e24a3d003a3e0}{hal\+::spi\+::Y}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a21c2e59531c8710156d34a3c30ac81d5}{hal\+::spi\+::Z}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ff}{hal\+::spi\+::\+Phase}} \{ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa53cced8d281a1a0ace3cb6594daaa4f7}{hal\+::spi\+::low}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa8d966b2253a917086c8604959e152243}{hal\+::spi\+::high}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ff}{hal\+::spi\+::\+Polarity}} \{ \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ffa53cced8d281a1a0ace3cb6594daaa4f7}{hal\+::spi\+::low}}
+, \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ffa8d966b2253a917086c8604959e152243}{hal\+::spi\+::high}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00}{hal\+::spi\+::\+Format}} \{ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00ae3f394ba0d5a3111ed1e09e01b0cbe0e}{hal\+::spi\+::lsb\+\_\+first}}
+, \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00a0d142fa5ab9b24b770ea5c3e73da6e1a}{hal\+::spi\+::msb\+\_\+first}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7ac}{hal\+::spi\+::\+Crc}} \{ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::spi\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca4a41f81285a391bcc41c8df2e408d474}{hal\+::spi\+::eight\+\_\+bit}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca6240b0d4490cb88a91e13df5ed48fad4}{hal\+::spi\+::sixteen\+\_\+bit}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{hal\+::spi\+::\+Error}} \{ \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea260ca9dd8a4577fc00b7bd5810298076}{hal\+::spi\+::success}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea8bc1b2f84252c3df4edd53e4aad097a7}{hal\+::spi\+::busy}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea9db966b299b4d4517b124506d08ac434}{hal\+::spi\+::rx\+\_\+overrun}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ceaf551e1ab2d901dc76b5dab4298f0e054}{hal\+::spi\+::mode\+\_\+fault}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ceaab1ab14329432ca89f400579744932b9}{hal\+::spi\+::crc\+\_\+error}}
+, \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea4080e803926452cb85fbe0c7d3ba2419}{hal\+::spi\+::frame\+\_\+error}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10e}{hal\+::spi\+::\+State}} \{ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10ea075ae3d2fc31640504f814f60e5ef713}{hal\+::spi\+::disabled}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 0
+, \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10eaec2f993aec2c27fc750119ab17b16cdb}{hal\+::spi\+::idle}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 2
+, \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10ea8bc1b2f84252c3df4edd53e4aad097a7}{hal\+::spi\+::busy}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 3
+, \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10eacb5e100e5a9a3e7f6d1fd97512215282}{hal\+::spi\+::error}} = 0b111
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}} \mbox{\hyperlink{namespacehal_1_1spi_ac8b3a30d95fd31e6448b80c5bd3a1380}{hal\+::spi\+::operator\texorpdfstring{$\vert$}{|}}} (\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}}, \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}})
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}} $>$ \mbox{\hyperlink{namespacehal_1_1spi_ac4ec9c65f8be28cc3621bd3e5317d3fb}{hal\+::spi\+::configure}} (\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{Master\+Config}} \&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cfg}})
+\end{DoxyCompactItemize}

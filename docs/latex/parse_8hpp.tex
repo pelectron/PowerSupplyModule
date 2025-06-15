@@ -1,0 +1,100 @@
+\doxysection{cli/parse.hpp File Reference}
+\hypertarget{parse_8hpp}{}\label{parse_8hpp}\index{cli/parse.hpp@{cli/parse.hpp}}
+{\ttfamily \#include "{}cli/ctti.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/traits.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/u64.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include $<$bit$>$}\newline
+{\ttfamily \#include $<$bitset$>$}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1value__type}{cli\+::parse\+::value\+\_\+type$<$ P $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{cli\+::parse\+::from\+\_\+error\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{cli\+::parse\+::from\+\_\+value\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{cli\+::parse\+::\+Parse\+Result$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_int}{cli\+::parse\+::\+Int$<$ T, Format $>$}}
+\begin{DoxyCompactList}\small\item\em A parser for integers. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_string}{cli\+::parse\+::\+String$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em A parser for strings. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_float}{cli\+::parse\+::\+Float$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_fix_point}{cli\+::parse\+::\+Fix\+Point$<$ T, Format, Fix\+Point\+Separator $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_enum}{cli\+::parse\+::\+Enum$<$ T, Allow\+Numbers $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_sequence}{cli\+::parse\+::\+Sequence$<$ T, Element\+Parser, Delimiter $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse}{cli\+::parse\+::\+Default\+Parse$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse_3_01_t_01_4}{cli\+::parse\+::\+Default\+Parse$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_default_parse_3_01bool_01_4}{cli\+::parse\+::\+Default\+Parse$<$ bool $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_field}{cli\+::parse\+::\+Field$<$ Name, Default\+Value, Parser $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1_field_with_out_default}{cli\+::parse\+::\+Field\+With\+Out\+Default$<$ Name, Type, Parser $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_field_group}{cli\+::parse\+::\+Field\+Group$<$ Assignment, Member\+Separator, Prefix, Postfix, Fields $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1to__parse__field}{cli\+::parse\+::to\+\_\+parse\+\_\+field$<$ Ctti\+Field $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1parse_1_1field__parser__for}{cli\+::parse\+::field\+\_\+parser\+\_\+for$<$ T, Assignment, Member\+Separator, Prefix, Postfix $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_struct}{cli\+::parse\+::\+Struct$<$ T, Name, Assignment, Member\+Separator, Prefix, Postfix $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1parse_1_1_null_parse}{cli\+::parse\+::\+Null\+Parse}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1parse}{cli\+::parse}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_value}{cli\+::parse\+::\+Value}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_result}{cli\+::parse\+::\+Result}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{cli\+::parse\+::\+Parser}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser_of}{cli\+::parse\+::\+Parser\+Of}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Parser P$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1parse_ad2d74524d45382dc0cf2b85d59c8b256}{cli\+::parse\+::value\+\_\+type\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1parse_1_1value__type}{value\+\_\+type}}$<$std\+::remove\+\_\+cvref\+\_\+t$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{P}}$>$$>$\+::type
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ T $>$ $>$ \mbox{\hyperlink{namespacecli_1_1parse_a72502c4aaec674bd68d879c498b460eb}{cli\+::parse\+::ok}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1parse_1_1_parse_result}{Parse\+Result}}$<$ T $>$ \mbox{\hyperlink{namespacecli_1_1parse_addd9ad6a74437e8bd2089ff411472245}{cli\+::parse\+::error}} (\mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{e}})
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{namespacecli_1_1parse_a604ba3b5a686df1966884d978720b5fe}{cli\+::parse\+::skip\+\_\+ws}} (\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{str}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_ad5a699a8f5d657fb7314e8853a25332e}{Error}} \mbox{\hyperlink{namespacecli_1_1parse_a2a8d64c41c99cec1405844cd46ce9c95}{cli\+::parse\+::parse\+\_\+args}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{Arg\+Vector}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{v}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__error__t}{cli\+::parse\+::from\+\_\+error\+\_\+t}} \mbox{\hyperlink{namespacecli_1_1parse_ad6ac50f0626c59d9e65fdc25ee6ae8ba}{cli\+::parse\+::from\+\_\+error}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{struct}} \mbox{\hyperlink{structcli_1_1parse_1_1from__value__t}{cli\+::parse\+::from\+\_\+value\+\_\+t}} \mbox{\hyperlink{namespacecli_1_1parse_a27c1d432bff84a50054d97372105ff99}{cli\+::parse\+::from\+\_\+value}}
+\end{DoxyCompactItemize}

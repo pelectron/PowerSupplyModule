@@ -1,0 +1,80 @@
+\doxysection{cli/traits.hpp File Reference}
+\hypertarget{traits_8hpp}{}\label{traits_8hpp}\index{cli/traits.hpp@{cli/traits.hpp}}
+{\ttfamily \#include "{}cli/vector.\+hpp"{}}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__integer}{cli\+::traits\+::is\+\_\+integer$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em The basic categories of types the library can handle. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__float}{cli\+::traits\+::is\+\_\+float$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__fixpoint}{cli\+::traits\+::is\+\_\+fixpoint$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__string}{cli\+::traits\+::is\+\_\+string$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__sequence}{cli\+::traits\+::is\+\_\+sequence$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__struct}{cli\+::traits\+::is\+\_\+struct$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__enum}{cli\+::traits\+::is\+\_\+enum$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__string_3_01std_1_1string__view_01_4}{cli\+::traits\+::is\+\_\+string$<$ std\+::string\+\_\+view $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1is__sequence_3_01_fixed_size_vector_3_01_t_00_01_cap_01_4_01_4}{cli\+::traits\+::is\+\_\+sequence$<$ Fixed\+Size\+Vector$<$ T, Cap $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1integer__traits}{cli\+::traits\+::integer\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1float__traits}{cli\+::traits\+::float\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1fixpoint__traits}{cli\+::traits\+::fixpoint\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1string__traits}{cli\+::traits\+::string\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1sequence__traits}{cli\+::traits\+::sequence\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1traits_1_1enum__traits_3_01_t_01_4}{cli\+::traits\+::enum\+\_\+traits$<$ T $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1traits}{cli\+::traits}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_integer}{cli\+::traits\+::\+Integer}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_fix_point}{cli\+::traits\+::\+Fix\+Point}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_float}{cli\+::traits\+::\+Float}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_string}{cli\+::traits\+::\+String}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_sequence}{cli\+::traits\+::\+Sequence}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_struct}{cli\+::traits\+::\+Struct}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_enum}{cli\+::traits\+::\+Enum}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1traits_1_1_flag_enum}{cli\+::traits\+::\+Flag\+Enum}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0}{cli\+::traits\+::\+Kind}} \{ \newline
+\mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0aa0faef0851b4294c06f2b94bb1cb2044}{cli\+::traits\+::\+Integer}}
+, \mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0a30fbd2a9a9efcbb0e7a75e0709128fd0}{cli\+::traits\+::\+Fix\+Point}}
+, \mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0a22ae0e2b89e5e3d477f988cc36d3272b}{cli\+::traits\+::\+Float}}
+, \mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0a27118326006d3829667a400ad23d5d98}{cli\+::traits\+::\+String}}
+, \newline
+\mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0a886ef5dbd655a6c97726d7091c6b173e}{cli\+::traits\+::\+Struct}}
+, \mbox{\hyperlink{namespacecli_1_1traits_a0d35004fe84dd52970cbd21e2e1a7bd0a3ff39d3acb327553070a64ef0cb321d5}{cli\+::traits\+::\+Sequence}}
+ \}
+\end{DoxyCompactItemize}

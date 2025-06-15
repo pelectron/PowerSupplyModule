@@ -1,0 +1,13 @@
+\doxysection{cli\+::parse\+::Parser\+Of Concept Reference}
+\hypertarget{conceptcli_1_1parse_1_1_parser_of}{}\label{conceptcli_1_1parse_1_1_parser_of}\index{cli::parse::ParserOf@{cli::parse::ParserOf}}
+
+
+{\ttfamily \#include $<$cli/parse.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ P,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1parse_1_1_parser_of}{cli::parse::ParserOf}}\ =\ \ \mbox{\hyperlink{conceptcli_1_1parse_1_1_parser}{Parser<P>}}\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}\ std::same\_as<T,\ value\_type\_t<P>>}
+
+\end{DoxyCode}

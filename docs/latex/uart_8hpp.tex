@@ -1,0 +1,49 @@
+\doxysection{hal/uart.hpp File Reference}
+\hypertarget{uart_8hpp}{}\label{uart_8hpp}\index{hal/uart.hpp@{hal/uart.hpp}}
+{\ttfamily \#include "{}cortex/function.\+hpp"{}}\newline
+{\ttfamily \#include "{}hal/config.\+hpp"{}}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1uart_1_1_config}{hal\+::uart\+::\+Config}}
+\item 
+class \mbox{\hyperlink{classhal_1_1uart_1_1_uart}{hal\+::uart\+::\+Uart}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacehal}{hal}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1uart}{hal\+::uart}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272}{hal\+::uart\+::\+Delimiter}} \{ \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::uart\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a4b43b0aee35624cd95b910189b3dc231}{hal\+::uart\+::r}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a7b8b965ad4bca0e41ab51de7b31363a1}{hal\+::uart\+::n}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a6e7b4e1e9acf283a34082ffbeb136272a3e3cef7748db3f689474b6d40661f2bc}{hal\+::uart\+::rn}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998}{hal\+::uart\+::\+Bits}} \{ \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998abb3aec0fdcdbc2974890f805c585d432}{hal\+::uart\+::seven}}
+, \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998a24d27c169c2c881eb09a065116f2aa5c}{hal\+::uart\+::eight}}
+, \mbox{\hyperlink{namespacehal_1_1uart_ad81256e0044ab4d5740d861558b32998ac785e1ed2950e3e36b1e2ca01f299a54}{hal\+::uart\+::nine}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3b}{hal\+::uart\+::\+Stop\+Bits}} \{ \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3baf97c5d29941bfb1b2fdab0874906ab82}{hal\+::uart\+::one}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3ba46677a86784b5833e3e46b4cd44a31c0}{hal\+::uart\+::one\+\_\+and\+\_\+a\+\_\+half}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a813db43c9bba0907909cd70cc6cded3bab8a9f715dbb64fd5c56e7783c6820a61}{hal\+::uart\+::two}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77}{hal\+::uart\+::\+Parity}} \{ \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::uart\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77aa2b6f2a6066ed8700d83335fc50a2b8e}{hal\+::uart\+::odd}}
+, \mbox{\hyperlink{namespacehal_1_1uart_a4bb20027fbe68150fcdafc1546156b77acc935c5faf4c8f7a0468d7552a9b8138}{hal\+::uart\+::even}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1uart_1_1_uart}{Uart}} $>$ \mbox{\hyperlink{namespacehal_1_1uart_a38ed1416304fc279ab5a0d0bec9caf5e}{hal\+::uart\+::configure}} (const \mbox{\hyperlink{structhal_1_1uart_1_1_config}{Config}} \&cfg)
+\end{DoxyCompactItemize}

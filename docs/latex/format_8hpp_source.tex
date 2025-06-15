@@ -1,0 +1,1046 @@
+\doxysection{format.\+hpp}
+\hypertarget{format_8hpp_source}{}\label{format_8hpp_source}\index{cli/format.hpp@{cli/format.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_FORMAT\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_FORMAT\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/ctti.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}cli/traits.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}cli/u64.hpp"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <gcem.hpp>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }cli::format\ \{}
+\DoxyCodeLine{00016\ \textcolor{keyword}{struct\ }FormatResult\ \{}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{constexpr}\ FormatResult(Error\ error)\ :\ error(error),\ size\_written(0)\ \{\}}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{constexpr}\ FormatResult(std::size\_t\ size\_written)}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ :\ error(Error::none),\ size\_written(size\_written)\ \{\}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ bool()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ error\ ==\ Error::none;\ \}}
+\DoxyCodeLine{00022\ \ \ Error\ error;}
+\DoxyCodeLine{00023\ \ \ std::size\_t\ size\_written;}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>\ \textcolor{keyword}{struct\ }formatter\_value\_type\ \{}
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{using\ }type\ =\ std::decay\_t<type\_list::type\_at\_t<}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ 1,\ \textcolor{keyword}{typename}\ function\_traits<std::decay\_t<F>>::arguments>>;}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00032\ \textcolor{keyword}{concept\ }FormatterOf\ =\ \textcolor{keyword}{requires}(F\ \&\&f,\ std::span<char>\ buf,\ \textcolor{keyword}{const}\ T\ \&t)\ \{}
+\DoxyCodeLine{00033\ \ \ \{\ f(buf,\ t)\ \}\ -\/>\ std::same\_as<FormatResult>;}
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ F>}
+\DoxyCodeLine{00037\ \textcolor{keyword}{concept\ }Formatter\ =}
+\DoxyCodeLine{00038\ \ \ \ \ not\ std::same\_as<void,\ typename\ formatter\_value\_type<F>::type>;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }DefaultFormat\ \{}
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keyword}{const}\ T\ \&t)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::unimplemented;}
+\DoxyCodeLine{00043\ \ \ \}}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }NullFormat\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keyword}{const}\ dummy\ \&)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00049\ \ \ \}}
+\DoxyCodeLine{00050\ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }DefaultFormat<void>\ \{}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ 0;\ \}}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }DefaultFormat<bool>\ \{}
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keywordtype}{bool}\ b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{if}\ (b)\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 4)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ \textcolor{stringliteral}{"{}true"{}})}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ buf[size++]\ =\ ch;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00065\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 5)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ \textcolor{stringliteral}{"{}false"{}})}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ buf[size++]\ =\ ch;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5;}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \}}
+\DoxyCodeLine{00074\ \};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{keyword}{template}\ <traits::Integer\ T,\ Fmt\ Format\ =\ Fmt::normal,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ UseSignForPositive\ =\ \textcolor{keyword}{false}>}
+\DoxyCodeLine{00078\ \textcolor{keyword}{struct\ }Int\ \{}
+\DoxyCodeLine{00079\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_dec\_digits()\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{using\ }traits\ =\ traits::integer\_traits<T>;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000'000'000'000'000'000u\})}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 21;}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000'000'000'000'000'000u\})}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 20;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100'000'000'000'000'000u\})}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000'000'000'000'000u\})}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000'000'000'000'000u\})}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100'000'000'000'000u\})}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000'000'000'000u\})}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000'000'000'000u\})}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100'000'000'000u\})}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000'000'000u\})}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000'000'000u\})}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100'000'000u\})}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000'000u\})}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000'000u\})}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100'000u\})}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10'000u\})}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1'000u\})}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{100u\})}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{10u\})}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ uint64\_t\{1u\})}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>,\ \textcolor{stringliteral}{"{}Cannot\ use\ DefaultFormat\ for\ T"{}});}
+\DoxyCodeLine{00124\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000'000'000'000'000'000\}\ or}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000'000'000'000'000\})}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 20;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100'000'000'000'000'000\}\ or}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/100'000'000'000'000'000\})}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10'000'000'000'000'000\}\ or}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10'000'000'000'000'000\})}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000'000'000'000'000\}\ or}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000'000'000'000\})}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100'000'000'000'000\}\ or}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/100'000'000'000'000\})}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10'000'000'000'000\}\ or}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10'000'000'000'000\})}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000'000'000'000\}\ or}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000'000'000'000'000\})}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100'000'000'000\}\ or}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/100'000'000'000\})}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10'000'000'000\}\ or}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10'000'000'000\})}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000'000'000\}\ or}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000'000\})}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100'000'000\}\ or}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000'000'000'000'000\})}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10'000'000\}\ or}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10'000'000\})}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000'000\}\ or}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000'000\})}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100'000\}\ or}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/100'000\})}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10'000\}\ or}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10'000\})}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1'000\}\ or}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1'000\})}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5;}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{100\}\ or}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/100\})}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{10\}\ or}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/10\})}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::max\ >=\ int64\_t\{1\}\ or}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ traits::min\ <=\ int64\_t\{-\/1\})}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>,\ \textcolor{stringliteral}{"{}Cannot\ use\ DefaultFormat\ for\ T"{}});}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ T\ value)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keyword}{using\ }traits\ =\ traits::integer\_traits<T>;}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keyword}{using\ }UnsignedT\ =\ \textcolor{keyword}{typename}\ traits::unsigned\_type;}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::normal)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ ==\ 0)\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseSignForPositive)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ buf[0]\ =\ u\textcolor{charliteral}{'+'};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ buf[1]\ =\ u\textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 1)}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ buf[0]\ =\ u\textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ T\ max\_pow\_10\ =\ []()\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ T\ t\{1\};}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ num\_dec\_digits()\ -\/\ 2\ and}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (t\ <\ traits::max\ or\ -\/t\ >\ traits::min);}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++i)}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ 10\ *\ t;}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ UnsignedT\ u\_value\ =\ \textcolor{keyword}{static\_cast<}UnsignedT\textcolor{keyword}{>}(value);}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_negative\ =\ value\ <\ 0;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[num\_dec\_digits()]\{\};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseSignForPositive)\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ 0)\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ buffer[0]\ =\ \textcolor{charliteral}{'+'};}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_negative)\ \{}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ buffer[0]\ =\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ u\_value\ =\ (\string~u\_value)\ +\ 1u;}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ T\ pow10\ =\ max\_pow\_10;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pow10\ >\ 0;\ pow10\ /=\ 10)}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (u\_value\ >=\ pow10)}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pow10\ >\ 0;\ pow10\ /=\ 10)\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ digit\ =\ u\_value\ /\ pow10;}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ buffer[size++]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(digit\ +\ u\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ u\_value\ =\ u\_value\ -\/\ digit\ *\ pow10;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ size)}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ buf[i]\ =\ buffer[i];}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ T\ max\_pow\_10\ =\ []()\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ T\ t\{1\};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ num\_dec\_digits()\ -\/\ 2\ and\ t\ <\ traits::max;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++i)}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ >\ (10u\ *\ t))}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ 10u\ *\ t;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ t;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[num\_dec\_digits()]\{\};}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseSignForPositive)\ \{}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ buffer[0]\ =\ \textcolor{charliteral}{'+'};}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ T\ pow10\ =\ max\_pow\_10;}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pow10\ >\ 0;\ pow10\ /=\ 10)}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >=\ pow10)}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pow10\ >\ 0;\ pow10\ /=\ 10)\ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ digit\ =\ value\ /\ pow10;}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ buffer[size++]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(digit\ +\ u\textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ value\ =\ value\ -\/\ digit\ *\ pow10;}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ size)}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ buf[i]\ =\ buffer[i];}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00286\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::hex)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ UnsignedT\ u\_value\ =\ \textcolor{keyword}{static\_cast<}UnsignedT\textcolor{keyword}{>}(value);}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_size\ =\ 2\ +\ \textcolor{keyword}{sizeof}(UnsignedT)\ *\ 2;}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[max\_size]\{\textcolor{charliteral}{'0'},\ \textcolor{charliteral}{'x'},\ 0\};}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ std::size\_t\ size\ =\ 2;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ nibble\ =\ (\textcolor{keyword}{sizeof}(UnsignedT)\ *\ 2)\ -\/\ 1u;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ nibble\ !=\ 0;\ -\/-\/nibble)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (u\_value\ <\ (1u\ <<\ (nibble\ *\ 4u)))}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ nibble\ !=\ 0;\ -\/-\/nibble)\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ digit\ =}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(0x0Fu\ \&\ (u\_value\ >>\ (nibble\ *\ 4u)));}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (digit\ >=\ 0\ and\ digit\ <=\ 9)}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ buffer[size++]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(digit\ +\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (digit\ >=\ 10\ and\ digit\ <=\ 15)}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ buffer[size++]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(digit\ +\ \textcolor{charliteral}{'A'});}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ u\_value\ \&=\ (1u\ <<\ (nibble\ *\ 4u))\ -\/\ 1u;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ size)}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00312\ }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ buf[i]\ =\ buffer[i];}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00317\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::binary)\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \textcolor{keyword}{const}\ UnsignedT\ u\_value\ =\ \textcolor{keyword}{static\_cast<}UnsignedT\textcolor{keyword}{>}(value);}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_size\ =\ 2\ +\ \textcolor{keyword}{sizeof}(UnsignedT)\ *\ 8;}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[max\_size]\{u\textcolor{charliteral}{'0'},\ u\textcolor{charliteral}{'b'},\ 0\};}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ std::size\_t\ size\ =\ 2;}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ bit\ =\ (\textcolor{keyword}{sizeof}(UnsignedT)\ *\ 2)\ -\/\ 1u;}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ bit\ !=\ 0;\ -\/-\/bit)\ \{}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (u\_value\ <\ (1u\ <<\ (bit\ *\ 8u)))}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ bit\ !=\ 0;\ -\/-\/bit)\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ digit\ =\ u\_value\ >>\ (bit\ *\ 8u);}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ buffer[size++]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(digit\ +\ \textcolor{charliteral}{'0'});}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ u\_value\ >>=\ 1u;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ size)}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ buf[i]\ =\ buffer[i];}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00342\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ always\_false<\textcolor{keyword}{decltype}(Format)>,}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Invalid\ Format\ supplied\ to\ format::Int,\ must\ be\ one\ of\ Fmt::normal,\ "{}}}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Fmt::hex,\ or\ Fmt::binary.\ Mixed\ Fmt\ values\ are\ not\ allowed."{}});}
+\DoxyCodeLine{00347\ \ \ \ \ \}}
+\DoxyCodeLine{00348\ \ \ \}}
+\DoxyCodeLine{00349\ \};}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \textcolor{keyword}{template}\ <traits::Integer\ T>\ \textcolor{keyword}{struct\ }DefaultFormat<T>\ :\ \textcolor{keyword}{public}\ Int<T>\ \{\};}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \textcolor{keyword}{template}\ <traits::FixPoint\ T,\ std::size\_t\ Precision\ =\ 11,}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ PrintTrailingZeros\ =\ \textcolor{keyword}{false},\ Fmt\ Format\ =\ Fmt::normal,}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ UseSignForPositive\ =\ \textcolor{keyword}{false},\ \textcolor{keywordtype}{char}\ FixPointSeparator\ =\ \textcolor{charliteral}{'.'}>}
+\DoxyCodeLine{00356\ \textcolor{keyword}{class\ }FixPoint\ \{}
+\DoxyCodeLine{00357\ \ \ \textcolor{keyword}{using\ }traits\ =\ traits::fixpoint\_traits<T>;}
+\DoxyCodeLine{00358\ \ \ \textcolor{keyword}{using\ }raw\_value\ =\ \textcolor{keyword}{typename}\ traits::raw\_value\_type;}
+\DoxyCodeLine{00359\ \ \ \textcolor{keyword}{using\ }int\_type\ =}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ std::conditional\_t<traits::is\_signed,\ long\ long,\ unsigned\ long\ long>;}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00362\ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ traits::num\_frac\_digits\ >=\ 1\ and\ traits::num\_frac\_digits\ <=\ 27,}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fix\ point\ number\ with\ more\ than\ 27\ fractional\ digits\ are\ not\ supported"{}});}
+\DoxyCodeLine{00365\ \ \ \textcolor{comment}{//\ frac\ is\ the\ raw\ integer\ value\ of\ the\ fractional\ part\ of\ value\ with\ F\ bits.}}
+\DoxyCodeLine{00366\ \ \ \textcolor{comment}{//\ This\ needs\ to\ be\ converted\ to\ a\ decimal\ integer\ value\ for\ formatting.}}
+\DoxyCodeLine{00367\ \ \ \textcolor{comment}{//\ The\ integer\ value\ needed\ can\ be\ calculated\ as\ follows:}}
+\DoxyCodeLine{00368\ \ \ \textcolor{comment}{//\ value\ =\ round(frac\ /\ max\_frac\ *\ 10\string^precision)\ =\ round(frac\ /\ 2\string^F\ *}}
+\DoxyCodeLine{00369\ \ \ \textcolor{comment}{//\ 10\string^precision)\ =\ round(frac}}
+\DoxyCodeLine{00370\ \ \ \textcolor{comment}{//\ *\ 2\string^-\/F\ *\ 10\string^precision).\ factor\ =\ 2\string^-\/F\ *\ 10\string^precision\ can\ be\ calculated\ at}}
+\DoxyCodeLine{00371\ \ \ \textcolor{comment}{//\ compile\ time,\ with\ only\ integer\ divisions\ at\ run\ time.\ This\ will}}
+\DoxyCodeLine{00372\ \ \ \textcolor{comment}{//\ unfortunately\ produce\ some\ rounding\ errors.}}
+\DoxyCodeLine{00373\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ factor\ =\ []()\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ u64\ i\{10\};}
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ Precision;\ ++i)\ \{}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ i\ =\ i\ *\ 10;}
+\DoxyCodeLine{00377\ \ \ \ \ \}}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keywordflow}{return}\ i\ >>\ traits::num\_frac\_digits;}
+\DoxyCodeLine{00379\ \ \ \}();}
+\DoxyCodeLine{00380\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint8\_t\ max\_frac\_string\_length\{traits::num\_frac\_digits\};}
+\DoxyCodeLine{00381\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ bin\_weight\{[]\ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordflow}{switch}\ (traits::num\_frac\_digits)\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{5u,\ 0u\};}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{25u,\ 0u\};}
+\DoxyCodeLine{00387\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{125u,\ 0u\};}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{625u,\ 0u\};}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{3125u,\ 0u\};}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{15625u,\ 0u\};}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{78125u,\ 0u\};}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordflow}{case}\ 8:}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{390625u,\ 0u\};}
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordflow}{case}\ 9:}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{1953125u,\ 0u\};}
+\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordflow}{case}\ 10:}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{9765625u,\ 0u\};}
+\DoxyCodeLine{00403\ \ \ \ \ \textcolor{keywordflow}{case}\ 11:}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{48828125u,\ 0u\};}
+\DoxyCodeLine{00405\ \ \ \ \ \textcolor{keywordflow}{case}\ 12:}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{244140625u,\ 0u\};}
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordflow}{case}\ 13:}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{1220703125u,\ 0u\};}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordflow}{case}\ 14:}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{1808548329u,\ 1u\};}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordflow}{case}\ 15:}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{452807053u,\ 7u\};}
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{case}\ 16:}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{2264035265u,\ 35u\};}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{keywordflow}{case}\ 17:}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{2730241733u,\ 177u\};}
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordflow}{case}\ 18:}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{766306777u,\ 888u\};}
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordflow}{case}\ 19:}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{3831533885u,\ 4440u\};}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{case}\ 20:}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{1977800241u,\ 22204u\};}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordflow}{case}\ 21:}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{1299066613u,\ 111022u\};}
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keywordflow}{case}\ 22:}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{2200365769u,\ 555111u\};}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{case}\ 23:}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{2411894253u,\ 2775557u\};}
+\DoxyCodeLine{00429\ \ \ \ \ \textcolor{keywordflow}{case}\ 24:}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{3469536673u,\ 13877787u\};}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keywordflow}{case}\ 25:}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{167814181u,\ 69388939u\};}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordflow}{case}\ 26:}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{839070905u,\ 346944695u\};}
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordflow}{case}\ 27:}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ u64\{4195354525u,\ 1734723475u\};}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{00439\ \ \ \ \ \};}
+\DoxyCodeLine{00440\ \ \ \}()\};}
+\DoxyCodeLine{00441\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ integer\_mask\ =}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ (1ull\ <<\ traits::num\_int\_digits)\ -\/\ 1u;}
+\DoxyCodeLine{00443\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ fraction\_mask\ =}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ (1ull\ <<\ traits::num\_frac\_digits)\ -\/\ 1u;}
+\DoxyCodeLine{00445\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ value\_mask\ =}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ (1ull\ <<\ (traits::num\_frac\_digits\ +\ traits::num\_int\_digits))\ -\/\ 1u;}
+\DoxyCodeLine{00447\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ sign\_mask\ =}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ 1ull\ <<\ (traits::num\_frac\_digits\ +\ traits::num\_int\_digits\ -\/\ 1u);}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00450\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ len()\ \{}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordflow}{switch}\ (traits::num\_frac\_digits)\ \{}
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1u;}
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2u;}
+\DoxyCodeLine{00456\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3u;}
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3u;}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4u;}
+\DoxyCodeLine{00462\ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5u;}
+\DoxyCodeLine{00464\ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5u;}
+\DoxyCodeLine{00466\ \ \ \ \ \textcolor{keywordflow}{case}\ 8:}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6u;}
+\DoxyCodeLine{00468\ \ \ \ \ \textcolor{keywordflow}{case}\ 9:}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7u;}
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{keywordflow}{case}\ 10:}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 7u;}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{keywordflow}{case}\ 11:}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 8u;}
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keywordflow}{case}\ 12:}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9u;}
+\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keywordflow}{case}\ 13:}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10u;}
+\DoxyCodeLine{00478\ \ \ \ \ \textcolor{keywordflow}{case}\ 14:}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10u;}
+\DoxyCodeLine{00480\ \ \ \ \ \textcolor{keywordflow}{case}\ 15:}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11u;}
+\DoxyCodeLine{00482\ \ \ \ \ \textcolor{keywordflow}{case}\ 16:}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12u;}
+\DoxyCodeLine{00484\ \ \ \ \ \textcolor{keywordflow}{case}\ 17:}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12u;}
+\DoxyCodeLine{00486\ \ \ \ \ \textcolor{keywordflow}{case}\ 18:}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13u;}
+\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keywordflow}{case}\ 19:}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14u;}
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{keywordflow}{case}\ 20:}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14u;}
+\DoxyCodeLine{00492\ \ \ \ \ \textcolor{keywordflow}{case}\ 21:}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15u;}
+\DoxyCodeLine{00494\ \ \ \ \ \textcolor{keywordflow}{case}\ 22:}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16u;}
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{keywordflow}{case}\ 23:}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17u;}
+\DoxyCodeLine{00498\ \ \ \ \ \textcolor{keywordflow}{case}\ 24:}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17u;}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keywordflow}{case}\ 25:}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18u;}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordflow}{case}\ 26:}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19u;}
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordflow}{case}\ 27:}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 19u;}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ assert(\textcolor{keyword}{false});}
+\DoxyCodeLine{00508\ \ \ \ \ \}}
+\DoxyCodeLine{00509\ \ \ \}}
+\DoxyCodeLine{00510\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ max\_pow10\_exp\ =\ []\ \{}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{switch}\ (traits::num\_frac\_digits)\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keywordflow}{case}\ 0:}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00514\ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00518\ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00520\ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 18;}
+\DoxyCodeLine{00522\ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00526\ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 17;}
+\DoxyCodeLine{00528\ \ \ \ \ \textcolor{keywordflow}{case}\ 8:}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keywordflow}{case}\ 9:}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keywordflow}{case}\ 10:}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 16;}
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordflow}{case}\ 11:}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{case}\ 12:}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00538\ \ \ \ \ \textcolor{keywordflow}{case}\ 13:}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keywordflow}{case}\ 14:}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 15;}
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{keywordflow}{case}\ 15:}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordflow}{case}\ 16:}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordflow}{case}\ 17:}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 14;}
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keywordflow}{case}\ 18:}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00550\ \ \ \ \ \textcolor{keywordflow}{case}\ 19:}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordflow}{case}\ 20:}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 13;}
+\DoxyCodeLine{00554\ \ \ \ \ \textcolor{keywordflow}{case}\ 21:}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00556\ \ \ \ \ \textcolor{keywordflow}{case}\ 22:}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00558\ \ \ \ \ \textcolor{keywordflow}{case}\ 23:}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{case}\ 24:}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 12;}
+\DoxyCodeLine{00562\ \ \ \ \ \textcolor{keywordflow}{case}\ 25:}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00564\ \ \ \ \ \textcolor{keywordflow}{case}\ 26:}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00566\ \ \ \ \ \textcolor{keywordflow}{case}\ 27:}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 11;}
+\DoxyCodeLine{00568\ \ \ \ \ \textcolor{keywordflow}{case}\ 28:}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00570\ \ \ \ \ \textcolor{keywordflow}{case}\ 29:}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00572\ \ \ \ \ \textcolor{keywordflow}{case}\ 30:}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10;}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{case}\ 31:}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 9;}
+\DoxyCodeLine{00576\ \ \ \ \ \}}
+\DoxyCodeLine{00577\ \ \ \}();}
+\DoxyCodeLine{00578\ }
+\DoxyCodeLine{00579\ \ \ \textcolor{keyword}{static\_assert}(Precision\ <\ max\_pow10\_exp,}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ Precision\ is\ too\ high\ for\ the\ amount\ of\ bits\ to\ print."{}});}
+\DoxyCodeLine{00581\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ frac\_factor\ =\ []\ \{}
+\DoxyCodeLine{00582\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00583\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00585\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00586\ \ \ \}();}
+\DoxyCodeLine{00587\ }
+\DoxyCodeLine{00588\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ max\_pow10\ =\ []\ \{}
+\DoxyCodeLine{00589\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00590\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp;\ ++i)}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00592\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00593\ \ \ \}();}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00595\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ precision\_factor\ =\ []\ \{}
+\DoxyCodeLine{00596\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00597\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ max\_pow10\_exp\ -\/\ Precision;\ ++i)}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00600\ \ \ \}();}
+\DoxyCodeLine{00601\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ pow10\_precision\ =\ []\ \{}
+\DoxyCodeLine{00602\ \ \ \ \ u64\ r\{1\};}
+\DoxyCodeLine{00603\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ Precision;\ ++i)}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ r\ =\ 10\ *\ r;}
+\DoxyCodeLine{00605\ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{00606\ \ \ \}();}
+\DoxyCodeLine{00607\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ billion\ =\ gcem::pow(10u,\ 9u);}
+\DoxyCodeLine{00608\ }
+\DoxyCodeLine{00609\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00610\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ T\ fp)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::normal)\ \{}
+\DoxyCodeLine{00612\ }
+\DoxyCodeLine{00613\ \ \ \ \ \ \ uint32\_t\ int\_val\ =\ fp.integer();}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ uint32\_t\ frac\_val\ =\ fp.fraction();}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ std::size\_t\ written\ =\ 0;}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ negative\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ v\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\textcolor{keyword}{>}(fp.value());}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ (v\ \&\ sign\_mask)\ ==\ sign\_mask)\ \{}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ fp\ is\ negative\ -\/>\ convert\ to\ twos\ complement}}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ negative\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ v\ =\ (\string~v\ +\ 1u)\ \&\ value\_mask;}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ int\_val\ =\ (v\ >>\ traits::num\_frac\_digits)\ \&\ integer\_mask;}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ frac\_val\ =\ v\ \&\ fraction\_mask;}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00630\ }
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \textcolor{comment}{//\ v\ is\ the\ decimal\ representation\ of\ the\ fractional\ part,\ i.e.\ the\ actual}}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \textcolor{comment}{//\ number\ to\ print\ in\ terms\ of\ max\_pow10/10.\ Dividing\ v\ by}}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \textcolor{comment}{//\ precision\_factor\ give\ the\ number\ to\ print\ in\ terms\ of\ 10\string^Precision}}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ u64\ v\ =\ ((frac\_factor\ *\ u64\{frac\_val\})\ >>\ traits::num\_frac\_digits);}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \textcolor{comment}{//\ dividing\ by\ precision\_factor\ to\ round}}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \textcolor{comment}{//\ vnext\ =\ v\ /\ precision\_factor,\ rest\ =\ v\ \%\ precision\_factor}}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ u64\ vnext\ =\ v;}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ u64\ rest\ =\ u64::div64\_with\_mod(vnext,\ precision\_factor);}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \textcolor{comment}{//\ std::cout\ <<\ "{}v:\ "{}\ <<\ v.v\ <<\ std::endl;}}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \textcolor{comment}{//\ std::cout\ <<\ "{}rest:\ "{}\ <<\ rest.v\ <<\ std::endl;}}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \textcolor{comment}{//\ std::cout\ <<\ "{}precision\_factor:\ "{}\ <<\ precision\_factor.v\ <<\ std::endl;}}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ >\ (1\ +\ (precision\_factor\ >>\ 1)))\ \{}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ round\ up\ because\ the\ rest\ is\ bigger\ than\ pow10\_precision/2}}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ v\ =\ vnext\ +\ 1;}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v\ ==\ pow10\_precision)\ \{}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ int\_val\ =\ int\_val\ +\ 1;}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ v\ =\ u64\{0\};}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ v\ =\ vnext;}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::is\_signed)\ \{}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (negative\ and\ (int\_val\ !=\ 0\ or\ v\ !=\ 0))\ \{}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ add\ minus\ sign\ if\ the\ value\ to\ be\ printed\ is\ not\ 0}}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ buf[written++]\ =\ u\textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(1);}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00661\ }
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \textcolor{comment}{//\ formatting\ the\ integer\ part}}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ Int<int\_type,\ Fmt::normal,\ UseSignForPositive>\{\}(buf,\ int\_val);}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ \ \ buf\ =\ buf.subspan(res.size\_written);}
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \textcolor{comment}{//\ adding\ decimal\ separator}}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ buf[0]\ =\ FixPointSeparator;}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ written\ +=\ res.size\_written\ +\ 1;}
+\DoxyCodeLine{00675\ }
+\DoxyCodeLine{00676\ \ \ \ \ \ \ buf\ =\ buf.subspan(1);}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ std::size\_t\ buf\_idx\ =\ 0;}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (v\ ==\ 0)\ \{}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ fractional\ part\ is\ zero-\/>\ print\ single\ 0\ and\ print\ trailing\ zeros\ in}}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ case\ we\ should}}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ buf[buf\_idx++]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (PrintTrailingZeros)\ \{}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ Precision\ +\ buf\_idx)}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (buf\_idx\ <\ Precision)}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ buf[buf\_idx++]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ written\ +\ buf\_idx;}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00691\ }
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ pow10\ =\ pow10\_precision\ /\ 10;}
+\DoxyCodeLine{00693\ }
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ Precision)}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \textcolor{comment}{//\ printing\ leading\ zeros.\ These\ occur\ when\ pow10\ is\ greater\ than\ the}}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \textcolor{comment}{//\ value\ to\ format.}}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pow10\ >\ v\ and\ buf\_idx\ <\ Precision)\ \{}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ buf[buf\_idx++]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ pow10\ =\ pow10\ /\ 10;}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00702\ }
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \textcolor{comment}{//\ printing\ the\ fractional\ value}}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pow10\ >\ 0\ and\ buf\_idx\ <\ Precision)\ \{}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ buf\_idx)}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ calculate\ the\ next\ digit\ to\ print\ and\ the\ rest.\ Done\ in\ this}}
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ roundabout\ way\ to\ support\ architectures\ which\ dont\ have\ uint64\_t.}}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ next\ =\ v/pow10,\ rest\ =\ v\ \%\ pow10}}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ u64\ next\ =\ v;}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ u64\ rest\ =\ u64::div64\_with\_mod(next,\ pow10);}
+\DoxyCodeLine{00714\ }
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (next\ >=\ 10)}
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ buf[buf\_idx++]\ =\ next.low()\ +\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rest\ ==\ 0)}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ v\ =\ rest;}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ pow10\ =\ pow10\ /\ 10;}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00724\ }
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (PrintTrailingZeros)\ \{}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf\_idx\ <\ Precision)\ \{}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ Precision\ -\/\ buf\_idx)}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (buf\_idx\ <\ Precision)}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ buf[buf\_idx++]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ written\ +\ buf\_idx;}
+\DoxyCodeLine{00734\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::hex)\ \{}
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Int<raw\_value,\ Fmt::hex>\{\}(buf,\ fp.value());}
+\DoxyCodeLine{00736\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Format\ ==\ Fmt::binary)\ \{}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Int<raw\_value,\ Fmt::binary>\{\}(buf,\ fp.value());}
+\DoxyCodeLine{00738\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false<\textcolor{keyword}{decltype}(Format)>,}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Supplied\ invalid\ Fmt\ to\ Format::FixPoint.\ Must\ be\ one\ of\ "{}}}
+\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Fmt::normal,\ Fmt::hex\ and\ Fmt::binary."{}});}
+\DoxyCodeLine{00742\ \ \ \ \ \}}
+\DoxyCodeLine{00743\ \ \ \}}
+\DoxyCodeLine{00744\ \};}
+\DoxyCodeLine{00745\ }
+\DoxyCodeLine{00746\ \textcolor{keyword}{template}\ <traits::FixPo\textcolor{keywordtype}{int}\ T>\ \textcolor{keyword}{struct\ }DefaultFormat<T>\ :\ \textcolor{keyword}{public}\ FixPoint<T>\ \{\};}
+\DoxyCodeLine{00747\ }
+\DoxyCodeLine{00748\ \textcolor{keyword}{template}\ <traits::FixPoint\ T,\ Fmt\ Format\ =\ Fmt::normal,}
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ FixPointSeparator\ =\ \textcolor{charliteral}{'.'}>}
+\DoxyCodeLine{00750\ \textcolor{keyword}{class\ }Float\ \{}
+\DoxyCodeLine{00751\ \ \ \textcolor{keyword}{static\_assert}(always\_false<T>,\ \textcolor{stringliteral}{"{}Not\ implemented\ yet"{}});}
+\DoxyCodeLine{00752\ \};}
+\DoxyCodeLine{00753\ }
+\DoxyCodeLine{00754\ \textcolor{keyword}{template}\ <traits::Sequence\ T,}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ FormatterOf<typename\ T::value\_type>\ ElementFormatter,}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Delimiter\ =\ \textcolor{charliteral}{','}>}
+\DoxyCodeLine{00757\ \textcolor{keyword}{struct\ }Sequence\ \{}
+\DoxyCodeLine{00758\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keyword}{const}\ T\ \&seq)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00759\ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00761\ \ \ \ \ \textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00762\ \ \ \ \ std::size\_t\ size\ =\ 0;}
+\DoxyCodeLine{00763\ \ \ \ \ buf[0]\ =\ \textcolor{charliteral}{'['};}
+\DoxyCodeLine{00764\ \ \ \ \ ++size;}
+\DoxyCodeLine{00765\ \ \ \ \ buf\ =\ buf.subspan(1);}
+\DoxyCodeLine{00766\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&v\ :\ seq)\ \{}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (first)}
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ first\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ buf[0]\ =\ Delimiter;}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ buf[1]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(2);}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ size\ +=\ 2;}
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00777\ }
+\DoxyCodeLine{00778\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ ElementFormatter\{\}(buf,\ v);}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00782\ \ \ \ \ \ \ buf\ =\ buf.subspan(res.size\_written);}
+\DoxyCodeLine{00783\ \ \ \ \ \ \ size\ +=\ res.size\_written;}
+\DoxyCodeLine{00784\ \ \ \ \ \}}
+\DoxyCodeLine{00785\ }
+\DoxyCodeLine{00786\ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ ==\ 0)}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00788\ }
+\DoxyCodeLine{00789\ \ \ \ \ buf[0]\ =\ \textcolor{charliteral}{']'};}
+\DoxyCodeLine{00790\ \ \ \ \ ++size;}
+\DoxyCodeLine{00791\ }
+\DoxyCodeLine{00792\ \ \ \ \ \textcolor{keywordflow}{return}\ size;}
+\DoxyCodeLine{00793\ \ \ \}}
+\DoxyCodeLine{00794\ \};}
+\DoxyCodeLine{00795\ }
+\DoxyCodeLine{00796\ \textcolor{keyword}{template}\ <traits::Sequence\ T>}
+\DoxyCodeLine{00797\ \textcolor{keyword}{struct\ }DefaultFormat<T>\ :\ Sequence<T,\ DefaultFormat<typename\ T::value\_type>>\ \{\};}
+\DoxyCodeLine{00798\ }
+\DoxyCodeLine{00799\ \textcolor{keyword}{template}\ <traits::Enum\ Enum>\ \textcolor{keyword}{struct\ }DefaultFormat<Enum>\ \{}
+\DoxyCodeLine{00800\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ Enum\ value)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00801\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (traits::FlagEnum<Enum>)\ \{}
+\DoxyCodeLine{00802\ \ \ \ \ \ \ std::string\_view\ name\{\};}
+\DoxyCodeLine{00803\ \ \ \ \ \ \ std::size\_t\ written\ =\ 0;}
+\DoxyCodeLine{00804\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}(Enum)\ *\ 8;\ ++i)\ \{}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keyword}{static\_cast<}std::underlying\_type\_t<Enum>\textcolor{keyword}{>}(1u\ <<\ i)\ \&}
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::underlying\_type\_t<Enum>\textcolor{keyword}{>}(value))\ ==\ 0)}
+\DoxyCodeLine{00808\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00809\ }
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ name\ =\ cli::ctti::enum\_name(value);}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((first\ and\ buf.size()\ <\ name.size())\ or}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \ \ \ \ (buf.size()\ <\ (name.size()\ +\ 1)))\ \{}
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00814\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00815\ \ \ \ \ \ \ \ \ std::size\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00816\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ first)\ \{}
+\DoxyCodeLine{00817\ \ \ \ \ \ \ \ \ \ \ buf[0]\ =\ \textcolor{charliteral}{'|'};}
+\DoxyCodeLine{00818\ \ \ \ \ \ \ \ \ \ \ offset\ =\ 1;}
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ \ \ ++written;}
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00821\ \ \ \ \ \ \ \ \ \ \ first\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ name.size();\ ++i,\ ++written)\ \{}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \ \ buf[i\ +\ offset]\ =\ name[i];}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(name.size()\ +\ offset);}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00828\ }
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (written\ ==\ 0)\ \{}
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ \textcolor{stringliteral}{"{}none"{}})}
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ \ \ buf[written++]\ =\ ch;}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00833\ }
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ written;}
+\DoxyCodeLine{00835\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\_view\ name\ =\ cli::ctti::enum\_name(value);}
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ name.size())\ \{}
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00839\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00840\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ name.size();\ ++i)\ \{}
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ buf[i]\ =\ name[i];}
+\DoxyCodeLine{00842\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ name.size();}
+\DoxyCodeLine{00844\ \ \ \ \ \}}
+\DoxyCodeLine{00845\ \ \ \}}
+\DoxyCodeLine{00846\ \};}
+\DoxyCodeLine{00847\ }
+\DoxyCodeLine{00848\ \textcolor{keyword}{template}\ <traits::String\ T,\ \textcolor{keywordtype}{bool}\ UseQuotes\ =\ true>\ \textcolor{keyword}{struct\ }String\ \{}
+\DoxyCodeLine{00849\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keyword}{const}\ T\ \&str)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00850\ \ \ \ \ \textcolor{keyword}{using\ }elem\ =\ \textcolor{keyword}{typename}\ T::value\_type;}
+\DoxyCodeLine{00851\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ size\ =\ \textcolor{keyword}{sizeof}(elem);}
+\DoxyCodeLine{00852\ \ \ \ \ \textcolor{keyword}{static\_assert}(size\ ==\ 1,}
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}character\ types\ with\ sizeof\ >\ 1\ are\ not\ supported\ for\ now"{}});}
+\DoxyCodeLine{00854\ \ \ \ \ std::size\_t\ pos\ =\ 0;}
+\DoxyCodeLine{00855\ }
+\DoxyCodeLine{00856\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseQuotes)\ \{}
+\DoxyCodeLine{00857\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ (str.size()\ *\ size\ +\ 2))}
+\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00859\ }
+\DoxyCodeLine{00860\ \ \ \ \ \ \ buf[pos++]\ =\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00861\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00862\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ (str.size()\ *\ size))}
+\DoxyCodeLine{00863\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00864\ \ \ \ \ \}}
+\DoxyCodeLine{00865\ }
+\DoxyCodeLine{00866\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ str)\ \{}
+\DoxyCodeLine{00867\ \ \ \ \ \ \ buf[pos++]\ =\ ch;}
+\DoxyCodeLine{00868\ \ \ \ \ \}}
+\DoxyCodeLine{00869\ }
+\DoxyCodeLine{00870\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseQuotes)\ \{}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ buf[pos++]\ =\ \textcolor{charliteral}{'"{}'};}
+\DoxyCodeLine{00872\ \ \ \ \ \}}
+\DoxyCodeLine{00873\ }
+\DoxyCodeLine{00874\ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{00875\ \ \ \}}
+\DoxyCodeLine{00876\ \};}
+\DoxyCodeLine{00877\ }
+\DoxyCodeLine{00878\ \textcolor{keyword}{template}\ <traits::String\ T>\ \textcolor{keyword}{struct\ }DefaultFormat<T>\ :\ \textcolor{keyword}{public}\ String<T>\ \{\};}
+\DoxyCodeLine{00879\ }
+\DoxyCodeLine{00880\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},\ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},}
+\DoxyCodeLine{00881\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'},\ \textcolor{keywordtype}{bool}\ UseNames\ =\ \textcolor{keyword}{true},\ \textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00882\ \textcolor{keyword}{class\ }FieldGroup\ \{}
+\DoxyCodeLine{00883\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00884\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,}
+\DoxyCodeLine{00885\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::tuple<Fields...>\ \&fields)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00886\ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ ==\ 0)}
+\DoxyCodeLine{00887\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00888\ }
+\DoxyCodeLine{00889\ \ \ \ \ std::size\_t\ written\ =\ 0;}
+\DoxyCodeLine{00890\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Prefix\ !=\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00891\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{00892\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ buf[written++]\ =\ Prefix;}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ buf[written++]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00895\ \ \ \ \ \ \ buf\ =\ buf.subspan(2);}
+\DoxyCodeLine{00896\ \ \ \ \ \}}
+\DoxyCodeLine{00897\ \ \ \ \ Error\ error\ =\ Error::none;}
+\DoxyCodeLine{00898\ \ \ \ \ \textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00899\ \ \ \ \ for\_each(}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ [\&error,\ \&written,\ \&first,\ \&buf](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&field)\ \{}
+\DoxyCodeLine{00901\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ Error::none)}
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00903\ }
+\DoxyCodeLine{00904\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (first)\ \{}
+\DoxyCodeLine{00905\ \ \ \ \ \ \ \ \ \ \ \ \ first\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00906\ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00907\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <=\ 2)\ \{}
+\DoxyCodeLine{00908\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ Error::buffer\_overflow;}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return;}
+\DoxyCodeLine{00910\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00911\ \ \ \ \ \ \ \ \ \ \ \ \ buf[0]\ =\ MemberSeparator;}
+\DoxyCodeLine{00912\ \ \ \ \ \ \ \ \ \ \ \ \ buf[1]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00913\ \ \ \ \ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(2);}
+\DoxyCodeLine{00914\ \ \ \ \ \ \ \ \ \ \ \ \ written\ +=\ 2;}
+\DoxyCodeLine{00915\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00916\ }
+\DoxyCodeLine{00917\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }Field\ =\ std::remove\_cvref\_t<\textcolor{keyword}{decltype}(field)>;}
+\DoxyCodeLine{00918\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }Formatter\ =}
+\DoxyCodeLine{00919\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DefaultFormat<std::remove\_cvref\_t<typename\ Field::type>>;}
+\DoxyCodeLine{00920\ }
+\DoxyCodeLine{00921\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseNames)\ \{}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ StringLiteral\ name\{\textcolor{keyword}{typename}\ Field::name\{\}\};}
+\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <=\ (name.size()\ +\ 3))}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ Error::buffer\_overflow;}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ i\ =\ 0;}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ name.size();\ ++i)\ \{}
+\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buf[i]\ =\ name[i];}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00929\ \ \ \ \ \ \ \ \ \ \ \ \ buf[i++]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ buf[i++]\ =\ Assignment;}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ \ buf[i++]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(i);}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ \ \ \ \ written\ +=\ i;}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00935\ }
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ Formatter\{\}(buf,\ field.value);}
+\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ res)\ \{}
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \ \ \ \ error\ =\ res.error;}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \ \ buf\ =\ buf.subspan(res.size\_written);}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ written\ +=\ res.size\_written;}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ fields);}
+\DoxyCodeLine{00945\ }
+\DoxyCodeLine{00946\ \ \ \ \ \textcolor{keywordflow}{if}\ (error\ !=\ Error::none)}
+\DoxyCodeLine{00947\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error;}
+\DoxyCodeLine{00948\ }
+\DoxyCodeLine{00949\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Postfix\ !=\ \textcolor{charliteral}{'\ '})\ \{}
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ ==\ 0)}
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00952\ }
+\DoxyCodeLine{00953\ \ \ \ \ \ \ buf[0]\ =\ Postfix;}
+\DoxyCodeLine{00954\ \ \ \ \ \ \ ++written;}
+\DoxyCodeLine{00955\ \ \ \ \ \}}
+\DoxyCodeLine{00956\ }
+\DoxyCodeLine{00957\ \ \ \ \ \textcolor{keywordflow}{return}\ written;}
+\DoxyCodeLine{00958\ \ \ \}}
+\DoxyCodeLine{00959\ \};}
+\DoxyCodeLine{00960\ }
+\DoxyCodeLine{00961\ \textcolor{keyword}{template}\ <traits::Struct\ T,\ \textcolor{keywordtype}{char}\ Assignment\ =\ \textcolor{charliteral}{'='},\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ \textcolor{charliteral}{','},}
+\DoxyCodeLine{00962\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Prefix\ =\ \textcolor{charliteral}{'\{'},\ \textcolor{keywordtype}{char}\ Postfix\ =\ \textcolor{charliteral}{'\}'},\ \textcolor{keywordtype}{bool}\ UseNames\ =\ \textcolor{keyword}{true}>}
+\DoxyCodeLine{00963\ \textcolor{keyword}{struct\ }field\_formatter\_for\ \{}
+\DoxyCodeLine{00964\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Fields>}
+\DoxyCodeLine{00965\ \ \ \textcolor{keyword}{using\ }type\_\ =\ FieldGroup<Assignment,\ MemberSeparator,\ Prefix,\ Postfix,}
+\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UseNames,\ Fields...>;}
+\DoxyCodeLine{00967\ \ \ \textcolor{keyword}{using\ }fields\ =\ \textcolor{keyword}{decltype}(ctti::to\_tuple(std::declval<const\ T>()));}
+\DoxyCodeLine{00968\ \ \ \textcolor{keyword}{using\ }type\ =\ type\_list::apply\_t<type\_,\ fields>;}
+\DoxyCodeLine{00969\ \};}
+\DoxyCodeLine{00970\ }
+\DoxyCodeLine{00971\ \textcolor{keyword}{template}\ <traits::Struct\ T,\ \textcolor{keyword}{class}\ Name\ =\ \textcolor{keywordtype}{string}\_constant<>,}
+\DoxyCodeLine{00972\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Assignment\ =\ '=',\ \textcolor{keywordtype}{char}\ MemberSeparator\ =\ ',',\ \textcolor{keywordtype}{char}\ Prefix\ =\ '\{',}
+\DoxyCodeLine{00973\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ Postfix\ =\ '\}',\ \textcolor{keywordtype}{bool}\ UseNames\ =\ true>}
+\DoxyCodeLine{00974\ \textcolor{keyword}{class\ }Struct\ :\ field\_formatter\_for<T,\ Assignment,\ MemberSeparator,\ Prefix,}
+\DoxyCodeLine{00975\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Postfix,\ UseNames>::type\ \{}
+\DoxyCodeLine{00976\ \ \ \textcolor{keyword}{using\ }Base\ =\ \textcolor{keyword}{typename}\ field\_formatter\_for<T,\ Assignment,\ MemberSeparator,}
+\DoxyCodeLine{00977\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Prefix,\ Postfix,\ UseNames>::type;}
+\DoxyCodeLine{00978\ }
+\DoxyCodeLine{00979\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00980\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keyword}{const}\ T\ \&t)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00981\ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ ==\ 0)}
+\DoxyCodeLine{00982\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::too\_few\_characters;}
+\DoxyCodeLine{00983\ }
+\DoxyCodeLine{00984\ \ \ \ \ std::size\_t\ written\ =\ 0;}
+\DoxyCodeLine{00985\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Name::string\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00986\ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ StringLiteral\ name\{Name\{\}\};}
+\DoxyCodeLine{00987\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <=\ (name.size()\ +\ 3))}
+\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00989\ \ \ \ \ \ \ std::size\_t\ i\ =\ 0;}
+\DoxyCodeLine{00990\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ <\ name.size();\ ++i)\ \{}
+\DoxyCodeLine{00991\ \ \ \ \ \ \ \ \ buf[i]\ =\ name[i];}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ buf[i++]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00994\ \ \ \ \ \ \ buf[i++]\ =\ Assignment;}
+\DoxyCodeLine{00995\ \ \ \ \ \ \ buf[i++]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{00996\ \ \ \ \ \ \ buf\ =\ buf.subspan(i);}
+\DoxyCodeLine{00997\ \ \ \ \ \ \ written\ +=\ i;}
+\DoxyCodeLine{00998\ \ \ \ \ \}}
+\DoxyCodeLine{00999\ }
+\DoxyCodeLine{01000\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ res\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }Base\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>operator()(}
+\DoxyCodeLine{01001\ \ \ \ \ \ \ \ \ \ \ \ \ buf,\ ctti::to\_tuple(t)))\ \{}
+\DoxyCodeLine{01002\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.size\_written\ +\ written;}
+\DoxyCodeLine{01003\ \ \ \ \ \}\ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{01004\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{01005\ \ \ \}}
+\DoxyCodeLine{01006\ \};}
+\DoxyCodeLine{01007\ }
+\DoxyCodeLine{01008\ \textcolor{keyword}{template}\ <traits::Struct\ T>\ \textcolor{keyword}{struct\ }DefaultFormat<T>\ :\ \textcolor{keyword}{public}\ Struct<T>\ \{\};}
+\DoxyCodeLine{01009\ }
+\DoxyCodeLine{01010\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ Quoted\ =\ true,\ \textcolor{keywordtype}{char}\ QuoteChar\ =\ '\(\backslash\)''>\ \textcolor{keyword}{struct\ }Char\ \{}
+\DoxyCodeLine{01011\ \ \ \textcolor{keyword}{constexpr}\ FormatResult\ operator()(std::span<char>\ buf,\ \textcolor{keywordtype}{char}\ c)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{01012\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (Quoted)\ \{}
+\DoxyCodeLine{01013\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ <\ 32\ or\ c\ >\ 126)\ \{}
+\DoxyCodeLine{01014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 2)}
+\DoxyCodeLine{01015\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{01016\ \ \ \ \ \ \ \ \ buf[0]\ =\ QuoteChar;}
+\DoxyCodeLine{01017\ \ \ \ \ \ \ \ \ buf[1]\ =\ QuoteChar;}
+\DoxyCodeLine{01018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{01019\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01020\ }
+\DoxyCodeLine{01021\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ <\ 3)}
+\DoxyCodeLine{01022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{01023\ \ \ \ \ \ \ buf[0]\ =\ QuoteChar;}
+\DoxyCodeLine{01024\ \ \ \ \ \ \ buf[1]\ =\ c;}
+\DoxyCodeLine{01025\ \ \ \ \ \ \ buf[2]\ =\ QuoteChar;}
+\DoxyCodeLine{01026\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 3;}
+\DoxyCodeLine{01027\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{01028\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf.size()\ ==\ 0)}
+\DoxyCodeLine{01029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{01030\ \ \ \ \ \ \ buf[0]\ =\ c;}
+\DoxyCodeLine{01031\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{01032\ \ \ \ \ \}}
+\DoxyCodeLine{01033\ \ \ \}}
+\DoxyCodeLine{01034\ \};}
+\DoxyCodeLine{01035\ }
+\DoxyCodeLine{01036\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }DefaultFormat<char>\ :\ Char<>\ \{\};}
+\DoxyCodeLine{01037\ }
+\DoxyCodeLine{01038\ \}\ \textcolor{comment}{//\ namespace\ cli::format}}
+\DoxyCodeLine{01039\ }
+\DoxyCodeLine{01040\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

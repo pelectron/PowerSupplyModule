@@ -1,0 +1,336 @@
+\doxysection{u64.\+hpp}
+\hypertarget{u64_8hpp_source}{}\label{u64_8hpp_source}\index{cli/u64.hpp@{cli/u64.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_U64\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_U64\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#if\ !defined(UINT64\_MAX)}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }u64\ \{}
+\DoxyCodeLine{00016\ \ \ std::uint32\_t\ l;}
+\DoxyCodeLine{00017\ \ \ std::uint32\_t\ h\ =\ 0;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ low()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ l;\ \}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator\string~(u64\ a)\ \{\ \textcolor{keywordflow}{return}\ \{\string~a.l,\ \string~a.h\};\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ mul\_alg(a,\ b);\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ u64\ ret\{\};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_overflows(a.l,\ b.l,\ ret.l))}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ ret.h\ =\ 1;}
+\DoxyCodeLine{00029\ \ \ \ \ ret.h\ +=\ a.h\ +\ b.h;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00031\ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator/(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ div64\_with\_mod(a,\ b);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{00036\ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ div64\_with\_mod(u64\ \&a,\ u64\ b)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ \ \ \ Q\ :=\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/-\/\ Initialize\ quotient\ and\ remainder\ to\ zero}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ \ \ \ R\ :=\ 0}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ \ \ \ for\ i\ :=\ n\ −\ 1\ ..\ 0\ do\ \ -\/-\/\ Where\ n\ is\ number\ of\ bits\ in\ N}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ \ \ \ \ \ R\ :=\ R\ <<\ 1\ \ \ \ \ \ \ \ \ \ \ -\/-\/\ Left-\/shift\ R\ by\ 1\ bit}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ \ \ \ \ \ R(0)\ :=\ N(i)\ \ \ \ \ \ \ \ \ \ -\/-\/\ Set\ the\ least-\/significant\ bit\ of\ R\ equal\ to\ bit}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ \ \ \ -\/-\/\ i\ of\ the\ numerator}}
+\DoxyCodeLine{00052\ \textcolor{comment}{}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ \ \ \ \ \ if\ R\ ≥\ D\ then}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ R\ :=\ R\ −\ D}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ Q(i)\ :=\ 1}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ \ \ \ \ \ end}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ */}}
+\DoxyCodeLine{00058\ \ \ \ \ assert(b.h\ or\ b.l);}
+\DoxyCodeLine{00059\ \ \ \ \ u64\ Q\{\};}
+\DoxyCodeLine{00060\ \ \ \ \ u64\ R\{\};}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 63;\ i\ >=\ 0;\ -\/-\/i)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ R\ =\ R\ <<\ 1;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ R.set\_bit(0,\ a.get\_bit(i));}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (R\ >=\ b)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ R\ =\ R\ -\/\ b;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ Q.set\_bit(i,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ a\ =\ Q;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{return}\ R;}
+\DoxyCodeLine{00071\ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ set\_bit(std::size\_t\ i,\ \textcolor{keywordtype}{bool}\ value)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (value)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 31)}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ h\ |=\ 1u\ <<\ (i\ -\/\ 32);}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ l\ |=\ 1u\ <<\ i;}
+\DoxyCodeLine{00078\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 31)}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ h\ \&=\ \string~(1u\ <<\ (i\ -\/\ 32));}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ l\ \&=\ \string~(1u\ <<\ i);}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \}}
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{constexpr}\ uint32\_t\ get\_bit(std::size\_t\ i)\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 31)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h\ \&\ (1u\ <<\ (i\ -\/\ 32));}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ l\ \&\ (1u\ <<\ i);}
+\DoxyCodeLine{00090\ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator/(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ /\ u64\{b\};\ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ +\ ((\string~b)\ +\ 1);\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ b.h)}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ >\ b.l;}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ >\ b.h;}
+\DoxyCodeLine{00099\ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ b.h)}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ >=\ b.l;}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ >=\ b.h;}
+\DoxyCodeLine{00104\ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ b.h)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ <\ b.l;}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ <\ b.h;}
+\DoxyCodeLine{00109\ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ b.h)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ <=\ b.l;}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ <=\ b.h;}
+\DoxyCodeLine{00114\ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ ==\ b.h\ and\ a.l\ ==\ b.l;}
+\DoxyCodeLine{00117\ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ !=\ b.h\ or\ a.l\ !=\ b.l;}
+\DoxyCodeLine{00120\ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{return}\ mul\_alg(a,\ u64\{b\});}
+\DoxyCodeLine{00123\ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ -\/\ u64\{b\};\ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ u64\ ret\{\};}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_overflows(a.l,\ b,\ ret.l))}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ ret.h\ =\ 1;}
+\DoxyCodeLine{00131\ \ \ \ \ ret.h\ +=\ a.h;}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00133\ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ 0)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ >\ b;}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00138\ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ 0)}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ >=\ b;}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00143\ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ 0)}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ <\ b;}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00148\ \ \ \}}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.h\ ==\ 0)}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.l\ <=\ b;}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00153\ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(u64\ a,\ uint32\_t\ b)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{return}\ a.h\ ==\ 0\ and\ a.l\ ==\ b;}
+\DoxyCodeLine{00156\ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ not(a\ ==\ b);\ \}}
+\DoxyCodeLine{00158\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{return}\ mul\_alg(u64\{a\},\ b);}
+\DoxyCodeLine{00160\ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00163\ \ \ \ \ u64\ ret\{\};}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_overflows(b.l,\ a,\ ret.l))}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ ret.h\ =\ 1;}
+\DoxyCodeLine{00166\ \ \ \ \ ret.h\ +=\ b.h;}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00168\ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ -\/\ b;\ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{if}\ (b.h\ ==\ 0)}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ >\ b.l;}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00176\ \ \ \}}
+\DoxyCodeLine{00177\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordflow}{if}\ (b.h\ ==\ 0)}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ >=\ b.l;}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00181\ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{if}\ (b.h\ ==\ 0)}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ <\ b.l;}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00186\ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (b.h\ ==\ 0)}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a\ <=\ b.l;}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00191\ \ \ \}}
+\DoxyCodeLine{00192\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(uint32\_t\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{return}\ b.h\ ==\ 0\ and\ b.l\ ==\ a;}
+\DoxyCodeLine{00194\ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ not(a\ ==\ b);\ \}}
+\DoxyCodeLine{00196\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator>>(u64\ a,\ \textcolor{keywordtype}{size\_t}\ i)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ 0)}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 31)}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{a.h\ >>\ (i\ -\/\ 32u)\};}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{return}\ \{(a.l\ >>\ i)\ |\ (a.h\ <<\ (32\ -\/\ i)),\ a.h\ >>\ i\};}
+\DoxyCodeLine{00204\ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator<<(u64\ a,\ \textcolor{keywordtype}{size\_t}\ i)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ 0)}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 31)}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{0,\ a.l\ <<\ (i\ -\/\ 32)\};}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{keywordflow}{return}\ \{(a.l\ <<\ i),\ (a.h\ <<\ i)\ |\ (a.l\ >>\ (32\ -\/\ i))\};}
+\DoxyCodeLine{00213\ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00216\ \ \ \textcolor{comment}{//\ static\ constexpr\ uint32\_t\ div\_with\_rem(u64\ \&nom,\ uint32\_t\ denom)\ \{}}
+\DoxyCodeLine{00217\ \ \ \textcolor{comment}{//\ \ \ return\ div64\_32(nom,\ u64\{denom\});}}
+\DoxyCodeLine{00218\ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00219\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00220\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00221\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ add\_overflows(uint32\_t\ a,\ uint32\_t\ b,\ uint32\_t\ \&res)\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ res\ =\ a\ +\ b;}
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{return}\ res\ <\ a\ or\ res\ <\ b;}
+\DoxyCodeLine{00224\ \ \ \}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint32\_t\ mul32\_with\_overflow(uint16\_t\ al,\ uint16\_t\ ah,}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint16\_t\ bl,\ uint16\_t\ bh,}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ \&overflow)\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ l\ =\ uint32\_t\{al\}\ *\ uint32\_t\{bl\};}
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ m0\ =\ uint32\_t\{ah\}\ *\ uint32\_t\{bl\};}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ m1\ =\ uint32\_t\{al\}\ *\ uint32\_t\{bh\};}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ uint32\_t\ m\ =\ 0;}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_overflows(m0,\ m1,\ m))\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ overflow\ =\ 1u\ <<\ 16u;}
+\DoxyCodeLine{00236\ \ \ \ \ \}}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ mh\ =\ m\ >>\ 16u;}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keyword}{const}\ uint32\_t\ ml\ =\ uint32\_t\{m\ <<\ 16u\};}
+\DoxyCodeLine{00239\ \ \ \ \ overflow\ +=\ uint32\_t\{ah\}\ *\ uint32\_t\{bh\}\ +\ mh;}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ uint32\_t\ res\ =\ 0;}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_overflows(l,\ ml,\ res))\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ overflow\ +=\ 1;}
+\DoxyCodeLine{00244\ \ \ \ \ \}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00247\ \ \ \}}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint32\_t\ mul32\_with\_overflow(uint32\_t\ a,\ uint32\_t\ b,}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ \&overflow)\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordflow}{return}\ mul32\_with\_overflow(a,\ a\ >>\ 16,\ b,\ b\ >>\ 16,\ overflow);}
+\DoxyCodeLine{00252\ \ \ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ mul\_alg(u64\ a,\ u64\ b)\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ std::uint32\_t\ overflow\ =\ 0;}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ l\ =\ mul32\_with\_overflow(a.l,\ b.l,\ overflow);}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ h\ =\ b.l\ *\ a.h\ +\ a.l\ *\ b.h\ +\ overflow;}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordflow}{return}\ \{l,\ h\};}
+\DoxyCodeLine{00259\ \ \ \}}
+\DoxyCodeLine{00260\ \};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \textcolor{keyword}{static\_assert}((u64\{1\}\ <<\ 1).l\ ==\ 2);}
+\DoxyCodeLine{00263\ \textcolor{keyword}{static\_assert}((u64\{1\}\ <<\ 1).h\ ==\ 0);}
+\DoxyCodeLine{00264\ \textcolor{keyword}{static\_assert}((u64\{1\}\ >>\ 1).l\ ==\ 0);}
+\DoxyCodeLine{00265\ \textcolor{keyword}{static\_assert}((u64\{1\}\ >>\ 1).h\ ==\ 0);}
+\DoxyCodeLine{00266\ \textcolor{keyword}{static\_assert}((u64\{0,\ 1\}\ >>\ 1).l\ ==\ 0x80000000u);}
+\DoxyCodeLine{00267\ \textcolor{keyword}{static\_assert}((u64\{0,\ 1\}\ >>\ 1).h\ ==\ 0);}
+\DoxyCodeLine{00268\ \textcolor{keyword}{static\_assert}((u64\{0x80000000u\}\ <<\ 1).h\ ==\ 1);}
+\DoxyCodeLine{00269\ \textcolor{keyword}{static\_assert}((u64\{0x80000000u\}\ <<\ 1).l\ ==\ 0);}
+\DoxyCodeLine{00270\ \textcolor{keyword}{static\_assert}((u64\{5\}\ /\ u64\{1\})\ ==\ u64\{5\});}
+\DoxyCodeLine{00271\ \textcolor{keyword}{static\_assert}((u64\{10\}\ /\ u64\{2\})\ ==\ u64\{5\});}
+\DoxyCodeLine{00272\ \textcolor{keyword}{static\_assert}((u64\{0,\ 1\}\ /\ u64\{2\}).l\ ==\ u64\{0x80000000u\});}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00275\ \textcolor{keyword}{struct\ }u64\ \{}
+\DoxyCodeLine{00276\ \ \ std::uint64\_t\ v\{\};}
+\DoxyCodeLine{00277\ \ \ \textcolor{keyword}{constexpr}\ u64(std::uint32\_t\ l,\ std::uint32\_t\ h)}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ :\ v(l\ |\ (static\_cast<uint64\_t>(h)\ <<\ 32))\ \{\}}
+\DoxyCodeLine{00279\ \ \ \textcolor{keyword}{constexpr}\ u64(std::uint64\_t\ v)\ :\ v(v)\ \{\}}
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{constexpr}\ u64()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00281\ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ low()\ const\ noexcept\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(v);}
+\DoxyCodeLine{00283\ \ \ \}}
+\DoxyCodeLine{00284\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator\string~(u64\ a)\ \{\ \textcolor{keywordflow}{return}\ \{\string~a.v\};\ \}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ *\ b.v\};\ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ +\ b.v\};\ \}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ -\/\ b.v\};\ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator/(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ /\ b.v\};\ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00301\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ u64\ div64\_with\_mod(u64\ \&a,\ u64\ b)\ \{}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keyword}{auto}\ n\ =\ a;}
+\DoxyCodeLine{00303\ \ \ \ \ a.v\ =\ a.v\ /\ b.v;}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{return}\ \{n.v\ \%\ b.v\};}
+\DoxyCodeLine{00305\ \ \ \}}
+\DoxyCodeLine{00306\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ set\_bit(std::size\_t\ i,\ \textcolor{keywordtype}{bool}\ value)\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordflow}{if}\ (value)\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ v\ |=\ 1ull\ <<\ i;}
+\DoxyCodeLine{00309\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ v\ |=\ \string~(1ull\ <<\ i);}
+\DoxyCodeLine{00311\ \ \ \ \ \}}
+\DoxyCodeLine{00312\ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \textcolor{keyword}{constexpr}\ uint32\_t\ get\_bit(std::size\_t\ i)\ \{\ \textcolor{keywordflow}{return}\ v\ \&\ (1ull\ <<\ i);\ \}}
+\DoxyCodeLine{00314\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator/(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ /\ u64\{b\};\ \}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ >\ b.v;\ \}}
+\DoxyCodeLine{00317\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ >=\ b.v;\ \}}
+\DoxyCodeLine{00318\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ <\ b.v;\ \}}
+\DoxyCodeLine{00319\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ <=\ b.v;\ \}}
+\DoxyCodeLine{00320\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ ==\ b.v;\ \}}
+\DoxyCodeLine{00321\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(u64\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ a.v\ !=\ b.v;\ \}}
+\DoxyCodeLine{00322\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ *\ u64\{b\};\ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ -\/\ u64\{b\};\ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ +\ u64\{b\};\ \}}
+\DoxyCodeLine{00327\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ >\ u64\{b\};\ \}}
+\DoxyCodeLine{00328\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ >=\ u64\{b\};\ \}}
+\DoxyCodeLine{00329\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ <\ u64\{b\};\ \}}
+\DoxyCodeLine{00330\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ <=\ u64\{b\};\ \}}
+\DoxyCodeLine{00331\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ ==\ u64\{b\};\ \}}
+\DoxyCodeLine{00332\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(u64\ a,\ uint32\_t\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ !=\ u64\{b\};\ \}}
+\DoxyCodeLine{00333\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator*(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ *\ b;\ \}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator+(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ +\ b;\ \}}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator-\/(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ -\/\ b;\ \}}
+\DoxyCodeLine{00338\ }
+\DoxyCodeLine{00339\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ >\ b;\ \}}
+\DoxyCodeLine{00340\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator>=(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ >=\ b;\ \}}
+\DoxyCodeLine{00341\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ <\ b;\ \}}
+\DoxyCodeLine{00342\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator<=(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ <=\ b;\ \}}
+\DoxyCodeLine{00343\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator==(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ ==\ b;\ \}}
+\DoxyCodeLine{00344\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(uint32\_t\ a,\ u64\ b)\ \{\ \textcolor{keywordflow}{return}\ u64\{a\}\ !=\ b;\ \}}
+\DoxyCodeLine{00345\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator>>(u64\ a,\ \textcolor{keywordtype}{size\_t}\ i)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ >>\ i\};\ \}}
+\DoxyCodeLine{00346\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ u64\ operator<<(u64\ a,\ \textcolor{keywordtype}{size\_t}\ i)\ \{\ \textcolor{keywordflow}{return}\ \{a.v\ <<\ i\};\ \}}
+\DoxyCodeLine{00347\ \};}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00349\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

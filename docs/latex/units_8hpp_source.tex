@@ -1,0 +1,79 @@
+\doxysection{units.\+hpp}
+\hypertarget{units_8hpp_source}{}\label{units_8hpp_source}\mbox{\hyperlink{units_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_UNITS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_UNITS\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fixpoint_8hpp}{fixpoint.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{template}\ <uint8\_t...\ Label>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \{}
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint8\_t\ label\_[]\{Label...\};}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<16,\ 16>}}\ value\_\{\};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1signed__fixed}{value\_type}}\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<16,\ 16>}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base_a132dc0f888306a0c922f8725173250dd}{UnitBase}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base_a379a88575c6ec6bfbdf1e352f3be1eb2}{UnitBase}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base_ab76945c89cae14f81606e586200fed16}{UnitBase}}(\mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base_af62687e81047281f64c967720d22c2ca}{UnitBase}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{value\_type}}\ \mbox{\hyperlink{classpsm_1_1_unit_base_a04ed46bba00be379568026be5c8fc249}{value}})\ :\ value\_(\mbox{\hyperlink{classpsm_1_1_unit_base_a04ed46bba00be379568026be5c8fc249}{value}})\ \{\}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&\mbox{\hyperlink{classpsm_1_1_unit_base_a85519d5edd8f0519741c42dac5a6f2c9}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&\mbox{\hyperlink{classpsm_1_1_unit_base_adf2f2985fe36f0b46455c829313d14dc}{operator=}}(\mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}\ \&\mbox{\hyperlink{classpsm_1_1_unit_base_a15b8006b790002221f90b7db2141e3b3}{operator=}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{value\_type}}\ \mbox{\hyperlink{classpsm_1_1_unit_base_a04ed46bba00be379568026be5c8fc249}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ value\_\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base_a04ed46bba00be379568026be5c8fc249}{value}};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00026\ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{value\_type}}\ \mbox{\hyperlink{classpsm_1_1_unit_base_a04ed46bba00be379568026be5c8fc249}{value}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ value\_;\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{constexpr}\ std::span<uint8\_t>\ \mbox{\hyperlink{classpsm_1_1_unit_base_af68db568454e0af8cb8a84610b98e54e}{label}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{return}\ \{label\_,\ \textcolor{keyword}{sizeof}...(Label)\};}
+\DoxyCodeLine{00032\ \ \ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{classpsm_1_1_unit_base_a9e261b6bd68184ba7a0d3c0e87b3a523}{value\_type}})\ <=\ 4);}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<'V'>\ \{}
+\DoxyCodeLine{00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{Base}}\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<\textcolor{charliteral}{'V'}>;}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{using\ }Base::Base;}
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{using\ }Base::operator=;}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_current}{Current}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<'A'>\ \{}
+\DoxyCodeLine{00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{Base}}\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<\textcolor{charliteral}{'A'}>;}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{using\ }Base::Base;}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{using\ }Base::operator=;}
+\DoxyCodeLine{00049\ \};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_power}{Power}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<'W'>\ \{}
+\DoxyCodeLine{00052\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{Base}}\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<\textcolor{charliteral}{'W'}>;}
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{using\ }Base::Base;}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{using\ }Base::operator=;}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_resistance}{Resistance}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<'O',\ 'h',\ 'm'>\ \{}
+\DoxyCodeLine{00059\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{Base}}\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<\textcolor{charliteral}{'O'},\ \textcolor{charliteral}{'h'},\ \textcolor{charliteral}{'m'}>;}
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{using\ }Base::Base;}
+\DoxyCodeLine{00062\ \ \ \textcolor{keyword}{using\ }Base::operator=;}
+\DoxyCodeLine{00063\ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_celcius}{Celcius}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<u'°',\ 'C'>\ \{}
+\DoxyCodeLine{00066\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00067\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1_unit_base}{Base}}\ =\ \mbox{\hyperlink{classpsm_1_1_unit_base}{UnitBase}}<u\textcolor{stringliteral}{'°'},\ \textcolor{charliteral}{'C'}>;}
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{using\ }Base::Base;}
+\DoxyCodeLine{00069\ \ \ \textcolor{keyword}{using\ }Base::operator=;}
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

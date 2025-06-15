@@ -1,0 +1,751 @@
+\doxysection{psm\+::Fixed\+Map\texorpdfstring{$<$}{<} Key, Value, Size, Search\+Policy \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1_fixed_map}{}\label{classpsm_1_1_fixed_map}\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+
+
+A "{}dumb"{} flat map, built on fixed vector.  
+
+
+
+
+{\ttfamily \#include $<$fixed\+\_\+map.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a443d09a0d9ef5a02467025efbbe332be}{key\+\_\+type}} = Key
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} = Value
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a785002530d7c6e08b8973a801e13e03c}{element\+\_\+type}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{map\+\_\+dtl\+::iterator}}$<$Key, Value$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{map\+\_\+dtl\+::const\+\_\+iterator}}$<$Key, Value$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a568f981604d22f786136935376678eaa}{value\+\_\+type}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_abac02ce3391ed3ecbd9d86e0f6491c7e}{pointer}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$ \texorpdfstring{$\ast$}{*}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_afcc6d50a95bba5d1dfdc8fd7087da149}{const\+\_\+pointer}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$ const \texorpdfstring{$\ast$}{*}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_aeba4f334d09689475fef7de4bad5f5ba}{reference}} = typename \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{iterator\+::reference}}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a067f39142c069f3c54980a29eebc2793}{const\+\_\+reference}} = typename \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_ab61a8374a49c9b22b37d2eb290f0ea84}{const\+\_\+iterator\+::reference}}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a43c468dff51d6c16d430436a191191d7}{difference\+\_\+type}} = std\+::make\+\_\+signed\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}{size\+\_\+type}}$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}{reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}}$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}}$>$
+\item 
+{\footnotesize template$<$typename K $>$ }\\using \mbox{\hyperlink{classpsm_1_1_fixed_map_a6b086c54d6954d9c5f23163cf5f363df}{keyish}} = \mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable}{map\+\_\+dtl\+::comparable}}$<$Key, K, void$>$
+\begin{DoxyCompactList}\small\item\em std\+::true\+\_\+type if K is less than and equality comparable to Key, else std\+::false\+\_\+type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K $>$ }\\using \mbox{\hyperlink{classpsm_1_1_fixed_map_a9c8eb7605ba681091023e9a9351f18f2}{enable\+\_\+if\+\_\+keyish}} = std\+::enable\+\_\+if\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_a6b086c54d6954d9c5f23163cf5f363df}{keyish}}$<$K$>$\+::value$>$
+\begin{DoxyCompactList}\small\item\em enable\+\_\+if\+\_\+t based on keyish$<$\+K$>$\+::value \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename V $>$ }\\using \mbox{\hyperlink{classpsm_1_1_fixed_map_af04250b85163945685abedad932deaba}{valueish}} = std\+::is\+\_\+assignable$<$Value \&, V$>$
+\begin{DoxyCompactList}\small\item\em std\+::true\+\_\+type if V is assignable to Value, else std\+::false\+\_\+type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename V $>$ }\\using \mbox{\hyperlink{classpsm_1_1_fixed_map_ab50637a64f8c57f6959e4971a94d6cd3}{enable\+\_\+if\+\_\+valueish}} = std\+::enable\+\_\+if\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_af04250b85163945685abedad932deaba}{valueish}}$<$V$>$\+::value$>$
+\begin{DoxyCompactList}\small\item\em enable\+\_\+if\+\_\+t based on valueish$<$\+V$>$\+::value \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename V $>$ }\\using \mbox{\hyperlink{classpsm_1_1_fixed_map_a9b31ec5fad97ac493b183a1458b478a4}{enable\+\_\+if\+\_\+kvish}}
+\begin{DoxyCompactList}\small\item\em enable\+\_\+if\+\_\+t conjunction of keyish$<$\+K$>$ and valueish$<$\+V$>$ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aa0be559bb2d5e079378d06068d06acdf}{Fixed\+Map}} () noexcept=default
+\begin{DoxyCompactList}\small\item\em constructs an empty map. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E  = element\+\_\+type, typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+constructible\+\_\+v$<$\+E$>$$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a28af4d6d8f3a25b3750590031c22f75a}{Fixed\+Map}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map_a785002530d7c6e08b8973a801e13e03c}{element\+\_\+type}} $>$ il) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$ $>$)
+\begin{DoxyCompactList}\small\item\em create a map with the key value pairs specified in il. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename V , typename... Ks, typename... Vs$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ad994ad1d472f908a61c44e51ca69d6de}{Fixed\+Map}} (\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ K, V $>$ e1, \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Ks, Vs $>$... rest)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map_ad2f4d7e5525df1e7cb9b58f888cf961d}{empty}} () const
+\begin{DoxyCompactList}\small\item\em returns true if the map is empty, else false. \end{DoxyCompactList}\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1_fixed_map_acac201ddd44be648feb6f3eccba37687}{clear}} ()
+\begin{DoxyCompactList}\small\item\em clear the map, i.\+e. remove all elements. After this call, the map is empty. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename V $>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map_af2c364b42a71424cad83c8893707c5a0}{insert}} (K \&\&key, V \&\&value)
+\begin{DoxyCompactList}\small\item\em insert a new key value pair. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename V , typename  = enable\+\_\+if\+\_\+kvish$<$\+K \&\&, V \&\&$>$$>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map_afcf7279efb52e2a8b47c43601221fa4a}{insert\+\_\+or\+\_\+replace}} (K \&\&key, V \&\&value)
+\begin{DoxyCompactList}\small\item\em Either insert the key value pair into the map if the key does not exist, or replace the value associated with key if the key is found. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename V , typename  = enable\+\_\+if\+\_\+kvish$<$\+K \&\&, V \&\&$>$$>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map_a15be8057992525462092b2179122c975}{replace}} (K \&\&key, V \&\&value)
+\begin{DoxyCompactList}\small\item\em replace the value associated with key with value. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map_a89dc7ce402243592f4cdc83f6265ad27}{erase}} (const K \&key)
+\begin{DoxyCompactList}\small\item\em remove the key value pair with the key key. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a51153a6dab8f21ebfedca8b66140aac1}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em returns number of key value pairs stored in the map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename E  = element\+\_\+type, typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+constructible\+\_\+v$<$\+E$>$$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a433ecaa501047fd21e2ac4701d5f4101}{Fixed\+Map}} (const \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&elems) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ $>$)
+\begin{DoxyCompactList}\small\item\em create a map with the key value pairs specified by elems. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a28e2d02230239d0bd4a426b64401bcfb}{Fixed\+Map}} (\mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&\&elems) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ $>$)
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a4575acbdd22674b2ab19d2425ee1a33c}{find}} (const K \&key) const
+\begin{DoxyCompactList}\small\item\em get iterator to element with the specified key. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_abb7292c3846bef08876e81f191b96b5f}{find}} (const K \&key)
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_a1bbd23563c803c1e6627f95572f1c1c2}{operator\mbox{[}$\,$\mbox{]}}} (const K \&key) const
+\begin{DoxyCompactList}\small\item\em Access the value associated with key. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_a08f22d4a0e63f5290b5d5397be0d8a75}{operator\mbox{[}$\,$\mbox{]}}} (const K \&k)
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_a38faa1c6f80dc73670fd53fc9a994078}{get}} (const K \&key) const
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_a28342aee6e74cf53eb794c2d01d74bc1}{cget}} (const K \&key) const
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_aa5a59de0b58e4f278098bc0c1997b545}{get}} (const K \&key)
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_ae08d216017cfa8c6e24d9fde5799defd}{get\+\_\+or}} (const K \&key, \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \&v) noexcept
+\begin{DoxyCompactList}\small\item\em Access the value associated with key, or v if the key is not found. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ }\\constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map_a189efd63b6d8637eb556d8f63ef9da9b}{get\+\_\+or}} (const K \&key, const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \&v) const noexcept
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a553104f131a7e1aeddbf68315fe011d8}{begin}} () noexcept
+\begin{DoxyCompactList}\small\item\em iterators \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a9b9026b2b606c38201b1f3851d14e5cc}{begin}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a857a4b73552ae7e984c19e20fe702d62}{end}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_ac74259d2ffa06f6f8013535b8f6cf816}{end}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a984aa4afcd3eb2e2286fa5270956626a}{rbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a79de4c8c34c9424c2a95c8ae46511dff}{rbegin}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a9ce65ae82c499c217aaf2b1c9754796e}{rend}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_aaad48daee222d6eb148d041c48dbbadf}{rend}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a067526d8780fea691a1aaad7666f0b52}{cbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_a21f9cb24e21cf93790813c1e18052ec2}{cend}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_abfe3061d7937ee6bf12724d9ca74d578}{crbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map_abf981452662625c9f796c27ac7204ba1}{crend}} () const noexcept
+\end{DoxyCompactItemize}
+
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename , typename , size\+\_\+t $>$ }\\struct \mbox{\hyperlink{classpsm_1_1_fixed_map_a87123f7425b3b1f3e3b72376d0690b18}{Fixed\+Map\+Observer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Key, typename Value, size\+\_\+t Size, typename Search\+Policy = linear\+\_\+search$>$\newline
+class psm\+::\+Fixed\+Map$<$ Key, Value, Size, Search\+Policy $>$}
+A "{}dumb"{} flat map, built on fixed vector. 
+
+Only useful when a small number of key value pairs needs to be stored 
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}\label{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!const\_iterator@{const\_iterator}}
+\index{const\_iterator@{const\_iterator}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::const\+\_\+iterator = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{map\+\_\+dtl\+::const\+\_\+iterator}}$<$Key, Value$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_afcc6d50a95bba5d1dfdc8fd7087da149}\label{classpsm_1_1_fixed_map_afcc6d50a95bba5d1dfdc8fd7087da149} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::const\+\_\+pointer = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$ const \texorpdfstring{$\ast$}{*}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a067f39142c069f3c54980a29eebc2793}\label{classpsm_1_1_fixed_map_a067f39142c069f3c54980a29eebc2793} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::const\+\_\+reference = typename \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator_ab61a8374a49c9b22b37d2eb290f0ea84}{const\+\_\+iterator\+::reference}}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}\label{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!const\_reverse\_iterator@{const\_reverse\_iterator}}
+\index{const\_reverse\_iterator@{const\_reverse\_iterator}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reverse\_iterator}{const\_reverse\_iterator}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::const\+\_\+reverse\+\_\+iterator = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}}$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_a43c468dff51d6c16d430436a191191d7}\label{classpsm_1_1_fixed_map_a43c468dff51d6c16d430436a191191d7} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::difference\+\_\+type = std\+::make\+\_\+signed\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}{size\+\_\+type}}$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_a785002530d7c6e08b8973a801e13e03c}\label{classpsm_1_1_fixed_map_a785002530d7c6e08b8973a801e13e03c} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!element\_type@{element\_type}}
+\index{element\_type@{element\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{element\_type}{element\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::element\+\_\+type = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_a9c8eb7605ba681091023e9a9351f18f2}\label{classpsm_1_1_fixed_map_a9c8eb7605ba681091023e9a9351f18f2} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!enable\_if\_keyish@{enable\_if\_keyish}}
+\index{enable\_if\_keyish@{enable\_if\_keyish}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{enable\_if\_keyish}{enable\_if\_keyish}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::enable\+\_\+if\+\_\+keyish = std\+::enable\+\_\+if\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_a6b086c54d6954d9c5f23163cf5f363df}{keyish}}$<$K$>$\+::value$>$}
+
+
+
+enable\+\_\+if\+\_\+t based on keyish$<$\+K$>$\+::value 
+
+\Hypertarget{classpsm_1_1_fixed_map_a9b31ec5fad97ac493b183a1458b478a4}\label{classpsm_1_1_fixed_map_a9b31ec5fad97ac493b183a1458b478a4} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!enable\_if\_kvish@{enable\_if\_kvish}}
+\index{enable\_if\_kvish@{enable\_if\_kvish}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{enable\_if\_kvish}{enable\_if\_kvish}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename V $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::enable\+\_\+if\+\_\+kvish}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ std::enable\_if\_t<keyish<K>::value\ and\ valueish<V>::value>}
+
+\end{DoxyCode}
+
+
+enable\+\_\+if\+\_\+t conjunction of keyish$<$\+K$>$ and valueish$<$\+V$>$ 
+
+\Hypertarget{classpsm_1_1_fixed_map_ab50637a64f8c57f6959e4971a94d6cd3}\label{classpsm_1_1_fixed_map_ab50637a64f8c57f6959e4971a94d6cd3} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!enable\_if\_valueish@{enable\_if\_valueish}}
+\index{enable\_if\_valueish@{enable\_if\_valueish}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{enable\_if\_valueish}{enable\_if\_valueish}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename V $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::enable\+\_\+if\+\_\+valueish = std\+::enable\+\_\+if\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_af04250b85163945685abedad932deaba}{valueish}}$<$V$>$\+::value$>$}
+
+
+
+enable\+\_\+if\+\_\+t based on valueish$<$\+V$>$\+::value 
+
+\Hypertarget{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}\label{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!iterator@{iterator}}
+\index{iterator@{iterator}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::iterator = \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{map\+\_\+dtl\+::iterator}}$<$Key, Value$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_a443d09a0d9ef5a02467025efbbe332be}\label{classpsm_1_1_fixed_map_a443d09a0d9ef5a02467025efbbe332be} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!key\_type@{key\_type}}
+\index{key\_type@{key\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{key\_type}{key\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::key\+\_\+type = Key}
+
+\Hypertarget{classpsm_1_1_fixed_map_a6b086c54d6954d9c5f23163cf5f363df}\label{classpsm_1_1_fixed_map_a6b086c54d6954d9c5f23163cf5f363df} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!keyish@{keyish}}
+\index{keyish@{keyish}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{keyish}{keyish}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::keyish = \mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable}{map\+\_\+dtl\+::comparable}}$<$Key, K, void$>$}
+
+
+
+std\+::true\+\_\+type if K is less than and equality comparable to Key, else std\+::false\+\_\+type. 
+
+\Hypertarget{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}\label{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!mapped\_type@{mapped\_type}}
+\index{mapped\_type@{mapped\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{mapped\_type}{mapped\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::mapped\+\_\+type = Value}
+
+\Hypertarget{classpsm_1_1_fixed_map_abac02ce3391ed3ecbd9d86e0f6491c7e}\label{classpsm_1_1_fixed_map_abac02ce3391ed3ecbd9d86e0f6491c7e} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::pointer = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$ \texorpdfstring{$\ast$}{*}}
+
+\Hypertarget{classpsm_1_1_fixed_map_aeba4f334d09689475fef7de4bad5f5ba}\label{classpsm_1_1_fixed_map_aeba4f334d09689475fef7de4bad5f5ba} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!reference@{reference}}
+\index{reference@{reference}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::reference = typename \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator_a468755d42d2b097f09e79f87c6248e92}{iterator\+::reference}}}
+
+\Hypertarget{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}\label{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!reverse\_iterator@{reverse\_iterator}}
+\index{reverse\_iterator@{reverse\_iterator}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{reverse\_iterator}{reverse\_iterator}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::reverse\+\_\+iterator = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}}$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}\label{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::size\+\_\+type = size\+\_\+t}
+
+\Hypertarget{classpsm_1_1_fixed_map_a568f981604d22f786136935376678eaa}\label{classpsm_1_1_fixed_map_a568f981604d22f786136935376678eaa} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::value\+\_\+type = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$}
+
+\Hypertarget{classpsm_1_1_fixed_map_af04250b85163945685abedad932deaba}\label{classpsm_1_1_fixed_map_af04250b85163945685abedad932deaba} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!valueish@{valueish}}
+\index{valueish@{valueish}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{valueish}{valueish}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename V $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::valueish = std\+::is\+\_\+assignable$<$Value \&, V$>$}
+
+
+
+std\+::true\+\_\+type if V is assignable to Value, else std\+::false\+\_\+type. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1_fixed_map_aa0be559bb2d5e079378d06068d06acdf}\label{classpsm_1_1_fixed_map_aa0be559bb2d5e079378d06068d06acdf} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMap@{FixedMap}}
+\index{FixedMap@{FixedMap}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMap()}{FixedMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::\+Fixed\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+
+
+constructs an empty map. 
+
+\Hypertarget{classpsm_1_1_fixed_map_a28af4d6d8f3a25b3750590031c22f75a}\label{classpsm_1_1_fixed_map_a28af4d6d8f3a25b3750590031c22f75a} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMap@{FixedMap}}
+\index{FixedMap@{FixedMap}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMap()}{FixedMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename E  = element\+\_\+type, typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+constructible\+\_\+v$<$\+E$>$$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::\+Fixed\+Map (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map_a785002530d7c6e08b8973a801e13e03c}{element\+\_\+type}} $>$}]{il }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+create a map with the key value pairs specified in il. 
+
+The keys must be unique. This is only asserted, i.\+e. this is checked only in debug mode. Use \doxylink{namespacepsm_ad8b9fae5940683848c6d3c68a3c0ab03}{psm\+::fixed\+\_\+map()} free function to also check when not in debug mode. 
+\begin{DoxyParams}{Parameters}
+{\em il} & initializer list containing the key value pairs. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_a433ecaa501047fd21e2ac4701d5f4101}\label{classpsm_1_1_fixed_map_a433ecaa501047fd21e2ac4701d5f4101} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMap@{FixedMap}}
+\index{FixedMap@{FixedMap}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMap()}{FixedMap()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename E  = element\+\_\+type, typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+constructible\+\_\+v$<$\+E$>$$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::\+Fixed\+Map (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&}]{elems }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+create a map with the key value pairs specified by elems. 
+
+The keys must be unique. This is only asserted, i.\+e. this is checked only in debug mode. Use \doxylink{namespacepsm_ad8b9fae5940683848c6d3c68a3c0ab03}{psm\+::fixed\+\_\+map()} free function to also check when not in debug mode. 
+\begin{DoxyParams}{Parameters}
+{\em elems} & vector of key value pairs. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_a28e2d02230239d0bd4a426b64401bcfb}\label{classpsm_1_1_fixed_map_a28e2d02230239d0bd4a426b64401bcfb} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMap@{FixedMap}}
+\index{FixedMap@{FixedMap}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMap()}{FixedMap()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::\+Fixed\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&\&}]{elems }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_ad994ad1d472f908a61c44e51ca69d6de}\label{classpsm_1_1_fixed_map_ad994ad1d472f908a61c44e51ca69d6de} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMap@{FixedMap}}
+\index{FixedMap@{FixedMap}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMap()}{FixedMap()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename V , typename... Ks, typename... Vs$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::\+Fixed\+Map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ K, V $>$}]{e1,  }\item[{\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Ks, Vs $>$...}]{rest }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_fixed_map_a9b9026b2b606c38201b1f3851d14e5cc}\label{classpsm_1_1_fixed_map_a9b9026b2b606c38201b1f3851d14e5cc} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!begin@{begin}}
+\index{begin@{begin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a553104f131a7e1aeddbf68315fe011d8}\label{classpsm_1_1_fixed_map_a553104f131a7e1aeddbf68315fe011d8} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!begin@{begin}}
+\index{begin@{begin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+iterators 
+
+\Hypertarget{classpsm_1_1_fixed_map_a067526d8780fea691a1aaad7666f0b52}\label{classpsm_1_1_fixed_map_a067526d8780fea691a1aaad7666f0b52} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a21f9cb24e21cf93790813c1e18052ec2}\label{classpsm_1_1_fixed_map_a21f9cb24e21cf93790813c1e18052ec2} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!cend@{cend}}
+\index{cend@{cend}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a28342aee6e74cf53eb794c2d01d74bc1}\label{classpsm_1_1_fixed_map_a28342aee6e74cf53eb794c2d01d74bc1} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!cget@{cget}}
+\index{cget@{cget}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{cget()}{cget()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::cget (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_acac201ddd44be648feb6f3eccba37687}\label{classpsm_1_1_fixed_map_acac201ddd44be648feb6f3eccba37687} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!clear@{clear}}
+\index{clear@{clear}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+clear the map, i.\+e. remove all elements. After this call, the map is empty. 
+
+\Hypertarget{classpsm_1_1_fixed_map_abfe3061d7937ee6bf12724d9ca74d578}\label{classpsm_1_1_fixed_map_abfe3061d7937ee6bf12724d9ca74d578} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_abf981452662625c9f796c27ac7204ba1}\label{classpsm_1_1_fixed_map_abf981452662625c9f796c27ac7204ba1} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!crend@{crend}}
+\index{crend@{crend}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{crend()}{crend()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_ad2f4d7e5525df1e7cb9b58f888cf961d}\label{classpsm_1_1_fixed_map_ad2f4d7e5525df1e7cb9b58f888cf961d} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!empty@{empty}}
+\index{empty@{empty}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+returns true if the map is empty, else false. 
+
+\Hypertarget{classpsm_1_1_fixed_map_ac74259d2ffa06f6f8013535b8f6cf816}\label{classpsm_1_1_fixed_map_ac74259d2ffa06f6f8013535b8f6cf816} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!end@{end}}
+\index{end@{end}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a857a4b73552ae7e984c19e20fe702d62}\label{classpsm_1_1_fixed_map_a857a4b73552ae7e984c19e20fe702d62} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!end@{end}}
+\index{end@{end}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a89dc7ce402243592f4cdc83f6265ad27}\label{classpsm_1_1_fixed_map_a89dc7ce402243592f4cdc83f6265ad27} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!erase@{erase}}
+\index{erase@{erase}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::erase (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+remove the key value pair with the key key. 
+
+Returns true if the key value pair could be removed. Returns false if the key is not found.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key to remove \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_abb7292c3846bef08876e81f191b96b5f}\label{classpsm_1_1_fixed_map_abb7292c3846bef08876e81f191b96b5f} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!find@{find}}
+\index{find@{find}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_ab4b09561dbd7dd476b7a77faf34094aa}{iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a4575acbdd22674b2ab19d2425ee1a33c}\label{classpsm_1_1_fixed_map_a4575acbdd22674b2ab19d2425ee1a33c} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!find@{find}}
+\index{find@{find}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a86771ef3cea0b93b68fcc563730b0821}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+get iterator to element with the specified key. 
+
+reutrns \doxylink{classpsm_1_1_fixed_map_a857a4b73552ae7e984c19e20fe702d62}{end()} if key is not found. 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & A type comparable to Key \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of the key value pair to find \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_aa5a59de0b58e4f278098bc0c1997b545}\label{classpsm_1_1_fixed_map_aa5a59de0b58e4f278098bc0c1997b545} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!get@{get}}
+\index{get@{get}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::get (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a38faa1c6f80dc73670fd53fc9a994078}\label{classpsm_1_1_fixed_map_a38faa1c6f80dc73670fd53fc9a994078} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!get@{get}}
+\index{get@{get}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::get (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a189efd63b6d8637eb556d8f63ef9da9b}\label{classpsm_1_1_fixed_map_a189efd63b6d8637eb556d8f63ef9da9b} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!get\_or@{get\_or}}
+\index{get\_or@{get\_or}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{get\_or()}{get\_or()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::get\+\_\+or (\begin{DoxyParamCaption}\item[{const K \&}]{key,  }\item[{const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_ae08d216017cfa8c6e24d9fde5799defd}\label{classpsm_1_1_fixed_map_ae08d216017cfa8c6e24d9fde5799defd} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!get\_or@{get\_or}}
+\index{get\_or@{get\_or}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{get\_or()}{get\_or()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::get\+\_\+or (\begin{DoxyParamCaption}\item[{const K \&}]{key,  }\item[{\mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Access the value associated with key, or v if the key is not found. 
+
+Returns a (const) reference to the value associated with key, or v.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of the value \\
+\hline
+{\em v} & fallback value \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_af2c364b42a71424cad83c8893707c5a0}\label{classpsm_1_1_fixed_map_af2c364b42a71424cad83c8893707c5a0} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!insert@{insert}}
+\index{insert@{insert}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename V $>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::insert (\begin{DoxyParamCaption}\item[{K \&\&}]{key,  }\item[{V \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+insert a new key value pair. 
+
+If the key is already in the map or the map is full, false is returned and the map is not modified. Else a new element with the key key and the value value is added to the map. returns true if the insertion succeeded, else false.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+{\em V} & type of the value \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key to add \\
+\hline
+{\em value} & the value associated with the key \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_afcf7279efb52e2a8b47c43601221fa4a}\label{classpsm_1_1_fixed_map_afcf7279efb52e2a8b47c43601221fa4a} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!insert\_or\_replace@{insert\_or\_replace}}
+\index{insert\_or\_replace@{insert\_or\_replace}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_or\_replace()}{insert\_or\_replace()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename V , typename  = enable\+\_\+if\+\_\+kvish$<$\+K \&\&, V \&\&$>$$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::insert\+\_\+or\+\_\+replace (\begin{DoxyParamCaption}\item[{K \&\&}]{key,  }\item[{V \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Either insert the key value pair into the map if the key does not exist, or replace the value associated with key if the key is found. 
+
+If the map is full, the map is not modified. Returns true if the insertion or replacement succeeded, else false.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+{\em V} & type of the value \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key to add or replace the value of \\
+\hline
+{\em value} & the new value associated \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_a08f22d4a0e63f5290b5d5397be0d8a75}\label{classpsm_1_1_fixed_map_a08f22d4a0e63f5290b5d5397be0d8a75} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const K \&}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a1bbd23563c803c1e6627f95572f1c1c2}\label{classpsm_1_1_fixed_map_a1bbd23563c803c1e6627f95572f1c1c2} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename  = enable\+\_\+if\+\_\+keyish$<$\+K \&\&$>$$>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_fixed_map_af19a611be27d6e6ffbe53b15579228b3}{mapped\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Access the value associated with key. 
+
+Undefined behaviour if the key cant be found in the map. The keys presence is asserted in debug mode. Returns a (const) reference to the value associated with key.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of the value \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_a79de4c8c34c9424c2a95c8ae46511dff}\label{classpsm_1_1_fixed_map_a79de4c8c34c9424c2a95c8ae46511dff} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a984aa4afcd3eb2e2286fa5270956626a}\label{classpsm_1_1_fixed_map_a984aa4afcd3eb2e2286fa5270956626a} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_aaad48daee222d6eb148d041c48dbbadf}\label{classpsm_1_1_fixed_map_aaad48daee222d6eb148d041c48dbbadf} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!rend@{rend}}
+\index{rend@{rend}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_a3be42f57808d3a9f945ec2a54605f523}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a9ce65ae82c499c217aaf2b1c9754796e}\label{classpsm_1_1_fixed_map_a9ce65ae82c499c217aaf2b1c9754796e} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!rend@{rend}}
+\index{rend@{rend}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aa25b56ce79fcc19fa419ee6dbdcb9020}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_fixed_map_a15be8057992525462092b2179122c975}\label{classpsm_1_1_fixed_map_a15be8057992525462092b2179122c975} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!replace@{replace}}
+\index{replace@{replace}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{replace()}{replace()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename K , typename V , typename  = enable\+\_\+if\+\_\+kvish$<$\+K \&\&, V \&\&$>$$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::replace (\begin{DoxyParamCaption}\item[{K \&\&}]{key,  }\item[{V \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+replace the value associated with key with value. 
+
+The key must already be in the map, else the replacement fails. Returns true if the value of key could be replaced, else false.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em K} & type of the key \\
+\hline
+{\em V} & type of the value \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key to replace the value of \\
+\hline
+{\em value} & the new value \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1_fixed_map_a51153a6dab8f21ebfedca8b66140aac1}\label{classpsm_1_1_fixed_map_a51153a6dab8f21ebfedca8b66140aac1} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!size@{size}}
+\index{size@{size}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_fixed_map_aec8688babc3fd2214b5ec4fa58b1e241}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map}}$<$ Key, Value, Size, Search\+Policy $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+returns number of key value pairs stored in the map. 
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsm_1_1_fixed_map_a87123f7425b3b1f3e3b72376d0690b18}\label{classpsm_1_1_fixed_map_a87123f7425b3b1f3e3b72376d0690b18} 
+\index{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}!FixedMapObserver@{FixedMapObserver}}
+\index{FixedMapObserver@{FixedMapObserver}!psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$@{psm::FixedMap$<$ Key, Value, Size, SearchPolicy $>$}}
+\doxysubsubsection{\texorpdfstring{FixedMapObserver}{FixedMapObserver}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value , size\+\_\+t Size, typename Search\+Policy  = linear\+\_\+search$>$ \\
+template$<$typename , typename , size\+\_\+t $>$ \\
+friend struct Fixed\+Map\+Observer\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixed__map_8hpp}{fixed\+\_\+map.\+hpp}}\end{DoxyCompactItemize}

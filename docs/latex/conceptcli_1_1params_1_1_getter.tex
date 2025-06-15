@@ -1,0 +1,34 @@
+\doxysection{cli\+::params\+::Getter Concept Reference}
+\hypertarget{conceptcli_1_1params_1_1_getter}{}\label{conceptcli_1_1params_1_1_getter}\index{cli::params::Getter@{cli::params::Getter}}
+
+
+A Getter G retrieves the value of a parameter.  
+
+
+
+
+{\ttfamily \#include $<$cli/param.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ G>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_getter}{cli::params::Getter}}\ =\ \ \textcolor{keyword}{requires}(G\ \&\&getter,\ getter\_value\_type\_t<G>\ \&value)\ \{}
+\DoxyCodeLine{\ \ \{\ getter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A Getter G retrieves the value of a parameter. 
+
+An instance of G must be callable with an l value reference and return a cli\+::\+Error. The reference denotes the place where the getter should store it value. If G cannot produce a value, it should return the error that occurred.
+
+TODO\+: maybe a pointer return type would be better
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em G} & the type to test \\
+\hline
+\end{DoxyTemplParams}

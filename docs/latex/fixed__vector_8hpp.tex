@@ -1,0 +1,54 @@
+\doxysection{fixed\+\_\+vector.\+hpp File Reference}
+\hypertarget{fixed__vector_8hpp}{}\label{fixed__vector_8hpp}\index{fixed\_vector.hpp@{fixed\_vector.hpp}}
+{\ttfamily \#include "{}memory.\+hpp"{}}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1is__iterator}{psm\+::is\+\_\+iterator$<$ T, typename $>$}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1is__iterator_3_01_t_00_01std_1_1void__t_3_01typename_01std_1_1iterator__traits_3_0120dfc53c843e0aaa947039198e78cc2a}{psm\+::is\+\_\+iterator$<$ T, std\+::void\+\_\+t$<$ typename std\+::iterator\+\_\+traits$<$ T $>$\+::iterator\+\_\+category $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1fixed__vec__dtl_1_1_empty}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::\+Empty}}
+\item 
+union \mbox{\hyperlink{unionpsm_1_1fixed__vec__dtl_1_1_elem}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::\+Elem$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em the type of elements stored in a non trivial \doxylink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1iterator}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::iterator$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1const__iterator}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::const\+\_\+iterator$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage$<$ T, Size, trivial $>$}}
+\begin{DoxyCompactList}\small\item\em uninitialized storage for Size elements of type T. It essentially is a c array of type Elem$<$\+T$>$\mbox{[}Size\mbox{]} to ensure no default initialization its elements. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec$<$ T, Capacity, trivial $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_3_01_t_00_01_capacity_00_01true_01_4}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec$<$ T, Capacity, true $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1_fixed_vec}{psm\+::\+Fixed\+Vec$<$ T, Capacity $>$}}
+\begin{DoxyCompactList}\small\item\em This class is a dynamic array, like std\+::vector, but with a fixed maximum size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsm}{psm}}
+\item 
+namespace \mbox{\hyperlink{namespacepsm_1_1fixed__vec__dtl}{psm\+::fixed\+\_\+vec\+\_\+dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , size\+\_\+t Capacity$>$ }\\using \mbox{\hyperlink{namespacepsm_1_1fixed__vec__dtl_a550db04342a5c390a63cf6bf0318dbc7}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec\+\_\+impl}} = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$T, Capacity, \mbox{\hyperlink{namespacepsm_a80d57417af44bb2268ef79bec48a7af4}{is\+\_\+trivial\+\_\+v}}$<$T$>$$>$
+\item 
+{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespacepsm_a3620534cff7a9c4fe885a9ce5246f182}{psm\+::vec\+\_\+iterator}}
+\item 
+{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespacepsm_a3fb97ba704a71bdc56940e053a463ae0}{psm\+::vec\+\_\+const\+\_\+iterator}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_ae420daa56c51b97ab4ad247e78210579}{psm\+::is\+\_\+iterator\+\_\+v}} = \mbox{\hyperlink{structpsm_1_1is__iterator}{is\+\_\+iterator}}$<$T$>$\+::value
+\end{DoxyCompactItemize}

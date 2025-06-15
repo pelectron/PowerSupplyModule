@@ -1,0 +1,101 @@
+\doxysection{psm\+::Com\+Slave Class Reference}
+\hypertarget{classpsm_1_1_com_slave}{}\label{classpsm_1_1_com_slave}\index{psm::ComSlave@{psm::ComSlave}}
+
+
+{\ttfamily \#include $<$com.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classpsm_1_1_com_slave_a74574ea98b3840731ec784c39d84c4e4}{init}} ()
+\item 
+void \mbox{\hyperlink{classpsm_1_1_com_slave_a9aa0ae9d2236eea0425df3e136b0953f}{set\+\_\+rx\+\_\+buffer}} (std\+::span$<$ std\+::uint8\+\_\+t $>$)
+\item 
+void \mbox{\hyperlink{classpsm_1_1_com_slave_a61ef01a5612fcba1db8a259803d66dd0}{set\+\_\+tx\+\_\+buffer}} (std\+::span$<$ std\+::uint8\+\_\+t $>$)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{classpsm_1_1_com_slave_ac0a0d67f8df661308baa5e04da1586c9}{put\+\_\+and\+\_\+get\+\_\+tx\+\_\+size}} (char c)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{classpsm_1_1_com_slave_ac924a18d59b9be5ecc428c9e3621d719}{on\+\_\+receive}} (const char \texorpdfstring{$\ast$}{*}str, uint32\+\_\+t size)
+\item 
+\mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525}{Delimiter}} \mbox{\hyperlink{classpsm_1_1_com_slave_a5ea66d687f4f1b669dbc997cf47ed6df}{delimiter}} () const
+\item 
+{\footnotesize template$<$std\+::invocable$<$ std\+::span$<$ const char $>$ $>$ F$>$ }\\void \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\+\_\+cmd}} (std\+::span$<$ const char $>$ name, F \&\&function)
+\item 
+{\footnotesize template$<$std\+::invocable F$>$ }\\void \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\+\_\+cmd}} (std\+::span$<$ const char $>$ name, F \&\&function)
+\item 
+{\footnotesize template$<$typename F $>$ }\\void \mbox{\hyperlink{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}{add\+\_\+cmd}} (std\+::span$<$ const char $>$ name, F \&\&function)
+\item 
+{\footnotesize template$<$poly\+::\+Storage S, poly\+::\+Property\+Specification... Properties, poly\+::\+Method\+Specification... Methods$>$ }\\void \mbox{\hyperlink{classpsm_1_1_com_slave_ae38263cebea781308728f9064ffd71d5}{add\+\_\+obj}} (const char \texorpdfstring{$\ast$}{*}name, poly\+::\+Interface$<$ S, poly\+::type\+\_\+list$<$ Properties... $>$, poly\+::type\+\_\+list$<$ Methods... $>$ $>$ obj)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}\label{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54} 
+\index{psm::ComSlave@{psm::ComSlave}!add\_cmd@{add\_cmd}}
+\index{add\_cmd@{add\_cmd}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{add\_cmd()}{add\_cmd()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$std\+::invocable$<$ std\+::span$<$ const char $>$ $>$ F$>$ \\
+void psm\+::\+Com\+Slave\+::add\+\_\+cmd (\begin{DoxyParamCaption}\item[{std\+::span$<$ const char $>$}]{name,  }\item[{F \&\&}]{function }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}\label{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54} 
+\index{psm::ComSlave@{psm::ComSlave}!add\_cmd@{add\_cmd}}
+\index{add\_cmd@{add\_cmd}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{add\_cmd()}{add\_cmd()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$std\+::invocable F$>$ \\
+void psm\+::\+Com\+Slave\+::add\+\_\+cmd (\begin{DoxyParamCaption}\item[{std\+::span$<$ const char $>$}]{name,  }\item[{F \&\&}]{function }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54}\label{classpsm_1_1_com_slave_a0d5933c111b5e013f9d42e9693257a54} 
+\index{psm::ComSlave@{psm::ComSlave}!add\_cmd@{add\_cmd}}
+\index{add\_cmd@{add\_cmd}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{add\_cmd()}{add\_cmd()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename F $>$ \\
+void psm\+::\+Com\+Slave\+::add\+\_\+cmd (\begin{DoxyParamCaption}\item[{std\+::span$<$ const char $>$}]{name,  }\item[{F \&\&}]{function }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_com_slave_ae38263cebea781308728f9064ffd71d5}\label{classpsm_1_1_com_slave_ae38263cebea781308728f9064ffd71d5} 
+\index{psm::ComSlave@{psm::ComSlave}!add\_obj@{add\_obj}}
+\index{add\_obj@{add\_obj}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{add\_obj()}{add\_obj()}}
+{\footnotesize\ttfamily template$<$poly\+::\+Storage S, poly\+::\+Property\+Specification... Properties, poly\+::\+Method\+Specification... Methods$>$ \\
+void psm\+::\+Com\+Slave\+::add\+\_\+obj (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name,  }\item[{poly\+::\+Interface$<$ S, poly\+::type\+\_\+list$<$ Properties... $>$, poly\+::type\+\_\+list$<$ Methods... $>$ $>$}]{obj }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_com_slave_a5ea66d687f4f1b669dbc997cf47ed6df}\label{classpsm_1_1_com_slave_a5ea66d687f4f1b669dbc997cf47ed6df} 
+\index{psm::ComSlave@{psm::ComSlave}!delimiter@{delimiter}}
+\index{delimiter@{delimiter}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{delimiter()}{delimiter()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525}{Delimiter}} psm\+::\+Com\+Slave\+::delimiter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_com_slave_a74574ea98b3840731ec784c39d84c4e4}\label{classpsm_1_1_com_slave_a74574ea98b3840731ec784c39d84c4e4} 
+\index{psm::ComSlave@{psm::ComSlave}!init@{init}}
+\index{init@{init}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void psm\+::\+Com\+Slave\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_com_slave_ac924a18d59b9be5ecc428c9e3621d719}\label{classpsm_1_1_com_slave_ac924a18d59b9be5ecc428c9e3621d719} 
+\index{psm::ComSlave@{psm::ComSlave}!on\_receive@{on\_receive}}
+\index{on\_receive@{on\_receive}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{on\_receive()}{on\_receive()}}
+{\footnotesize\ttfamily uint32\+\_\+t psm\+::\+Com\+Slave\+::on\+\_\+receive (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str,  }\item[{uint32\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_com_slave_ac0a0d67f8df661308baa5e04da1586c9}\label{classpsm_1_1_com_slave_ac0a0d67f8df661308baa5e04da1586c9} 
+\index{psm::ComSlave@{psm::ComSlave}!put\_and\_get\_tx\_size@{put\_and\_get\_tx\_size}}
+\index{put\_and\_get\_tx\_size@{put\_and\_get\_tx\_size}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{put\_and\_get\_tx\_size()}{put\_and\_get\_tx\_size()}}
+{\footnotesize\ttfamily uint32\+\_\+t psm\+::\+Com\+Slave\+::put\+\_\+and\+\_\+get\+\_\+tx\+\_\+size (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_com_slave_a9aa0ae9d2236eea0425df3e136b0953f}\label{classpsm_1_1_com_slave_a9aa0ae9d2236eea0425df3e136b0953f} 
+\index{psm::ComSlave@{psm::ComSlave}!set\_rx\_buffer@{set\_rx\_buffer}}
+\index{set\_rx\_buffer@{set\_rx\_buffer}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{set\_rx\_buffer()}{set\_rx\_buffer()}}
+{\footnotesize\ttfamily void psm\+::\+Com\+Slave\+::set\+\_\+rx\+\_\+buffer (\begin{DoxyParamCaption}\item[{std\+::span$<$ std\+::uint8\+\_\+t $>$}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_com_slave_a61ef01a5612fcba1db8a259803d66dd0}\label{classpsm_1_1_com_slave_a61ef01a5612fcba1db8a259803d66dd0} 
+\index{psm::ComSlave@{psm::ComSlave}!set\_tx\_buffer@{set\_tx\_buffer}}
+\index{set\_tx\_buffer@{set\_tx\_buffer}!psm::ComSlave@{psm::ComSlave}}
+\doxysubsubsection{\texorpdfstring{set\_tx\_buffer()}{set\_tx\_buffer()}}
+{\footnotesize\ttfamily void psm\+::\+Com\+Slave\+::set\+\_\+tx\+\_\+buffer (\begin{DoxyParamCaption}\item[{std\+::span$<$ std\+::uint8\+\_\+t $>$}]{ }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{com_8hpp}{com.\+hpp}}\end{DoxyCompactItemize}

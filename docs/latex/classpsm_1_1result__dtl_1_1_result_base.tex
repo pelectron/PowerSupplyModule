@@ -1,0 +1,103 @@
+\doxysection{psm\+::result\+\_\+dtl\+::Result\+Base Class Reference}
+\hypertarget{classpsm_1_1result__dtl_1_1_result_base}{}\label{classpsm_1_1result__dtl_1_1_result_base}\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+
+
+{\ttfamily \#include $<$result.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_ae0427a69948dd14e884492149daaccfb}{Result\+Base}} () noexcept=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a26a84d14f9b203458dec16a9b60e976b}{Result\+Base}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af55a7bc388899c1628172e404a53e386}{Result\+Base}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2b1062981dbc4f963fe008eac6d9b6a5}{Result\+Base}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2d62f284c252f95f1b65d468ae8ec205}{operator=}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a6a9fbc063676faf39b23f41064062315}{operator=}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a16b36277c343a253b3998ee34ab91271}{operator bool}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af6c58090aff12b99b2cc2beb7d51a2a0}{error}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a683a37b241a2b7f94ca9cd45881bd495}{has\+\_\+value}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a538084042eb824043794d569534ddff8}{set\+\_\+error}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_ae0427a69948dd14e884492149daaccfb}\label{classpsm_1_1result__dtl_1_1_result_base_ae0427a69948dd14e884492149daaccfb} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!ResultBase@{ResultBase}}
+\index{ResultBase@{ResultBase}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{ResultBase()}{ResultBase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily constexpr psm\+::result\+\_\+dtl\+::\+Result\+Base\+::\+Result\+Base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a26a84d14f9b203458dec16a9b60e976b}\label{classpsm_1_1result__dtl_1_1_result_base_a26a84d14f9b203458dec16a9b60e976b} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!ResultBase@{ResultBase}}
+\index{ResultBase@{ResultBase}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{ResultBase()}{ResultBase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily constexpr psm\+::result\+\_\+dtl\+::\+Result\+Base\+::\+Result\+Base (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_af55a7bc388899c1628172e404a53e386}\label{classpsm_1_1result__dtl_1_1_result_base_af55a7bc388899c1628172e404a53e386} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!ResultBase@{ResultBase}}
+\index{ResultBase@{ResultBase}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{ResultBase()}{ResultBase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily constexpr psm\+::result\+\_\+dtl\+::\+Result\+Base\+::\+Result\+Base (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a2b1062981dbc4f963fe008eac6d9b6a5}\label{classpsm_1_1result__dtl_1_1_result_base_a2b1062981dbc4f963fe008eac6d9b6a5} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!ResultBase@{ResultBase}}
+\index{ResultBase@{ResultBase}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{ResultBase()}{ResultBase()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily constexpr psm\+::result\+\_\+dtl\+::\+Result\+Base\+::\+Result\+Base (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_af6c58090aff12b99b2cc2beb7d51a2a0}\label{classpsm_1_1result__dtl_1_1_result_base_af6c58090aff12b99b2cc2beb7d51a2a0} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!error@{error}}
+\index{error@{error}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::result\+\_\+dtl\+::\+Result\+Base\+::error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a683a37b241a2b7f94ca9cd45881bd495}\label{classpsm_1_1result__dtl_1_1_result_base_a683a37b241a2b7f94ca9cd45881bd495} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!has\_value@{has\_value}}
+\index{has\_value@{has\_value}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{has\_value()}{has\_value()}}
+{\footnotesize\ttfamily constexpr bool psm\+::result\+\_\+dtl\+::\+Result\+Base\+::has\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a16b36277c343a253b3998ee34ab91271}\label{classpsm_1_1result__dtl_1_1_result_base_a16b36277c343a253b3998ee34ab91271} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily constexpr psm\+::result\+\_\+dtl\+::\+Result\+Base\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a2d62f284c252f95f1b65d468ae8ec205}\label{classpsm_1_1result__dtl_1_1_result_base_a2d62f284c252f95f1b65d468ae8ec205} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& psm\+::result\+\_\+dtl\+::\+Result\+Base\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a6a9fbc063676faf39b23f41064062315}\label{classpsm_1_1result__dtl_1_1_result_base_a6a9fbc063676faf39b23f41064062315} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& psm\+::result\+\_\+dtl\+::\+Result\+Base\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_base_a538084042eb824043794d569534ddff8}\label{classpsm_1_1result__dtl_1_1_result_base_a538084042eb824043794d569534ddff8} 
+\index{psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}!set\_error@{set\_error}}
+\index{set\_error@{set\_error}!psm::result\_dtl::ResultBase@{psm::result\_dtl::ResultBase}}
+\doxysubsubsection{\texorpdfstring{set\_error()}{set\_error()}}
+{\footnotesize\ttfamily constexpr void psm\+::result\+\_\+dtl\+::\+Result\+Base\+::set\+\_\+error (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [protected]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{result_8hpp}{result.\+hpp}}\end{DoxyCompactItemize}

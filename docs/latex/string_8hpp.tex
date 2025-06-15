@@ -1,0 +1,47 @@
+\doxysection{cli/string.hpp File Reference}
+\hypertarget{string_8hpp}{}\label{string_8hpp}\index{cli/string.hpp@{cli/string.hpp}}
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcli_1_1_byte_view}{cli\+::\+Byte\+View}}
+\begin{DoxyCompactList}\small\item\em A std\+::string\+\_\+view equivalent. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1string__constant}{cli\+::string\+\_\+constant$<$ c $>$}}
+\begin{DoxyCompactList}\small\item\em A \doxylink{structcli_1_1string__constant}{string\+\_\+constant} is a compile time string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcli_1_1_string_literal}{cli\+::\+String\+Literal$<$ N $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_a9bae98e211fa461c9dcbeffbbeb88ffa}{cli\+::operator==}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2... $>$ \&)
+\item 
+{\footnotesize template$<$char... Cs$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_a95235dd8841a1b23060a86faae77f93f}{cli\+::operator==}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$ \&)
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_acb5be2e51f684254145f698dc456418b}{cli\+::operator!=}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2... $>$ \&)
+\item 
+{\footnotesize template$<$char... Cs$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_ae6a8329777b6f025491f5b0d1a7dfa17}{cli\+::operator!=}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$ \&)
+\item 
+{\footnotesize template$<$std\+::size\+\_\+t N$>$ }\\\mbox{\hyperlink{namespacecli_a39ff86780990fce416a494e7d1667ed5}{cli\+::\+String\+Literal}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} (\&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{p}})\mbox{[}\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{N}}\mbox{]}) -\/$>$ String\+Literal$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{N}} $>$
+\item 
+\mbox{\hyperlink{namespacecli_ab94431a40431743f464f46349c6f18a6}{cli\+::\+String\+Literal}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} auto... \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{cs}}) -\/$>$ String\+Literal$<$ sizeof...(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{cs}})+1 $>$
+\item 
+{\footnotesize template$<$char... Cs$>$ }\\\mbox{\hyperlink{namespacecli_ab21f157dc8732550432a5e891a5d17ab}{cli\+::\+String\+Literal}} (\mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$) -\/$>$ String\+Literal$<$ sizeof...(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Cs}})+1 $>$
+\item 
+{\footnotesize template$<$char... Cs$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_a9f32e3c3ce9c5f278dbfd7587662d923}{cli\+::to\+\_\+lower}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ Cs... $>$ \&)
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., C2... $>$ \mbox{\hyperlink{namespacecli_afc9e007cb5b05c0432351848b0d3a3b3}{cli\+::operator+}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2... $>$ \&)
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., C2... $>$ \mbox{\hyperlink{namespacecli_a8e61b732abf24f2d3124af71935c1db7}{cli\+::operator+}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., 0 $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2..., 0 $>$ \&)
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., C2... $>$ \mbox{\hyperlink{namespacecli_a4d842732dcd8c1cd9775fc43c7448528}{cli\+::operator+}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., 0 $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2... $>$ \&)
+\item 
+{\footnotesize template$<$char... C1, char... C2$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1..., C2... $>$ \mbox{\hyperlink{namespacecli_ab1980b5c16e0561d1433ce57d67661a3}{cli\+::operator+}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C1... $>$ \&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{structcli_1_1string__constant}{string\+\_\+constant}}$<$ C2..., 0 $>$ \&)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{structcli_1_1_string_literal}{String\+Literal}} S$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_aa437372cc48cbc3300a74347465e4cb6}{cli\+::operator"{}"{}\+\_\+sc}} ()
+\end{DoxyCompactItemize}

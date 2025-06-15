@@ -1,0 +1,118 @@
+\doxysection{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage\texorpdfstring{$<$}{<} T, Size, trivial \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+
+
+uninitialized storage for Size elements of type T. It essentially is a c array of type Elem$<$\+T$>$\mbox{[}Size\mbox{]} to ensure no default initialization its elements.  
+
+
+
+
+{\ttfamily \#include $<$fixed\+\_\+vector.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_af67d3f94d44e5bdce5a8e86352407b31}{iter}} = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1iterator}{fixed\+\_\+vec\+\_\+dtl\+::iterator}}$<$T$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a094d44a88485ab32b4b2108574c6e5e7}{const\+\_\+iter}} = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1const__iterator}{fixed\+\_\+vec\+\_\+dtl\+::const\+\_\+iterator}}$<$T$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aca2226042fd0cd4d042a1fe2d3b73da8}{uninit\+\_\+storage}} ()=default
+\item 
+{\footnotesize template$<$typename... Args$>$ }\\constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aefe468b5cc0f718a6ca806fc5ed0f74b}{construct\+\_\+new}} (size\+\_\+t pos, Args \&\&...args)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_ae03793b5436e20fcef3e1797289715eb}{construct\+\_\+existing}} (size\+\_\+t pos, const T \&t)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aa606ba8c98d7fc1c8b8a7bdef68557e5}{construct\+\_\+existing}} (size\+\_\+t pos, T \&\&t)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a1c9552defc46bdee334a0fd99ab8cddf}{destroy}} (size\+\_\+t pos)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_af67d3f94d44e5bdce5a8e86352407b31}{iter}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a9e29235f8b9a7160871a359c3c17b618}{it}} (size\+\_\+t pos) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a094d44a88485ab32b4b2108574c6e5e7}{const\+\_\+iter}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a3d17e42b4d94105edf4b4580c3aaf18a}{it}} (size\+\_\+t pos) const noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T, size\+\_\+t Size, bool trivial$>$\newline
+class psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage$<$ T, Size, trivial $>$}
+uninitialized storage for Size elements of type T. It essentially is a c array of type Elem$<$\+T$>$\mbox{[}Size\mbox{]} to ensure no default initialization its elements. 
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a094d44a88485ab32b4b2108574c6e5e7}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a094d44a88485ab32b4b2108574c6e5e7} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!const\_iter@{const\_iter}}
+\index{const\_iter@{const\_iter}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iter}{const\_iter}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::const\+\_\+iter = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1const__iterator}{fixed\+\_\+vec\+\_\+dtl\+::const\+\_\+iterator}}$<$T$>$}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_af67d3f94d44e5bdce5a8e86352407b31}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_af67d3f94d44e5bdce5a8e86352407b31} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!iter@{iter}}
+\index{iter@{iter}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{iter}{iter}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::iter = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1iterator}{fixed\+\_\+vec\+\_\+dtl\+::iterator}}$<$T$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aca2226042fd0cd4d042a1fe2d3b73da8}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aca2226042fd0cd4d042a1fe2d3b73da8} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!uninit\_storage@{uninit\_storage}}
+\index{uninit\_storage@{uninit\_storage}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{uninit\_storage()}{uninit\_storage()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::uninit\+\_\+storage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_ae03793b5436e20fcef3e1797289715eb}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_ae03793b5436e20fcef3e1797289715eb} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!construct\_existing@{construct\_existing}}
+\index{construct\_existing@{construct\_existing}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{construct\_existing()}{construct\_existing()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::construct\+\_\+existing (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{const T \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aa606ba8c98d7fc1c8b8a7bdef68557e5}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aa606ba8c98d7fc1c8b8a7bdef68557e5} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!construct\_existing@{construct\_existing}}
+\index{construct\_existing@{construct\_existing}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{construct\_existing()}{construct\_existing()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::construct\+\_\+existing (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aefe468b5cc0f718a6ca806fc5ed0f74b}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_aefe468b5cc0f718a6ca806fc5ed0f74b} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!construct\_new@{construct\_new}}
+\index{construct\_new@{construct\_new}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{construct\_new()}{construct\_new()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+template$<$typename... Args$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::construct\+\_\+new (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a1c9552defc46bdee334a0fd99ab8cddf}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a1c9552defc46bdee334a0fd99ab8cddf} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!destroy@{destroy}}
+\index{destroy@{destroy}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::destroy (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a3d17e42b4d94105edf4b4580c3aaf18a}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a3d17e42b4d94105edf4b4580c3aaf18a} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!it@{it}}
+\index{it@{it}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{it()}{it()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a094d44a88485ab32b4b2108574c6e5e7}{const\+\_\+iter}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::it (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a9e29235f8b9a7160871a359c3c17b618}\label{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_a9e29235f8b9a7160871a359c3c17b618} 
+\index{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}!it@{it}}
+\index{it@{it}!psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$@{psm::fixed\_vec\_dtl::uninit\_storage$<$ T, Size, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{it()}{it()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Size, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage_af67d3f94d44e5bdce5a8e86352407b31}{iter}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1uninit__storage}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::uninit\+\_\+storage}}$<$ T, Size, trivial $>$\+::it (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixed__vector_8hpp}{fixed\+\_\+vector.\+hpp}}\end{DoxyCompactItemize}

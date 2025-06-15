@@ -1,0 +1,19 @@
+\doxysection{cli\+::traits\+::String Concept Reference}
+\hypertarget{conceptcli_1_1traits_1_1_string}{}\label{conceptcli_1_1traits_1_1_string}\index{cli::traits::String@{cli::traits::String}}
+
+
+{\ttfamily \#include $<$cli/traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1traits_1_1_string}{cli::traits::String}}\ =\ }
+\DoxyCodeLine{\ \ \ \ is\_string<T>::value\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}\ std::integral<typename\ T::value\_type>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}}
+\DoxyCodeLine{\ \ \ \ std::constructible\_from<T,\ const\ char\ *,\ std::size\_t>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}\ \textcolor{keyword}{requires}(T\ \&\&t)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ t.size()\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ t.begin()\ \}\ -\/>\ std::forward\_iterator;}
+\DoxyCodeLine{\ \ \ \ \ \ \{\ t.end()\ \}\ -\/>\ std::forward\_iterator;}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}

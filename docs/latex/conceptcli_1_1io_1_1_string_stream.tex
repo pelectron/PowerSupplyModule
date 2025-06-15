@@ -1,0 +1,50 @@
+\doxysection{cli\+::io\+::String\+Stream Concept Reference}
+\hypertarget{conceptcli_1_1io_1_1_string_stream}{}\label{conceptcli_1_1io_1_1_string_stream}\index{cli::io::StringStream@{cli::io::StringStream}}
+
+
+A String\+Stream is used to write a string of characters to an unbuffered output stream.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{cli::io::StringStream}}\ =\ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&stream,\ ByteView\ s)\ \{}
+\DoxyCodeLine{\ \ \{\ std::invoke(stream,\ s)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+A String\+Stream is used to write a string of characters to an unbuffered output stream. 
+
+It is a callable that takes a \doxylink{classcli_1_1_byte_view}{cli\+::\+Byte\+View} as input and returns a cli\+::\+Error to indicate write success.
+
+Example for an embedded target with UART\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cli::Error\ my\_string\_stream(\mbox{\hyperlink{classcli_1_1_byte_view}{cli::ByteView}}\ str)\{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{for}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\&c:str)\{}
+\DoxyCodeLine{\ \ \ \ HAL\_Status\ status\ =\ HAL\_UART\_Transmit(c);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(status\ !=HAL\_STAUS\_OK)}
+\DoxyCodeLine{\ \ \ \ \ \ \textcolor{keywordflow}{return}\ status\_to\_cli\_err(status);}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{static\_assert}(cli::StringStream<\textcolor{keyword}{decltype}(\&my\_string\_stream)>);}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & the stream type \\
+\hline
+\end{DoxyTemplParams}

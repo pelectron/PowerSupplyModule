@@ -1,0 +1,32 @@
+\doxysection{cli\+::params\+::Setter\+Of Concept Reference}
+\hypertarget{conceptcli_1_1params_1_1_setter_of}{}\label{conceptcli_1_1params_1_1_setter_of}\index{cli::params::SetterOf@{cli::params::SetterOf}}
+
+
+concept for a Setter with value type V  
+
+
+
+
+{\ttfamily \#include $<$cli/param.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ S,\ \textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1params_1_1_setter_of}{cli::params::SetterOf}}\ =\ \ \textcolor{keyword}{requires}(S\ \&\&setter,\ \textcolor{keyword}{const}\ V\ \&value)\ \{}
+\DoxyCodeLine{\ \ \{\ setter(value)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+concept for a Setter with value type V 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em S} & the setter type \\
+\hline
+{\em V} & the value type \\
+\hline
+\end{DoxyTemplParams}

@@ -1,0 +1,25 @@
+\doxysection{terminal.\+hpp}
+\hypertarget{terminal_8hpp_source}{}\label{terminal_8hpp_source}\index{cli/terminal.hpp@{cli/terminal.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_TERMINAL\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_TERMINAL\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1_terminal}{Terminal}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ Error\ \mbox{\hyperlink{classcli_1_1_terminal_a9083991804e1fa5b921b18b12b86100e}{write}}(uint8\_t\ c);}
+\DoxyCodeLine{00014\ \ \ \textcolor{comment}{//\ write\ a\ string\ to\ the\ terminal.\ This\ may\ be\ buffered.}}
+\DoxyCodeLine{00015\ \ \ Error\ \mbox{\hyperlink{classcli_1_1_terminal_a9083991804e1fa5b921b18b12b86100e}{write}}(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ s);}
+\DoxyCodeLine{00017\ \ \ Error\ \mbox{\hyperlink{classcli_1_1_terminal_aeeac58a30880e595f484cdb6c86eec73}{flush}}();}
+\DoxyCodeLine{00019\ \ \ Error\ \mbox{\hyperlink{classcli_1_1_terminal_a5e44de753135f7f8d659eecc581c8a5d}{backspace}}(\textcolor{keywordtype}{unsigned}\ n);}
+\DoxyCodeLine{00020\ \ \ Error\ cursor\_up(\textcolor{keywordtype}{unsigned}\ n);}
+\DoxyCodeLine{00021\ \ \ Error\ cursor\_down(\textcolor{keywordtype}{unsigned}\ n);}
+\DoxyCodeLine{00022\ \ \ Error\ cursor\_left(\textcolor{keywordtype}{unsigned}\ n);}
+\DoxyCodeLine{00023\ \ \ Error\ cursor\_right(\textcolor{keywordtype}{unsigned}\ n);}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

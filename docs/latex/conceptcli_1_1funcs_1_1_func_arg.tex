@@ -1,0 +1,21 @@
+\doxysection{cli\+::funcs\+::Func\+Arg Concept Reference}
+\hypertarget{conceptcli_1_1funcs_1_1_func_arg}{}\label{conceptcli_1_1funcs_1_1_func_arg}\index{cli::funcs::FuncArg@{cli::funcs::FuncArg}}
+
+
+{\ttfamily \#include $<$cli/function.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ A>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1funcs_1_1_func_arg}{cli::funcs::FuncArg}}\ =\ \ \textcolor{keyword}{requires}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{A}}\ \&\&\mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{arg}})\ \{}
+\DoxyCodeLine{\ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<A>::name\{\}\ \}\ -\/>\ \mbox{\hyperlink{conceptcli_1_1_name}{Name}};}
+\DoxyCodeLine{\ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<A>::description\{\}\ \}\ -\/>\ Name;}
+\DoxyCodeLine{\ \ \{\ arg.parse\ \}\ -\/>\ parse::Parser;}
+\DoxyCodeLine{\ \ \{\ arg.validate\ \}\ -\/>\ validate::Validator;}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

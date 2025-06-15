@@ -1,0 +1,19 @@
+\doxysection{cli\+::Command Concept Reference}
+\hypertarget{conceptcli_1_1_command}{}\label{conceptcli_1_1_command}\index{cli::Command@{cli::Command}}
+
+
+{\ttfamily \#include $<$cli/command.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ C>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1_command}{cli::Command}}\ =\ \ \textcolor{keyword}{requires}(std::remove\_cvref\_t<C>\ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{c}},\ \mbox{\hyperlink{namespacecli_a48f7fbdb65069341560c1b48aa39a3ca}{ExecType}}\ type,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ByteView\ \&args,\ std::span<char>\ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{out}})\ \{}
+\DoxyCodeLine{\ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<C>::sub\_command\_list\{\}\ \};}
+\DoxyCodeLine{\ \ \{\ std::remove\_cvref\_t<C>::name\ \}\ -\/>\ Name;}
+\DoxyCodeLine{\ \ \{\ std::remove\_cvref\_t<C>::description\ \}\ -\/>\ Name;}
+\DoxyCodeLine{\ \ \{\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{c}}.execute(type,\ args,\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{out}})\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

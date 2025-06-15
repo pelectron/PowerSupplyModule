@@ -10,6 +10,7 @@ deps = [
   dependency('gcem', native: false),
   dependency('poly', native: false, default_options: ['tests=false']),
   dependency('tl-expected', native: false),
+  dependency('cm', native: false),
 ]
 
 target = get_option('target').to_lower()

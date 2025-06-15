@@ -1,0 +1,58 @@
+\doxysection{fixed\+\_\+map.\+hpp File Reference}
+\hypertarget{fixed__map_8hpp}{}\label{fixed__map_8hpp}\index{fixed\_map.hpp@{fixed\_map.hpp}}
+{\ttfamily \#include "{}fixed\+\_\+vector.\+hpp"{}}\newline
+{\ttfamily \#include "{}result.\+hpp"{}}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1map__element}{psm\+::map\+\_\+element$<$ Key, Value $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View$<$ Key, Value $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1map__dtl_1_1iterator}{psm\+::map\+\_\+dtl\+::iterator$<$ Key, Value $>$}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1map__dtl_1_1const__iterator}{psm\+::map\+\_\+dtl\+::const\+\_\+iterator$<$ Key, Value $>$}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable}{psm\+::map\+\_\+dtl\+::comparable$<$ Key, K, typename $>$}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1map__dtl_1_1comparable_3_01_key_00_01_k_00_01std_1_1void__t_3_01decltype_07std_1_1dc08361790b8af3e8a5ea6eda5aef9793}{psm\+::map\+\_\+dtl\+::comparable$<$ Key, K, std\+::void\+\_\+t$<$ decltype(std\+::declval$<$ Key $>$()$<$ std\+::declval$<$ K $>$()), decltype(std\+::declval$<$ K $>$()$<$ std\+::declval$<$ Key $>$()), decltype(std\+::declval$<$ Key $>$()==std\+::declval$<$ K $>$()), decltype(std\+::declval$<$ K $>$()==std\+::declval$<$ Key $>$())$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1linear__search}{psm\+::linear\+\_\+search}}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1binary__search}{psm\+::binary\+\_\+search}}
+\item 
+class \mbox{\hyperlink{classpsm_1_1_fixed_map}{psm\+::\+Fixed\+Map$<$ Key, Value, Size, Search\+Policy $>$}}
+\begin{DoxyCompactList}\small\item\em A "{}dumb"{} flat map, built on fixed vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsm}{psm}}
+\item 
+namespace \mbox{\hyperlink{namespacepsm_1_1map__dtl}{psm\+::map\+\_\+dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename K , typename V $>$ }\\\mbox{\hyperlink{namespacepsm_ad904926be59be1db67b2e7cf82082511}{psm\+::map\+\_\+element}} (K \&\&, V \&\&) -\/$>$ map\+\_\+element$<$ std\+::decay\+\_\+t$<$ K $>$, std\+::decay\+\_\+t$<$ V $>$ $>$
+\item 
+{\footnotesize template$<$typename Key , typename Value $>$ }\\\mbox{\hyperlink{namespacepsm_a011b908aad5594ab9306dda4688a8ab5}{psm\+::\+Map\+View}} (\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$ \texorpdfstring{$\ast$}{*}data, size\+\_\+t size) -\/$>$ Map\+View$<$ Key, Value $>$
+\item 
+{\footnotesize template$<$typename Key , typename Value , std\+::size\+\_\+t N$>$ }\\constexpr auto \mbox{\hyperlink{namespacepsm_1_1map__dtl_afe233dcba526437ce5607f4f255db62b}{psm\+::map\+\_\+dtl\+::bubble\+\_\+sort}} (\mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, N $>$ v) -\/$>$ \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, N $>$
+\item 
+{\footnotesize template$<$size\+\_\+t Size, typename Key , typename Value $>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map}{Fixed\+Map}}$<$ Key, Value, Size $>$ $>$ \mbox{\hyperlink{namespacepsm_acce8978549e06324ec397273e99de26e}{psm\+::fixed\+\_\+map}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$ $>$ il)
+\begin{DoxyCompactList}\small\item\em create a fixed map from an initializer of map elements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$size\+\_\+t Size, typename Key , typename Value $>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map}{Fixed\+Map}}$<$ Key, Value, Size $>$ $>$ \mbox{\hyperlink{namespacepsm_ad8b9fae5940683848c6d3c68a3c0ab03}{psm\+::fixed\+\_\+map}} (const \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$(\&pairs)\mbox{[}Size\mbox{]})
+\begin{DoxyCompactList}\small\item\em create a fixed map from an array of map elements. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t Size, typename Key , typename Value $>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map}{Fixed\+Map}}$<$ Key, Value, Size $>$ $>$ \mbox{\hyperlink{namespacepsm_a47c7b4d5543f1571d477fc4eac5ee5fe}{psm\+::fixed\+\_\+map}} (const std\+::array$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&pairs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, typename Key , typename Value $>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map}{Fixed\+Map}}$<$ Key, Value, Size $>$ $>$ \mbox{\hyperlink{namespacepsm_a211d0a1cfa31f7741301b1e0032e187a}{psm\+::fixed\+\_\+map}} (const \mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&pairs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, typename Key , typename Value $>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1_result}{Result}}$<$ \mbox{\hyperlink{classpsm_1_1_fixed_map}{Fixed\+Map}}$<$ Key, Value, Size $>$ $>$ \mbox{\hyperlink{namespacepsm_aac3e540a96124d11cfff6df64cb9da7a}{psm\+::fixed\+\_\+map}} (\mbox{\hyperlink{classpsm_1_1_fixed_vec}{Fixed\+Vec}}$<$ \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$, Size $>$ \&\&pairs)
+\end{DoxyCompactItemize}
+

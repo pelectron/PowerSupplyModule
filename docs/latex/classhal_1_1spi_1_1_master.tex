@@ -1,0 +1,79 @@
+\doxysection{hal\+::spi\+::Master Class Reference}
+\hypertarget{classhal_1_1spi_1_1_master}{}\label{classhal_1_1spi_1_1_master}\index{hal::spi::Master@{hal::spi::Master}}
+
+
+{\ttfamily \#include $<$hal/spi.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_a21e5de10bdb3dbb7775d8d1ebfc9e035}{async\+\_\+write}} (std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{buf}}, \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}})
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_ac03bb15929af2d4ce82b106a72558248}{async\+\_\+read}} (std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{buf}}, \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}})
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_aeab6dbf9f711efc24d6ae9d6580bec07}{async\+\_\+transceive}} (std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ write\+\_\+buf, std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$ read\+\_\+buf, \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}} $>$ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a1c7a95e714525d61aa79dcb6f25d5d36}{configure}} (\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{Master\+Config}} \&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cfg}})
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_a606dcd85210b7f2f4dcd186dd752cdef}{spi\+\_\+irq\+\_\+callback}} ()
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_a4bd0d2200bc241be73a4bc57e7e62925}{add\+\_\+operation}} (\mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{op}})
+\item 
+\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} \mbox{\hyperlink{classhal_1_1spi_1_1_master_a163f78fb7fc272facc9322f8a77c8406}{pop\+\_\+operation\+\_\+and\+\_\+start\+\_\+next}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classhal_1_1spi_1_1_master_ac03bb15929af2d4ce82b106a72558248}\label{classhal_1_1spi_1_1_master_ac03bb15929af2d4ce82b106a72558248} 
+\index{hal::spi::Master@{hal::spi::Master}!async\_read@{async\_read}}
+\index{async\_read@{async\_read}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{async\_read()}{async\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} hal\+::spi\+::\+Master\+::async\+\_\+read (\begin{DoxyParamCaption}\item[{std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$}]{buf,  }\item[{\mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&}]{cb }\end{DoxyParamCaption})}
+
+\Hypertarget{classhal_1_1spi_1_1_master_aeab6dbf9f711efc24d6ae9d6580bec07}\label{classhal_1_1spi_1_1_master_aeab6dbf9f711efc24d6ae9d6580bec07} 
+\index{hal::spi::Master@{hal::spi::Master}!async\_transceive@{async\_transceive}}
+\index{async\_transceive@{async\_transceive}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{async\_transceive()}{async\_transceive()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} hal\+::spi\+::\+Master\+::async\+\_\+transceive (\begin{DoxyParamCaption}\item[{std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$}]{write\+\_\+buf,  }\item[{std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$}]{read\+\_\+buf,  }\item[{\mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&}]{cb }\end{DoxyParamCaption})}
+
+\Hypertarget{classhal_1_1spi_1_1_master_a21e5de10bdb3dbb7775d8d1ebfc9e035}\label{classhal_1_1spi_1_1_master_a21e5de10bdb3dbb7775d8d1ebfc9e035} 
+\index{hal::spi::Master@{hal::spi::Master}!async\_write@{async\_write}}
+\index{async\_write@{async\_write}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{async\_write()}{async\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} hal\+::spi\+::\+Master\+::async\+\_\+write (\begin{DoxyParamCaption}\item[{std\+::span$<$ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} $>$}]{buf,  }\item[{\mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}} \&\&}]{cb }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classhal_1_1spi_1_1_master_a4bd0d2200bc241be73a4bc57e7e62925}\label{classhal_1_1spi_1_1_master_a4bd0d2200bc241be73a4bc57e7e62925} 
+\index{hal::spi::Master@{hal::spi::Master}!add\_operation@{add\_operation}}
+\index{add\_operation@{add\_operation}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{add\_operation}{add\_operation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} add\+\_\+operation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}} \texorpdfstring{$\ast$}{*}}]{op }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classhal_1_1spi_1_1_master_a1c7a95e714525d61aa79dcb6f25d5d36}\label{classhal_1_1spi_1_1_master_a1c7a95e714525d61aa79dcb6f25d5d36} 
+\index{hal::spi::Master@{hal::spi::Master}!configure@{configure}}
+\index{configure@{configure}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{configure}{configure}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}} $>$ configure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{Master\+Config}} \&}]{cfg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classhal_1_1spi_1_1_master_a163f78fb7fc272facc9322f8a77c8406}\label{classhal_1_1spi_1_1_master_a163f78fb7fc272facc9322f8a77c8406} 
+\index{hal::spi::Master@{hal::spi::Master}!pop\_operation\_and\_start\_next@{pop\_operation\_and\_start\_next}}
+\index{pop\_operation\_and\_start\_next@{pop\_operation\_and\_start\_next}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{pop\_operation\_and\_start\_next}{pop\_operation\_and\_start\_next}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} pop\+\_\+operation\+\_\+and\+\_\+start\+\_\+next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\Hypertarget{classhal_1_1spi_1_1_master_a606dcd85210b7f2f4dcd186dd752cdef}\label{classhal_1_1spi_1_1_master_a606dcd85210b7f2f4dcd186dd752cdef} 
+\index{hal::spi::Master@{hal::spi::Master}!spi\_irq\_callback@{spi\_irq\_callback}}
+\index{spi\_irq\_callback@{spi\_irq\_callback}!hal::spi::Master@{hal::spi::Master}}
+\doxysubsubsection{\texorpdfstring{spi\_irq\_callback}{spi\_irq\_callback}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{void}} spi\+\_\+irq\+\_\+callback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hal/\mbox{\hyperlink{spi_8hpp}{spi.\+hpp}}\end{DoxyCompactItemize}

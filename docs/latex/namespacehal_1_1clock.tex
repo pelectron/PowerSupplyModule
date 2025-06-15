@@ -1,0 +1,277 @@
+\doxysection{hal\+::clock Namespace Reference}
+\hypertarget{namespacehal_1_1clock}{}\label{namespacehal_1_1clock}\index{hal::clock@{hal::clock}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_a_d_c}{ADC}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_clock_config}{Clock\+Config}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_f_d_c_a_n}{FDCAN}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_c_l_k8__t}{HCLK8\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_c_l_k__t}{HCLK\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_e}{HSE}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i}{HSI}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i_k_e_r__t}{HSIKER\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_h_s_i_s_y_s__t}{HSISYS\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_i2_c1}{I2\+C1}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_i2_s1}{I2\+S1}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_i2_s___c_k_i_n}{I2\+S\+\_\+\+CKIN}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_e}{LSE}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_l_s_i__t}{LSI\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_p_c_l_k__t}{PCLK\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_r_t_c_c_l_k}{RTCCLK}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_s_y_s_c_l_k__t}{SYSCLK\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_t_i_m_p_c_l_k__t}{TIMPCLK\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_u_s_a_r_t1}{USART1}}
+\item 
+struct \mbox{\hyperlink{structhal_1_1clock_1_1_u_s_b}{USB}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \{ \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3aa3ef1e12501238ddcca5063cc730a494}{operation\+\_\+unsupported}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3ad251e6fb723481cde9cc592fa724dd10}{invalid\+\_\+parameter}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} \{ \newline
+\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cafedb2d84cafe20862cb4399751a8a7e3}{invalid}} = 0
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cac9257cf1d5aaf6afea2f4701ebd6d6d5}{HSI48}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca227629d88ddba9532fd22078fdbe4541}{HSIUSB48}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cad597c271a829f7fbe0c01fd4109854ee}{HSE}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca08bb16f49592497b8d95a506bd494910}{LSI}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca022c9c355248b48d98413c3d5b7870ae}{LSE}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca95749adecd06bce3ab4b16503a7d3fe1}{I2\+S\+\_\+\+CKIN}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca21483b5733fbfd43e9323160be9efd3b}{HSISYS}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca22d401dd4ae87bd383fc39ef8b71cae6}{SYSCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa3b8b88e91d2c316c3ed95c17238393e}{HSIKER}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca81d7ab7449e0da73c41ef75b82c25e67}{HCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cadb06a515e5e0dee9818e92ba7327331b}{HCLK8}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca7dbc1c0e363ff3da443f05c8ea5197cb}{PCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caead0bcbb02347233eac6ed751a1b4cc4}{TIMPCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cacfc724f2c3f579265e777816b4ca1ff7}{RTCCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa6692231f77175435769d774b61ed537}{USART1\+CLK}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca803865c2fcae5ab3bb21af98be99b46a}{I2\+C1\+CLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caecdb2975c3384d1970f1d35abde7eeae}{ADCCLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca914ff2f4dffac040364a943653664344}{I2\+S1\+CLK}}
+, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca8457a69c682a24c1342612b3a5cddd07}{FDCAN1}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_a18fd276f028389c43dc259b344e893dc}{enable\+\_\+irq}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_a72187fff2e0242d31f421f497c0af9e0}{disable\+\_\+irq}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+bool \mbox{\hyperlink{namespacehal_1_1clock_a774492f6da56422a16ede083034a6795}{is\+\_\+stable}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_ac9fecb17dce0e40d7fe6065b90fe55a5}{enable}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_ac369fc95b943de8fb23264a944fcc04f}{enable}} (\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}} p)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_a5ae321866d744cba420f1739cdbbe3c3}{disable}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_a6fa0a1b063447d7a152821d10eb42344}{set\+\_\+source}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock, \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} source)
+\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespacehal_1_1clock_aebad4c1e2d4fcbba49fe7625dc5d7e09}{frequency}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock)
+\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespacehal_1_1clock_af3298581cd6202679c2c09f4da8bbd9d}{frequency}} (\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}} p)
+\item 
+\mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} \mbox{\hyperlink{namespacehal_1_1clock_abe05e732f8a8bcc47b404dea476ef7b7}{set\+\_\+frequency}} (\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}} clock, unsigned f)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c} 
+\index{hal::clock@{hal::clock}!Clock@{Clock}}
+\index{Clock@{Clock}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{Clock}{Clock}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{hal\+::clock\+::\+Clock}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid@{invalid}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!invalid@{invalid}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cafedb2d84cafe20862cb4399751a8a7e3}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cafedb2d84cafe20862cb4399751a8a7e3} 
+invalid&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HSI48@{HSI48}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HSI48@{HSI48}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cac9257cf1d5aaf6afea2f4701ebd6d6d5}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cac9257cf1d5aaf6afea2f4701ebd6d6d5} 
+HSI48&primary clocks \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HSIUSB48@{HSIUSB48}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HSIUSB48@{HSIUSB48}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca227629d88ddba9532fd22078fdbe4541}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca227629d88ddba9532fd22078fdbe4541} 
+HSIUSB48&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HSE@{HSE}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HSE@{HSE}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cad597c271a829f7fbe0c01fd4109854ee}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cad597c271a829f7fbe0c01fd4109854ee} 
+HSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LSI@{LSI}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!LSI@{LSI}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca08bb16f49592497b8d95a506bd494910}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca08bb16f49592497b8d95a506bd494910} 
+LSI&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LSE@{LSE}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!LSE@{LSE}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca022c9c355248b48d98413c3d5b7870ae}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca022c9c355248b48d98413c3d5b7870ae} 
+LSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{I2S\_CKIN@{I2S\_CKIN}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!I2S\_CKIN@{I2S\_CKIN}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca95749adecd06bce3ab4b16503a7d3fe1}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca95749adecd06bce3ab4b16503a7d3fe1} 
+I2\+S\+\_\+\+CKIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HSISYS@{HSISYS}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HSISYS@{HSISYS}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca21483b5733fbfd43e9323160be9efd3b}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca21483b5733fbfd43e9323160be9efd3b} 
+HSISYS&secondary clocks \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SYSCLK@{SYSCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!SYSCLK@{SYSCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca22d401dd4ae87bd383fc39ef8b71cae6}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca22d401dd4ae87bd383fc39ef8b71cae6} 
+SYSCLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HSIKER@{HSIKER}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HSIKER@{HSIKER}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa3b8b88e91d2c316c3ed95c17238393e}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa3b8b88e91d2c316c3ed95c17238393e} 
+HSIKER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HCLK@{HCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HCLK@{HCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca81d7ab7449e0da73c41ef75b82c25e67}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca81d7ab7449e0da73c41ef75b82c25e67} 
+HCLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HCLK8@{HCLK8}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!HCLK8@{HCLK8}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cadb06a515e5e0dee9818e92ba7327331b}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cadb06a515e5e0dee9818e92ba7327331b} 
+HCLK8&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PCLK@{PCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!PCLK@{PCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca7dbc1c0e363ff3da443f05c8ea5197cb}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca7dbc1c0e363ff3da443f05c8ea5197cb} 
+PCLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TIMPCLK@{TIMPCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!TIMPCLK@{TIMPCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caead0bcbb02347233eac6ed751a1b4cc4}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caead0bcbb02347233eac6ed751a1b4cc4} 
+TIMPCLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RTCCLK@{RTCCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!RTCCLK@{RTCCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cacfc724f2c3f579265e777816b4ca1ff7}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950cacfc724f2c3f579265e777816b4ca1ff7} 
+RTCCLK&@ peripheral clocks \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USART1CLK@{USART1CLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!USART1CLK@{USART1CLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa6692231f77175435769d774b61ed537}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caa6692231f77175435769d774b61ed537} 
+USART1\+CLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{I2C1CLK@{I2C1CLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!I2C1CLK@{I2C1CLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca803865c2fcae5ab3bb21af98be99b46a}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca803865c2fcae5ab3bb21af98be99b46a} 
+I2\+C1\+CLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ADCCLK@{ADCCLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!ADCCLK@{ADCCLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caecdb2975c3384d1970f1d35abde7eeae}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950caecdb2975c3384d1970f1d35abde7eeae} 
+ADCCLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{I2S1CLK@{I2S1CLK}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!I2S1CLK@{I2S1CLK}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca914ff2f4dffac040364a943653664344}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca914ff2f4dffac040364a943653664344} 
+I2\+S1\+CLK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FDCAN1@{FDCAN1}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!FDCAN1@{FDCAN1}}}\Hypertarget{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca8457a69c682a24c1342612b3a5cddd07}\label{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950ca8457a69c682a24c1342612b3a5cddd07} 
+FDCAN1&@ \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}\label{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3} 
+\index{hal::clock@{hal::clock}!Error@{Error}}
+\index{Error@{Error}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{Error}{Error}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{hal\+::clock\+::\+Error}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{none@{none}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!none@{none}}}\Hypertarget{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3a334c4a4c42fdb79d7ebc3e73b517e6f8}\label{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3a334c4a4c42fdb79d7ebc3e73b517e6f8} 
+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{operation\_unsupported@{operation\_unsupported}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!operation\_unsupported@{operation\_unsupported}}}\Hypertarget{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3aa3ef1e12501238ddcca5063cc730a494}\label{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3aa3ef1e12501238ddcca5063cc730a494} 
+operation\+\_\+unsupported&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid\_parameter@{invalid\_parameter}!hal::clock@{hal::clock}}\index{hal::clock@{hal::clock}!invalid\_parameter@{invalid\_parameter}}}\Hypertarget{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3ad251e6fb723481cde9cc592fa724dd10}\label{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3ad251e6fb723481cde9cc592fa724dd10} 
+invalid\+\_\+parameter&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacehal_1_1clock_a5ae321866d744cba420f1739cdbbe3c3}\label{namespacehal_1_1clock_a5ae321866d744cba420f1739cdbbe3c3} 
+\index{hal::clock@{hal::clock}!disable@{disable}}
+\index{disable@{disable}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::disable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_a72187fff2e0242d31f421f497c0af9e0}\label{namespacehal_1_1clock_a72187fff2e0242d31f421f497c0af9e0} 
+\index{hal::clock@{hal::clock}!disable\_irq@{disable\_irq}}
+\index{disable\_irq@{disable\_irq}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{disable\_irq()}{disable\_irq()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::disable\+\_\+irq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_ac9fecb17dce0e40d7fe6065b90fe55a5}\label{namespacehal_1_1clock_ac9fecb17dce0e40d7fe6065b90fe55a5} 
+\index{hal::clock@{hal::clock}!enable@{enable}}
+\index{enable@{enable}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::enable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_ac369fc95b943de8fb23264a944fcc04f}\label{namespacehal_1_1clock_ac369fc95b943de8fb23264a944fcc04f} 
+\index{hal::clock@{hal::clock}!enable@{enable}}
+\index{enable@{enable}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::enable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}}]{p }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_a18fd276f028389c43dc259b344e893dc}\label{namespacehal_1_1clock_a18fd276f028389c43dc259b344e893dc} 
+\index{hal::clock@{hal::clock}!enable\_irq@{enable\_irq}}
+\index{enable\_irq@{enable\_irq}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{enable\_irq()}{enable\_irq()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::enable\+\_\+irq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_aebad4c1e2d4fcbba49fe7625dc5d7e09}\label{namespacehal_1_1clock_aebad4c1e2d4fcbba49fe7625dc5d7e09} 
+\index{hal::clock@{hal::clock}!frequency@{frequency}}
+\index{frequency@{frequency}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{frequency()}{frequency()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::uint32\+\_\+t hal\+::clock\+::frequency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_af3298581cd6202679c2c09f4da8bbd9d}\label{namespacehal_1_1clock_af3298581cd6202679c2c09f4da8bbd9d} 
+\index{hal::clock@{hal::clock}!frequency@{frequency}}
+\index{frequency@{frequency}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{frequency()}{frequency()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::uint32\+\_\+t hal\+::clock\+::frequency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_a7149ed559d0b48776c8f0ecb910734e1}{Peripheral}}}]{p }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_a774492f6da56422a16ede083034a6795}\label{namespacehal_1_1clock_a774492f6da56422a16ede083034a6795} 
+\index{hal::clock@{hal::clock}!is\_stable@{is\_stable}}
+\index{is\_stable@{is\_stable}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{is\_stable()}{is\_stable()}}
+{\footnotesize\ttfamily bool hal\+::clock\+::is\+\_\+stable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_abe05e732f8a8bcc47b404dea476ef7b7}\label{namespacehal_1_1clock_abe05e732f8a8bcc47b404dea476ef7b7} 
+\index{hal::clock@{hal::clock}!set\_frequency@{set\_frequency}}
+\index{set\_frequency@{set\_frequency}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{set\_frequency()}{set\_frequency()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::set\+\_\+frequency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock,  }\item[{unsigned}]{f }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacehal_1_1clock_a6fa0a1b063447d7a152821d10eb42344}\label{namespacehal_1_1clock_a6fa0a1b063447d7a152821d10eb42344} 
+\index{hal::clock@{hal::clock}!set\_source@{set\_source}}
+\index{set\_source@{set\_source}!hal::clock@{hal::clock}}
+\doxysubsubsection{\texorpdfstring{set\_source()}{set\_source()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_1_1clock_a06811000bcedad56687d294991f4a1b3}{Error}} hal\+::clock\+::set\+\_\+source (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{clock,  }\item[{\mbox{\hyperlink{namespacehal_1_1clock_a5bcf40bb79559fc0e4a05aba1bc1950c}{Clock}}}]{source }\end{DoxyParamCaption})}
+

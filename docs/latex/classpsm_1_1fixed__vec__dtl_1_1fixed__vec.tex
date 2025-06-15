@@ -1,0 +1,654 @@
+\doxysection{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec\texorpdfstring{$<$}{<} T, Capacity, trivial \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+
+
+{\ttfamily \#include $<$fixed\+\_\+vector.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0acaa5352102dd88ed19457a8c90de13}{pointer}} = T \texorpdfstring{$\ast$}{*}
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6d5490f38d85ae174b42c4cbfc2aa50e}{const\+\_\+pointer}} = T const \texorpdfstring{$\ast$}{*}
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} = const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a58d32be1577bbf7a46b470b8fa53704a}{difference\+\_\+type}} = std\+::make\+\_\+signed\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}} = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1iterator}{fixed\+\_\+vec\+\_\+dtl\+::iterator}}$<$T$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}{reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}}$>$
+\item 
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aaafc06c35aa63af1c79f326a57e0b256}{fixed\+\_\+vec}} () noexcept
+\begin{DoxyCompactList}\small\item\em constructs an empty vector \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeaf02d957279659b3ca3c98e3414d21f}{fixed\+\_\+vec}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}, const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&value)
+\begin{DoxyCompactList}\small\item\em constructs a vector with n elements copy constructed from value \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+Iterator , typename  = std\+::enable\+\_\+if\+\_\+t$<$is\+\_\+iterator\+\_\+v$<$\+Input\+Iterator$>$$>$$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a190472e8398e90c377ec6c01e007101f}{fixed\+\_\+vec}} (Input\+Iterator first, Input\+Iterator last)
+\begin{DoxyCompactList}\small\item\em constructa vector from the range \mbox{[}first, last). \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a85187dff72992d531b597e40de4fdcba}{fixed\+\_\+vec}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} const \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+{\footnotesize template$<$size\+\_\+t C$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a618dacec8f7d7ef93c64452912a1fa9f}{fixed\+\_\+vec}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ const \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7f78b1f9b9ca1d3b7748e522afdd9d00}{fixed\+\_\+vec}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+{\footnotesize template$<$size\+\_\+t C$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeb8349d0c6d86e88d7d2add43771df88}{fixed\+\_\+vec}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ada791a8cc8b914dd9036594c2d8a3e87}{fixed\+\_\+vec}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$ il)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af0756bb351dd10802089075eb83d6b2d}{\texorpdfstring{$\sim$}{\string~}fixed\+\_\+vec}} ()
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abc7c289d30def8554efc109f9d982f57}{operator=}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} const \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+{\footnotesize template$<$size\+\_\+t C$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a81136eac40f771faacb61db567082b0f}{operator=}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ const \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeacd42634bc191c5bb3f8aa65031bdbd}{operator=}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+{\footnotesize template$<$size\+\_\+t C$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aab5aebe4dd7f4313ab4d864a00ade5c0}{operator=}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\item 
+{\footnotesize template$<$class Input\+Iterator , typename  = std\+::enable\+\_\+if\+\_\+t$<$is\+\_\+iterator\+\_\+v$<$\+Input\+Iterator$>$$>$$>$ }\\constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a27abf1cf6bb9c3d2d9ade1ed35fb18ea}{assign}} (Input\+Iterator first, Input\+Iterator last)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5f49b4b663c315c7c8dd19c325d4590e}{assign}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}, const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&u)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_afa6c9e1f0f802392efc982f3e543ec2c}{assign}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$ il)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa71f0ea87847210ae1755e8f958dace6}{begin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2924a2f35b266f2d554e29adc1348303}{begin}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1421811cc7f9cf4f22c3723dbc1ef06c}{end}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a077d0d65ff70849ada12237585ff2f5b}{end}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0f437b016c3a4ad7220577b8cd08e43e}{rbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae78e6efd1d132c75300cea7cf7f47384}{rbegin}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2429fcff81f5e9607d51bd3e99aa163c}{rend}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab76aa0a338d43a33daf6e01992a3dcc7}{rend}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab139e11512e7e5c212725a8358e7db7c}{cbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1aec77003c071941a12b41eee5918b63}{cend}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab8324e0f484f5c297396b0ce701f9874}{crbegin}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab4a5d7bc6d829ca58f862334bb19d111}{crend}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a15d14f96947d8b7ed295734813398607}{empty}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af9eb6b1b8f2bfa9f3905f8724a87be5a}{size}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a125e735532796639ff5e4408b38ce214}{shrink}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} sz)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7696ee917bf4d4b44addb14bf94b27fe}{resize}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} sz, const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&c)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3e6128bed5f6c5a152dee8fb991f5197}{operator\mbox{[}$\,$\mbox{]}}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8a96e08f32218187b9909aea6aca2d08}{operator\mbox{[}$\,$\mbox{]}}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}) const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1a5c4ffc9e4dc6a3751e806937428692}{at}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}) const
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af2554d56773060cd616a9c2c3e4f61cc}{at}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}})
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3d8e96af1d1f7e4573981461c5785cf7}{front}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aae82e93d1371f6ede5789f894767ae78}{front}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a950a1e5c62cef56c9701e2569105ddb9}{back}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a86ab086f4a1ce434a7205c345737a964}{back}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a02a52fb425281868e03ac2855708bebd}{insert}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} position, const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&x)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a408f12005a6c608907ee162268d74915}{insert}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} position, \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&\&x)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2338f775556e4f210000e2b82cbe56bc}{insert}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} position, \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{namespacepsm_aa485e6d28e072b80d82a24d54ac5c525a7b8b965ad4bca0e41ab51de7b31363a1}{n}}, const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&x)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abb74dceda8e5f52268abcc56e00dc0de}{emplace}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} position, Args \&\&...args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a04bbf5e4a22504391daa859c026a23f2}{emplace\+\_\+back}} (Args \&\&...args)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae207bf8d84a69b6d5fd955f10fb05ed2}{push\+\_\+back}} (const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&x)
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a55a214d5ca3596701e0d665ef31d5b02}{push\+\_\+back}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&\&x)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a93cf6f8b90343b90ea6405fc76843bef}{pop\+\_\+back}} ()
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7b9c18ee0743056ca7179f3788066a9a}{erase}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} position)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad265a6d89714210bbfb02cb4b204c706}{erase}} (\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} first, \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} last)
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad4d00ba63e373469c6b844c1c0c94fbd}{clear}} () noexcept(std\+::is\+\_\+nothrow\+\_\+destructible$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$\{\})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5910b6f03f3f0bfcb2ae2e7ecca412b8}{max\+\_\+size}} () noexcept
+\item 
+static constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a451b63e9e005b60c0ab9591d9dae3b5f}{capacity}} () noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename , size\+\_\+t , bool $>$ }\\class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa9f37de518914691a9152d47113a0d26}{fixed\+\_\+vec}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!const\_iterator@{const\_iterator}}
+\index{const\_iterator@{const\_iterator}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::const\+\_\+iterator}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ fixed\_vec\_dtl::const\_iterator<T>}
+
+\end{DoxyCode}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6d5490f38d85ae174b42c4cbfc2aa50e}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6d5490f38d85ae174b42c4cbfc2aa50e} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::const\+\_\+pointer = T const \texorpdfstring{$\ast$}{*}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::const\+\_\+reference = const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!const\_reverse\_iterator@{const\_reverse\_iterator}}
+\index{const\_reverse\_iterator@{const\_reverse\_iterator}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reverse\_iterator}{const\_reverse\_iterator}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::const\+\_\+reverse\+\_\+iterator = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}$>$}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a58d32be1577bbf7a46b470b8fa53704a}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a58d32be1577bbf7a46b470b8fa53704a} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::difference\+\_\+type = std\+::make\+\_\+signed\+\_\+t$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}$>$}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!iterator@{iterator}}
+\index{iterator@{iterator}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::iterator = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1iterator}{fixed\+\_\+vec\+\_\+dtl\+::iterator}}$<$T$>$}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0acaa5352102dd88ed19457a8c90de13}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0acaa5352102dd88ed19457a8c90de13} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::pointer = T \texorpdfstring{$\ast$}{*}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!reference@{reference}}
+\index{reference@{reference}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::reference = \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!reverse\_iterator@{reverse\_iterator}}
+\index{reverse\_iterator@{reverse\_iterator}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{reverse\_iterator}{reverse\_iterator}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::reverse\+\_\+iterator = std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}}$>$}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::size\+\_\+type = size\+\_\+t}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+using \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::value\+\_\+type = T}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aaafc06c35aa63af1c79f326a57e0b256}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aaafc06c35aa63af1c79f326a57e0b256} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+constructs an empty vector 
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeaf02d957279659b3ca3c98e3414d21f}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeaf02d957279659b3ca3c98e3414d21f} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n,  }\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+constructs a vector with n elements copy constructed from value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & number of elements to construct \\
+\hline
+{\em value} & value to copy construct elements from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a190472e8398e90c377ec6c01e007101f}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a190472e8398e90c377ec6c01e007101f} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$class Input\+Iterator , typename  = std\+::enable\+\_\+if\+\_\+t$<$is\+\_\+iterator\+\_\+v$<$\+Input\+Iterator$>$$>$$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{Input\+Iterator}]{first,  }\item[{Input\+Iterator}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+constructa vector from the range \mbox{[}first, last). 
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a85187dff72992d531b597e40de4fdcba}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a85187dff72992d531b597e40de4fdcba} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$ const \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a618dacec8f7d7ef93c64452912a1fa9f}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a618dacec8f7d7ef93c64452912a1fa9f} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$size\+\_\+t C$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ const \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7f78b1f9b9ca1d3b7748e522afdd9d00}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7f78b1f9b9ca1d3b7748e522afdd9d00} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeb8349d0c6d86e88d7d2add43771df88}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeb8349d0c6d86e88d7d2add43771df88} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$size\+\_\+t C$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ada791a8cc8b914dd9036594c2d8a3e87}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ada791a8cc8b914dd9036594c2d8a3e87} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec()}{fixed\_vec()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::fixed\+\_\+vec (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$}]{il }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af0756bb351dd10802089075eb83d6b2d}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af0756bb351dd10802089075eb83d6b2d} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!````~fixed\_vec@{\texorpdfstring{$\sim$}{\string~}fixed\_vec}}
+\index{````~fixed\_vec@{\texorpdfstring{$\sim$}{\string~}fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}fixed\_vec()}{\string~fixed\_vec()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::\texorpdfstring{$\sim$}{\string~}\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a27abf1cf6bb9c3d2d9ade1ed35fb18ea}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a27abf1cf6bb9c3d2d9ade1ed35fb18ea} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!assign@{assign}}
+\index{assign@{assign}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$class Input\+Iterator , typename  = std\+::enable\+\_\+if\+\_\+t$<$is\+\_\+iterator\+\_\+v$<$\+Input\+Iterator$>$$>$$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::assign (\begin{DoxyParamCaption}\item[{Input\+Iterator}]{first,  }\item[{Input\+Iterator}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5f49b4b663c315c7c8dd19c325d4590e}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5f49b4b663c315c7c8dd19c325d4590e} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!assign@{assign}}
+\index{assign@{assign}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n,  }\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{u }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_afa6c9e1f0f802392efc982f3e543ec2c}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_afa6c9e1f0f802392efc982f3e543ec2c} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!assign@{assign}}
+\index{assign@{assign}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::assign (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} $>$}]{il }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af2554d56773060cd616a9c2c3e4f61cc}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af2554d56773060cd616a9c2c3e4f61cc} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!at@{at}}
+\index{at@{at}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1a5c4ffc9e4dc6a3751e806937428692}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1a5c4ffc9e4dc6a3751e806937428692} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!at@{at}}
+\index{at@{at}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a86ab086f4a1ce434a7205c345737a964}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a86ab086f4a1ce434a7205c345737a964} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!back@{back}}
+\index{back@{back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a950a1e5c62cef56c9701e2569105ddb9}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a950a1e5c62cef56c9701e2569105ddb9} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!back@{back}}
+\index{back@{back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2924a2f35b266f2d554e29adc1348303}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2924a2f35b266f2d554e29adc1348303} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!begin@{begin}}
+\index{begin@{begin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa71f0ea87847210ae1755e8f958dace6}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa71f0ea87847210ae1755e8f958dace6} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!begin@{begin}}
+\index{begin@{begin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a451b63e9e005b60c0ab9591d9dae3b5f}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a451b63e9e005b60c0ab9591d9dae3b5f} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!capacity@{capacity}}
+\index{capacity@{capacity}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+static constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab139e11512e7e5c212725a8358e7db7c}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab139e11512e7e5c212725a8358e7db7c} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1aec77003c071941a12b41eee5918b63}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1aec77003c071941a12b41eee5918b63} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!cend@{cend}}
+\index{cend@{cend}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad4d00ba63e373469c6b844c1c0c94fbd}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad4d00ba63e373469c6b844c1c0c94fbd} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!clear@{clear}}
+\index{clear@{clear}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab8324e0f484f5c297396b0ce701f9874}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab8324e0f484f5c297396b0ce701f9874} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab4a5d7bc6d829ca58f862334bb19d111}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab4a5d7bc6d829ca58f862334bb19d111} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!crend@{crend}}
+\index{crend@{crend}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{crend()}{crend()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abb74dceda8e5f52268abcc56e00dc0de}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abb74dceda8e5f52268abcc56e00dc0de} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$class... Args$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::emplace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{position,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a04bbf5e4a22504391daa859c026a23f2}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a04bbf5e4a22504391daa859c026a23f2} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$class... Args$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a15d14f96947d8b7ed295734813398607}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a15d14f96947d8b7ed295734813398607} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!empty@{empty}}
+\index{empty@{empty}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a077d0d65ff70849ada12237585ff2f5b}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a077d0d65ff70849ada12237585ff2f5b} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!end@{end}}
+\index{end@{end}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1421811cc7f9cf4f22c3723dbc1ef06c}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a1421811cc7f9cf4f22c3723dbc1ef06c} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!end@{end}}
+\index{end@{end}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8782bee2bea35990f95731ece91c3ca3}{iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad265a6d89714210bbfb02cb4b204c706}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ad265a6d89714210bbfb02cb4b204c706} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!erase@{erase}}
+\index{erase@{erase}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7b9c18ee0743056ca7179f3788066a9a}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7b9c18ee0743056ca7179f3788066a9a} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!erase@{erase}}
+\index{erase@{erase}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aae82e93d1371f6ede5789f894767ae78}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aae82e93d1371f6ede5789f894767ae78} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!front@{front}}
+\index{front@{front}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3d8e96af1d1f7e4573981461c5785cf7}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3d8e96af1d1f7e4573981461c5785cf7} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!front@{front}}
+\index{front@{front}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a02a52fb425281868e03ac2855708bebd}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a02a52fb425281868e03ac2855708bebd} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!insert@{insert}}
+\index{insert@{insert}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{position,  }\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2338f775556e4f210000e2b82cbe56bc}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2338f775556e4f210000e2b82cbe56bc} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!insert@{insert}}
+\index{insert@{insert}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{position,  }\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n,  }\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a408f12005a6c608907ee162268d74915}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a408f12005a6c608907ee162268d74915} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!insert@{insert}}
+\index{insert@{insert}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a786a2c8600617e327498b2e4a7bf72b2}{const\+\_\+iterator}}}]{position,  }\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&\&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5910b6f03f3f0bfcb2ae2e7ecca412b8}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a5910b6f03f3f0bfcb2ae2e7ecca412b8} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!max\_size@{max\_size}}
+\index{max\_size@{max\_size}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+static constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeacd42634bc191c5bb3f8aa65031bdbd}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aeacd42634bc191c5bb3f8aa65031bdbd} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abc7c289d30def8554efc109f9d982f57}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_abc7c289d30def8554efc109f9d982f57} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$ const \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aab5aebe4dd7f4313ab4d864a00ade5c0}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aab5aebe4dd7f4313ab4d864a00ade5c0} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$size\+\_\+t C$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a81136eac40f771faacb61db567082b0f}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a81136eac40f771faacb61db567082b0f} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$size\+\_\+t C$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}} \& \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}$<$ T, C, trivial $>$ const \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8a96e08f32218187b9909aea6aca2d08}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a8a96e08f32218187b9909aea6aca2d08} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a99039368e20a09488c318f5aa7662924}{const\+\_\+reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3e6128bed5f6c5a152dee8fb991f5197}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a3e6128bed5f6c5a152dee8fb991f5197} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2e51ddecfdc80078d88823b7d9cfe783}{reference}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a93cf6f8b90343b90ea6405fc76843bef}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a93cf6f8b90343b90ea6405fc76843bef} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!pop\_back@{pop\_back}}
+\index{pop\_back@{pop\_back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_back()}{pop\_back()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::pop\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae207bf8d84a69b6d5fd955f10fb05ed2}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae207bf8d84a69b6d5fd955f10fb05ed2} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a55a214d5ca3596701e0d665ef31d5b02}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a55a214d5ca3596701e0d665ef31d5b02} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&\&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae78e6efd1d132c75300cea7cf7f47384}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ae78e6efd1d132c75300cea7cf7f47384} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0f437b016c3a4ad7220577b8cd08e43e}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a0f437b016c3a4ad7220577b8cd08e43e} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab76aa0a338d43a33daf6e01992a3dcc7}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ab76aa0a338d43a33daf6e01992a3dcc7} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!rend@{rend}}
+\index{rend@{rend}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aed9c6ab94eef932f599baa05c9afe511}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2429fcff81f5e9607d51bd3e99aa163c}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a2429fcff81f5e9607d51bd3e99aa163c} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!rend@{rend}}
+\index{rend@{rend}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a9441f1f756866ed6965122fcf414bb59}{reverse\+\_\+iterator}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7696ee917bf4d4b44addb14bf94b27fe}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a7696ee917bf4d4b44addb14bf94b27fe} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!resize@{resize}}
+\index{resize@{resize}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr void \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::resize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{sz,  }\item[{const \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_ac2632e78dd15f48a8223994807035fa4}{value\+\_\+type}} \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a125e735532796639ff5e4408b38ce214}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a125e735532796639ff5e4408b38ce214} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!shrink@{shrink}}
+\index{shrink@{shrink}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{shrink()}{shrink()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::shrink (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}}}]{sz }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af9eb6b1b8f2bfa9f3905f8724a87be5a}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_af9eb6b1b8f2bfa9f3905f8724a87be5a} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!size@{size}}
+\index{size@{size}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_a6c80ee4e423d2c143c103acfeb111d7e}{size\+\_\+type}} \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{psm\+::fixed\+\_\+vec\+\_\+dtl\+::fixed\+\_\+vec}}$<$ T, Capacity, trivial $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa9f37de518914691a9152d47113a0d26}\label{classpsm_1_1fixed__vec__dtl_1_1fixed__vec_aa9f37de518914691a9152d47113a0d26} 
+\index{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}!fixed\_vec@{fixed\_vec}}
+\index{fixed\_vec@{fixed\_vec}!psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$@{psm::fixed\_vec\_dtl::fixed\_vec$<$ T, Capacity, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{fixed\_vec}{fixed\_vec}}
+{\footnotesize\ttfamily template$<$typename T , size\+\_\+t Capacity, bool trivial$>$ \\
+template$<$typename , size\+\_\+t , bool $>$ \\
+friend class \mbox{\hyperlink{classpsm_1_1fixed__vec__dtl_1_1fixed__vec}{fixed\+\_\+vec}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixed__vector_8hpp}{fixed\+\_\+vector.\+hpp}}\end{DoxyCompactItemize}

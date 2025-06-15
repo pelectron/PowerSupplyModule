@@ -1,0 +1,162 @@
+\doxysection{spi.\+hpp}
+\hypertarget{spi_8hpp_source}{}\label{spi_8hpp_source}\index{hal/spi.hpp@{hal/spi.hpp}}
+\mbox{\hyperlink{spi_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ HAL\_SPI\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ HAL\_SPI\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{config_8hpp}{config.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cortex/function.hpp>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacehal_1_1spi}{hal::spi}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83}{Id}}\ \{}
+\DoxyCodeLine{00010\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83afedb2d84cafe20862cb4399751a8a7e3}{invalid}}\ =\ 0,}
+\DoxyCodeLine{00011\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a7fc56270e7a70fa81a5935b72eacbe29}{A}},}
+\DoxyCodeLine{00012\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a9d5ed678fe57bcca610140957afab571}{B}},}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a0d61f8370cad1d412f80b84d143e1257}{C}},}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af623e75af30e62bbd73d6df5b50bb7b5}{D}},}
+\DoxyCodeLine{00015\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a3a3ea00cfc35332cedf6e5e9a32e94da}{E}},}
+\DoxyCodeLine{00016\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a800618943025315f869e4e1f09471012}{F}},}
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83adfcf28d0734569a6a693bc8194de62bf}{G}},}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ac1d9f50f86825a1a2302ec2449c17196}{H}},}
+\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83add7536794b63bf90eccfd37f9b147d7f}{I}},}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83aff44570aca8241914870afbc310cdb85}{J}},}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83aa5f3c6a11b03839d46af9fb43c97c188}{K}},}
+\DoxyCodeLine{00022\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{L}},}
+\DoxyCodeLine{00023\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a69691c7bdcc3ce6d5d8a1361f22d04ac}{M}},}
+\DoxyCodeLine{00024\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a8d9c307cb7f3c4a32822a51922d1ceaa}{N}},}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af186217753c37b9b9f958d906208506e}{O}},}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a44c29edb103a2872f519ad0c9a0fdaaa}{P}},}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83af09564c9ca56850d4cd6b3319e541aee}{Q}},}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ae1e1d3d40573127e9ee0480caf1283d6}{R}},}
+\DoxyCodeLine{00029\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a5dbc98dcc983a70728bd082d1a47546e}{S}},}
+\DoxyCodeLine{00030\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ab9ece18c950afbfa6b0fdbfa4ff731d3}{T}},}
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a4c614360da93c0a041b22e537de151eb}{U}},}
+\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a5206560a306a2e085a437fd258eb57ce}{V}},}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a61e9c06ea9a85a5088a499df6458d276}{W}},}
+\DoxyCodeLine{00034\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a02129bb861061d1a052c592e2dc6b383}{X}},}
+\DoxyCodeLine{00035\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a57cec4137b614c87cb4e24a3d003a3e0}{Y}},}
+\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83a21c2e59531c8710156d34a3c30ac81d5}{Z}}}
+\DoxyCodeLine{00037\ \};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ff}{Phase}}\ \{\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa53cced8d281a1a0ace3cb6594daaa4f7}{low}},\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa8d966b2253a917086c8604959e152243}{high}}\ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ff}{Polarity}}\ \{\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa53cced8d281a1a0ace3cb6594daaa4f7}{low}},\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa8d966b2253a917086c8604959e152243}{high}}\ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00}{Format}}\ \{\ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00ae3f394ba0d5a3111ed1e09e01b0cbe0e}{lsb\_first}},\ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00a0d142fa5ab9b24b770ea5c3e73da6e1a}{msb\_first}}\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7ac}{Crc}}\ \{\ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca334c4a4c42fdb79d7ebc3e73b517e6f8}{none}},\ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca4a41f81285a391bcc41c8df2e408d474}{eight\_bit}},\ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca6240b0d4490cb88a91e13df5ed48fad4}{sixteen\_bit}}\ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\ \{}
+\DoxyCodeLine{00048\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea260ca9dd8a4577fc00b7bd5810298076}{success}},}
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea8bc1b2f84252c3df4edd53e4aad097a7}{busy}},}
+\DoxyCodeLine{00050\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea9db966b299b4d4517b124506d08ac434}{rx\_overrun}},}
+\DoxyCodeLine{00051\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ceaf551e1ab2d901dc76b5dab4298f0e054}{mode\_fault}},}
+\DoxyCodeLine{00052\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ceaab1ab14329432ca89f400579744932b9}{crc\_error}},}
+\DoxyCodeLine{00053\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea4080e803926452cb85fbe0c7d3ba2419}{frame\_error}},}
+\DoxyCodeLine{00054\ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\ \mbox{\hyperlink{namespacehal_1_1spi_ac8b3a30d95fd31e6448b80c5bd3a1380}{operator|}}(\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}},\ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}})\ \{}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}})\ |}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}}));}
+\DoxyCodeLine{00059\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{MasterConfig}}\ \{}
+\DoxyCodeLine{00062\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83}{Id}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a013062cf3296c1ff9bea823d8072f3b1}{id}};}
+\DoxyCodeLine{00063\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_adab5782ff4bf2974bd5952a399be1e45}{sclk}};}
+\DoxyCodeLine{00064\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_ab2e78711579e8c47722049381f83bbcd}{mosi}};}
+\DoxyCodeLine{00065\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a02a399b0667347c910accecc2224a133}{miso}};}
+\DoxyCodeLine{00066\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a60b551322bf9c14788749a7cfe4d45c3}{cs}};}
+\DoxyCodeLine{00067\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ff}{Phase}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a63e05bc6c59dcfb465f5228febaf36bf}{phase}}\ =\ \mbox{\hyperlink{namespacehal_1_1spi_a5895774722fde68653e6a35f06dbb1ffa53cced8d281a1a0ace3cb6594daaa4f7}{Phase::low}};}
+\DoxyCodeLine{00068\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ff}{Polarity}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_aa730c444d82900a1d56bcab8aef1abf9}{polarity}}\ =\ \mbox{\hyperlink{namespacehal_1_1spi_aa785ecec83a29152b5f45986fdd724ffa53cced8d281a1a0ace3cb6594daaa4f7}{Polarity::low}};}
+\DoxyCodeLine{00069\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00}{Format}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a753843f6fafc157c10630f65fbb3a161}{format}}\ =\ \mbox{\hyperlink{namespacehal_1_1spi_ae7338371aa27ba5de309235d44edca00a0d142fa5ab9b24b770ea5c3e73da6e1a}{Format::msb\_first}};}
+\DoxyCodeLine{00070\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a6da424416e18c6715ed60d53cf8fc265}{baudrate}}\ =\ 1'000'000;}
+\DoxyCodeLine{00071\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\_t}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a8e7469f3d0cd3dca2e8009f799c79787}{data\_size}}\ =\ 8;}
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_ada0e7c113bf29851d3c481908dd54c66}{use\_hw\_cs}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7ac}{Crc}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_acd3c2c4b9459364f4fdd10528d36f899}{crc}}\ =\ \mbox{\hyperlink{namespacehal_1_1spi_a1ad76aef823d9436aca6e80bca18d7aca334c4a4c42fdb79d7ebc3e73b517e6f8}{Crc::none}};}
+\DoxyCodeLine{00074\ \ \ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_a68940d2261515d1432b06355672e1f62}{crc\_polynomial}}\ =\ 0;}
+\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_aa40d5eac95409e7aa9495cef47183b0a}{three\_wire}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config_afd24967582aa64465922157cccacec2f}{cs\_pulse}};}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read}{BytesRead}}\ \{}
+\DoxyCodeLine{00080\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00081\ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read_a9ab935b5dcb4f7f3d5c7b72c0b5f4a0e}{BytesRead}}(std::uint32\_t\ \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read_a7118a8f8a0434313957021d5f94aa2c7}{value}})\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}\ :\ value\_(\mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read_a7118a8f8a0434313957021d5f94aa2c7}{value}})\ \{\}}
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ std::uint32\_t()\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}\ \{\ \textcolor{keywordflow}{return}\ value\_;\ \}}
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read_a7118a8f8a0434313957021d5f94aa2c7}{value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ value\_;\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00086\ \ \ std::uint32\_t\ value\_;}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written}{BytesWritten}}\ \{}
+\DoxyCodeLine{00090\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written_ab7982e259467d18ab7f236dc9c6d41eb}{BytesWritten}}(std::uint32\_t\ \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written_a54cca845f6eaa4b9e10e84f33247bad2}{value}})\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ :\ value\_(\mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written_a54cca845f6eaa4b9e10e84f33247bad2}{value}})\ \{\}}
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{operator}\ std::uint32\_t()\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{const}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}\ \{\ \textcolor{keywordflow}{return}\ value\_;\ \}}
+\DoxyCodeLine{00094\ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written_a54cca845f6eaa4b9e10e84f33247bad2}{value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ value\_;\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00097\ \ \ std::uint32\_t\ value\_;}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{struct\ }port\_type;}
+\DoxyCodeLine{00101\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{op\_state}};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10e}{State}}\ \{}
+\DoxyCodeLine{00104\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10ea075ae3d2fc31640504f814f60e5ef713}{disabled}}\ =\ 1\ <<\ 0,}
+\DoxyCodeLine{00105\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10eaec2f993aec2c27fc750119ab17b16cdb}{idle}}\ =\ 1\ <<\ 2,}
+\DoxyCodeLine{00106\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77cea8bc1b2f84252c3df4edd53e4aad097a7}{busy}}\ =\ 1\ <<\ 3,}
+\DoxyCodeLine{00107\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10eacb5e100e5a9a3e7f6d1fd97512215282}{error}}\ =\ 0b111}
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}}\ =\ cm::MoveOnlyFunction<\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{uint8\_t}}(\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}},\ \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read}{BytesRead}},\ \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written}{BytesWritten}}),}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 16,\ \textcolor{keyword}{alignof}(\textcolor{keywordtype}{void}\ *)>;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}};}
+\DoxyCodeLine{00114\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}}\ \{}
+\DoxyCodeLine{00115\ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\ \{\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}{none}}\ =\ 0,\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a7a1a5f3e79fdc91edf2f5ead9d66abb4}{Read}}\ =\ 0b01,\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a1129c0e4d43f2d121652a7302712cff6}{Write}}\ =\ 0b10,\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a70a2a84088d405a2e3f1e3accaa16723}{ReadWrite}}\ =\ 0b11\ \};}
+\DoxyCodeLine{00116\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_aad0c732f4c9dba52319ee1a450da1e7c}{operator\&}}(\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}},\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}})\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{a}})\ \&}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned}\textcolor{keyword}{>}(\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{b}}));}
+\DoxyCodeLine{00119\ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a4e620863122475288eb2f70685a40649}{invoke\_callback}}(\mbox{\hyperlink{namespacehal_1_1spi_a7daf40d198297fce2aee3db5213b77ce}{Error}}\ e)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a0f5da4c98d955f441c01962e9b3e3c3d}{callback}}(e,\ \mbox{\hyperlink{classhal_1_1spi_1_1_bytes_read}{BytesRead}}(\mbox{\hyperlink{structhal_1_1spi_1_1_operation_a83d4068f97f9858fe233a76581618d33}{read\_idx}}),\ \mbox{\hyperlink{structhal_1_1spi_1_1_bytes_written}{BytesWritten}}(\mbox{\hyperlink{structhal_1_1spi_1_1_operation_a20af30638541386db8c0e778327f0a1b}{write\_idx}}));}
+\DoxyCodeLine{00123\ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}}\ *\mbox{\hyperlink{structhal_1_1spi_1_1_operation_adf835142f0d48730c82822fc95e1268b}{master}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00126\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a0f5da4c98d955f441c01962e9b3e3c3d}{callback}}\{\};}
+\DoxyCodeLine{00127\ \ \ std::span<const\ uint8\_t>\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_af87159ca6ccddc9c50e79d775b18da9b}{write\_buf}}\{\};}
+\DoxyCodeLine{00128\ \ \ std::span<uint8\_t>\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_ab77e67f4b3ab866afb653fb0bed40e3d}{read\_buf}}\{\};}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a83d4068f97f9858fe233a76581618d33}{read\_idx}}\ =\ 0;}
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_a20af30638541386db8c0e778327f0a1b}{write\_idx}}\ =\ 0;}
+\DoxyCodeLine{00131\ \ \ \mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}}\ *\mbox{\hyperlink{structhal_1_1spi_1_1_operation_ad08d617b99d185699133491c756c86f8}{next}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00132\ \ \ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32}{Type}}\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_aa4ded90a0544d1e9789a73acc99a354e}{type}}\ =\ \mbox{\hyperlink{structhal_1_1spi_1_1_operation_abfb0457ccf71936c9aeb864b3888cb32a334c4a4c42fdb79d7ebc3e73b517e6f8}{Type::none}};}
+\DoxyCodeLine{00133\ \};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classhal_1_1spi_1_1_master}{Master}}\ \{}
+\DoxyCodeLine{00136\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a21e5de10bdb3dbb7775d8d1ebfc9e035}{async\_write}}(std::span<const\ uint8\_t>\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{buf}},\ \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}}\ \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}});}
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_ac03bb15929af2d4ce82b106a72558248}{async\_read}}(std::span<uint8\_t>\ \mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{buf}},\ \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}}\ \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}});}
+\DoxyCodeLine{00139\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_aeab6dbf9f711efc24d6ae9d6580bec07}{async\_transceive}}(std::span<const\ uint8\_t>\ write\_buf,}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<uint8\_t>\ read\_buf,\ \mbox{\hyperlink{namespacehal_1_1spi_a1acc8e673a8ba64b511e11cedb79b62e}{Callback}}\ \&\&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cb}});}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00143\ \ \ \textcolor{keyword}{friend}\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult<Master>}}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a1c7a95e714525d61aa79dcb6f25d5d36}{configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{MasterConfig}}\ \&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cfg}});}
+\DoxyCodeLine{00144\ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a606dcd85210b7f2f4dcd186dd752cdef}{spi\_irq\_callback}}();}
+\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a4bd0d2200bc241be73a4bc57e7e62925}{add\_operation}}(\mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}}\ *\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{op}});}
+\DoxyCodeLine{00146\ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classhal_1_1spi_1_1_master_a163f78fb7fc272facc9322f8a77c8406}{pop\_operation\_and\_start\_next}}();}
+\DoxyCodeLine{00147\ \ \ port\_type\ *port\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00148\ \ \ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10e}{State}}\ state\ =\ \mbox{\hyperlink{namespacehal_1_1spi_a1d987dfedfb0f2dedb8b5c6ef6eca10ea075ae3d2fc31640504f814f60e5ef713}{State::disabled}};}
+\DoxyCodeLine{00149\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{gpio::Output}}\ cs\{\};}
+\DoxyCodeLine{00150\ \ \ \mbox{\hyperlink{structhal_1_1spi_1_1_operation}{Operation}}\ transaction\{\};}
+\DoxyCodeLine{00151\ \};}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \mbox{\hyperlink{structhal_1_1_config_result}{ConfigResult<Master>}}\ \mbox{\hyperlink{namespacehal_1_1spi_ac4ec9c65f8be28cc3621bd3e5317d3fb}{configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structhal_1_1spi_1_1_master_config}{MasterConfig}}\ \&\mbox{\hyperlink{namespacehal_1_1spi_a36796a73b56fbae9ba811d0a263b3f83ad20caec3b48a1eef164cb4ca81ba2587}{cfg}});}
+\DoxyCodeLine{00154\ \}\ \textcolor{comment}{//\ namespace\ hal::spi}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

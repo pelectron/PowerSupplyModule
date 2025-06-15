@@ -59,10 +59,10 @@ void DMAMUX1_IRQHandler(void) {
   while (1) {
   }
 }
-void ADC1_IRQHandler(void) {
-  while (1) {
-  }
-}
+// void ADC1_IRQHandler(void) {
+//   while (1) {
+//   }
+// }
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void) {
   while (1) {
   }

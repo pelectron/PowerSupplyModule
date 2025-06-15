@@ -1,0 +1,15 @@
+\doxysection{cli\+::format\+::Formatter\+Of Concept Reference}
+\hypertarget{conceptcli_1_1format_1_1_formatter_of}{}\label{conceptcli_1_1format_1_1_formatter_of}\index{cli::format::FormatterOf@{cli::format::FormatterOf}}
+
+
+{\ttfamily \#include $<$cli/format.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ F,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1format_1_1_formatter_of}{cli::format::FormatterOf}}\ =\ \ \textcolor{keyword}{requires}(F\ \&\&f,\ std::span<char>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{buf}},\ \textcolor{keyword}{const}\ T\ \&t)\ \{}
+\DoxyCodeLine{\ \ \{\ f(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{buf}},\ t)\ \}\ -\/>\ std::same\_as<FormatResult>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

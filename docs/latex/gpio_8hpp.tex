@@ -1,0 +1,131 @@
+\doxysection{hal/gpio.hpp File Reference}
+\hypertarget{gpio_8hpp}{}\label{gpio_8hpp}\index{hal/gpio.hpp@{hal/gpio.hpp}}
+{\ttfamily \#include "{}config.\+hpp"{}}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{hal\+::gpio\+::\+Config}}
+\begin{DoxyCompactList}\small\item\em general gpio configuration structure \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_input_config}{hal\+::gpio\+::\+Input\+Config}}
+\begin{DoxyCompactList}\small\item\em gpio input configuration structure. Defaults to slow input without pull up or pull down. Converts implicitly to \doxylink{structhal_1_1gpio_1_1_config}{gpio\+::\+Config}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{hal\+::gpio\+::\+Output\+Config}}
+\begin{DoxyCompactList}\small\item\em gpio output configuration structure. Defaults to a slow, push-\/pull output without pull up/down resistor and reset initial state (0V). Converts implicitly to \doxylink{structhal_1_1gpio_1_1_config}{gpio\+::\+Config}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structhal_1_1gpio_1_1_alternate_function_config}{hal\+::gpio\+::\+Alternate\+Function\+Config}}
+\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{hal\+::gpio\+::\+Pin}}
+\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal\+::gpio\+::\+Output}}
+\item 
+class \mbox{\hyperlink{classhal_1_1gpio_1_1_input}{hal\+::gpio\+::\+Input}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacehal}{hal}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1gpio}{hal\+::gpio}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{hal\+::gpio\+::\+Port}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::gpio\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca7fc56270e7a70fa81a5935b72eacbe29}{hal\+::gpio\+::A}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca9d5ed678fe57bcca610140957afab571}{hal\+::gpio\+::B}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca0d61f8370cad1d412f80b84d143e1257}{hal\+::gpio\+::C}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf623e75af30e62bbd73d6df5b50bb7b5}{hal\+::gpio\+::D}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca3a3ea00cfc35332cedf6e5e9a32e94da}{hal\+::gpio\+::E}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca800618943025315f869e4e1f09471012}{hal\+::gpio\+::F}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadfcf28d0734569a6a693bc8194de62bf}{hal\+::gpio\+::G}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cac1d9f50f86825a1a2302ec2449c17196}{hal\+::gpio\+::H}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cadd7536794b63bf90eccfd37f9b147d7f}{hal\+::gpio\+::I}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caff44570aca8241914870afbc310cdb85}{hal\+::gpio\+::J}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caa5f3c6a11b03839d46af9fb43c97c188}{hal\+::gpio\+::K}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{hal\+::gpio\+::L}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca69691c7bdcc3ce6d5d8a1361f22d04ac}{hal\+::gpio\+::M}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca8d9c307cb7f3c4a32822a51922d1ceaa}{hal\+::gpio\+::N}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf186217753c37b9b9f958d906208506e}{hal\+::gpio\+::O}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca44c29edb103a2872f519ad0c9a0fdaaa}{hal\+::gpio\+::P}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6caf09564c9ca56850d4cd6b3319e541aee}{hal\+::gpio\+::Q}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cae1e1d3d40573127e9ee0480caf1283d6}{hal\+::gpio\+::R}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5dbc98dcc983a70728bd082d1a47546e}{hal\+::gpio\+::S}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}{hal\+::gpio\+::T}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca4c614360da93c0a041b22e537de151eb}{hal\+::gpio\+::U}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca5206560a306a2e085a437fd258eb57ce}{hal\+::gpio\+::V}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca61e9c06ea9a85a5088a499df6458d276}{hal\+::gpio\+::W}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca02129bb861061d1a052c592e2dc6b383}{hal\+::gpio\+::X}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca57cec4137b614c87cb4e24a3d003a3e0}{hal\+::gpio\+::Y}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6ca21c2e59531c8710156d34a3c30ac81d5}{hal\+::gpio\+::Z}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal\+::gpio\+::\+Id}} \+: uint16\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7afedb2d84cafe20862cb4399751a8a7e3}{hal\+::gpio\+::invalid}} = 0
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{hal\+::gpio\+::\+State}} \{ \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a86266ee937d97f812a8e57d22b62ee29}{hal\+::gpio\+::reset}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059acdaeeeba9b4a4c5ebf042c0215a7bb0e}{hal\+::gpio\+::set}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059a9dd4e461268c8034f5c8564e155c67a6}{hal\+::gpio\+::x}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333}{hal\+::gpio\+::\+Function}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa43c1b0aa53a0c908810c06ab1ff3967}{hal\+::gpio\+::input}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a78e6221f6393d1356681db398f14ce6d}{hal\+::gpio\+::output}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333a02c9adc0d63e270f7ea08ef4008e81bf}{hal\+::gpio\+::analog}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a4f30eaf0548bc574aeff88440b146333aa13a40f51bb5a8bd2a918d20d2e1fa41}{hal\+::gpio\+::alternate}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135}{hal\+::gpio\+::\+Mode}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::gpio\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a387945c85c85d3e32e47644d6101b23f}{hal\+::gpio\+::push\+\_\+pull}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_aaf2419666f330040775f376da52d8135a1b702b541fd7de7cba26951b2b9a8e8a}{hal\+::gpio\+::open\+\_\+drain}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9}{hal\+::gpio\+::\+Speed}} \+: std\+::uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::gpio\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a4fe9dfe784a2be25dd8aec3b403c3654}{hal\+::gpio\+::slow}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a075a3e36a0a52dcbc568c05788e8a713}{hal\+::gpio\+::medium}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a31d4541b8e926a24f0c9b835b68cfdf3}{hal\+::gpio\+::fast}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_ad9a604595cb6cc99992ba8e3527906f9a5e7a87a43d0aa438336008233cadc08b}{hal\+::gpio\+::very\+\_\+fast}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0}{hal\+::gpio\+::\+Pull}} \+: std\+::uint8\+\_\+t \{ \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::gpio\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a46c48bec0d282018b9d167eef7711b2c}{hal\+::gpio\+::up}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_acf1505f4c6cb89c6015939495dff32b0a74e8333ad11685ff3bdae589c8f6e34d}{hal\+::gpio\+::down}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903}{hal\+::gpio\+::\+Alternate\+Function}} \{ \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a334c4a4c42fdb79d7ebc3e73b517e6f8}{hal\+::gpio\+::none}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a22770fbdd1177351a869401a0e1427bc}{hal\+::gpio\+::rx}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a7da685001e153f41a83eb6255069dc3d}{hal\+::gpio\+::tx}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903af872f42cc51cf7029acc607881b3c72b}{hal\+::gpio\+::sclk}}
+, \newline
+\mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ac4388174c77e6510e828cb9d53d16dcc}{hal\+::gpio\+::mosi}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903ae2061ec2dfba21931ffacc217340c02c}{hal\+::gpio\+::miso}}
+, \mbox{\hyperlink{namespacehal_1_1gpio_a3bc24d22df2d20a48236db580fc78903a4d6c337a3e6b95ddea8fb109f7c0ad19}{hal\+::gpio\+::nss}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} \mbox{\hyperlink{namespacehal_1_1gpio_a67e9aadab0dd712763b3ee838ec9cc65}{hal\+::gpio\+::operator\texorpdfstring{$\vert$}{|}}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{p}}, \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{pin\+\_\+num}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6c}{Port}} \mbox{\hyperlink{namespacehal_1_1gpio_a74674b233d31cf6576ddbb3a576590e9}{hal\+::gpio\+::port}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} pin) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{uint8\+\_\+t}} \mbox{\hyperlink{namespacehal_1_1gpio_a6294a66899cca656e23582d3270eb718}{hal\+::gpio\+::pin\+\_\+nr}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} pin) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{constexpr}} \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} \mbox{\hyperlink{namespacehal_1_1gpio_a7b07ba76317fff458a230ebd8b61a7c0}{hal\+::gpio\+::operator!}} (\mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}} s)
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_pin}{Pin}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_af87ab137f55fd56bd8ae78776f216c7c}{hal\+::gpio\+::configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_config}{Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{bool}} \mbox{\hyperlink{namespacehal_1_1gpio_aaf0d27f1c0c154fe8526b6987248f611}{hal\+::gpio\+::pin\+\_\+exists}} (\mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{Id}} id) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{Output}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_a2f9b0dd7310a0d3ac37b79803e893219}{hal\+::gpio\+::configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{Output\+Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\item 
+\mbox{\hyperlink{structhal_1_1_config_result}{Config\+Result}}$<$ \mbox{\hyperlink{classhal_1_1gpio_1_1_input}{Input}} $>$ \mbox{\hyperlink{namespacehal_1_1gpio_a2581823da7c159e15b60f9a5673b44ba}{hal\+::gpio\+::configure}} (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{const}} \mbox{\hyperlink{structhal_1_1gpio_1_1_input_config}{Input\+Config}} \&\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{cfg}}) \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cad20caec3b48a1eef164cb4ca81ba2587}{noexcept}}
+\end{DoxyCompactItemize}

@@ -1,0 +1,4 @@
+var structcli_1_1type__list_1_1merge_3_01_list1_3_01_ts_8_8_8_01_4_00_01_list2_3_01_us_8_8_8_01_4_00_01_lists_8_8_8_01_4 =
+[
+    [ "type", "structcli_1_1type__list_1_1merge_3_01_list1_3_01_ts_8_8_8_01_4_00_01_list2_3_01_us_8_8_8_01_4_00_01_lists_8_8_8_01_4.html#a7ed047614d3aac36f7b5dd5236bca12c", null ]
+];

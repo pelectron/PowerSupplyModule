@@ -1,0 +1,164 @@
+\doxysection{psm\+::Relay Class Reference}
+\hypertarget{classpsm_1_1_relay}{}\label{classpsm_1_1_relay}\index{psm::Relay@{psm::Relay}}
+
+
+{\ttfamily \#include $<$relay.\+hpp$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}}
+\begin{DoxyCompactList}\small\item\em Specifies the pin, the pin state to keep the relay open, and the default status of the relay. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fe}{Id}} \+: std\+::uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaf5b977c2908a64cb98f2aa04f783d7cb}{out\+\_\+en\+\_\+p}} = 0
+, \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaced6426fcc0043601eb0b1c88dab6cc6}{out\+\_\+en\+\_\+n}} = 1
+, \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea2d21b6dab905f82a23e7f8e17d37cb95}{out\+\_\+select}} = 2
+, \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea22f598bff6906993be5ec792e56e556c}{out\+\_\+series}} = 3
+, \newline
+\mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feafedb2d84cafe20862cb4399751a8a7e3}{invalid}} = 0x\+FFu
+ \}
+\item 
+enum class \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}} \{ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69}{open}} = 0
+, \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a349e686330723975502e9ef4f939a5ac}{closed}} = 1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_relay_aafe43540ebb8a2f798fc2194cc313545}{Relay}} ()=default
+\item 
+\mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{hal\+::\+Config\+Error}} \mbox{\hyperlink{classpsm_1_1_relay_ae55040d0fa00b788299f68e139d496bd}{init}} (const \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}} \&\mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}})
+\begin{DoxyCompactList}\small\item\em initialize the relay. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a}{open}} ()
+\begin{DoxyCompactList}\small\item\em open the relay \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classpsm_1_1_relay_a39e6af0485e6bfce81f1e285486e39a3}{close}} ()
+\begin{DoxyCompactList}\small\item\em close the relay \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}} \mbox{\hyperlink{classpsm_1_1_relay_aade301c79396d79c9be4f6c77697df60}{state}} () const noexcept
+\begin{DoxyCompactList}\small\item\em returns the state of the relay \end{DoxyCompactList}\item 
+constexpr const \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}} \& \mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}} () const noexcept
+\begin{DoxyCompactList}\small\item\em returns the relay settings \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fe}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fe} 
+\index{psm::Relay@{psm::Relay}!Id@{Id}}
+\index{Id@{Id}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{Id}{Id}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fe}{psm\+::\+Relay\+::\+Id}} \+: std\+::uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{out\_en\_p@{out\_en\_p}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!out\_en\_p@{out\_en\_p}}}\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaf5b977c2908a64cb98f2aa04f783d7cb}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaf5b977c2908a64cb98f2aa04f783d7cb} 
+out\+\_\+en\+\_\+p&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{out\_en\_n@{out\_en\_n}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!out\_en\_n@{out\_en\_n}}}\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaced6426fcc0043601eb0b1c88dab6cc6}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaced6426fcc0043601eb0b1c88dab6cc6} 
+out\+\_\+en\+\_\+n&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{out\_select@{out\_select}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!out\_select@{out\_select}}}\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea2d21b6dab905f82a23e7f8e17d37cb95}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea2d21b6dab905f82a23e7f8e17d37cb95} 
+out\+\_\+select&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{out\_series@{out\_series}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!out\_series@{out\_series}}}\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea22f598bff6906993be5ec792e56e556c}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea22f598bff6906993be5ec792e56e556c} 
+out\+\_\+series&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{invalid@{invalid}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!invalid@{invalid}}}\Hypertarget{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feafedb2d84cafe20862cb4399751a8a7e3}\label{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feafedb2d84cafe20862cb4399751a8a7e3} 
+invalid&\\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}\label{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197} 
+\index{psm::Relay@{psm::Relay}!State@{State}}
+\index{State@{State}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{psm\+::\+Relay\+::\+State}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{open@{open}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!open@{open}}}\Hypertarget{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69}\label{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69} 
+open&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{closed@{closed}!psm::Relay@{psm::Relay}}\index{psm::Relay@{psm::Relay}!closed@{closed}}}\Hypertarget{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a349e686330723975502e9ef4f939a5ac}\label{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a349e686330723975502e9ef4f939a5ac} 
+closed&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1_relay_aafe43540ebb8a2f798fc2194cc313545}\label{classpsm_1_1_relay_aafe43540ebb8a2f798fc2194cc313545} 
+\index{psm::Relay@{psm::Relay}!Relay@{Relay}}
+\index{Relay@{Relay}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{Relay()}{Relay()}}
+{\footnotesize\ttfamily constexpr psm\+::\+Relay\+::\+Relay (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_relay_a39e6af0485e6bfce81f1e285486e39a3}\label{classpsm_1_1_relay_a39e6af0485e6bfce81f1e285486e39a3} 
+\index{psm::Relay@{psm::Relay}!close@{close}}
+\index{close@{close}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void psm\+::\+Relay\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+close the relay 
+
+\Hypertarget{classpsm_1_1_relay_ae55040d0fa00b788299f68e139d496bd}\label{classpsm_1_1_relay_ae55040d0fa00b788299f68e139d496bd} 
+\index{psm::Relay@{psm::Relay}!init@{init}}
+\index{init@{init}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{hal\+::\+Config\+Error}} psm\+::\+Relay\+::init (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}} \&}]{settings }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialize the relay. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & relay settings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Config\+Error\+::success, if initialization succeeded, else the error source. 
+\end{DoxyReturn}
+\Hypertarget{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a}\label{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a} 
+\index{psm::Relay@{psm::Relay}!open@{open}}
+\index{open@{open}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily void psm\+::\+Relay\+::open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+open the relay 
+
+\Hypertarget{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}\label{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7} 
+\index{psm::Relay@{psm::Relay}!settings@{settings}}
+\index{settings@{settings}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{settings()}{settings()}}
+{\footnotesize\ttfamily constexpr const \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}} \& psm\+::\+Relay\+::settings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+returns the relay settings 
+
+\Hypertarget{classpsm_1_1_relay_aade301c79396d79c9be4f6c77697df60}\label{classpsm_1_1_relay_aade301c79396d79c9be4f6c77697df60} 
+\index{psm::Relay@{psm::Relay}!state@{state}}
+\index{state@{state}!psm::Relay@{psm::Relay}}
+\doxysubsubsection{\texorpdfstring{state()}{state()}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}} psm\+::\+Relay\+::state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+returns the state of the relay 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{relay_8hpp}{relay.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,663 @@
+\doxysection{fixpoint.\+hpp}
+\hypertarget{fixpoint_8hpp_source}{}\label{fixpoint_8hpp_source}\mbox{\hyperlink{fixpoint_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ PSM\_FIX\_POINT\_HPP}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ PSM\_FIX\_POINT\_HPP}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <gcem.hpp>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keywordtype}{size\_t}\ num\_digits>\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}{T}}\ \mbox{\hyperlink{namespacepsm_ad8fbc34a77f512e74721c7c554732931}{mask}}()\ noexcept\ \{}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}{T}}\ val\{0\};}
+\DoxyCodeLine{00019\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ num\_digits;\ ++i)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ val\ |=\ (\mbox{\hyperlink{namespacehal_1_1gpio_a1a98fe8d6900501579dc7bd1cc81db6cab9ece18c950afbfa6b0fdbfa4ff731d3}{T}}\{1\}\ <<\ i);}
+\DoxyCodeLine{00021\ \ \ \}}
+\DoxyCodeLine{00022\ \ \ \textcolor{keywordflow}{return}\ val;}
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{static\_assert}(mask<uint8\_t,\ 3>()\ ==\ 0b111);}
+\DoxyCodeLine{00026\ \textcolor{keyword}{static\_assert}(mask<uint8\_t,\ 4>()\ ==\ 0b1111);}
+\DoxyCodeLine{00027\ \textcolor{keyword}{static\_assert}(mask<uint64\_t,\ 64>()\ ==\ 0xFFFFFFFFFFFFFFFFu);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ num\_digits>}
+\DoxyCodeLine{00033\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t}}\ =\ std::conditional\_t<}
+\DoxyCodeLine{00034\ \ \ \ \ num\_digits\ <=\ 8,\ uint8\_t,}
+\DoxyCodeLine{00035\ \ \ \ \ std::conditional\_t<num\_digits\ <=\ 16,\ uint16\_t,}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::conditional\_t<num\_digits\ <=\ 32,\ uint32\_t,}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::conditional\_t<num\_digits\ <=\ 64,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint64\_t,\ \textcolor{keywordtype}{void}>>>>;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \{}
+\DoxyCodeLine{00051\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ =\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<FracDigits\ +\ IntDigits>}};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{static\_assert}((FracDigits\ +\ IntDigits)\ <=\ 64,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unsigned\_fixed\ digits\ error:\ maximum\ supported\ number\ of\ "{}}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}digits\ is\ 64.\ Either\ choose\ less\ "{}}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}integer\ or\ fractional\ bits."{}});}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a848a0025553813452d49c3ff33624c84}{num\_frac\_digits}}\ =\ FracDigits;}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_afbeab4f6e490b5dadd4ad29a26696a64}{num\_int\_digits}}\ =\ IntDigits;}
+\DoxyCodeLine{00065\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_adfb7e54760cb6942b56857975df81fed}{num\_digits}}\ =\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_afbeab4f6e490b5dadd4ad29a26696a64}{num\_int\_digits}}\ +\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a848a0025553813452d49c3ff33624c84}{num\_frac\_digits}};}
+\DoxyCodeLine{00067\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a56070910eb1bca518243ef87d0db401d}{fraction\_mask}}\ =}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_frac\_digits>();}
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ab375943243df4e7c1437f3ace3c30afb}{integer\_mask}}\ =}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_int\_digits>();}
+\DoxyCodeLine{00073\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ac80ac844c0f0b1c76acf88887f220b13}{value\_mask}}\ =}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_digits>();}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00077\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_af335ae1d836d5b39ec76ed1bf7fc39dc}{unsigned\_fixed}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a98c2727c6b12ade2ddcf996743d36b69}{unsigned\_fixed}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00079\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae4087c8792afd9206e14be9e7534336d}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&\mbox{\hyperlink{classpsm_1_1unsigned__fixed_afad0fa83f9f2d8cc151a1a2b84af7eaf}{operator=}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00083\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ other)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00086\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a1baef41843495a72db8f118e485dce9e}{unsigned\_fixed}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00090\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed}}(\textcolor{keywordtype}{float}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed}}(\textcolor{keywordtype}{double}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00096\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00100\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<IntDigits>}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a5166ea3724644eb22848654aff54e0e0}{integer}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00104\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<FracDigits>}}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_afb2e7605a5b707c7ee233925a020395a}{fraction}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00107\ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ value\_\{0\};}
+\DoxyCodeLine{00108\ \};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \{}
+\DoxyCodeLine{00123\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ =\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<FracDigits\ +\ IntDigits>}};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{static\_assert}((FracDigits\ +\ IntDigits)\ <=\ 64,}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}signed\_fixed\ digits\ error:\ maximum\ supported\ number\ of\ digits\ "{}}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}is\ 64.\ Either\ choose\ less\ "{}}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}integer\ or\ fractional\ bits."{}});}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00133\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}\ =\ FracDigits;}
+\DoxyCodeLine{00135\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}{num\_int\_digits}}\ =\ IntDigits;}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63}{num\_digits}}\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a64ec3c8d26d3b9b074a42bf3f540c5f7}{num\_int\_digits}}\ +\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00139\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}}\ =}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_frac\_digits>();}
+\DoxyCodeLine{00142\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}}\ =}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_int\_digits>();}
+\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\_mask}}\ =}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ mask<raw\_value\_type,\ num\_digits>();}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a903e0af718c79eb8cb06d93389381dc9}{signed\_fixed}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00150\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a0aa8e7cb4cf5cd5b621563db2c38e938}{signed\_fixed}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00151\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ab53baf271137d01595ac8a4d7b6cc966}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00152\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_a627b1779020aa16eb2993c76433b826e}{operator=}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00155\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a75df4216d99d4009c5f65b0036b18d27}{signed\_fixed}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ other)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00157\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a09774e081d10ec6d241d82a2339be7f8}{signed\_fixed}}(\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00161\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa56109846c9bb16d02c995266c16b86a}{signed\_fixed}}(\textcolor{keywordtype}{float}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00162\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aea67e4c58a002b035553e3448b873e63}{signed\_fixed}}(\textcolor{keywordtype}{double}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00167\ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}()\ const\ noexcept;}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00171\ \ \ [[nodiscard]]\ constexpr\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t}}<IntDigits>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_af5f0a508931dd92dfccdaa3880bb9083}{integer}}()\ const;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00175\ \ \ [[nodiscard]]\ constexpr\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t}}<FracDigits>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a0b0b10708340c03a0d7d39e9c41b2ed5}{fraction}}()\ const;}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00179\ \ \ [[nodiscard]]\ constexpr\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}()\ const\ noexcept;}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ private:}
+\DoxyCodeLine{00182\ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ value\_;\ }
+\DoxyCodeLine{00184\ \};}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00193\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00194\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>}
+\DoxyCodeLine{00195\ operator+(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00204\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00205\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I\ +\ 1,\ F>}
+\DoxyCodeLine{00206\ operator-\/(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00218\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00219\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00220\ operator+(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1,\ F1>\ \&f1,}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I2,\ F2>\ \&f2)\ noexcept;}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00233\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00234\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<gcem::max(I1,\ I2),\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00235\ operator-\/(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1,\ F1>\ \&f1,}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I2,\ F2>\ \&f2)\ noexcept;}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00248\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00249\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1\ +\ I2,\ F1\ +\ F2>}
+\DoxyCodeLine{00250\ operator*(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1,\ F1>\ \&f1,}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I2,\ F2>\ \&f2)\ noexcept;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00263\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00264\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1\ +\ F2,\ I2\ +\ F1>}
+\DoxyCodeLine{00265\ operator/(const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1,\ F1>\ \&f1,\ const\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I2,\ F2>\ \&f2);}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00276\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00277\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I1,\ F1>\ \mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I2,\ F2>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00286\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00287\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>}
+\DoxyCodeLine{00288\ operator+(const\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00297\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00298\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>}
+\DoxyCodeLine{00299\ operator-\/(const\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00311\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00312\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00313\ operator+(const\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ \&f1,}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ const\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ \&f2)\ noexcept;}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00326\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00327\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00328\ operator-\/(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ f2)\ noexcept;}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00341\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00342\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1\ +\ I2\ -\/\ 1,\ F1\ +\ F2>}
+\DoxyCodeLine{00343\ operator*(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ f2)\ noexcept;}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00356\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00357\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1\ +\ F2,\ I2\ +\ F1>\ operator/(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ f1,}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ f2);}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00369\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00370\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ \mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept;}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00380\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00381\ constexpr\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ \mbox{\hyperlink{namespacepsm_a1cc37c9fb31260ad72c5d5685063725f}{to\_unsigned}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00391\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00392\ constexpr\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>\ \mbox{\hyperlink{namespacepsm_acc74bc3931ddd53f118733f7ec5a06c8}{to\_signed}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00401\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00402\ constexpr\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacepsm_af0567bd6d38a44a32066208fc33d1270}{to\_float}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00411\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00412\ constexpr\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacepsm_af0567bd6d38a44a32066208fc33d1270}{to\_float}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00413\ }
+\DoxyCodeLine{00421\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00422\ constexpr\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespacepsm_a6063a28fcca3524564e001be98d13f97}{to\_double}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00423\ }
+\DoxyCodeLine{00431\ template\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00432\ constexpr\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespacepsm_a6063a28fcca3524564e001be98d13f97}{to\_double}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<I,\ F>\ v)\ noexcept;}
+\DoxyCodeLine{00437\ template\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00438\ constexpr\ \textcolor{keywordtype}{bool}\ operator<(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1,\ F1>\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I2,\ F2>\ f2)\ \{}
+\DoxyCodeLine{00439\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f1)\ <\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f2);}
+\DoxyCodeLine{00440\ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00446\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00447\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a7c5020710aef757d4844ce30f7302972}{operator<=}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00448\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f1)\ <=\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f2);}
+\DoxyCodeLine{00449\ \}}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00455\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00456\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_acc3de7af5fb46718b0fea72c59c69d80}{operator>}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00457\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f1)\ >\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f2);}
+\DoxyCodeLine{00458\ \}}
+\DoxyCodeLine{00459\ }
+\DoxyCodeLine{00465\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00466\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a9e374ad8ee3b54c87e4767cd39ff2581}{operator>=}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00467\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f1)\ >=\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(f2);}
+\DoxyCodeLine{00468\ \}}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00475\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00476\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a5a79332260ad495e53025d7bbf6f6b03}{operator==}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00477\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}()\ ==\ f2.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}();}
+\DoxyCodeLine{00478\ \}}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00484\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00485\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a23d7ebacc8444f45db5c30679ec22e55}{operator<}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00486\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ <\ f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00487\ \}}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00493\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00494\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a7c5020710aef757d4844ce30f7302972}{operator<=}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ f1,}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00496\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ <=\ f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00497\ \}}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00503\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00504\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_acc3de7af5fb46718b0fea72c59c69d80}{operator>}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00505\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ >\ f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00506\ \}}
+\DoxyCodeLine{00511\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00512\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a9e374ad8ee3b54c87e4767cd39ff2581}{operator>=}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ f1,}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00514\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ >=\ f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00515\ \}}
+\DoxyCodeLine{00516\ }
+\DoxyCodeLine{00521\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00522\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespacepsm_a5a79332260ad495e53025d7bbf6f6b03}{operator==}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ f1,}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00524\ \ \ \textcolor{keywordflow}{return}\ f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()\ ==\ f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00525\ \}}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{constexpr}\ T\ \mbox{\hyperlink{namespacepsm_ad8fbc34a77f512e74721c7c554732931}{mask}}(\textcolor{keywordtype}{size\_t}\ msb,\ \textcolor{keywordtype}{size\_t}\ lsb)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00528\ \ \ T\ val\{0\};}
+\DoxyCodeLine{00529\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ lsb;\ i\ <=\ msb;\ ++i)\ \{}
+\DoxyCodeLine{00530\ \ \ \ \ val\ |=\ (T\{1\}\ <<\ i);}
+\DoxyCodeLine{00531\ \ \ \}}
+\DoxyCodeLine{00532\ \ \ \textcolor{keywordflow}{return}\ val;}
+\DoxyCodeLine{00533\ \}}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \textcolor{keyword}{static\_assert}(mask<uint8\_t>(7,\ 0)\ ==\ 0xFFu);}
+\DoxyCodeLine{00536\ \textcolor{keyword}{static\_assert}(mask<uint8\_t>(3,\ 0)\ ==\ 0x0Fu);}
+\DoxyCodeLine{00537\ \textcolor{keyword}{static\_assert}(mask<uint8\_t>(7,\ 4)\ ==\ 0xF0u);}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00540\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00541\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<I,\ F>::raw\_value\_type}}}
+\DoxyCodeLine{00542\ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ f)\ \{}
+\DoxyCodeLine{00543\ \ \ \textcolor{keywordflow}{if}\ (f.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}())\ \{}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keyword}{using\ }T\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<I,\ F>::raw\_value\_type}};}
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{comment}{//\ value\ or'd\ together\ with\ all\ ones\ in\ the\ 'guard'\ bits\ of\ the\ value\ type}}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordflow}{return}\ f.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}()\ |\ mask<T>(\textcolor{keyword}{sizeof}(T)\ *\ 8\ -\/\ 1,\ I\ +\ F);}
+\DoxyCodeLine{00547\ \ \ \}}
+\DoxyCodeLine{00548\ \ \ \textcolor{keywordflow}{return}\ f.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}();}
+\DoxyCodeLine{00549\ \}}
+\DoxyCodeLine{00550\ }
+\DoxyCodeLine{00551\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00552\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00553\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed<IntDigits,\ FracDigits>::unsigned\_fixed}}(}
+\DoxyCodeLine{00554\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ other)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00555\ \ \ *\textcolor{keyword}{this}\ =\ resize<IntDigits,\ FracDigits>(other);}
+\DoxyCodeLine{00556\ \}}
+\DoxyCodeLine{00557\ }
+\DoxyCodeLine{00558\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00559\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed<IntDigits,\ FracDigits>::unsigned\_fixed}}(}
+\DoxyCodeLine{00560\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<IntDigits,\ FracDigits>::raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept}
+\DoxyCodeLine{00561\ \ \ \ \ :\ value\_(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\_mask}})\ \{\}}
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00564\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed<IntDigits,\ FracDigits>::unsigned\_fixed}}(}
+\DoxyCodeLine{00565\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})\ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00569\ }
+\DoxyCodeLine{00570\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}((\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0f,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00574\ }
+\DoxyCodeLine{00575\ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00576\ \}}
+\DoxyCodeLine{00577\ }
+\DoxyCodeLine{00578\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00579\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a0633a544c0a0ffafdfd682de49d4188e}{unsigned\_fixed<IntDigits,\ FracDigits>::unsigned\_fixed}}(}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00581\ }
+\DoxyCodeLine{00582\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ ((\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})\ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}});}
+\DoxyCodeLine{00584\ }
+\DoxyCodeLine{00585\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}((\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00591\ \}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00594\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<IntDigits,\ FracDigits>::raw\_value\_type}}}
+\DoxyCodeLine{00595\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{unsigned\_fixed<IntDigits,\ FracDigits>::value}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00596\ \ \ \textcolor{keywordflow}{return}\ value\_;}
+\DoxyCodeLine{00597\ \}}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00600\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<IntDigits>}}}
+\DoxyCodeLine{00601\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_a5166ea3724644eb22848654aff54e0e0}{unsigned\_fixed<IntDigits,\ FracDigits>::integer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00602\ \ \ \textcolor{keywordflow}{return}\ value\_\ >>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00603\ \}}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00605\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00606\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<FracDigits>}}}
+\DoxyCodeLine{00607\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_afb2e7605a5b707c7ee233925a020395a}{unsigned\_fixed<IntDigits,\ FracDigits>::fraction}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00608\ \ \ \textcolor{keywordflow}{return}\ value\_\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00609\ \}}
+\DoxyCodeLine{00610\ }
+\DoxyCodeLine{00611\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00612\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00613\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed<IntDigits,\ FracDigits>::signed\_fixed}}(}
+\DoxyCodeLine{00614\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ other)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00615\ \ \ *\textcolor{keyword}{this}\ =\ resize<IntDigits,\ FracDigits>(other);}
+\DoxyCodeLine{00616\ \}}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00619\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed<IntDigits,\ FracDigits>::signed\_fixed}}(}
+\DoxyCodeLine{00620\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<IntDigits,\ FracDigits>::raw\_value\_type}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ noexcept}
+\DoxyCodeLine{00621\ \ \ \ \ :\ value\_(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\_mask}})\ \{\}}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00624\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed<IntDigits,\ FracDigits>::signed\_fixed}}(}
+\DoxyCodeLine{00625\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00626\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ <\ 0.0f)\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ =\ -\/\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}};}
+\DoxyCodeLine{00628\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})\ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00630\ }
+\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0f,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00636\ \ \ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00637\ \ \ \ \ value\_\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}((\string~(value\_)\ +\ 1))\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\_mask}};}
+\DoxyCodeLine{00638\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00639\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ ((\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}});}
+\DoxyCodeLine{00642\ }
+\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0f,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00648\ }
+\DoxyCodeLine{00649\ \ \ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00650\ \ \ \}}
+\DoxyCodeLine{00651\ \}}
+\DoxyCodeLine{00652\ }
+\DoxyCodeLine{00653\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00654\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed<IntDigits,\ FracDigits>::signed\_fixed}}(}
+\DoxyCodeLine{00655\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00656\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ <\ 0.0)\ \{}
+\DoxyCodeLine{00657\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ =\ -\/\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}};}
+\DoxyCodeLine{00658\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})\ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00660\ }
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00668\ \ \ \ \ value\_\ =\ (\string~(value\_)\ +\ 1)\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa2edb963b8e4831dcd965f40aebe0518}{value\_mask}};}
+\DoxyCodeLine{00669\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00670\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ int\_part\ =}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_add70bb474e78c0305cfb3e235e7bf62e}{integer\_mask}})\ <<\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\ frac\_part\ =}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}\ -\/\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}))\ *}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ gcem::pow(2.0,\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}}))\ \&}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ value\_\ =\ int\_part\ |\ frac\_part;}
+\DoxyCodeLine{00680\ \ \ \}}
+\DoxyCodeLine{00681\ \}}
+\DoxyCodeLine{00682\ }
+\DoxyCodeLine{00683\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00684\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<IntDigits,\ FracDigits>::raw\_value\_type}}}
+\DoxyCodeLine{00685\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{signed\_fixed<IntDigits,\ FracDigits>::value}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00686\ \ \ \textcolor{keywordflow}{return}\ value\_\ \&\ mask<raw\_value\_type,\ num\_digits>();}
+\DoxyCodeLine{00687\ \}}
+\DoxyCodeLine{00688\ }
+\DoxyCodeLine{00689\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00690\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<IntDigits>}}}
+\DoxyCodeLine{00691\ \mbox{\hyperlink{classpsm_1_1signed__fixed_af5f0a508931dd92dfccdaa3880bb9083}{signed\_fixed<IntDigits,\ FracDigits>::integer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00692\ \ \ \textcolor{keywordflow}{return}\ value\_\ >>\ \mbox{\hyperlink{classpsm_1_1signed__fixed_abb256b75ed3749c8ce30d64e9d4d7ceb}{num\_frac\_digits}};}
+\DoxyCodeLine{00693\ \}}
+\DoxyCodeLine{00694\ }
+\DoxyCodeLine{00695\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00696\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{fixpoint\_value\_type\_t<FracDigits>}}}
+\DoxyCodeLine{00697\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a0b0b10708340c03a0d7d39e9c41b2ed5}{signed\_fixed<IntDigits,\ FracDigits>::fraction}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00698\ \ \ \textcolor{keywordflow}{return}\ value\_\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a6e98bda92ab02a93ebde05bbb330a6c1}{fraction\_mask}};}
+\DoxyCodeLine{00699\ \}}
+\DoxyCodeLine{00700\ }
+\DoxyCodeLine{00701\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ IntDigits,\ \textcolor{keywordtype}{size\_t}\ FracDigits>}
+\DoxyCodeLine{00702\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{00703\ \mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{signed\_fixed<IntDigits,\ FracDigits>::is\_negative}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00704\ \ \ \textcolor{keywordflow}{return}\ (value\_\ \&\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\{1\}\ <<\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63}{num\_digits}}\ -\/\ 1))\ ==}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{raw\_value\_type}}\{1\}\ <<\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_a54a59c0533806f8739f64dd92b942c63}{num\_digits}}\ -\/\ 1));}
+\DoxyCodeLine{00706\ \}}
+\DoxyCodeLine{00707\ }
+\DoxyCodeLine{00708\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00709\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00710\ \mbox{\hyperlink{namespacepsm_af32d8fed08323d883ea9f7319ea45495}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ \&f1,}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ \&f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00712\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>;}
+\DoxyCodeLine{00713\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00714\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F1\ >\ F2)\ \{}
+\DoxyCodeLine{00715\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ +}
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value())\ <<\ (F1\ -\/\ F2));}
+\DoxyCodeLine{00717\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F2\ >\ F1)\ \{}
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value())\ +}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ <<\ (F2\ -\/\ F1));}
+\DoxyCodeLine{00720\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00721\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ +}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value()));}
+\DoxyCodeLine{00723\ \ \ \}}
+\DoxyCodeLine{00724\ \}}
+\DoxyCodeLine{00725\ }
+\DoxyCodeLine{00726\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00727\ \textcolor{keyword}{constexpr}\ unsigned\_fixed<gcem::max(I1,\ I2),\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00728\ \mbox{\hyperlink{namespacepsm_a221f2fb473c4a751c2b86839aef60702}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ \&f1,}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ \&f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00730\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed}}<gcem::max(I1,\ I2),\ gcem::max(F1,\ F2)>;}
+\DoxyCodeLine{00731\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00732\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F1\ >\ F2)\ \{}
+\DoxyCodeLine{00733\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ -\/}
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value())\ <<\ (F1\ -\/\ F2));}
+\DoxyCodeLine{00735\ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F2\ >\ F1)\ \{}
+\DoxyCodeLine{00736\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ <<\ (F2\ -\/\ F1))\ -\/}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value());}
+\DoxyCodeLine{00738\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00739\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ -\/}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value()));}
+\DoxyCodeLine{00741\ \ \ \}}
+\DoxyCodeLine{00742\ \}}
+\DoxyCodeLine{00743\ }
+\DoxyCodeLine{00744\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00745\ \textcolor{keyword}{constexpr}\ unsigned\_fixed<I,\ F>}
+\DoxyCodeLine{00746\ \mbox{\hyperlink{namespacepsm_af32d8fed08323d883ea9f7319ea45495}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00747\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}};}
+\DoxyCodeLine{00748\ \}}
+\DoxyCodeLine{00749\ }
+\DoxyCodeLine{00750\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00751\ \textcolor{keyword}{constexpr}\ signed\_fixed<I\ +\ 1,\ F>}
+\DoxyCodeLine{00752\ \mbox{\hyperlink{namespacepsm_a221f2fb473c4a751c2b86839aef60702}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00753\ \ \ \textcolor{keyword}{using\ }T\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<I\ +\ 1,\ F>::raw\_value\_type}};}
+\DoxyCodeLine{00754\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}((\string~static\_cast<T>(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value())\ +\ 1u)\ \&}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ad8fbc34a77f512e74721c7c554732931}{mask}}<T,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I\ +\ 1,\ F>::num\_digits}}>());}
+\DoxyCodeLine{00756\ \}}
+\DoxyCodeLine{00757\ }
+\DoxyCodeLine{00758\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00759\ \textcolor{keyword}{constexpr}\ unsigned\_fixed<I1\ +\ I2,\ F1\ +\ F2>}
+\DoxyCodeLine{00760\ \mbox{\hyperlink{namespacepsm_a9a2a77f19f7af38796939c56bfe996a5}{operator*}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ \&f1,}
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ \&f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00762\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1\ +\ I2,\ F1\ +\ F2>}};}
+\DoxyCodeLine{00763\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00764\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ *}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value());}
+\DoxyCodeLine{00766\ \}}
+\DoxyCodeLine{00767\ }
+\DoxyCodeLine{00768\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00769\ \textcolor{keyword}{constexpr}\ unsigned\_fixed<I1\ +\ F2,\ I2\ +\ F1>}
+\DoxyCodeLine{00770\ \mbox{\hyperlink{namespacepsm_a766b7df041083f92dd1173a1b521c29d}{operator/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ \&f1,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ \&f2)\ \{}
+\DoxyCodeLine{00771\ \ \ \textcolor{comment}{//\ v1=\ f1.value()}}
+\DoxyCodeLine{00772\ \ \ \textcolor{comment}{//\ v2\ =\ f2.value()}}
+\DoxyCodeLine{00773\ \ \ \textcolor{comment}{//\ f1\ /\ f2\ =\ v1*2\string^-\/F1/(v2*2\string^-\/F2)=\ v1/v2\ *\ 2\string^-\/(F1\ -\/\ F2)\ =\ x\ *\ 2\string^-\/(F1\ -\/\ F2)}}
+\DoxyCodeLine{00774\ \ \ \textcolor{comment}{//\ now\ x\ needs\ to\ be\ converted\ to\ form:\ v3*\ 2\string^-\/(F1+I2),\ which\ is\ a\ left\ shift}}
+\DoxyCodeLine{00775\ \ \ \textcolor{comment}{//\ by\ (F1+I2)\ -\/\ (F1-\/F2)\ =\ I2+F2}}
+\DoxyCodeLine{00776\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1\ +\ F2,\ I2\ +\ F1>}};}
+\DoxyCodeLine{00777\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00778\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00779\ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}())\ <<\ (I2\ +\ F2))\ /}
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}()));}
+\DoxyCodeLine{00781\ \}}
+\DoxyCodeLine{00782\ }
+\DoxyCodeLine{00783\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00784\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I1,\ F1>}}\ \mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I2,\ F2>}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00785\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F1\ >\ F2)\ \{}
+\DoxyCodeLine{00786\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}typename\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<I1,\ F1>::raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}typename\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<I1,\ F1>::raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value())}
+\DoxyCodeLine{00789\ \ \ \ \ \ \ \ \ <<\ (F1\ -\/\ F2));}
+\DoxyCodeLine{00790\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00791\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}typename\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<I1,\ F1>::raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}typename\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed_ae373700a163bfdf79cba871146079d58}{unsigned\_fixed<I1,\ F1>::raw\_value\_type}}\textcolor{keyword}{>}(}
+\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value())\ >>}
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ (F2\ -\/\ F1));}
+\DoxyCodeLine{00795\ \ \ \}}
+\DoxyCodeLine{00796\ \}}
+\DoxyCodeLine{00797\ }
+\DoxyCodeLine{00798\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00799\ \textcolor{keyword}{constexpr}\ signed\_fixed<I,\ F>}
+\DoxyCodeLine{00800\ \mbox{\hyperlink{namespacepsm_af32d8fed08323d883ea9f7319ea45495}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00801\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}};}
+\DoxyCodeLine{00802\ \}}
+\DoxyCodeLine{00803\ }
+\DoxyCodeLine{00804\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00805\ \textcolor{keyword}{constexpr}\ signed\_fixed<I,\ F>}
+\DoxyCodeLine{00806\ \mbox{\hyperlink{namespacepsm_a221f2fb473c4a751c2b86839aef60702}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ \&\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00807\ \ \ \textcolor{keyword}{using\ }T\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<I,\ F>::raw\_value\_type}};}
+\DoxyCodeLine{00808\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}(}
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}((\string~\textcolor{keyword}{static\_cast<}T\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value())\ +\ 1)\ \&}
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ad8fbc34a77f512e74721c7c554732931}{mask}}<T,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>::num\_digits}}>()));}
+\DoxyCodeLine{00811\ \}}
+\DoxyCodeLine{00812\ }
+\DoxyCodeLine{00813\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00814\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00815\ \mbox{\hyperlink{namespacepsm_af32d8fed08323d883ea9f7319ea45495}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ \&f1,}
+\DoxyCodeLine{00816\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ \&f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00817\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>;}
+\DoxyCodeLine{00818\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00819\ \ \ value\_type\ v1\ =}
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(\mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>(f1));}
+\DoxyCodeLine{00821\ \ \ value\_type\ v2\ =}
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(\mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>(f2));}
+\DoxyCodeLine{00823\ \ \ \textcolor{keywordflow}{return}\ v1\ +\ v2;}
+\DoxyCodeLine{00824\ \}}
+\DoxyCodeLine{00825\ }
+\DoxyCodeLine{00826\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00827\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>}
+\DoxyCodeLine{00828\ \mbox{\hyperlink{namespacepsm_a221f2fb473c4a751c2b86839aef60702}{operator-\/}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00829\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>;}
+\DoxyCodeLine{00830\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00831\ \ \ value\_type\ v1\ =}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(\mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>(f1));}
+\DoxyCodeLine{00833\ \ \ value\_type\ v2\ =}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{sign\_extended\_value}}(\mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}<gcem::max(I1,\ I2)\ +\ 1,\ gcem::max(F1,\ F2)>(f2));}
+\DoxyCodeLine{00835\ \ \ \textcolor{keywordflow}{return}\ v1\ -\/\ v2;}
+\DoxyCodeLine{00836\ \}}
+\DoxyCodeLine{00837\ }
+\DoxyCodeLine{00838\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00839\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ac1394100af7d6b4b3a6be02fcd22a431}{signed\_fixed}}<I1\ +\ I2\ -\/\ 1,\ F1\ +\ F2>}
+\DoxyCodeLine{00840\ \mbox{\hyperlink{namespacepsm_a9a2a77f19f7af38796939c56bfe996a5}{operator*}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00841\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed}}<I1\ +\ I2\ -\/\ 1,\ F1\ +\ F2>;}
+\DoxyCodeLine{00842\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00843\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ neg\_result\ =\ f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}()\ xor\ f2.is\_negative();}
+\DoxyCodeLine{00844\ \ \ \textcolor{keywordflow}{if}\ (f1.is\_negative())\ \{}
+\DoxyCodeLine{00845\ \ \ \ \ f1\ =\ -\/f1;}
+\DoxyCodeLine{00846\ \ \ \}}
+\DoxyCodeLine{00847\ \ \ \textcolor{keywordflow}{if}\ (f2.is\_negative())\ \{}
+\DoxyCodeLine{00848\ \ \ \ \ f2\ =\ -\/f2;}
+\DoxyCodeLine{00849\ \ \ \}}
+\DoxyCodeLine{00850\ \ \ \textcolor{keywordflow}{if}\ (neg\_result)\ \{}
+\DoxyCodeLine{00851\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/result\_type\{\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ *}
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value())\};}
+\DoxyCodeLine{00853\ \ \ \}}
+\DoxyCodeLine{00854\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.value())\ *}
+\DoxyCodeLine{00855\ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.value());}
+\DoxyCodeLine{00856\ \}}
+\DoxyCodeLine{00857\ }
+\DoxyCodeLine{00858\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00859\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1\ +\ F2,\ I2\ +\ F1>}}\ \mbox{\hyperlink{namespacepsm_a766b7df041083f92dd1173a1b521c29d}{operator/}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ f1,}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ f2)\ \{}
+\DoxyCodeLine{00861\ \ \ \textcolor{keyword}{using\ }result\_type\ =\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1\ +\ F2,\ I2\ +\ F1>}};}
+\DoxyCodeLine{00862\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ result\_type::raw\_value\_type;}
+\DoxyCodeLine{00863\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ neg\_result\ =\ f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}()\ xor\ f2.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}();}
+\DoxyCodeLine{00864\ \ \ \textcolor{keywordflow}{if}\ (f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}())\ \{}
+\DoxyCodeLine{00865\ \ \ \ \ f1\ =\ -\/f1;}
+\DoxyCodeLine{00866\ \ \ \}}
+\DoxyCodeLine{00867\ \ \ \textcolor{keywordflow}{if}\ (f2.\mbox{\hyperlink{classpsm_1_1signed__fixed_aa8cf564ee4b03c37f66a800ddb3a60c4}{is\_negative}}())\ \{}
+\DoxyCodeLine{00868\ \ \ \ \ f2\ =\ -\/f2;}
+\DoxyCodeLine{00869\ \ \ \}}
+\DoxyCodeLine{00870\ \ \ \textcolor{keywordflow}{if}\ (neg\_result)\ \{}
+\DoxyCodeLine{00871\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/result\_type\{\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00872\ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}())\ <<\ (I2\ +\ F2))\ /}
+\DoxyCodeLine{00873\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}()))\};}
+\DoxyCodeLine{00874\ \ \ \}}
+\DoxyCodeLine{00875\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00876\ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f1.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}())\ <<\ (I2\ +\ F2))\ /}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(f2.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}()));}
+\DoxyCodeLine{00878\ \}}
+\DoxyCodeLine{00879\ }
+\DoxyCodeLine{00880\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I1,\ \textcolor{keywordtype}{size\_t}\ F1,\ \textcolor{keywordtype}{size\_t}\ I2,\ \textcolor{keywordtype}{size\_t}\ F2>}
+\DoxyCodeLine{00881\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I1,\ F1>}}\ \mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{resize}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I2,\ F2>}}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}})\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00882\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classpsm_1_1signed__fixed_a8ce46d3da8bf25543debb865c9691beb}{signed\_fixed<I1,\ F1>::raw\_value\_type}};}
+\DoxyCodeLine{00883\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ sign\_extend\_mask\ =}
+\DoxyCodeLine{00884\ \ \ \ \ \ \ mask<value\_type>(\textcolor{keyword}{sizeof}(value\_type)\ *\ 8\ -\/\ 1,\ I2\ +\ F1);}
+\DoxyCodeLine{00885\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (F1\ >\ F2)\ \{}
+\DoxyCodeLine{00886\ \ \ \ \ \textcolor{keyword}{const}\ value\_type\ val\ =\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00887\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value())\ <<\ (F1\ -\/\ F2));}
+\DoxyCodeLine{00888\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.is\_negative())\ \{}
+\DoxyCodeLine{00889\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(sign\_extend\_mask\ |\ val);}
+\DoxyCodeLine{00890\ \ \ \ \ \}}
+\DoxyCodeLine{00891\ \ \ \ \ \textcolor{keywordflow}{return}\ val;}
+\DoxyCodeLine{00892\ }
+\DoxyCodeLine{00893\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00894\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ val\ =\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.value()\ >>\ (F2\ -\/\ F1));}
+\DoxyCodeLine{00895\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}.is\_negative())\ \{}
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}value\_type\textcolor{keyword}{>}(sign\_extend\_mask\ |\ val);}
+\DoxyCodeLine{00897\ \ \ \ \ \}}
+\DoxyCodeLine{00898\ \ \ \ \ \textcolor{keywordflow}{return}\ val;}
+\DoxyCodeLine{00899\ \ \ \}}
+\DoxyCodeLine{00900\ \}}
+\DoxyCodeLine{00901\ }
+\DoxyCodeLine{00902\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00903\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacepsm_af0567bd6d38a44a32066208fc33d1270}{to\_float}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00904\ \ \ \textcolor{keywordflow}{return}\ v.integer()\ +\ v.fraction()\ /\ (gcem::pow(2.0f,\ F));}
+\DoxyCodeLine{00905\ \}}
+\DoxyCodeLine{00906\ }
+\DoxyCodeLine{00907\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00908\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacepsm_af0567bd6d38a44a32066208fc33d1270}{to\_float}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00909\ \ \ \textcolor{keywordflow}{if}\ (v.is\_negative())\ \{}
+\DoxyCodeLine{00910\ \ \ \ \ v\ =\ -\/v;}
+\DoxyCodeLine{00911\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/(v.integer()\ +\ v.fraction()\ /\ gcem::pow(2.0f,\ F));}
+\DoxyCodeLine{00912\ \ \ \}}
+\DoxyCodeLine{00913\ \ \ \textcolor{keywordflow}{return}\ v.integer()\ +\ v.fraction()\ /\ gcem::pow(2.0f,\ F);}
+\DoxyCodeLine{00914\ \}}
+\DoxyCodeLine{00915\ }
+\DoxyCodeLine{00916\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00917\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespacepsm_a6063a28fcca3524564e001be98d13f97}{to\_double}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00918\ \ \ \textcolor{keywordflow}{return}\ v.integer()\ +\ v.fraction()\ /\ (gcem::pow(2.0,\ F));}
+\DoxyCodeLine{00919\ \}}
+\DoxyCodeLine{00920\ }
+\DoxyCodeLine{00921\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00922\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespacepsm_a6063a28fcca3524564e001be98d13f97}{to\_double}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00923\ \ \ \textcolor{keywordflow}{if}\ (v.is\_negative())\ \{}
+\DoxyCodeLine{00924\ \ \ \ \ v\ =\ -\/v;}
+\DoxyCodeLine{00925\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/(v.integer()\ +\ v.fraction()\ /\ gcem::pow(2.0,\ F));}
+\DoxyCodeLine{00926\ \ \ \}}
+\DoxyCodeLine{00927\ \ \ \textcolor{keywordflow}{return}\ v.integer()\ +\ v.fraction()\ /\ gcem::pow(2.0,\ F);}
+\DoxyCodeLine{00928\ \}}
+\DoxyCodeLine{00929\ }
+\DoxyCodeLine{00930\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00931\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ \mbox{\hyperlink{namespacepsm_acc74bc3931ddd53f118733f7ec5a06c8}{to\_signed}}(\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00932\ \ \ \textcolor{keywordflow}{return}\ v.\mbox{\hyperlink{classpsm_1_1signed__fixed_ae4fe31edf5522ab8eff842e7b8d794bc}{value}}();}
+\DoxyCodeLine{00933\ \}}
+\DoxyCodeLine{00934\ }
+\DoxyCodeLine{00935\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keywordtype}{size\_t}\ F>}
+\DoxyCodeLine{00936\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\_fixed<I,\ F>}}\ \mbox{\hyperlink{namespacepsm_a1cc37c9fb31260ad72c5d5685063725f}{to\_unsigned}}(\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\_fixed<I,\ F>}}\ v)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00937\ \ \ \textcolor{keywordflow}{return}\ v.\mbox{\hyperlink{classpsm_1_1unsigned__fixed_a670391fd3cdc2fc7e3f8f38ba505dd59}{value}}();}
+\DoxyCodeLine{00938\ \}}
+\DoxyCodeLine{00939\ }
+\DoxyCodeLine{00940\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00941\ }
+\DoxyCodeLine{00942\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SGL\_FIX\_POINT\_HPP\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

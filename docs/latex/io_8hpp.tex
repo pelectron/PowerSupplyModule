@@ -1,0 +1,72 @@
+\doxysection{cli/io.hpp File Reference}
+\hypertarget{io_8hpp}{}\label{io_8hpp}\index{cli/io.hpp@{cli/io.hpp}}
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/string.\+hpp"{}}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1io_1_1_event}{cli\+::io\+::\+Event}}
+\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_queue}{cli\+::io\+::\+Queue$<$ T, Size $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{cli\+::io\+::\+Ansi\+Output\+Stream$<$ Stream $>$}}
+\begin{DoxyCompactList}\small\item\em The output device for ansi terminals. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_output}{cli\+::io\+::\+Output$<$ Stream $>$}}
+\begin{DoxyCompactList}\small\item\em This class is the interface used by the cli to control the output. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcli_1_1io_1_1_input}{cli\+::io\+::\+Input}}
+\begin{DoxyCompactList}\small\item\em This class represents an ansi input device, e.\+g. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1io}{cli\+::io}}
+\item 
+namespace \mbox{\hyperlink{namespacecli_1_1io_1_1dtl}{cli\+::io\+::dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{cli\+::io\+::\+Char\+Stream}}
+\begin{DoxyCompactList}\small\item\em A Char\+Stream is used to write a single character to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{cli\+::io\+::\+String\+Stream}}
+\begin{DoxyCompactList}\small\item\em A String\+Stream is used to write a string of characters to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{cli\+::io\+::\+Basic\+Output\+Stream}}
+\begin{DoxyCompactList}\small\item\em A Basic\+Output\+Stream is used to write raw characters to an unbuffered output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{cli\+::io\+::\+Output\+Stream}}
+\begin{DoxyCompactList}\small\item\em An Output\+Stream is the interface \doxylink{classcli_1_1io_1_1_output}{cli\+::io\+::\+Output} uses to write to an unbuffered output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1io_1_1dtl_a424814a066da642a48c7d4477f0f264c}{cli\+::io\+::dtl\+::\+Pair}} = std\+::pair$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{uint8\+\_\+t}}, \mbox{\hyperlink{structcli_1_1io_1_1_event}{Event}}$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15a}{cli\+::io\+::\+Type}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aaa5b073d2349cd7dd3ce14df3216b0e81}{cli\+::io\+::\+Auto\+Complete}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae3fb3f3381b848f57f35cb3558733f84}{cli\+::io\+::\+Back\+Space}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa8e95e84813830072b7516cfaa7dbc1a9}{cli\+::io\+::\+Char}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa49176da75a1269d7cda14dd52331c7da}{cli\+::io\+::\+Cursor\+Up}}
+, \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa3f96d33d45dfd7be341bf60569f3e623}{cli\+::io\+::\+Cursor\+Down}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa0ca3446825777aa103c92c11b4d7c18f}{cli\+::io\+::\+Cursor\+Left}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aae21c5ec9e15d9960f20eb95cddc0fca7}{cli\+::io\+::\+Cursor\+Right}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa16c885b2d67a4c187016f935e9a35373}{cli\+::io\+::\+New\+Line}}
+, \newline
+\mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa559c61010d100dc896b37a8f3ccecd58}{cli\+::io\+::\+Erase\+In\+Display}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9e5d5b46e57b6a707a633fbe254b69a0}{cli\+::io\+::\+Erase\+In\+Line}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa9426dc2b6341736ad0042b0367047e2b}{cli\+::io\+::\+Scroll\+Up}}
+, \mbox{\hyperlink{namespacecli_1_1io_a9fb186a517256f5475cc72ab5efaf15aa98fe5443327b84b86a98bc3472fadc79}{cli\+::io\+::\+Scroll\+Down}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$Basic\+Output\+Stream Stream$>$ }\\\mbox{\hyperlink{namespacecli_1_1io_a09eab13095456f4abede40bc6c709960}{cli\+::io\+::\+Ansi\+Output\+Stream}} (Stream \&\&) -\/$>$ Ansi\+Output\+Stream$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$
+\item 
+{\footnotesize template$<$Output\+Stream Stream$>$ }\\\mbox{\hyperlink{namespacecli_1_1io_a32abba0dffa621dca4ef12d77af6ee47}{cli\+::io\+::\+Output}} (Stream \&\&) -\/$>$ Output$<$ std\+::remove\+\_\+cvref\+\_\+t$<$ Stream $>$ $>$
+\end{DoxyCompactItemize}

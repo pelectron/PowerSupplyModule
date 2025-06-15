@@ -1,0 +1,151 @@
+\doxysection{cli\+::ctti Namespace Reference}
+\hypertarget{namespacecli_1_1ctti}{}\label{namespacecli_1_1ctti}\index{cli::ctti@{cli::ctti}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl}{dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_field}{Field}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_struct_info}{Struct\+Info}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_type_info}{Type\+Info}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1ctti_1_1_type_info_3_01_t_01_4}{Type\+Info$<$ T $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a18f4a8c043d88f93bc420faa8e88a463}{name\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a3fb7d9357cbb920f6014e2b3315175e4}{\+::cli\+::ctti\+::dtl\+::name}}$<$T$>$())
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a672b7e64556fcd282d279663cfd33373}{field\+\_\+tuple\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_ab225016a014505ff13d574ed0d529904}{name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_a4295b588f63177398557bd1c571a964e}{value\+\_\+name}} ()
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_a812ce27e0d40beb111d19e92b1495e83}{object\+\_\+name}} ()
+\item 
+{\footnotesize template$<$traits\+::\+Enum E$>$ \newline
+requires (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}} traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$)}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::string\+\_\+view \mbox{\hyperlink{namespacecli_1_1ctti_a97a91497be6e02801399eb18237b6943}{enum\+\_\+name}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} value)
+\item 
+{\footnotesize template$<$traits\+::\+Enum E$>$ \newline
+requires traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_1_1ctti_a0167d64d283d28bc28457302940e07a8}{enum\+\_\+name}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}} value)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_1_1ctti_aff153bdbf06e3b2d8e6255a0b8be3917}{to\+\_\+tuple}} (T \&\&t)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} T \mbox{\hyperlink{namespacecli_1_1ctti_ab7285aa1ee6700c58e265e33ac4874a7}{from\+\_\+tuple}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{tuple}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{namespacecli_1_1ctti_a672b7e64556fcd282d279663cfd33373}\label{namespacecli_1_1ctti_a672b7e64556fcd282d279663cfd33373} 
+\index{cli::ctti@{cli::ctti}!field\_tuple\_t@{field\_tuple\_t}}
+\index{field\_tuple\_t@{field\_tuple\_t}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{field\_tuple\_t}{field\_tuple\_t}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a672b7e64556fcd282d279663cfd33373}{cli\+::ctti\+::field\+\_\+tuple\+\_\+t}}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{decltype}([]<std::size\_t...\ Is>(std::index\_sequence<Is...>)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \textcolor{keyword}{using\ namespace\ }dtl;}
+\DoxyCodeLine{\ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::tuple<Field<decltype(member\_name<T,\ Is>()),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ member\_type<T,\ Is>::type>...>\{\};}
+\DoxyCodeLine{\ \ \ \ \}(std::make\_index\_sequence<dtl::num\_members<T>()>()))}
+
+\end{DoxyCode}
+\Hypertarget{namespacecli_1_1ctti_a18f4a8c043d88f93bc420faa8e88a463}\label{namespacecli_1_1ctti_a18f4a8c043d88f93bc420faa8e88a463} 
+\index{cli::ctti@{cli::ctti}!name\_t@{name\_t}}
+\index{name\_t@{name\_t}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{name\_t}{name\_t}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_1_1ctti_a18f4a8c043d88f93bc420faa8e88a463}{cli\+::ctti\+::name\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_1_1ctti_1_1dtl_a3fb7d9357cbb920f6014e2b3315175e4}{\+::cli\+::ctti\+::dtl\+::name}}$<$T$>$())}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecli_1_1ctti_a97a91497be6e02801399eb18237b6943}\label{namespacecli_1_1ctti_a97a91497be6e02801399eb18237b6943} 
+\index{cli::ctti@{cli::ctti}!enum\_name@{enum\_name}}
+\index{enum\_name@{enum\_name}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{enum\_name()}{enum\_name()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$traits\+::\+Enum E$>$ \newline
+requires (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}} traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$)\\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::string\+\_\+view cli\+::ctti\+::enum\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1ctti_a0167d64d283d28bc28457302940e07a8}\label{namespacecli_1_1ctti_a0167d64d283d28bc28457302940e07a8} 
+\index{cli::ctti@{cli::ctti}!enum\_name@{enum\_name}}
+\index{enum\_name@{enum\_name}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{enum\_name()}{enum\_name()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$traits\+::\+Enum E$>$ \newline
+requires traits\+::\+Flag\+Enum$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}$>$\\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::ctti\+::enum\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{E}}}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+\Hypertarget{namespacecli_1_1ctti_ab7285aa1ee6700c58e265e33ac4874a7}\label{namespacecli_1_1ctti_ab7285aa1ee6700c58e265e33ac4874a7} 
+\index{cli::ctti@{cli::ctti}!from\_tuple@{from\_tuple}}
+\index{from\_tuple@{from\_tuple}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{from\_tuple()}{from\_tuple()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} T cli\+::ctti\+::from\+\_\+tuple (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \&}]{tuple }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em tuple} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{namespacecli_1_1ctti_ab225016a014505ff13d574ed0d529904}\label{namespacecli_1_1ctti_ab225016a014505ff13d574ed0d529904} 
+\index{cli::ctti@{cli::ctti}!name@{name}}
+\index{name@{name}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{name()}{name()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} cli\+::ctti\+::name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacecli_1_1ctti_a812ce27e0d40beb111d19e92b1495e83}\label{namespacecli_1_1ctti_a812ce27e0d40beb111d19e92b1495e83} 
+\index{cli::ctti@{cli::ctti}!object\_name@{object\_name}}
+\index{object\_name@{object\_name}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{object\_name()}{object\_name()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \& V$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} cli\+::ctti\+::object\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacecli_1_1ctti_aff153bdbf06e3b2d8e6255a0b8be3917}\label{namespacecli_1_1ctti_aff153bdbf06e3b2d8e6255a0b8be3917} 
+\index{cli::ctti@{cli::ctti}!to\_tuple@{to\_tuple}}
+\index{to\_tuple@{to\_tuple}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{to\_tuple()}{to\_tuple()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T $>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} cli\+::ctti\+::to\+\_\+tuple (\begin{DoxyParamCaption}\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\Hypertarget{namespacecli_1_1ctti_a4295b588f63177398557bd1c571a964e}\label{namespacecli_1_1ctti_a4295b588f63177398557bd1c571a964e} 
+\index{cli::ctti@{cli::ctti}!value\_name@{value\_name}}
+\index{value\_name@{value\_name}!cli::ctti@{cli::ctti}}
+\doxysubsubsection{\texorpdfstring{value\_name()}{value\_name()}}
+{\footnotesize\ttfamily template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ \\
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{consteval}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} cli\+::ctti\+::value\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+

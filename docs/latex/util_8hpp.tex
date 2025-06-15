@@ -1,0 +1,219 @@
+\doxysection{cli/util.hpp File Reference}
+\hypertarget{util_8hpp}{}\label{util_8hpp}\index{cli/util.hpp@{cli/util.hpp}}
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$span$>$}\newline
+{\ttfamily \#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include "{}cli/command.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/ring\+\_\+buffer.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/string.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/type\+\_\+list.\+hpp"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1constant}{cli\+::constant$<$ V $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1identity}{cli\+::identity$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_no_description}{cli\+::\+No\+Description}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_no_help}{cli\+::\+No\+Help}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1dtl_1_1to__lower_3_01string__constant_3_01_cs_8_8_8_01_4_01_4}{cli\+::dtl\+::to\+\_\+lower$<$ string\+\_\+constant$<$ Cs... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1num__cmds_3_01_t_00_01_l_3_01_sub_cmds_8_8_8_01_4_01_4}{cli\+::num\+\_\+cmds$<$ T, L$<$ Sub\+Cmds... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1num__cmds_3_01_t_00_01_l_3_4_01_4}{cli\+::num\+\_\+cmds$<$ T, L$<$$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1num__levels_3_01_t_00_01_l_3_01_sub_cmds_8_8_8_01_4_01_4}{cli\+::num\+\_\+levels$<$ T, L$<$ Sub\+Cmds... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1num__levels_3_01_t_00_01_l_3_4_01_4}{cli\+::num\+\_\+levels$<$ T, L$<$$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1max__name__length_3_01_t_00_01_l_3_01_sub_cmds_8_8_8_01_4_01_4}{cli\+::max\+\_\+name\+\_\+length$<$ T, L$<$ Sub\+Cmds... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1max__name__length_3_01_t_00_01_l_3_4_01_4}{cli\+::max\+\_\+name\+\_\+length$<$ T, L$<$$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_4}{cli\+::extract\+\_\+signature$<$ R(\+A...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01const_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01const_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_5_08_07_a_8_8_8_08_4}{cli\+::extract\+\_\+signature$<$ R(\texorpdfstring{$\ast$}{*})(\+A...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_5_08_07_a_8_8_8_08_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\texorpdfstring{$\ast$}{*})(\+A...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01const_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01const_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01volatile_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) volatile $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01volatile_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) volatile noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01volatile_01const_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) volatile const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_a_8_8_8_08_01volatile_01const_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+A...) volatile const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01const_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01const_01noexcept_01_4}{cli\+::extract\+\_\+signature$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1extract__signature_3_01_f_00_01std_1_1void__t_3_01decltype_07_6_f_1_1operator_07_08_08_4_01_4}{cli\+::extract\+\_\+signature$<$ F, std\+::void\+\_\+t$<$ decltype(\&\+F\+::operator())$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_4}{cli\+::signature\+\_\+traits$<$ R(\+A...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01noexcept_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01const_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01const_01noexcept_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01volatile_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) volatile $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01volatile_01noexcept_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) volatile noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01volatile_01const_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) volatile const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1signature__traits_3_01_r_07_a_8_8_8_08_01volatile_01const_01noexcept_01_4}{cli\+::signature\+\_\+traits$<$ R(\+A...) volatile const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits}{cli\+::function\+\_\+traits$<$ F $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01noexcept_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01const_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01const_01noexcept_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01noexcept_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01const_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1function__traits_3_01_r_07_t_1_1_5_08_07_a_8_8_8_08_01volatile_01const_01noexcept_01_4}{cli\+::function\+\_\+traits$<$ R(\+T\+::\texorpdfstring{$\ast$}{*})(\+A...) volatile const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1member__traits_3_01_type_01_obj_1_1_5_01_4}{cli\+::member\+\_\+traits$<$ Type Obj\+::\texorpdfstring{$\ast$}{*} $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1member__traits_3_01const_01_type_01_obj_1_1_5_01_4}{cli\+::member\+\_\+traits$<$ const Type Obj\+::\texorpdfstring{$\ast$}{*} $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1member__traits_3_01volatile_01_type_01_obj_1_1_5_01_4}{cli\+::member\+\_\+traits$<$ volatile Type Obj\+::\texorpdfstring{$\ast$}{*} $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1member__traits_3_01const_01volatile_01_type_01_obj_1_1_5_01_4}{cli\+::member\+\_\+traits$<$ const volatile Type Obj\+::\texorpdfstring{$\ast$}{*} $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1is__callable}{cli\+::is\+\_\+callable$<$ F, typename $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1is__callable_3_01_f_00_01std_1_1void__t_3_01function__traits_3_01_f_01_4_01_4_01_4}{cli\+::is\+\_\+callable$<$ F, std\+::void\+\_\+t$<$ function\+\_\+traits$<$ F $>$ $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_mem_fun_binder_3_01_t_00_01_ret_07_t_1_1_5_08_07_mem_fun_args_8_8_8_08_4}{cli\+::\+Mem\+Fun\+Binder$<$ T, Ret(\+T\+::\texorpdfstring{$\ast$}{*})(\+Mem\+Fun\+Args...)$>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_mem_fun_binder_3_01_t_00_01_ret_07_t_1_1_5_08_07_mem_fun_args_8_8_8_08_01noexcept_01_4}{cli\+::\+Mem\+Fun\+Binder$<$ T, Ret(\+T\+::\texorpdfstring{$\ast$}{*})(\+Mem\+Fun\+Args...) noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_mem_fun_binder_3_01const_01_t_00_01_ret_07_t_1_1_5_08_07_mem_fun_args_8_8_8_08_01const_01_4}{cli\+::\+Mem\+Fun\+Binder$<$ const T, Ret(\+T\+::\texorpdfstring{$\ast$}{*})(\+Mem\+Fun\+Args...) const $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1_mem_fun_binder_3_01const_01_t_00_01_ret_07_t_1_1_5_08_07_mem_fun_args_8_8_8_08_01const_01noexcept_01_4}{cli\+::\+Mem\+Fun\+Binder$<$ const T, Ret(\+T\+::\texorpdfstring{$\ast$}{*})(\+Mem\+Fun\+Args...) const noexcept $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1dummy}{cli\+::dummy}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1dtl}{cli\+::dtl}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1_string_of}{cli\+::\+String\+Of}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1_callable}{cli\+::\+Callable}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{util_8hpp_ac07e8211374ba52937682436cbdabc29}{CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS}}~\mbox{[}\mbox{[}no\+\_\+unique\+\_\+address\mbox{]}\mbox{]}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_abfa1e579357591eba37d427c270a54ef}{cli\+::smallest\+\_\+type\+\_\+for\+\_\+value\+\_\+t}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_a58528dcfcc2d6421d00320795b825287}{cli\+::\+Arg\+Vector}} = \mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_a8d367bae1d7edc3dbb48cb5368a16248}{cli\+::\+Output\+Iterator}} = \mbox{\hyperlink{classcli_1_1_ring_buf_view}{Ring\+Buf\+View}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{uint8\+\_\+t}}$>$\+::write\+\_\+iterator
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Ptr}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_a7ae3dae655db80b986ed57a05eef6c1f}{cli\+::mem\+\_\+data\+\_\+type}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1member__traits}{member\+\_\+traits}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Member\+Ptr}}$>$\+::type
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} F $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{namespacecli_ae33b7a00a4500c39fbf27f5f5e3b99e9}{cli\+::extract\+\_\+signature\+\_\+t}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} \mbox{\hyperlink{structcli_1_1extract__signature}{extract\+\_\+signature}}$<$F$>$\+::type
+\end{DoxyCompactItemize}
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{typename}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , class... Args, std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{namespacecli_1_1dtl_af8b9b17e02b2fa804a4e67b22b6886e7}{cli\+::dtl\+::for\+\_\+each\+\_\+impl}} (std\+::index\+\_\+sequence$<$ Is... $>$, F \&\&f, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , std\+::size\+\_\+t... Is$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}}) \mbox{\hyperlink{namespacecli_1_1dtl_af7e514f2bf8b16633ed3f8feccaa3b2b}{cli\+::dtl\+::apply\+\_\+impl}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, F \&\&f, std\+::index\+\_\+sequence$<$ Is... $>$)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{decltype}}(\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}}) \mbox{\hyperlink{namespacecli_a7dcc37f3dd3d1924fa01e08a49b1a646}{cli\+::apply}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, F \&\&f)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} , class... Args$>$ \newline
+requires (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}} Command$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}}$>$)}\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{namespacecli_a730e414c7f8b64edc3768823a7ba6496}{cli\+::for\+\_\+each}} (F \&\&f, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Tuple}} \&\&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}} , Name C, Name Desc, Name H, Command... SubC, class... Args$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{namespacecli_a978766c3e2380d4af309ecd74ce88c57}{cli\+::for\+\_\+each}} (F \&\&f, \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{C}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Desc}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{H}}, Sub\+C... $>$ \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}} , Name C, Name Desc, Name H, Command... SubC, class... Args$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{void}} \mbox{\hyperlink{namespacecli_a2a2ad419620195ccdbeb09de4850e835}{cli\+::for\+\_\+each}} (F \&\&f, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{C}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Desc}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{H}}, Sub\+C... $>$ \&t, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Args}} \&\&...args)
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}} , Name C, Name Desc, Name H, Command... SubC$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_a37363534fbb487f9e2aed99746738ca4}{cli\+::count\+\_\+cmds}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{C}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Desc}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{H}}, Sub\+C... $>$ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{c}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}} , Name C, Name Desc, Name H, Command... SubC$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_a553828cd9c07e9142164eee9c1fde20e}{cli\+::count\+\_\+level}} (\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{const}} \mbox{\hyperlink{classcli_1_1_command_base}{Command\+Base}}$<$ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{D}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{C}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Desc}}, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{H}}, Sub\+C... $>$ \&\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{c}})
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} T , \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Mem\+Fun\+Ptr}} $>$ }\\\mbox{\hyperlink{namespacecli_a76335981fc73af9940e9aec62cb0d9bc}{cli\+::\+Mem\+Fun\+Binder}} (T \&\&, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Mem\+Fun\+Ptr}}) -\/$>$ Mem\+Fun\+Binder$<$ std\+::remove\+\_\+reference\+\_\+t$<$ T $>$, \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{Mem\+Fun\+Ptr}} $>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_a38c6eaf7045f9687c4c81995db2f8671}{cli\+::always\+\_\+false}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{false}}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} V$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{namespacecli_a0e2591c4857a5f41f47c7e21ed15749c}{cli\+::constant\+\_\+v}} = \mbox{\hyperlink{structcli_1_1constant}{constant}}$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{V}}$>$\{\}
+\item 
+{\footnotesize template$<$Command C$>$ }\\constexpr std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{cli\+::num\+\_\+cmds\+\_\+v}}
+\item 
+{\footnotesize template$<$Command C$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_a42ad871449b63345aa07aa9d0e88123e}{cli\+::num\+\_\+levels\+\_\+v}}
+\item 
+{\footnotesize template$<$Command C$>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{namespacecli_af01b1e58073cf85dece85b9370a66b49}{cli\+::max\+\_\+name\+\_\+length\+\_\+v}}
+\item 
+{\footnotesize template$<$\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{class}} F $>$ }\\\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{namespacecli_a3ba3238120c4e1649be2949f471b3b29}{cli\+::is\+\_\+callable\+\_\+v}} = \mbox{\hyperlink{structcli_1_1is__callable}{is\+\_\+callable}}$<$F$>$\+::value
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{util_8hpp_ac07e8211374ba52937682436cbdabc29}\label{util_8hpp_ac07e8211374ba52937682436cbdabc29} 
+\index{util.hpp@{util.hpp}!CLI\_NO\_UNIQUE\_ADDRESS@{CLI\_NO\_UNIQUE\_ADDRESS}}
+\index{CLI\_NO\_UNIQUE\_ADDRESS@{CLI\_NO\_UNIQUE\_ADDRESS}!util.hpp@{util.hpp}}
+\doxysubsubsection{\texorpdfstring{CLI\_NO\_UNIQUE\_ADDRESS}{CLI\_NO\_UNIQUE\_ADDRESS}}
+{\footnotesize\ttfamily \#define CLI\+\_\+\+NO\+\_\+\+UNIQUE\+\_\+\+ADDRESS~\mbox{[}\mbox{[}no\+\_\+unique\+\_\+address\mbox{]}\mbox{]}}
+

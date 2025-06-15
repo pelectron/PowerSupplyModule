@@ -1,0 +1,44 @@
+\doxysection{converter.\+hpp}
+\hypertarget{converter_8hpp_source}{}\label{converter_8hpp_source}\mbox{\hyperlink{converter_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PSM\_CONVERTER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PSM\_CONVERTER\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}poly.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}poly/property.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{units_8hpp}{units.hpp}}"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }conv\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \mbox{\hyperlink{namespacepsm_1_1conv_a6b848148de5ad405ea831af7f51060b4}{POLY\_PROPERTY}}(voltage);}
+\DoxyCodeLine{00013\ \mbox{\hyperlink{namespacepsm_1_1conv_a6b848148de5ad405ea831af7f51060b4}{POLY\_PROPERTY}}(current);}
+\DoxyCodeLine{00014\ \mbox{\hyperlink{namespacepsm_1_1conv_a6b848148de5ad405ea831af7f51060b4}{POLY\_PROPERTY}}(enabled);}
+\DoxyCodeLine{00015\ \mbox{\hyperlink{namespacepsm_1_1conv_a6b848148de5ad405ea831af7f51060b4}{POLY\_PROPERTY}}(temperature);}
+\DoxyCodeLine{00016\ \mbox{\hyperlink{namespacepsm_1_1conv_a6b848148de5ad405ea831af7f51060b4}{POLY\_PROPERTY}}(specs);}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1conv_1_1_specs}{Specs}}\ \{}
+\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs_a483ae40210d3f3566f7174157acd8ec2}{v\_min}};}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs_afd780740cca49aabcb1b187f8c5d001d}{v\_max}};}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs_a04823ce673f91fb5eca702584d40d6c8}{i\_min}};}
+\DoxyCodeLine{00022\ \ \ \mbox{\hyperlink{classpsm_1_1_current}{Current}}\ \mbox{\hyperlink{structpsm_1_1conv_1_1_specs_a855ac37240987f5670a287bd884438d5}{i\_max}};}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <poly::Storage\ S>}
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1conv_1_1_basic_converter}{BasicConverter}}}
+\DoxyCodeLine{00027\ \ \ \ \ :\ \textcolor{keyword}{public}\ poly::Struct<}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ S,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ poly::type\_list<voltage(Voltage),\ current(Current),\ enabled(bool),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ temperature(const\ Celcius),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ specs(const\ Specs\ \&)>,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ poly::type\_list<>>\ \{\};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{using\ }\mbox{\hyperlink{classpsm_1_1conv_1_1_basic_converter}{ConverterReference}}\ =\ \mbox{\hyperlink{classpsm_1_1conv_1_1_basic_converter}{BasicConverter<poly::ref\_storage>}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \}\ \textcolor{comment}{//\ namespace\ conv}}
+\DoxyCodeLine{00037\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

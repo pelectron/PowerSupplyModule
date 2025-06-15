@@ -36,12 +36,12 @@
       "cwd": "${workspaceFolder}",
       "MIMode": "gdb",
       "stopAtEntry": false,
-      "miDebuggerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/14.2 rel1/bin/arm-none-eabi-gdb.exe",
+      "miDebuggerPath": "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 rel1/bin/arm-none-eabi-gdb.exe",
       "hardwareBreakpoints": {
         "require": true,
         "max": 4
       },
-      "debugServerPath": "C:/Program Files/SEGGER/JLink_V838/JLinkGDBServerCL.exe",
+      "debugServerPath": "C:/Program Files/SEGGER/JLink/JLinkGDBServerCL.exe",
       "debugServerArgs": "-If SWD -Speed 800 -Device STM32C031K4 -s",
       "miDebuggerServerAddress": "localhost:2331",
       "customLaunchSetupCommands": [

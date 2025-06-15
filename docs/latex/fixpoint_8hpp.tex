@@ -1,0 +1,89 @@
+\doxysection{fixpoint.\+hpp File Reference}
+\hypertarget{fixpoint_8hpp}{}\label{fixpoint_8hpp}\index{fixpoint.hpp@{fixpoint.hpp}}
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$gcem.\+hpp$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{psm\+::unsigned\+\_\+fixed$<$ Int\+Digits, Frac\+Digits $>$}}
+\begin{DoxyCompactList}\small\item\em Unsigned fix point type with basic math and formatting support. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classpsm_1_1signed__fixed}{psm\+::signed\+\_\+fixed$<$ Int\+Digits, Frac\+Digits $>$}}
+\begin{DoxyCompactList}\small\item\em Signed fix point type with basic math and formatting support. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacepsm}{psm}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$size\+\_\+t num\+\_\+digits$>$ }\\using \mbox{\hyperlink{namespacepsm_ad823f650a5e8226d262e2979ca392f01}{psm\+::fixpoint\+\_\+value\+\_\+type\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em type trait to determine the unsigned type needed to store at least num\+\_\+digits bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ \mbox{\hyperlink{namespacepsm_af32d8fed08323d883ea9f7319ea45495}{psm\+::operator+}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ \&value) noexcept
+\begin{DoxyCompactList}\small\item\em unary plus operator \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I+1, F $>$ \mbox{\hyperlink{namespacepsm_a221f2fb473c4a751c2b86839aef60702}{psm\+::operator-\/}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ \&value) noexcept
+\begin{DoxyCompactList}\small\item\em unary minus operator \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ gcem\+::max(I1, I2)+1, gcem\+::max(F1, F2)$>$ \mbox{\hyperlink{namespacepsm_a9fb9396b753b1d2a6cf40b4f6d59bf93}{psm\+::operator+}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ \&f1, const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ \&f2) noexcept
+\begin{DoxyCompactList}\small\item\em unsigned fixed point addition \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ gcem\+::max(I1, I2), gcem\+::max(F1, F2)$>$ \mbox{\hyperlink{namespacepsm_ae948d06a990e0f6deba248f420bafc01}{psm\+::operator-\/}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ \&f1, const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ \&f2) noexcept
+\begin{DoxyCompactList}\small\item\em unsigned fixed point subtraction \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1+I2, F1+F2 $>$ \mbox{\hyperlink{namespacepsm_a9a2a77f19f7af38796939c56bfe996a5}{psm\+::operator\texorpdfstring{$\ast$}{*}}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ \&f1, const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ \&f2) noexcept
+\begin{DoxyCompactList}\small\item\em unsigned fixed point multiplication \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1+F2, I2+F1 $>$ \mbox{\hyperlink{namespacepsm_a766b7df041083f92dd1173a1b521c29d}{psm\+::operator/}} (const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ \&f1, const \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ \&f2)
+\begin{DoxyCompactList}\small\item\em unsigned fixed point division \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ \mbox{\hyperlink{namespacepsm_a6b1ec8514f1a1ac521b7eb277ad7f8ef}{psm\+::resize}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ value) noexcept
+\begin{DoxyCompactList}\small\item\em resize \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} from \texorpdfstring{$<$}{<}I2,F2\texorpdfstring{$>$}{>} to \texorpdfstring{$<$}{<}I1,F1\texorpdfstring{$>$}{>} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ \mbox{\hyperlink{namespacepsm_a8b73e5b530f39ab1699ec4a262ddec34}{psm\+::operator+}} (const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ \&value) noexcept
+\begin{DoxyCompactList}\small\item\em unary plus operator \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ \mbox{\hyperlink{namespacepsm_a279215cda7bd3c51f17240457e74600d}{psm\+::operator-\/}} (const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ \&value) noexcept
+\begin{DoxyCompactList}\small\item\em unary minus operator \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ gcem\+::max(I1, I2)+1, gcem\+::max(F1, F2)$>$ \mbox{\hyperlink{namespacepsm_a0e012f2a50974bb4f1831c864502a8c2}{psm\+::operator+}} (const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ \&f1, const \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ \&f2) noexcept
+\begin{DoxyCompactList}\small\item\em signed fixed point addition \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ gcem\+::max(I1, I2)+1, gcem\+::max(F1, F2)$>$ \mbox{\hyperlink{namespacepsm_a3a1291bed41794232737aeee59516bdc}{psm\+::operator-\/}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2) noexcept
+\begin{DoxyCompactList}\small\item\em signed fixed point subtraction \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1+I2 -\/ 1, F1+F2 $>$ \mbox{\hyperlink{namespacepsm_ad70913d08cb41a1096d11c3d5a4853ba}{psm\+::operator\texorpdfstring{$\ast$}{*}}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2) noexcept
+\begin{DoxyCompactList}\small\item\em signed fixed point multiplication \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1+F2, I2+F1 $>$ \mbox{\hyperlink{namespacepsm_a389294861898306b54d0c12fe0e597bb}{psm\+::operator/}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em signed fixed point division \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ \mbox{\hyperlink{namespacepsm_a12199070b58216748301e225a5323149}{psm\+::resize}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ value) noexcept
+\begin{DoxyCompactList}\small\item\em resize \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} from \texorpdfstring{$<$}{<}I2,F2\texorpdfstring{$>$}{>} to \texorpdfstring{$<$}{<}I1,F1\texorpdfstring{$>$}{>} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ \mbox{\hyperlink{namespacepsm_a1cc37c9fb31260ad72c5d5685063725f}{psm\+::to\+\_\+unsigned}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\begin{DoxyCompactList}\small\item\em convert \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} to \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} of the same bit width. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ \mbox{\hyperlink{namespacepsm_acc74bc3931ddd53f118733f7ec5a06c8}{psm\+::to\+\_\+signed}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\begin{DoxyCompactList}\small\item\em convert \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} to \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} of same bit width. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr float \mbox{\hyperlink{namespacepsm_af0567bd6d38a44a32066208fc33d1270}{psm\+::to\+\_\+float}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\begin{DoxyCompactList}\small\item\em convert \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} to float. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr float \mbox{\hyperlink{namespacepsm_a824f4339b9f553488cc16de2d8fb34c0}{psm\+::to\+\_\+float}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\begin{DoxyCompactList}\small\item\em convert \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} to float. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr double \mbox{\hyperlink{namespacepsm_a6063a28fcca3524564e001be98d13f97}{psm\+::to\+\_\+double}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\begin{DoxyCompactList}\small\item\em convert \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} to double. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a23d7ebacc8444f45db5c30679ec22e55}{psm\+::operator$<$}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em less than comparison for \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a7c5020710aef757d4844ce30f7302972}{psm\+::operator$<$=}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em less than comparison for \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_acc3de7af5fb46718b0fea72c59c69d80}{psm\+::operator$>$}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em greater than comparison for \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a9e374ad8ee3b54c87e4767cd39ff2581}{psm\+::operator$>$=}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em greater than or equal comparison for \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a5a79332260ad495e53025d7bbf6f6b03}{psm\+::operator==}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em equality comparison for \doxylink{classpsm_1_1signed__fixed}{signed\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_ab8a2f18775395d9b5786b0f876cdea1c}{psm\+::operator$<$}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em less than comparison for \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a073df1329076d12bb1314007935fa1ca}{psm\+::operator$<$=}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em less than or equal comparison for \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a4a592a5723efb442d01e17455e893fcb}{psm\+::operator$>$}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em greater than comparison for \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_ad6aada82e39ce7170f1f68215d2c4566}{psm\+::operator$>$=}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em greater than or equal comparison for \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I1, size\+\_\+t F1, size\+\_\+t I2, size\+\_\+t F2$>$ }\\constexpr bool \mbox{\hyperlink{namespacepsm_a15a975158c9fb39fa2a06667db2cf6be}{psm\+::operator==}} (\mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I1, F1 $>$ f1, \mbox{\hyperlink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed}}$<$ I2, F2 $>$ f2)
+\begin{DoxyCompactList}\small\item\em equality comparison for \doxylink{classpsm_1_1unsigned__fixed}{unsigned\+\_\+fixed} \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacepsm_ad8fbc34a77f512e74721c7c554732931}{psm\+::mask}} (size\+\_\+t msb, size\+\_\+t lsb) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$\+::raw\+\_\+value\+\_\+type \mbox{\hyperlink{namespacepsm_ab5105ac5a6bb69956c97ab2b4781f9c2}{psm\+::sign\+\_\+extended\+\_\+value}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ f)
+\begin{DoxyCompactList}\small\item\em get internal value of f correctly sign extended \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t I, size\+\_\+t F$>$ }\\constexpr double \mbox{\hyperlink{namespacepsm_aafd6b049a68bd933ffe881a55955ad49}{psm\+::to\+\_\+double}} (\mbox{\hyperlink{classpsm_1_1signed__fixed}{signed\+\_\+fixed}}$<$ I, F $>$ v) noexcept
+\end{DoxyCompactItemize}

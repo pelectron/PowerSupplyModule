@@ -1,0 +1,64 @@
+\doxysection{cli/format.hpp File Reference}
+\hypertarget{format_8hpp}{}\label{format_8hpp}\index{cli/format.hpp@{cli/format.hpp}}
+{\ttfamily \#include "{}cli/ctti.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/traits.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/u64.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$gcem.\+hpp$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_format_result}{cli\+::format\+::\+Format\+Result}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1formatter__value__type}{cli\+::format\+::formatter\+\_\+value\+\_\+type$<$ F $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format}{cli\+::format\+::\+Default\+Format$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_null_format}{cli\+::format\+::\+Null\+Format}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format_3_01void_01_4}{cli\+::format\+::\+Default\+Format$<$ void $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format_3_01bool_01_4}{cli\+::format\+::\+Default\+Format$<$ bool $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_int}{cli\+::format\+::\+Int$<$ T, Format, Use\+Sign\+For\+Positive $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format_3_01_t_01_4}{cli\+::format\+::\+Default\+Format$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1format_1_1_fix_point}{cli\+::format\+::\+Fix\+Point$<$ T, Precision, Print\+Trailing\+Zeros, Format, Use\+Sign\+For\+Positive, Fix\+Point\+Separator $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1format_1_1_float}{cli\+::format\+::\+Float$<$ T, Format, Fix\+Point\+Separator $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_sequence}{cli\+::format\+::\+Sequence$<$ T, Element\+Formatter, Delimiter $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format_3_01_enum_01_4}{cli\+::format\+::\+Default\+Format$<$ Enum $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_string}{cli\+::format\+::\+String$<$ T, Use\+Quotes $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1format_1_1_field_group}{cli\+::format\+::\+Field\+Group$<$ Assignment, Member\+Separator, Prefix, Postfix, Use\+Names, Fields $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1field__formatter__for}{cli\+::format\+::field\+\_\+formatter\+\_\+for$<$ T, Assignment, Member\+Separator, Prefix, Postfix, Use\+Names $>$}}
+\item 
+class \mbox{\hyperlink{classcli_1_1format_1_1_struct}{cli\+::format\+::\+Struct$<$ T, Name, Assignment, Member\+Separator, Prefix, Postfix, Use\+Names $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_char}{cli\+::format\+::\+Char$<$ Quoted, Quote\+Char $>$}}
+\item 
+struct \mbox{\hyperlink{structcli_1_1format_1_1_default_format_3_01char_01_4}{cli\+::format\+::\+Default\+Format$<$ char $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\item 
+namespace \mbox{\hyperlink{namespacecli_1_1format}{cli\+::format}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1format_1_1_formatter_of}{cli\+::format\+::\+Formatter\+Of}}
+\item 
+concept \mbox{\hyperlink{conceptcli_1_1format_1_1_formatter}{cli\+::format\+::\+Formatter}}
+\end{DoxyCompactItemize}

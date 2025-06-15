@@ -1,0 +1,146 @@
+\doxysection{tracker.\+hpp}
+\hypertarget{tracker_8hpp_source}{}\label{tracker_8hpp_source}\index{cli/tracker.hpp@{cli/tracker.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_TRACKER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_TRACKER\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/util.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <std::size\_t\ Depth,\ std::size\_t\ MaxNameLength,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ AccessSeparator\ =\ \textcolor{charliteral}{'.'},\ \textcolor{keywordtype}{bool}\ UseAutoComplete\ =\ \textcolor{keyword}{true}>}
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1_tracker}{Tracker}}\ \{}
+\DoxyCodeLine{00025\ \ \ CommandNode\ \&root;}
+\DoxyCodeLine{00026\ \ \ std::array<CommandNode\ *,\ Depth>\ cmds\{\textcolor{keyword}{nullptr}\};}
+\DoxyCodeLine{00027\ \ \ smallest\_type\_for\_value\_t<Depth>\ size\ =\ 0;}
+\DoxyCodeLine{00028\ \ \ smallest\_type\_for\_value\_t<MaxNameLength\ +\ 1>\ cmd\_size\ =\ 0;}
+\DoxyCodeLine{00029\ \ \ uint8\_t\ last\_char\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ uint8\_t\ buffer[MaxNameLength\ +\ 1]\{\};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ CommandNode\ *candidate()\ \{\ \textcolor{keywordflow}{return}\ size\ <\ Depth\ ?\ cmds[size]\ :\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1_tracker_abe5781cc5655904d158a05b3981d4a2b}{Tracker}}(CommandNode\ \&root)\ :\ root(root)\ \{\}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00047\ \ \ Error\ \mbox{\hyperlink{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b}{on\_char}}(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ last\_char\ =\ c;}
+\DoxyCodeLine{00049\ \ \ \ \ buffer[cmd\_size++]\ =\ c;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ ==\ AccessSeparator)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ replace\ with\ better\ error}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ ==\ Depth)}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::buffer\_overflow;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ ==\ 1)}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *cand\ =\ cmds[size];}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cand\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cand-\/>name[cmd\_size\ -\/\ 2]\ ==\ buffer[cmd\_size\ -\/\ 2])\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ cmd\_size\ =\ 0;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ ==\ 1)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \textcolor{comment}{//\ set\ next\ candidate\ if\ there\ is\ one}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *parent\ =\ size\ ==\ 0\ ?\ \&root\ :\ cmds[size\ -\/\ 1];}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&cmd\ :\ *parent)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd.name[0]\ ==\ c)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ cmds[size]\ =\ \&cmd;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{auto}\ cand\ =\ candidate();}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ name((\textcolor{keywordtype}{char}\ *)buffer,\ cmd\_size);}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (cand\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ <=\ cand-\/>name.size()\ and}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ cand-\/>name[cmd\_size\ -\/\ 1]\ ==\ buffer[cmd\_size\ -\/\ 1])\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ candidate\ if\ it\ matched\ previously\ and\ continues\ to\ match}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{comment}{//\ need\ new\ candidate}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{auto}\ next\ =\ cand-\/>next;}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (next\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{while}\ (next\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (next-\/>name.starts\_with(name))\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ cmds[size]\ =\ next;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ next\ =\ next-\/>next;}
+\DoxyCodeLine{00102\ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00104\ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}{on\_backspace}}()\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ ==\ 0)\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ ==\ 0)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ last\_char\ =\ 0;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ cmds[size]\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ -\/-\/size;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ cmds[size]-\/>name)}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ buffer[cmd\_size++]\ =\ ch;}
+\DoxyCodeLine{00118\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ -\/-\/cmd\_size;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ last\_char\ =\ buffer[cmd\_size\ -\/\ 1];}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ on\_autocomplete()\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (UseAutoComplete)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *\textcolor{keyword}{const}\ cand\ =\ candidate();}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ ==\ 0\ or\ cand\ ==\ \textcolor{keyword}{nullptr}\ or\ last\_char\ ==\ AccessSeparator)}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \textcolor{keyword}{const}\ ByteView\ name((\textcolor{keywordtype}{char}\ *)buffer,\ cmd\_size);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ cand-\/>name)\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ next\ =\ cand-\/>next;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (next\ !=\ \textcolor{keyword}{nullptr}\ and\ next-\/>name.starts\_with(name))}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ last\_char\ =\ AccessSeparator;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ ++size;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ cmd\_size\ =\ 0;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}."{}};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ret\ =\ cand-\/>name.substr(cmd\_size);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ ret)}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ buffer[cmd\_size++]\ =\ ch;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ last\_char\ =\ ret.back();}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00145\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ CommandNode\ *cmd()\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{auto}\ *ret\ =\ size\ <\ Depth\ ?\ cmds[size]\ :\ cmds[Depth\ -\/\ 1];}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_size\ !=\ ret-\/>name.size())}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00155\ \ \ \}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \textcolor{keywordtype}{void}\ clear()\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&cmd\ :\ cmds)}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ cmd\ =\ nullptr;}
+\DoxyCodeLine{00160\ \ \ \ \ size\ =\ 0;}
+\DoxyCodeLine{00161\ \ \ \ \ cmd\_size\ =\ 0;}
+\DoxyCodeLine{00162\ \ \ \ \ last\_char\ =\ 0;}
+\DoxyCodeLine{00163\ \ \ \}}
+\DoxyCodeLine{00164\ \};}
+\DoxyCodeLine{00165\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

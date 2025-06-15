@@ -1,0 +1,24 @@
+\doxysection{mmio.\+hpp File Reference}
+\hypertarget{mmio_8hpp}{}\label{mmio_8hpp}\index{mmio.hpp@{mmio.hpp}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacehal}{hal}}
+\item 
+namespace \mbox{\hyperlink{namespacehal_1_1mmio}{hal\+::mmio}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a0a91fd0af357661252406d31a91c4629}{hal\+::mmio\+::set}} (volatile T \&mem, U value)
+\begin{DoxyCompactList}\small\item\em set the value of mem to value, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U , typename V $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a97960fcfb1629b399eb9e74c79baead1}{hal\+::mmio\+::set}} (volatile T \&mem, U mask, V value, unsigned shift=0)
+\begin{DoxyCompactList}\small\item\em set a bit fields value, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_a3f5e57f4088bfb73f6ad73849a298cfd}{hal\+::mmio\+::set\+\_\+bits}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em set bits to 1 in mem, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\void \mbox{\hyperlink{namespacehal_1_1mmio_afd856630950846043b8a66d1ea658a16}{hal\+::mmio\+::reset\+\_\+bits}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em reset bits to 0 in mem, i.\+e. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\T \mbox{\hyperlink{namespacehal_1_1mmio_a63eb92a1154cc30d84bd33358508df8f}{hal\+::mmio\+::get}} (volatile T \&mem, U bits)
+\begin{DoxyCompactList}\small\item\em read bits of mem. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename U $>$ }\\T \mbox{\hyperlink{namespacehal_1_1mmio_ab80c32294e38eda15f32085223442089}{hal\+::mmio\+::get}} (volatile T \&mem, U mask, unsigned shift)
+\begin{DoxyCompactList}\small\item\em read bits of mem and right shift the result by shift bits. \end{DoxyCompactList}\end{DoxyCompactItemize}

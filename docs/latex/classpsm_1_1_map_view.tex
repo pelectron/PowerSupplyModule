@@ -1,0 +1,254 @@
+\doxysection{psm\+::Map\+View\texorpdfstring{$<$}{<} Key, Value \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1_map_view}{}\label{classpsm_1_1_map_view}\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+
+
+{\ttfamily \#include $<$fixed\+\_\+map.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classpsm_1_1_map_view_a3eb34edae00decacb9af7de10ccd8c6b}{key\+\_\+type}} = Key
+\item 
+using \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} = Value
+\item 
+using \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_afad9c5073032675065b815ce64519e1c}{Map\+View}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_ada68545f5d1159239640da65ffc9b4aa}{Map\+View}} (\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$ \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}{data}}, size\+\_\+t \mbox{\hyperlink{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}{size}})
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a5efe1ee6fdd0318ce649a11050c90564}{find}} (const Key \&key) const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a6d57bf09aad353a0c281841e02b71ee5}{find}} (const Key \&key) noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1_map_view_a255a55f51d8c75aa83ba393bb82f281b}{contains}} (const Key \&key) const noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_a1af1c34c5373cfec537764f672aa67d0}{operator\mbox{[}$\,$\mbox{]}}} (const Key \&k) const
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_ad68e289ebe5abd2f3bb92d78b918acd5}{operator\mbox{[}$\,$\mbox{]}}} (const Key \&k)
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee}{get}} (const Key \&k) const
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_a9407594f786c81403c2796b3319c6714}{get}} (const Key \&k)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_ad4c63da1fb00fa06c4363b5d5b3392c3}{get\+\_\+or}} (const Key \&k, \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \&v) noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view_aa7d5b790bfc82594f654fd6433ab34ee}{get\+\_\+or}} (const Key \&k, const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \&v) const noexcept
+\item 
+constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}{size}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}{data}} () noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_ad134574282a9edb2f1b977b9a78fa9a9}{data}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a1f2f68176b7dbb119d1f29709e6918d4}{begin}} () noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a1ad99bac3611fc7f3025037e1486fdd5}{begin}} () const noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a6b5eb1e81e2fbf1a3a8ba30d2b0a537a}{cbegin}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a3c7a62d0e950b3d18d5f3d7e2f186127}{end}} () noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_ae207343c22dfe719da37039fce02881c}{end}} () const noexcept
+\item 
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view_a8ad87a741354ec152489b1a6edcc5e94}{cend}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classpsm_1_1_map_view_ae4cfe35fd3e7d0f69044b9bab5c05cd2}{set\+\_\+data}} (\mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*}e) noexcept
+\item 
+void \mbox{\hyperlink{classpsm_1_1_map_view_acdfe524ab29ee91d5a5362c08b75876e}{set\+\_\+size}} (size\+\_\+t s) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}\label{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!element\_type@{element\_type}}
+\index{element\_type@{element\_type}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{element\_type}{element\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::element\+\_\+type = \mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$Key, Value$>$}
+
+\Hypertarget{classpsm_1_1_map_view_a3eb34edae00decacb9af7de10ccd8c6b}\label{classpsm_1_1_map_view_a3eb34edae00decacb9af7de10ccd8c6b} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!key\_type@{key\_type}}
+\index{key\_type@{key\_type}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{key\_type}{key\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::key\+\_\+type = Key}
+
+\Hypertarget{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}\label{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+using \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::value\+\_\+type = Value}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1_map_view_afad9c5073032675065b815ce64519e1c}\label{classpsm_1_1_map_view_afad9c5073032675065b815ce64519e1c} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!MapView@{MapView}}
+\index{MapView@{MapView}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{MapView()}{MapView()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::\+Map\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ada68545f5d1159239640da65ffc9b4aa}\label{classpsm_1_1_map_view_ada68545f5d1159239640da65ffc9b4aa} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!MapView@{MapView}}
+\index{MapView@{MapView}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{MapView()}{MapView()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::\+Map\+View (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structpsm_1_1map__element}{map\+\_\+element}}$<$ Key, Value $>$ \texorpdfstring{$\ast$}{*}}]{data,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_map_view_a1ad99bac3611fc7f3025037e1486fdd5}\label{classpsm_1_1_map_view_a1ad99bac3611fc7f3025037e1486fdd5} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!begin@{begin}}
+\index{begin@{begin}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a1f2f68176b7dbb119d1f29709e6918d4}\label{classpsm_1_1_map_view_a1f2f68176b7dbb119d1f29709e6918d4} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!begin@{begin}}
+\index{begin@{begin}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a6b5eb1e81e2fbf1a3a8ba30d2b0a537a}\label{classpsm_1_1_map_view_a6b5eb1e81e2fbf1a3a8ba30d2b0a537a} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a8ad87a741354ec152489b1a6edcc5e94}\label{classpsm_1_1_map_view_a8ad87a741354ec152489b1a6edcc5e94} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!cend@{cend}}
+\index{cend@{cend}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a255a55f51d8c75aa83ba393bb82f281b}\label{classpsm_1_1_map_view_a255a55f51d8c75aa83ba393bb82f281b} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!contains@{contains}}
+\index{contains@{contains}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr bool \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::contains (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ad134574282a9edb2f1b977b9a78fa9a9}\label{classpsm_1_1_map_view_ad134574282a9edb2f1b977b9a78fa9a9} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!data@{data}}
+\index{data@{data}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b}\label{classpsm_1_1_map_view_ae97c68bf4d6799ace093b22755a6bc2b} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!data@{data}}
+\index{data@{data}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ae207343c22dfe719da37039fce02881c}\label{classpsm_1_1_map_view_ae207343c22dfe719da37039fce02881c} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!end@{end}}
+\index{end@{end}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a3c7a62d0e950b3d18d5f3d7e2f186127}\label{classpsm_1_1_map_view_a3c7a62d0e950b3d18d5f3d7e2f186127} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!end@{end}}
+\index{end@{end}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a5efe1ee6fdd0318ce649a11050c90564}\label{classpsm_1_1_map_view_a5efe1ee6fdd0318ce649a11050c90564} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!find@{find}}
+\index{find@{find}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::find (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a6d57bf09aad353a0c281841e02b71ee5}\label{classpsm_1_1_map_view_a6d57bf09aad353a0c281841e02b71ee5} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!find@{find}}
+\index{find@{find}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::find (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_a9407594f786c81403c2796b3319c6714}\label{classpsm_1_1_map_view_a9407594f786c81403c2796b3319c6714} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!get@{get}}
+\index{get@{get}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::get (\begin{DoxyParamCaption}\item[{const Key \&}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee}\label{classpsm_1_1_map_view_a77817da9c1abbc4878901a77bc02acee} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!get@{get}}
+\index{get@{get}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::get (\begin{DoxyParamCaption}\item[{const Key \&}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_map_view_aa7d5b790bfc82594f654fd6433ab34ee}\label{classpsm_1_1_map_view_aa7d5b790bfc82594f654fd6433ab34ee} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!get\_or@{get\_or}}
+\index{get\_or@{get\_or}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{get\_or()}{get\_or()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::get\+\_\+or (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \&}]{v }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ad4c63da1fb00fa06c4363b5d5b3392c3}\label{classpsm_1_1_map_view_ad4c63da1fb00fa06c4363b5d5b3392c3} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!get\_or@{get\_or}}
+\index{get\_or@{get\_or}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{get\_or()}{get\_or()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::get\+\_\+or (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{\mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ad68e289ebe5abd2f3bb92d78b918acd5}\label{classpsm_1_1_map_view_ad68e289ebe5abd2f3bb92d78b918acd5} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const Key \&}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_map_view_a1af1c34c5373cfec537764f672aa67d0}\label{classpsm_1_1_map_view_a1af1c34c5373cfec537764f672aa67d0} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr const \mbox{\hyperlink{classpsm_1_1_map_view_a0e302efa781ebaf0c52c237babff7561}{value\+\_\+type}} \& \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const Key \&}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1_map_view_ae4cfe35fd3e7d0f69044b9bab5c05cd2}\label{classpsm_1_1_map_view_ae4cfe35fd3e7d0f69044b9bab5c05cd2} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!set\_data@{set\_data}}
+\index{set\_data@{set\_data}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{set\_data()}{set\_data()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+void \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::set\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_map_view_a7907c36d1251c80925d4aa529e78f2a2}{element\+\_\+type}} \texorpdfstring{$\ast$}{*}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_acdfe524ab29ee91d5a5362c08b75876e}\label{classpsm_1_1_map_view_acdfe524ab29ee91d5a5362c08b75876e} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!set\_size@{set\_size}}
+\index{set\_size@{set\_size}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{set\_size()}{set\_size()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+void \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::set\+\_\+size (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d}\label{classpsm_1_1_map_view_ae14aaa43b74224e236d9cddb7c29956d} 
+\index{psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}!size@{size}}
+\index{size@{size}!psm::MapView$<$ Key, Value $>$@{psm::MapView$<$ Key, Value $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename Key , typename Value $>$ \\
+constexpr size\+\_\+t \mbox{\hyperlink{classpsm_1_1_map_view}{psm\+::\+Map\+View}}$<$ Key, Value $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{fixed__map_8hpp}{fixed\+\_\+map.\+hpp}}\end{DoxyCompactItemize}

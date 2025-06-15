@@ -15,6 +15,7 @@ enum class Error {
   invalid_handle,
   config,
   callback_already_registered,
+  operation_cancelled,
   invalid_param,
   not_implemented,
   buffer_overflow,
@@ -23,12 +24,46 @@ enum class Error {
   crc_error,
   frame_error,
   parity_error,
-  already_in_use,
   clock_error,
   noisy,
   protocol_error,
   not_acknowledged,
-  lost_arbitration
+  lost_arbitration,
+  already_in_use,
+  already_locked,
+  invalid_config,
+  invalid_port,
+  invalid_pin_nr,
+  invalid_function,
+  invalid_mode,
+  invalid_speed,
+  invalid_pull,
+  invalid_state,
+  invalid_alternate,
+  invalid_enumerator,
+  invalid_phase,
+  invalid_polarity,
+  invalid_format,
+  invalid_baudrate,
+  invalid_id,
+  invalid_sclk,
+  invalid_mosi,
+  invalid_miso,
+  invalid_cs,
+  invalid_data_size,
+  invalid_parity,
+  invalid_stop_bits,
+  invalid_clock_frequency,
+  invalid_timeout,
+  invalid_pin,
+  invalid_sda,
+  invalid_scl,
+  invalid_rx,
+  invalid_tx,
+  invalid_crc,
+  invalid_resolution,
+  invalid_oversampling_ratio,
+  invalid_channel
 };
 
 enum class ConfigError : std::uint32_t {
@@ -65,6 +100,9 @@ enum class ConfigError : std::uint32_t {
   invalid_rx,
   invalid_tx,
   invalid_crc,
+  invalid_resolution,
+  invalid_oversampling_ratio,
+  invalid_channel
 };
 
 namespace gpio {
@@ -351,27 +389,52 @@ enum class Id : std::uint8_t {
   Z
 };
 
-enum ChannelId : std::uint16_t {
+enum ChannelId : std::uint32_t {
   invalid = 0,
-  Channel1 = 1 << 0,
-  Channel2 = 1 << 1,
-  Channel3 = 1 << 2,
-  Channel4 = 1 << 3,
-  Channel5 = 1 << 4,
-  Channel6 = 1 << 5,
-  Channel7 = 1 << 6,
-  Channel8 = 1 << 7,
-  Channel9 = 1 << 8,
-  Channel10 = 1 << 9,
-  Channel11 = 1 << 10,
-  Channel12 = 1 << 11,
-  Channel13 = 1 << 12,
-  Channel14 = 1 << 13,
-  Channel15 = 1 << 14,
-  Channel16 = 1 << 15,
-  AllChannels = 0xFFFFu,
+  Channel1 = 1u << 0u,
+  Channel2 = 1u << 1u,
+  Channel3 = 1u << 2u,
+  Channel4 = 1u << 3u,
+  Channel5 = 1u << 4u,
+  Channel6 = 1u << 5u,
+  Channel7 = 1u << 6u,
+  Channel8 = 1u << 7u,
+  Channel9 = 1u << 8u,
+  Channel10 = 1u << 9u,
+  Channel11 = 1u << 10u,
+  Channel12 = 1u << 11u,
+  Channel13 = 1u << 12u,
+  Channel14 = 1u << 13u,
+  Channel15 = 1u << 14u,
+  Channel16 = 1u << 15u,
+  Channel17 = 1u << 16u,
+  Channel18 = 1u << 17u,
+  Channel19 = 1u << 18u,
+  Channel20 = 1u << 19u,
+  Channel21 = 1u << 20u,
+  Channel22 = 1u << 21u,
+  Channel23 = 1u << 22u,
+  Channel24 = 1u << 23u,
+  Channel25 = 1u << 24u,
+  Channel26 = 1u << 25u,
+  Channel27 = 1u << 26u,
+  Channel28 = 1u << 27u,
+  Channel29 = 1u << 28u,
+  Channel30 = 1u << 29u,
+  Channel31 = 1u << 30u,
+  Channel32 = 1u << 31u,
+  AllChannels = 0xFFFFFFFFu,
 };
 
+constexpr ChannelId operator|(ChannelId c1, ChannelId c2) {
+  return static_cast<ChannelId>(static_cast<std::uint32_t>(c1) |
+                                static_cast<std::uint32_t>(c2));
+}
+
+constexpr ChannelId operator&(ChannelId c1, ChannelId c2) {
+  return static_cast<ChannelId>(static_cast<std::uint32_t>(c1) &
+                                static_cast<std::uint32_t>(c2));
+}
 enum class Options : std::uint8_t {
   discontinous =
       0, // the adc performs one conversion cycle when started. One conversion
@@ -380,7 +443,7 @@ enum class Options : std::uint8_t {
   continous = 1 << 0, // the adc starts sampling when started and does not stop
                       // until stop is called.
   single_conversion = 0, // only a single channel is sampled at a time
-  scan_conversion =
+  sequence_conversion =
       1 << 1, // all enabled channels are sampled one after another
 };
 
@@ -406,6 +469,16 @@ enum class Source {
 };
 
 }
+
+namespace dma {
+
+enum Mode { single, circular };
+
+enum DataSize { one_byte, two_bytes, four_bytes };
+
+enum Priority { very_high, high, medium, low };
+
+} // namespace dma
 
 enum class Peripheral {
   flash,

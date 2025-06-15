@@ -1,0 +1,52 @@
+\doxysection{cli\+::io\+::Output\texorpdfstring{$<$}{<} Stream \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1io_1_1_output}{}\label{classcli_1_1io_1_1_output}\index{cli::io::Output$<$ Stream $>$@{cli::io::Output$<$ Stream $>$}}
+
+
+This class is the interface used by the cli to control the output.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3}\label{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3} 
+constexpr Error {\bfseries write} (uint8\+\_\+t c)
+\begin{DoxyCompactList}\small\item\em write a character to the terminal \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_ae5c5ad970d0d8d25a27163b75c0f5a2d}\label{classcli_1_1io_1_1_output_ae5c5ad970d0d8d25a27163b75c0f5a2d} 
+constexpr Error {\bfseries write} (\mbox{\hyperlink{classcli_1_1_byte_view}{Byte\+View}} s)
+\begin{DoxyCompactList}\small\item\em write a string to the terminal \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_a16f1c4d4cf00539038371b6bcd7126da}\label{classcli_1_1io_1_1_output_a16f1c4d4cf00539038371b6bcd7126da} 
+constexpr Error {\bfseries backspace} (uint8\+\_\+t n=1)
+\begin{DoxyCompactList}\small\item\em delete the last n characters \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_aff184cae4b6da018a42e7be9286363cf}\label{classcli_1_1io_1_1_output_aff184cae4b6da018a42e7be9286363cf} 
+constexpr Error {\bfseries cursor\+\_\+up} (uint8\+\_\+t n=1)
+\begin{DoxyCompactList}\small\item\em move cursor up by n \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_ab18545b30c78ae3448cf037d4baa04a0}\label{classcli_1_1io_1_1_output_ab18545b30c78ae3448cf037d4baa04a0} 
+constexpr Error {\bfseries cursor\+\_\+down} (uint8\+\_\+t n=1)
+\begin{DoxyCompactList}\small\item\em move cursor down by n \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_af6c0e70ea443e2e282a11cb5bd74b770}\label{classcli_1_1io_1_1_output_af6c0e70ea443e2e282a11cb5bd74b770} 
+constexpr Error {\bfseries cursor\+\_\+left} (uint8\+\_\+t n=1)
+\begin{DoxyCompactList}\small\item\em move cursor left by n \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1io_1_1_output_a581adad299194cadd994b9648db700b6}\label{classcli_1_1io_1_1_output_a581adad299194cadd994b9648db700b6} 
+constexpr Error {\bfseries cursor\+\_\+right} (uint8\+\_\+t n=1)
+\begin{DoxyCompactList}\small\item\em move cursor right by n \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Output\+Stream Stream$>$\newline
+class cli\+::io\+::\+Output$<$ Stream $>$}
+This class is the interface used by the cli to control the output. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Stream} & the actual output stream \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/io.\+hpp\end{DoxyCompactItemize}

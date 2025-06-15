@@ -1,0 +1,155 @@
+\doxysection{psm\+::result\+\_\+dtl\+::Result\+Impl\texorpdfstring{$<$}{<} T, trivial \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classpsm_1_1result__dtl_1_1_result_impl}{}\label{classpsm_1_1result__dtl_1_1_result_impl}\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+
+
+{\ttfamily \#include $<$result.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a02f39c84a91cc10621890f3c6d2dac76}{Result\+Impl}} () noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab703854f9d072869add56cfafc811d6e}{Result\+Impl}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error}} e) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a483d967dda3d2f0446b137b3e4453bd0}{Result\+Impl}} (T \&\&t) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab803718d27014a2238ec99958cb4da78}{Result\+Impl}} (const T \&t) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_af42d4c3b41e133b8f97134f78671b371}{Result\+Impl}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab164bfed0dc31cce213612b047593e22}{Result\+Impl}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ab0854c67b3b81157da7e09d22faa6270}{operator=}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&other) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_adb21b9bead311343f29ced1146ee93fe}{operator=}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \&\&other) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable\+\_\+v$<$ T $>$)
+\item 
+constexpr T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_a2482492dcb03dc6766008deb6157ac6c}{value}} () \&
+\item 
+constexpr const T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ada8f506c05df271bffa222398c79e798}{value}} () const \&
+\item 
+constexpr T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ada120ed44f14da55605bfdc887db011c}{value}} () \&\&
+\item 
+constexpr const T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl_ae9f6fba63ebaadff6d40eee8a7b6caf3}{value}} () const \&\&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{psm\+::result\+\_\+dtl\+::\+Result\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_ae0427a69948dd14e884492149daaccfb}{Result\+Base}} () noexcept=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a26a84d14f9b203458dec16a9b60e976b}{Result\+Base}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af55a7bc388899c1628172e404a53e386}{Result\+Base}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2b1062981dbc4f963fe008eac6d9b6a5}{Result\+Base}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a2d62f284c252f95f1b65d468ae8ec205}{operator=}} (const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a6a9fbc063676faf39b23f41064062315}{operator=}} (\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{Result\+Base}} \&\&)=default
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a16b36277c343a253b3998ee34ab91271}{operator bool}} () const noexcept
+\item 
+constexpr \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_af6c58090aff12b99b2cc2beb7d51a2a0}{error}} () const noexcept
+\item 
+constexpr bool \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a683a37b241a2b7f94ca9cd45881bd495}{has\+\_\+value}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base}{psm\+::result\+\_\+dtl\+::\+Result\+Base}}}
+\begin{DoxyCompactItemize}
+\item 
+constexpr void \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_base_a538084042eb824043794d569534ddff8}{set\+\_\+error}} (\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} e) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_a02f39c84a91cc10621890f3c6d2dac76}\label{classpsm_1_1result__dtl_1_1_result_impl_a02f39c84a91cc10621890f3c6d2dac76} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ab703854f9d072869add56cfafc811d6e}\label{classpsm_1_1result__dtl_1_1_result_impl_ab703854f9d072869add56cfafc811d6e} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{psm\+::\+Error}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_a483d967dda3d2f0446b137b3e4453bd0}\label{classpsm_1_1result__dtl_1_1_result_impl_a483d967dda3d2f0446b137b3e4453bd0} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}\item[{T \&\&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ab803718d27014a2238ec99958cb4da78}\label{classpsm_1_1result__dtl_1_1_result_impl_ab803718d27014a2238ec99958cb4da78} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}\item[{const T \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_af42d4c3b41e133b8f97134f78671b371}\label{classpsm_1_1result__dtl_1_1_result_impl_af42d4c3b41e133b8f97134f78671b371} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}}$<$ T, trivial $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ab164bfed0dc31cce213612b047593e22}\label{classpsm_1_1result__dtl_1_1_result_impl_ab164bfed0dc31cce213612b047593e22} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!ResultImpl@{ResultImpl}}
+\index{ResultImpl@{ResultImpl}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{ResultImpl()}{ResultImpl()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::\+Result\+Impl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}}$<$ T, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ab0854c67b3b81157da7e09d22faa6270}\label{classpsm_1_1result__dtl_1_1_result_impl_ab0854c67b3b81157da7e09d22faa6270} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}}$<$ T, trivial $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_adb21b9bead311343f29ced1146ee93fe}\label{classpsm_1_1result__dtl_1_1_result_impl_adb21b9bead311343f29ced1146ee93fe} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}} \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{Result\+Impl}}$<$ T, trivial $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_a2482492dcb03dc6766008deb6157ac6c}\label{classpsm_1_1result__dtl_1_1_result_impl_a2482492dcb03dc6766008deb6157ac6c} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!value@{value}}
+\index{value@{value}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ada120ed44f14da55605bfdc887db011c}\label{classpsm_1_1result__dtl_1_1_result_impl_ada120ed44f14da55605bfdc887db011c} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!value@{value}}
+\index{value@{value}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) \&\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ada8f506c05df271bffa222398c79e798}\label{classpsm_1_1result__dtl_1_1_result_impl_ada8f506c05df271bffa222398c79e798} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!value@{value}}
+\index{value@{value}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr const T \& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const \&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{classpsm_1_1result__dtl_1_1_result_impl_ae9f6fba63ebaadff6d40eee8a7b6caf3}\label{classpsm_1_1result__dtl_1_1_result_impl_ae9f6fba63ebaadff6d40eee8a7b6caf3} 
+\index{psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}!value@{value}}
+\index{value@{value}!psm::result\_dtl::ResultImpl$<$ T, trivial $>$@{psm::result\_dtl::ResultImpl$<$ T, trivial $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$typename T , bool trivial$>$ \\
+constexpr const T \&\& \mbox{\hyperlink{classpsm_1_1result__dtl_1_1_result_impl}{psm\+::result\+\_\+dtl\+::\+Result\+Impl}}$<$ T, trivial $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const \&\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{result_8hpp}{result.\+hpp}}\end{DoxyCompactItemize}

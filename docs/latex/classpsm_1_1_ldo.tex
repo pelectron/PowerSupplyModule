@@ -1,0 +1,90 @@
+\doxysection{psm\+::Ldo Class Reference}
+\hypertarget{classpsm_1_1_ldo}{}\label{classpsm_1_1_ldo}\index{psm::Ldo@{psm::Ldo}}
+
+
+{\ttfamily \#include $<$ldo.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} 
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classpsm_1_1_ldo_ac7b743d7cab6b4b677c3883b8aeb020d}{Ldo}} (\mbox{\hyperlink{classhal_1_1spi_1_1_master}{hal\+::spi\+::\+Master}} \&spi, \mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal\+::i2c\+::\+Master}} \&i2c, \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal\+::gpio\+::\+Output}} \&wlat, \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal\+::gpio\+::\+Output}} \&shdn)
+\item 
+\mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} \mbox{\hyperlink{classpsm_1_1_ldo_a79ce8b3ba671a5f680a20cc73193eec9}{enable}} ()
+\item 
+\mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} \mbox{\hyperlink{classpsm_1_1_ldo_ad41638313330b79c8264b61a9ea97a66}{disable}} ()
+\item 
+\mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} \mbox{\hyperlink{classpsm_1_1_ldo_a759fdddbdf541d37acc7f0c6f42a3745}{set\+\_\+voltage}} (\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} v)
+\item 
+\mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} \mbox{\hyperlink{classpsm_1_1_ldo_a00fa24a45f8ab4f91b0090e3bb46f40d}{set\+\_\+current}} (\mbox{\hyperlink{classpsm_1_1_current}{Current}} i)
+\item 
+\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} \mbox{\hyperlink{classpsm_1_1_ldo_aea266ee25fa314395df1c0546908298e}{get\+\_\+voltage}} ()
+\item 
+\mbox{\hyperlink{classpsm_1_1_current}{Current}} \mbox{\hyperlink{classpsm_1_1_ldo_a76cb8e16e8cf77fa897c4cca1f1453e3}{get\+\_\+current}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}\label{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e} 
+\index{psm::Ldo@{psm::Ldo}!Error@{Error}}
+\index{Error@{Error}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{Error}{Error}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{psm\+::\+Ldo\+::\+Error}}}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classpsm_1_1_ldo_ac7b743d7cab6b4b677c3883b8aeb020d}\label{classpsm_1_1_ldo_ac7b743d7cab6b4b677c3883b8aeb020d} 
+\index{psm::Ldo@{psm::Ldo}!Ldo@{Ldo}}
+\index{Ldo@{Ldo}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{Ldo()}{Ldo()}}
+{\footnotesize\ttfamily constexpr psm\+::\+Ldo\+::\+Ldo (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classhal_1_1spi_1_1_master}{hal\+::spi\+::\+Master}} \&}]{spi,  }\item[{\mbox{\hyperlink{structhal_1_1i2c_1_1_master}{hal\+::i2c\+::\+Master}} \&}]{i2c,  }\item[{\mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal\+::gpio\+::\+Output}} \&}]{wlat,  }\item[{\mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal\+::gpio\+::\+Output}} \&}]{shdn }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_ldo_ad41638313330b79c8264b61a9ea97a66}\label{classpsm_1_1_ldo_ad41638313330b79c8264b61a9ea97a66} 
+\index{psm::Ldo@{psm::Ldo}!disable@{disable}}
+\index{disable@{disable}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} psm\+::\+Ldo\+::disable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_ldo_a79ce8b3ba671a5f680a20cc73193eec9}\label{classpsm_1_1_ldo_a79ce8b3ba671a5f680a20cc73193eec9} 
+\index{psm::Ldo@{psm::Ldo}!enable@{enable}}
+\index{enable@{enable}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} psm\+::\+Ldo\+::enable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_ldo_a76cb8e16e8cf77fa897c4cca1f1453e3}\label{classpsm_1_1_ldo_a76cb8e16e8cf77fa897c4cca1f1453e3} 
+\index{psm::Ldo@{psm::Ldo}!get\_current@{get\_current}}
+\index{get\_current@{get\_current}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{get\_current()}{get\_current()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_current}{Current}} psm\+::\+Ldo\+::get\+\_\+current (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_ldo_aea266ee25fa314395df1c0546908298e}\label{classpsm_1_1_ldo_aea266ee25fa314395df1c0546908298e} 
+\index{psm::Ldo@{psm::Ldo}!get\_voltage@{get\_voltage}}
+\index{get\_voltage@{get\_voltage}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{get\_voltage()}{get\_voltage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} psm\+::\+Ldo\+::get\+\_\+voltage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_ldo_a00fa24a45f8ab4f91b0090e3bb46f40d}\label{classpsm_1_1_ldo_a00fa24a45f8ab4f91b0090e3bb46f40d} 
+\index{psm::Ldo@{psm::Ldo}!set\_current@{set\_current}}
+\index{set\_current@{set\_current}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{set\_current()}{set\_current()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} psm\+::\+Ldo\+::set\+\_\+current (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_current}{Current}}}]{i }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_ldo_a759fdddbdf541d37acc7f0c6f42a3745}\label{classpsm_1_1_ldo_a759fdddbdf541d37acc7f0c6f42a3745} 
+\index{psm::Ldo@{psm::Ldo}!set\_voltage@{set\_voltage}}
+\index{set\_voltage@{set\_voltage}!psm::Ldo@{psm::Ldo}}
+\doxysubsubsection{\texorpdfstring{set\_voltage()}{set\_voltage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_ldo_adb2be6d7b3ceccd3efb909007c1c223e}{Error}} psm\+::\+Ldo\+::set\+\_\+voltage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}}]{v }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ldo_8hpp}{ldo.\+hpp}}\end{DoxyCompactItemize}

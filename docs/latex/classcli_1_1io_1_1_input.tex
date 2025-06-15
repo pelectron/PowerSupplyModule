@@ -1,0 +1,95 @@
+\doxysection{cli\+::io\+::Input Class Reference}
+\hypertarget{classcli_1_1io_1_1_input}{}\label{classcli_1_1io_1_1_input}\index{cli::io::Input@{cli::io::Input}}
+
+
+This class represents an ansi input device, e.\+g.  
+
+
+
+
+{\ttfamily \#include $<$cli/io.\+hpp$>$}
+
+
+
+\doxysubsection{Detailed Description}
+This class represents an ansi input device, e.\+g. 
+
+a keyboard or UART input stream, and is used to send events to the cli.
+
+It processes data character by character.
+
+Function\+:
+\begin{DoxyItemize}
+\item handle special ascii characters (DEL/\+BS/\+ESC/tabs/feeds)
+\item handle a basc set of ansi escape sequences
+\end{DoxyItemize}
+
+To use it, construct it with a reference to the cli and call on\+\_\+char() in your input stream receive callback, for example your UART handler.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ the\ cli\ instance}}
+\DoxyCodeLine{\textcolor{keyword}{constinit}\ \mbox{\hyperlink{classcli_1_1_cli}{cli::Cli}}\ my\_cli(...);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ the\ input\ device}}
+\DoxyCodeLine{\textcolor{keyword}{constinit}\ \mbox{\hyperlink{namespacecli}{cli}}:io::Input\ in(my\_cli);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ then\ in\ the\ interrupt\ callback\ function\ used\ by\ your\ HAL/BSP}}
+\DoxyCodeLine{\textcolor{comment}{//\ you\ need\ call\ in's\ on\_char\ method\ with\ the\ character\ that\ was\ just}}
+\DoxyCodeLine{\textcolor{comment}{//\ received.}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ UART\_RxCallback(Handle\_t*\ h)\{}
+\DoxyCodeLine{\ cli::Error\ error\ =\ in.on\_char(UART\_GetChar(h));}
+\DoxyCodeLine{\ \textcolor{keywordflow}{switch}(error)\{}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{case}\ Error::none:\ ...}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{case}\ *\ Error::buffer\_overflow:\ ...}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{case}\ Error::invalid\_esc\_seq:\ ...}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{default}:\ ...}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+If the input parsing is too expensive for your processor, i.\+e. characters are lost because on\+\_\+char takes too long to execute, then simply read into a buffer and call on\+\_\+char in your low priority thread, e.\+g. your main loop. This is ideally done just before calling the cli\textquotesingle{}s process method.
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cli::RingBuffer<volatile\ char,\ 256>\ rx\_buf;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ the\ cli\ instance}}
+\DoxyCodeLine{\textcolor{keyword}{constinit}\ \mbox{\hyperlink{classcli_1_1_cli}{cli::Cli}}\ my\_cli(...);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ the\ input\ device}}
+\DoxyCodeLine{\textcolor{keyword}{constinit}\ \mbox{\hyperlink{namespacecli}{cli}}:io::Input\ in(my\_cli);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ then\ in\ the\ interrupt\ callback\ function\ used\ by\ your\ HAL/BSP}}
+\DoxyCodeLine{\textcolor{comment}{//\ you\ need\ call\ in's\ on\_char\ method\ with\ the\ character\ that\ was\ just}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ UART\_RxCallback(Handle\_t*\ h)\{}
+\DoxyCodeLine{\ rx\_buf.push\_back(UART\_GetChar(h));}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \textcolor{keywordflow}{while}(1)\{}
+\DoxyCodeLine{\ \ \ \textcolor{keywordtype}{char}\ c=0;}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{while}(rx\_buf.pop(c))\{}
+\DoxyCodeLine{\ \ \ \ \ cli::Error\ err\ =\ in.on\_char(c);}
+\DoxyCodeLine{\ \ \ \ \ \textcolor{keywordflow}{switch}(err)\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ ...}
+\DoxyCodeLine{\ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \}}
+\DoxyCodeLine{\ \ \ cli::Error\ err\ =\ \mbox{\hyperlink{namespacecli}{cli}}.process();}
+\DoxyCodeLine{\ \ \ \textcolor{keywordflow}{switch}(err)\{}
+\DoxyCodeLine{\ \ \ \ \ ...}
+\DoxyCodeLine{\ \ \ \}}
+\DoxyCodeLine{\ \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/io.\+hpp\end{DoxyCompactItemize}

@@ -9,10 +9,19 @@ namespace hal::mmio {
  * @tparam T the register type
  * @param mem the memory location, i.e. the register
  * @param value the value to set
+ *
+ * @{
  */
 template <typename T, typename U> void set(volatile T &mem, U value) {
   mem = static_cast<T>(value);
 }
+
+template <typename T, typename U> void set(T &mem, U value) {
+  mem = static_cast<T>(value);
+}
+/**
+ * @}
+ */
 
 /**
  * set a bit fields value, i.e. performs ``mem = (mem & ~mask) | (value
@@ -38,12 +47,23 @@ template <typename T, typename U> void set(volatile T &mem, U value) {
  * means that a bit will be cleared.
  * @param value the value to write
  * @param shift how much value is shifted to the left
+ *
+ * @{
  */
 template <typename T, typename U, typename V>
 void set(volatile T &mem, U mask, V value, unsigned shift = 0) {
   mem = (mem & ~static_cast<T>(mask)) |
         (static_cast<T>(value) << static_cast<T>(shift));
 }
+
+template <typename T, typename U, typename V>
+void set(T &mem, U mask, V value, unsigned shift = 0) {
+  mem = (mem & ~static_cast<T>(mask)) |
+        (static_cast<T>(value) << static_cast<T>(shift));
+}
+/**
+ * @}
+ */
 
 /**
  * set bits to 1 in mem, i.e. performs ``mem |= bits``.
@@ -52,10 +72,19 @@ void set(volatile T &mem, U mask, V value, unsigned shift = 0) {
  * @tparam U the bits type
  * @param mem the memory location, i.e. the register
  * @param bits a mask of bits to set
+ *
+ * @{
  */
 template <typename T, typename U> void set_bits(volatile T &mem, U bits) {
   mem |= static_cast<T>(bits);
 }
+
+template <typename T, typename U> void set_bits(T &mem, U bits) {
+  mem |= static_cast<T>(bits);
+}
+/**
+ * @}
+ */
 
 /**
  * reset bits to 0 in mem, i.e. performs ``mem &= ~bits``.
@@ -64,10 +93,19 @@ template <typename T, typename U> void set_bits(volatile T &mem, U bits) {
  * @tparam U the bits type
  * @param mem the memory location, i.e. the register
  * @param bits a mask of bits to reset
+ *
+ * @{
  */
 template <typename T, typename U> void reset_bits(volatile T &mem, U bits) {
   mem &= ~static_cast<T>(bits);
 }
+
+template <typename T, typename U> void reset_bits(T &mem, U bits) {
+  mem &= ~static_cast<T>(bits);
+}
+/**
+ * @}
+ */
 
 /**
  * read bits of mem.
@@ -77,10 +115,19 @@ template <typename T, typename U> void reset_bits(volatile T &mem, U bits) {
  * @param mem the memory location, i.e. the register
  * @param bits a mask of bits to read
  * @return mem & bits
+ *
+ * @{
  */
 template <typename T, typename U> T get(volatile T &mem, U bits) {
   return mem & static_cast<T>(bits);
 }
+
+template <typename T, typename U> T get(T &mem, U bits) {
+  return mem & static_cast<T>(bits);
+}
+/**
+ * @}
+ */
 
 /**
  * read bits of mem and right shift the result by shift bits.
@@ -105,10 +152,19 @@ template <typename T, typename U> T get(volatile T &mem, U bits) {
  * @param mask a mask of bits to read
  * @param shift the amount to right shift the read result.
  * @return (mem & mask) >> shift
+ *
+ * @{
  */
 template <typename T, typename U>
 T get(volatile T &mem, U mask, unsigned shift) {
   return (mem & static_cast<T>(mask)) >> static_cast<T>(shift);
 }
+
+template <typename T, typename U> T get(T &mem, U mask, unsigned shift) {
+  return (mem & static_cast<T>(mask)) >> static_cast<T>(shift);
+}
+/**
+ * @}
+ */
 } // namespace hal::mmio
 #endif

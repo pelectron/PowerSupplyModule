@@ -1,0 +1,119 @@
+\doxysection{cli\+::config Struct Reference}
+\hypertarget{structcli_1_1config}{}\label{structcli_1_1config}\index{cli::config@{cli::config}}
+
+
+{\ttfamily \#include $<$cli/cli.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd}{char\+\_\+type}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char8\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd}{char\+\_\+type}} \mbox{\hyperlink{structcli_1_1config_a7eb5fbd9ec9f101c18687fbda48442de}{access\+\_\+separator}} = \textquotesingle{}.\textquotesingle{}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} \mbox{\hyperlink{structcli_1_1config_adbd11a650a87bbff6fd2ad7ab1e7fa54}{command\+\_\+terminator}} \{"{}\textbackslash{}n"{}\+\_\+sc\}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{structcli_1_1config_a41b9a5e93def991041e506c4bac23422}{commands\+\_\+start\+\_\+with\+\_\+separators}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{false}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_a780c4afb134b4b51097fb6ae4895a08f}{tx\+\_\+size}} = 128
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_a2d8ffe05cf3402788345c2013064c3f0}{rx\+\_\+size}} = 128
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} \mbox{\hyperlink{structcli_1_1config_abfb2dad0a217400ad8f19bf4f135ccd0}{use\+\_\+autocomplete}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{true}}
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_a074a08e235ed7a9408479c52df3a3c27}{max\+\_\+name\+\_\+length}} = 32
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_aaf27070c86f05bd556c00d1eecfc4f0c}{max\+\_\+num\+\_\+args}} = 10
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_adadcb89f54e721720b9e4cf6b9330432}{max\+\_\+num\+\_\+commands}} = 64
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_a62a82e2c197db686991785f1ac527601}{max\+\_\+cmd\+\_\+level}} = 5
+\item 
+\mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{static}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t \mbox{\hyperlink{structcli_1_1config_a660b172037bd2e22135c3ca95145c813}{max\+\_\+line\+\_\+length}} = 80
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd}\label{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd} 
+\index{cli::config@{cli::config}!char\_type@{char\_type}}
+\index{char\_type@{char\_type}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{char\_type}{char\_type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{using}} \mbox{\hyperlink{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd}{cli\+::config\+::char\+\_\+type}} = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{char8\+\_\+t}}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structcli_1_1config_a7eb5fbd9ec9f101c18687fbda48442de}\label{structcli_1_1config_a7eb5fbd9ec9f101c18687fbda48442de} 
+\index{cli::config@{cli::config}!access\_separator@{access\_separator}}
+\index{access\_separator@{access\_separator}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{access\_separator}{access\_separator}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{structcli_1_1config_af4e5c8a0b2f49aaf33a34603267e68bd}{char\+\_\+type}} cli\+::config\+::access\+\_\+separator = \textquotesingle{}.\textquotesingle{}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_adbd11a650a87bbff6fd2ad7ab1e7fa54}\label{structcli_1_1config_adbd11a650a87bbff6fd2ad7ab1e7fa54} 
+\index{cli::config@{cli::config}!command\_terminator@{command\_terminator}}
+\index{command\_terminator@{command\_terminator}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{command\_terminator}{command\_terminator}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{auto}} cli\+::config\+::command\+\_\+terminator \{"{}\textbackslash{}n"{}\+\_\+sc\}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a41b9a5e93def991041e506c4bac23422}\label{structcli_1_1config_a41b9a5e93def991041e506c4bac23422} 
+\index{cli::config@{cli::config}!commands\_start\_with\_separators@{commands\_start\_with\_separators}}
+\index{commands\_start\_with\_separators@{commands\_start\_with\_separators}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{commands\_start\_with\_separators}{commands\_start\_with\_separators}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} cli\+::config\+::commands\+\_\+start\+\_\+with\+\_\+separators = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{false}}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a62a82e2c197db686991785f1ac527601}\label{structcli_1_1config_a62a82e2c197db686991785f1ac527601} 
+\index{cli::config@{cli::config}!max\_cmd\_level@{max\_cmd\_level}}
+\index{max\_cmd\_level@{max\_cmd\_level}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{max\_cmd\_level}{max\_cmd\_level}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::max\+\_\+cmd\+\_\+level = 5\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a660b172037bd2e22135c3ca95145c813}\label{structcli_1_1config_a660b172037bd2e22135c3ca95145c813} 
+\index{cli::config@{cli::config}!max\_line\_length@{max\_line\_length}}
+\index{max\_line\_length@{max\_line\_length}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{max\_line\_length}{max\_line\_length}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::max\+\_\+line\+\_\+length = 80\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a074a08e235ed7a9408479c52df3a3c27}\label{structcli_1_1config_a074a08e235ed7a9408479c52df3a3c27} 
+\index{cli::config@{cli::config}!max\_name\_length@{max\_name\_length}}
+\index{max\_name\_length@{max\_name\_length}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{max\_name\_length}{max\_name\_length}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::max\+\_\+name\+\_\+length = 32\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_aaf27070c86f05bd556c00d1eecfc4f0c}\label{structcli_1_1config_aaf27070c86f05bd556c00d1eecfc4f0c} 
+\index{cli::config@{cli::config}!max\_num\_args@{max\_num\_args}}
+\index{max\_num\_args@{max\_num\_args}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{max\_num\_args}{max\_num\_args}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::max\+\_\+num\+\_\+args = 10\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_adadcb89f54e721720b9e4cf6b9330432}\label{structcli_1_1config_adadcb89f54e721720b9e4cf6b9330432} 
+\index{cli::config@{cli::config}!max\_num\_commands@{max\_num\_commands}}
+\index{max\_num\_commands@{max\_num\_commands}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{max\_num\_commands}{max\_num\_commands}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::max\+\_\+num\+\_\+commands = 64\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a2d8ffe05cf3402788345c2013064c3f0}\label{structcli_1_1config_a2d8ffe05cf3402788345c2013064c3f0} 
+\index{cli::config@{cli::config}!rx\_size@{rx\_size}}
+\index{rx\_size@{rx\_size}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{rx\_size}{rx\_size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::rx\+\_\+size = 128\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_a780c4afb134b4b51097fb6ae4895a08f}\label{structcli_1_1config_a780c4afb134b4b51097fb6ae4895a08f} 
+\index{cli::config@{cli::config}!tx\_size@{tx\_size}}
+\index{tx\_size@{tx\_size}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{tx\_size}{tx\_size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} std\+::size\+\_\+t cli\+::config\+::tx\+\_\+size = 128\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\Hypertarget{structcli_1_1config_abfb2dad0a217400ad8f19bf4f135ccd0}\label{structcli_1_1config_abfb2dad0a217400ad8f19bf4f135ccd0} 
+\index{cli::config@{cli::config}!use\_autocomplete@{use\_autocomplete}}
+\index{use\_autocomplete@{use\_autocomplete}!cli::config@{cli::config}}
+\doxysubsubsection{\texorpdfstring{use\_autocomplete}{use\_autocomplete}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{constexpr}} \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{bool}} cli\+::config\+::use\+\_\+autocomplete = \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{true}}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{cli_8hpp}{cli.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,67 @@
+\doxysection{cli/function.hpp File Reference}
+\hypertarget{function_8hpp}{}\label{function_8hpp}\index{cli/function.hpp@{cli/function.hpp}}
+
+
+This file defines the utilities to add functions and their arguments to a cli in the namespace cli\+::funcs, namely\+:  
+
+
+{\ttfamily \#include "{}cli/ctti.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/enums.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/format.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/parse.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/type\+\_\+list.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/util.\+hpp"{}}\newline
+{\ttfamily \#include "{}cli/validator.\+hpp"{}}\newline
+{\ttfamily \#include $<$concepts$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacecli}{cli}}
+\begin{DoxyCompactList}\small\item\em This file provides a CLI enginge to build a remote interface upon a byte stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser Parse, validate\+::\+Validator Validate$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_gaaa32d3f116868dcdf0e27a5884bcf8e8}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description, Parse \&\&parse, Validate \&\&validate)
+\begin{DoxyCompactList}\small\item\em creates an optional argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description, parse\+::\+Parser\+Of$<$ T $>$ Parse, validate\+::\+Validator\+Of$<$ T $>$ Validate$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga1a0f0a3204782c8dc5fa1361fd9aa37d}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description, Parse \&\&parse, Validate \&\&validate)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name, Name Description$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga961c859656889b2bca1fed592ea75003}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , auto Default\+Value, Name Arg\+Name$>$ }\\constexpr auto \mbox{\hyperlink{group__optional-args_ga0fdba555351d7e164a51ebbdcb63ed27}{cli\+::funcs\+::arg}} (Arg\+Name name)
+\begin{DoxyCompactList}\small\item\em creates an optional argument of type T. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Arg\+Name, Name Description$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga20c94d948938f2db28a744a4ebc33d03}{cli\+::funcs\+::arg}} (Arg\+Name name, Description description)
+\begin{DoxyCompactList}\small\item\em creates a required argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Arg\+Name$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga11a1ae7b7b406d2142309f7ffd53f107}{cli\+::funcs\+::arg}} (Arg\+Name name)
+\begin{DoxyCompactList}\small\item\em creates a required argument. \end{DoxyCompactList}\item 
+{\footnotesize template$<$cli\+::\+String\+Literal Name$>$ }\\constexpr auto \mbox{\hyperlink{group__required-args_ga6a571f61166fcc081b8ec077e40cf01d}{cli\+::funcs\+::operator"{}"{}\+\_\+arg}} ()
+\begin{DoxyCompactList}\small\item\em the literal operator for arguments. \end{DoxyCompactList}\item 
+{\footnotesize template$<$Name Func\+Name, Name Description, Name Help, Callable F, class... Args$>$ }\\constexpr auto \mbox{\hyperlink{group___functions_ga95dc41d6133f5a7d1a26bf7e2dc905fa}{cli\+::funcs\+::func}} (Func\+Name, Description, Help, F \&\&f, Args \&\&...args)
+\item 
+{\footnotesize template$<$Name Func\+Name, class Member\+Function\+Pointer , class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$Member\+Function\+Pointer$>$}\\constexpr auto \mbox{\hyperlink{group___functions_gacf55204507a85fa59808754b48b953f5}{cli\+::funcs\+::mem\+\_\+fun}} (Func\+Name name, Member\+Function\+Pointer mem\+\_\+fun, Args \&\&...args)
+\begin{DoxyCompactList}\small\item\em creates a member function command. \end{DoxyCompactList}\item 
+{\footnotesize template$<$auto Member\+Function\+Pointer, class... Args$>$ \newline
+requires std\+::is\+\_\+member\+\_\+function\+\_\+pointer\+\_\+v$<$decltype(Member\+Function\+Pointer)$>$}\\constexpr auto \mbox{\hyperlink{group___functions_ga4ffb7c6ca466f02c9419c2acc93a0bcf}{cli\+::funcs\+::mem\+\_\+fun}} (Args \&\&...args)
+\begin{DoxyCompactList}\small\item\em creates a member function command. \end{DoxyCompactList}\item 
+\Hypertarget{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e}\label{function_8hpp_a96dbad8f8d7885cda9710b875ea9cc2e} 
+{\footnotesize template$<$class T , Name Cmd\+Name, Name Description, Name Help, class F , class... Args$>$ }\\constexpr auto {\bfseries cli\+::funcs\+::dtl\+::to\+\_\+cmd} (T \&obj, const Member\+Function$<$ Cmd\+Name, Description, Help, F, Args... $>$ \&member\+\_\+function)
+\begin{DoxyCompactList}\small\item\em create a Function from an object reference and a Member\+Function \end{DoxyCompactList}\item 
+\Hypertarget{function_8hpp_acd0845ba52dd67f4be9759f52bb1b2ef}\label{function_8hpp_acd0845ba52dd67f4be9759f52bb1b2ef} 
+{\footnotesize template$<$class T , Name Cmd\+Name, Name Description, Name Help, class F , class... Args$>$ }\\constexpr auto {\bfseries cli\+::funcs\+::dtl\+::to\+\_\+cmd} (const T \&obj, const Member\+Function$<$ Cmd\+Name, Description, Help, F, Args... $>$ \&member\+\_\+function)
+\begin{DoxyCompactList}\small\item\em create a Function from an object referenece and a Member\+Function \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file defines the utilities to add functions and their arguments to a cli in the namespace cli\+::funcs, namely\+: 
+
+
+\begin{DoxyItemize}
+\item the literal operator \+\_\+arg
+\item various overloads of arg, see also \doxylink{group___arguments}{Arguments}
+\item various overloads of func, see also \doxylink{group___functions}{Functions}
+\item various overloads of mem\+\_\+fun, see also \doxylink{group___functions}{Functions}
+\end{DoxyItemize}
+
+The operators and functions are also available in the namespace cli if the header \doxylink{cli_8hpp_source}{cli/cli.\+hpp} is included. 

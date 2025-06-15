@@ -1,0 +1,89 @@
+\doxysection{cli\+::Tracker\texorpdfstring{$<$}{<} Depth, Max\+Name\+Length, Access\+Separator, Use\+Auto\+Complete \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1_tracker}{}\label{classcli_1_1_tracker}\index{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$@{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$}}
+
+
+The \doxylink{classcli_1_1_tracker}{Tracker} is responsible for parsing the command name input into a Command\+Node.  
+
+
+
+
+{\ttfamily \#include $<$cli/tracker.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classcli_1_1_tracker_abe5781cc5655904d158a05b3981d4a2b}{Tracker}} (Command\+Node \&root)
+\begin{DoxyCompactList}\small\item\em create a tracker \end{DoxyCompactList}\item 
+Error \mbox{\hyperlink{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b}{on\+\_\+char}} (uint8\+\_\+t c)
+\begin{DoxyCompactList}\small\item\em needs to be called when a character is encountered \end{DoxyCompactList}\item 
+\Hypertarget{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a}\label{classcli_1_1_tracker_a8acb1a75ab3820d061c35f8c876a135a} 
+void {\bfseries on\+\_\+backspace} ()
+\begin{DoxyCompactList}\small\item\em needs to be called when a backspace is encountered \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$std\+::size\+\_\+t Depth, std\+::size\+\_\+t Max\+Name\+Length, char Access\+Separator = \textquotesingle{}.\textquotesingle{}, bool Use\+Auto\+Complete = true$>$\newline
+class cli\+::\+Tracker$<$ Depth, Max\+Name\+Length, Access\+Separator, Use\+Auto\+Complete $>$}
+The \doxylink{classcli_1_1_tracker}{Tracker} is responsible for parsing the command name input into a Command\+Node. 
+
+Optionally provides autocomplete functionality. TODO\+: add differentiation between functions and params for autocomplete
+
+Thsi class only tracks command names, but not values (in case of params) or arguments (in case of functions)
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Depth} & the command tree depth \\
+\hline
+{\em Depth} & the maximum length of any command name in the tree \\
+\hline
+{\em Access\+Separator} & the character used to separate individual command names \\
+\hline
+{\em Use\+Auto\+Complete} & if true, autocomplete is enabled, else it is disabled \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcli_1_1_tracker_abe5781cc5655904d158a05b3981d4a2b}\label{classcli_1_1_tracker_abe5781cc5655904d158a05b3981d4a2b} 
+\index{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$@{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$}!Tracker@{Tracker}}
+\index{Tracker@{Tracker}!cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$@{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$}}
+\doxysubsubsection{\texorpdfstring{Tracker()}{Tracker()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t Depth, std\+::size\+\_\+t Max\+Name\+Length, char Access\+Separator = \textquotesingle{}.\textquotesingle{}, bool Use\+Auto\+Complete = true$>$ \\
+constexpr \mbox{\hyperlink{classcli_1_1_tracker}{cli\+::\+Tracker}}$<$ Depth, Max\+Name\+Length, Access\+Separator, Use\+Auto\+Complete $>$\+::\+Tracker (\begin{DoxyParamCaption}\item[{Command\+Node \&}]{root }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+create a tracker 
+
+
+\begin{DoxyParams}{Parameters}
+{\em root} & the command tree root node \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b}\label{classcli_1_1_tracker_afbd169b6bd5533471f3b04fd94565b7b} 
+\index{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$@{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$}!on\_char@{on\_char}}
+\index{on\_char@{on\_char}!cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$@{cli::Tracker$<$ Depth, MaxNameLength, AccessSeparator, UseAutoComplete $>$}}
+\doxysubsubsection{\texorpdfstring{on\_char()}{on\_char()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t Depth, std\+::size\+\_\+t Max\+Name\+Length, char Access\+Separator = \textquotesingle{}.\textquotesingle{}, bool Use\+Auto\+Complete = true$>$ \\
+Error \mbox{\hyperlink{classcli_1_1_tracker}{cli\+::\+Tracker}}$<$ Depth, Max\+Name\+Length, Access\+Separator, Use\+Auto\+Complete $>$\+::on\+\_\+char (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+needs to be called when a character is encountered 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/tracker.\+hpp\end{DoxyCompactItemize}

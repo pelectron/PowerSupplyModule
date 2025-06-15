@@ -1,0 +1,182 @@
+\doxysection{command.\+hpp}
+\hypertarget{command_8hpp_source}{}\label{command_8hpp_source}\index{cli/command.hpp@{cli/command.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_COMMAND\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_COMMAND\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/string.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}cli/type\_list.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00013\ \textcolor{keyword}{concept\ }Name\ =\ std::convertible\_to<std::decay\_t<T>,\ ByteView>\ and}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ not\ std::is\_pointer\_v<std::decay\_t<T>>;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ C>}
+\DoxyCodeLine{00017\ \textcolor{keyword}{concept\ }Command\ =\ \textcolor{keyword}{requires}(std::remove\_cvref\_t<C>\ \&c,\ ExecType\ type,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ByteView\ \&args,\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00019\ \ \ \{\ \textcolor{keyword}{typename}\ std::remove\_cvref\_t<C>::sub\_command\_list\{\}\ \};}
+\DoxyCodeLine{00020\ \ \ \{\ std::remove\_cvref\_t<C>::name\ \}\ -\/>\ Name;}
+\DoxyCodeLine{00021\ \ \ \{\ std::remove\_cvref\_t<C>::description\ \}\ -\/>\ Name;}
+\DoxyCodeLine{00022\ \ \ \{\ c.execute(type,\ args,\ out)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{struct\ }CommandNode\ \{}
+\DoxyCodeLine{00027\ \ \ ByteView\ name\{\};}
+\DoxyCodeLine{00029\ \ \ ByteView\ description\{\};}
+\DoxyCodeLine{00032\ \ \ ByteView\ type\{\};}
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{void}\ *this\_\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00034\ \ \ Error\ (*exec\_)(\textcolor{keywordtype}{void}\ *,\ ExecType,\ ByteView,\ std::span<char>\ \&)\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00036\ \ \ CommandNode\ *next\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00038\ \ \ CommandNode\ *subcommand\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00039\ \ \ CommandNode\ *last\_subcommand\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{class\ }iterator\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{struct\ }CommandNode;}
+\DoxyCodeLine{00043\ \ \ \ \ CommandNode\ *node\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator(CommandNode\ *node)\ noexcept\ :\ node(node)\ \{\}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator(\textcolor{keyword}{const}\ iterator\ \&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator(iterator\ \&\&)\ noexcept\ =\ default;}
+\DoxyCodeLine{00049\ \ \ \ \ constexpr\ iterator\ \&operator=(const\ iterator\ \&)\ noexcept\ =\ default;}
+\DoxyCodeLine{00050\ \ \ \ \ constexpr\ iterator\ \&operator=(iterator\ \&\&)\ noexcept\ =\ default;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ constexpr\ iterator\ \&operator++()\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ node\ =\ node-\/>next;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{constexpr}\ iterator\ operator++(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ iterator\ ret\{node\};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ node\ =\ node-\/>next;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{constexpr}\ CommandNode\ *operator-\/>()\ \{\ \textcolor{keywordflow}{return}\ node;\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ CommandNode\ *operator-\/>()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ node;\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{constexpr}\ CommandNode\ \&operator*()\ \{\ \textcolor{keywordflow}{return}\ *node;\ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ CommandNode\ \&operator*()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *node;\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ operator<=>(\textcolor{keyword}{const}\ iterator\ \&)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ \ \ \};}
+\DoxyCodeLine{00073\ \ \ \textcolor{keyword}{constexpr}\ iterator\ begin()\ \{\ \textcolor{keywordflow}{return}\ subcommand;\ \}}
+\DoxyCodeLine{00074\ \ \ \textcolor{keyword}{constexpr}\ iterator\ end()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ iterator\ begin()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ subcommand;\ \}}
+\DoxyCodeLine{00076\ \ \ Error\ execute(ExecType\ exec\_type,\ ByteView\ args,\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{if}\ (this\_\ and\ exec\_)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (*exec\_)(this\_,\ exec\_type,\ args,\ out);}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_cmd;}
+\DoxyCodeLine{00080\ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ add\_sub(CommandNode\ \&c)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ c.next\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00084\ \ \ \ \ c.subcommand\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00085\ \ \ \ \ c.last\_subcommand\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00086\ \ \ \ \ CommandNode\ *sub\ =\ subcommand;}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (sub\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{comment}{//\ empty}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ subcommand\ =\ \&c;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ last\_subcommand\ =\ \&c;}
+\DoxyCodeLine{00091\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (sub-\/>name\ >\ c.name)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \textcolor{comment}{//\ c\ should\ be\ inserted\ as\ first}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ subcommand\ =\ \&c;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ c.next\ =\ sub;}
+\DoxyCodeLine{00095\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (last\_subcommand-\/>name\ <\ c.name)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{comment}{//\ c\ should\ be\ inserted\ as\ last}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ last\_subcommand-\/>next\ =\ \&c;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ last\_subcommand\ =\ \&c;}
+\DoxyCodeLine{00099\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \textcolor{comment}{//\ c\ should\ be\ inserted\ somewhere\ in\ the\ middle}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ CommandNode\ *last\_sub\ =\ sub;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ sub\ =\ sub-\/>next;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (sub\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sub-\/>name\ >\ c.name)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ last\_sub-\/>next\ =\ \&c;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ c.next\ =\ sub;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ last\_sub\ =\ sub;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ sub\ =\ sub-\/>next;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \}}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }Derived,\ Name\ CmdName,\ Name\ Description,\ Name\ Type,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ Command...\ SubCommands>}
+\DoxyCodeLine{00119\ \textcolor{keyword}{class\ }CommandBase\ \{}
+\DoxyCodeLine{00120\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{using\ }sub\_command\_list\ =\ TypeList<SubCommands...>;}
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{using\ }name\_type\ =\ CmdName;}
+\DoxyCodeLine{00123\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ CmdName\ name\{\};}
+\DoxyCodeLine{00124\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Description\ description\{\};}
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Type\ type\{\};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ CommandBase()\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00128\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(\textcolor{keyword}{const}\ CommandBase\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(CommandBase\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{constexpr}\ CommandBase\ \&operator=(\textcolor{keyword}{const}\ CommandBase\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{constexpr}\ CommandBase\ \&operator=(CommandBase\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \textcolor{keyword}{template}\ <Command...\ SubCommands\_>}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(SubCommands\_\ \&\&...cmds)}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ :\ subcommands\{std::forward<SubCommands\_>(cmds)...\}\ \{\}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(std::tuple<SubCommands...>\ \&\&cmds)}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ :\ subcommands\{std::move(cmds)\}\ \{\}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(\textcolor{keyword}{const}\ std::tuple<SubCommands...>\ \&cmds)}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ :\ subcommands\{cmds\}\ \{\}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \textcolor{keyword}{constexpr}\ Error\ execute(ExecType\ type,\ ByteView\ args,\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}Derived\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>execute(type,\ args,\ out);}
+\DoxyCodeLine{00145\ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00148\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC>}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ count\_cmds(\textcolor{keyword}{const}\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&c);}
+\DoxyCodeLine{00150\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00152\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ for\_each(F\ \&\&f,\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&t,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Args\ \&\&...args);}
+\DoxyCodeLine{00154\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }F,\ \textcolor{keyword}{class\ }D,\ Name\ C,\ Name\ Desc,\ Name\ H,\ Command...\ SubC,}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00156\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00157\ \ \ for\_each(F\ \&\&f,\ \textcolor{keyword}{const}\ CommandBase<D,\ C,\ Desc,\ H,\ SubC...>\ \&t,\ Args\ \&\&...args);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ std::tuple<SubCommands...>\ subcommands\{\};}
+\DoxyCodeLine{00160\ \};}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Derived,\ Name\ CmdName,\ Name\ Description,\ Name\ Type>}
+\DoxyCodeLine{00163\ \textcolor{keyword}{class\ }CommandBase<Derived,\ CmdName,\ Description,\ Type>\ \{}
+\DoxyCodeLine{00164\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00165\ \ \ \textcolor{keyword}{using\ }sub\_command\_list\ =\ TypeList<>;}
+\DoxyCodeLine{00166\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ CmdName\ name\{\};}
+\DoxyCodeLine{00167\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Description\ description\{\};}
+\DoxyCodeLine{00168\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Type\ type\{\};}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{constexpr}\ CommandBase()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00171\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(\textcolor{keyword}{const}\ CommandBase\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{constexpr}\ CommandBase(CommandBase\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00173\ \ \ \textcolor{keyword}{constexpr}\ CommandBase\ \&operator=(\textcolor{keyword}{const}\ CommandBase\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00174\ \ \ \textcolor{keyword}{constexpr}\ CommandBase\ \&operator=(CommandBase\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \textcolor{keyword}{constexpr}\ Error\ execute(ExecType\ type,\ ByteView\ args,\ std::span<char>\ \&out)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}Derived\ *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>execute(type,\ args,\ out);}
+\DoxyCodeLine{00178\ \ \ \}}
+\DoxyCodeLine{00179\ \};}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

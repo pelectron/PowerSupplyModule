@@ -1,0 +1,182 @@
+\doxysection{psm\+::PSM Class Reference}
+\hypertarget{classpsm_1_1_p_s_m}{}\label{classpsm_1_1_p_s_m}\index{psm::PSM@{psm::PSM}}
+
+
+The \doxylink{classpsm_1_1_p_s_m}{PSM} class acts as the API to a single Power\+Supply\+Module.  
+
+
+
+
+{\ttfamily \#include $<$psm.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classpsm_1_1_p_s_m_a9657d00233a62ef2e2d5a8d38c2172e2}{init}} (\mbox{\hyperlink{classpsm_1_1_non_volatile_storage}{Non\+Volatile\+Storage}} s)
+\item 
+void \mbox{\hyperlink{classpsm_1_1_p_s_m_acec416a3971d5cb23d4744fb6a009c9a}{loop}} ()
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a54ef48d041b4c13007c6595b430a334c}{set\+\_\+type}} (\mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{Output\+Type}} mode)
+\item 
+\mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{Output\+Type}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a6dafc94120dc6c77d95505cf02dea8a2}{get\+\_\+type}} (uint8\+\_\+t id=0) const
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_aea4f8ceb54cfa8a187a4fcec858b7f49}{set\+\_\+enable}} (bool enable)
+\item 
+bool \mbox{\hyperlink{classpsm_1_1_p_s_m_aa2503e3cf07cdef73652988b3d2a93a4}{get\+\_\+enable}} (uint8\+\_\+t id=0) const
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_ad5a2bfeab4235d3a2f8a35ea6a4ccbe6}{set\+\_\+series}} (bool enable)
+\item 
+bool \mbox{\hyperlink{classpsm_1_1_p_s_m_a8e71cab81b3e1172495fc2497abf1a19}{get\+\_\+series}} (uint8\+\_\+t id=0) const
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a288cf92de6a02ef68a57c4e00a6a69d9}{set\+\_\+mode}} (\mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{Output\+Mode}} mode)
+\item 
+\mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{Output\+Mode}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a99222c39b26a03635b7444a33f683b10}{get\+\_\+mode}} (uint8\+\_\+t id=0) const
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a280830c9556c3c2838ca4e12ee771c85}{set\+\_\+voltage}} (\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} volts)
+\item 
+\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} \mbox{\hyperlink{classpsm_1_1_p_s_m_adfe8e037d9e9f1bfdc24d4caa83584e5}{get\+\_\+voltage}} (uint8\+\_\+t id=0) const
+\item 
+\mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a34f8ffcba79aeb5b86a39e6410d6c214}{set\+\_\+current}} (\mbox{\hyperlink{classpsm_1_1_current}{Current}} amps)
+\item 
+\mbox{\hyperlink{classpsm_1_1_current}{Current}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a3313d1daf842975ad9568c2bb6429191}{get\+\_\+current}} () const
+\item 
+\mbox{\hyperlink{structpsm_1_1_module_config}{Module\+Config}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a60beef976d82ebd495228294ca9a113d}{get\+\_\+config}} () const
+\item 
+\mbox{\hyperlink{structpsm_1_1_settings}{Settings}} \mbox{\hyperlink{classpsm_1_1_p_s_m_a1d2908f3bc7b504b5bade61730ba3afd}{get\+\_\+settings}} () const
+\item 
+void \mbox{\hyperlink{classpsm_1_1_p_s_m_a877a30c85683e8afaa37ea1540535900}{reset}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{classpsm_1_1_p_s_m}{PSM} class acts as the API to a single Power\+Supply\+Module. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classpsm_1_1_p_s_m_a60beef976d82ebd495228294ca9a113d}\label{classpsm_1_1_p_s_m_a60beef976d82ebd495228294ca9a113d} 
+\index{psm::PSM@{psm::PSM}!get\_config@{get\_config}}
+\index{get\_config@{get\_config}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_config()}{get\_config()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsm_1_1_module_config}{Module\+Config}} psm\+::\+PSM\+::get\+\_\+config (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a3313d1daf842975ad9568c2bb6429191}\label{classpsm_1_1_p_s_m_a3313d1daf842975ad9568c2bb6429191} 
+\index{psm::PSM@{psm::PSM}!get\_current@{get\_current}}
+\index{get\_current@{get\_current}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_current()}{get\_current()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_current}{Current}} psm\+::\+PSM\+::get\+\_\+current (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_aa2503e3cf07cdef73652988b3d2a93a4}\label{classpsm_1_1_p_s_m_aa2503e3cf07cdef73652988b3d2a93a4} 
+\index{psm::PSM@{psm::PSM}!get\_enable@{get\_enable}}
+\index{get\_enable@{get\_enable}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_enable()}{get\_enable()}}
+{\footnotesize\ttfamily bool psm\+::\+PSM\+::get\+\_\+enable (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a99222c39b26a03635b7444a33f683b10}\label{classpsm_1_1_p_s_m_a99222c39b26a03635b7444a33f683b10} 
+\index{psm::PSM@{psm::PSM}!get\_mode@{get\_mode}}
+\index{get\_mode@{get\_mode}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_mode()}{get\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{Output\+Mode}} psm\+::\+PSM\+::get\+\_\+mode (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a8e71cab81b3e1172495fc2497abf1a19}\label{classpsm_1_1_p_s_m_a8e71cab81b3e1172495fc2497abf1a19} 
+\index{psm::PSM@{psm::PSM}!get\_series@{get\_series}}
+\index{get\_series@{get\_series}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_series()}{get\_series()}}
+{\footnotesize\ttfamily bool psm\+::\+PSM\+::get\+\_\+series (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a1d2908f3bc7b504b5bade61730ba3afd}\label{classpsm_1_1_p_s_m_a1d2908f3bc7b504b5bade61730ba3afd} 
+\index{psm::PSM@{psm::PSM}!get\_settings@{get\_settings}}
+\index{get\_settings@{get\_settings}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_settings()}{get\_settings()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsm_1_1_settings}{Settings}} psm\+::\+PSM\+::get\+\_\+settings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a6dafc94120dc6c77d95505cf02dea8a2}\label{classpsm_1_1_p_s_m_a6dafc94120dc6c77d95505cf02dea8a2} 
+\index{psm::PSM@{psm::PSM}!get\_type@{get\_type}}
+\index{get\_type@{get\_type}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_type()}{get\_type()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{Output\+Type}} psm\+::\+PSM\+::get\+\_\+type (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_adfe8e037d9e9f1bfdc24d4caa83584e5}\label{classpsm_1_1_p_s_m_adfe8e037d9e9f1bfdc24d4caa83584e5} 
+\index{psm::PSM@{psm::PSM}!get\_voltage@{get\_voltage}}
+\index{get\_voltage@{get\_voltage}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{get\_voltage()}{get\_voltage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}} psm\+::\+PSM\+::get\+\_\+voltage (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{id = {\ttfamily 0} }\end{DoxyParamCaption}) const}
+
+\Hypertarget{classpsm_1_1_p_s_m_a9657d00233a62ef2e2d5a8d38c2172e2}\label{classpsm_1_1_p_s_m_a9657d00233a62ef2e2d5a8d38c2172e2} 
+\index{psm::PSM@{psm::PSM}!init@{init}}
+\index{init@{init}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void psm\+::\+PSM\+::init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_non_volatile_storage}{Non\+Volatile\+Storage}}}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_p_s_m_acec416a3971d5cb23d4744fb6a009c9a}\label{classpsm_1_1_p_s_m_acec416a3971d5cb23d4744fb6a009c9a} 
+\index{psm::PSM@{psm::PSM}!loop@{loop}}
+\index{loop@{loop}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void psm\+::\+PSM\+::loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\Hypertarget{classpsm_1_1_p_s_m_a877a30c85683e8afaa37ea1540535900}\label{classpsm_1_1_p_s_m_a877a30c85683e8afaa37ea1540535900} 
+\index{psm::PSM@{psm::PSM}!reset@{reset}}
+\index{reset@{reset}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void psm\+::\+PSM\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_a34f8ffcba79aeb5b86a39e6410d6c214}\label{classpsm_1_1_p_s_m_a34f8ffcba79aeb5b86a39e6410d6c214} 
+\index{psm::PSM@{psm::PSM}!set\_current@{set\_current}}
+\index{set\_current@{set\_current}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_current()}{set\_current()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+current (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_current}{Current}}}]{amps }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_aea4f8ceb54cfa8a187a4fcec858b7f49}\label{classpsm_1_1_p_s_m_aea4f8ceb54cfa8a187a4fcec858b7f49} 
+\index{psm::PSM@{psm::PSM}!set\_enable@{set\_enable}}
+\index{set\_enable@{set\_enable}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_enable()}{set\_enable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+enable (\begin{DoxyParamCaption}\item[{bool}]{enable }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_a288cf92de6a02ef68a57c4e00a6a69d9}\label{classpsm_1_1_p_s_m_a288cf92de6a02ef68a57c4e00a6a69d9} 
+\index{psm::PSM@{psm::PSM}!set\_mode@{set\_mode}}
+\index{set\_mode@{set\_mode}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_mode()}{set\_mode()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+mode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_aa7d1e54b8b553cfc7fd7921d982d51d4}{Output\+Mode}}}]{mode }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_ad5a2bfeab4235d3a2f8a35ea6a4ccbe6}\label{classpsm_1_1_p_s_m_ad5a2bfeab4235d3a2f8a35ea6a4ccbe6} 
+\index{psm::PSM@{psm::PSM}!set\_series@{set\_series}}
+\index{set\_series@{set\_series}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_series()}{set\_series()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+series (\begin{DoxyParamCaption}\item[{bool}]{enable }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_a54ef48d041b4c13007c6595b430a334c}\label{classpsm_1_1_p_s_m_a54ef48d041b4c13007c6595b430a334c} 
+\index{psm::PSM@{psm::PSM}!set\_type@{set\_type}}
+\index{set\_type@{set\_type}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_type()}{set\_type()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacepsm_a4efc68a90ed22ff8d2ac6f7af8f67dd1}{Output\+Type}}}]{mode }\end{DoxyParamCaption})}
+
+\Hypertarget{classpsm_1_1_p_s_m_a280830c9556c3c2838ca4e12ee771c85}\label{classpsm_1_1_p_s_m_a280830c9556c3c2838ca4e12ee771c85} 
+\index{psm::PSM@{psm::PSM}!set\_voltage@{set\_voltage}}
+\index{set\_voltage@{set\_voltage}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{set\_voltage()}{set\_voltage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacepsm_aa45c0938ecc6e6db1cf0d7ecc5c43abe}{Error}} psm\+::\+PSM\+::set\+\_\+voltage (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpsm_1_1_voltage}{Voltage}}}]{volts }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classpsm_1_1_p_s_m_a4ce60c85626eb76ec8d1cbcc5e5b5458}\label{classpsm_1_1_p_s_m_a4ce60c85626eb76ec8d1cbcc5e5b5458} 
+\index{psm::PSM@{psm::PSM}!calib\_@{calib\_}}
+\index{calib\_@{calib\_}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{calib\_}{calib\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsm_1_1_calibration}{Calibration}} psm\+::\+PSM\+::calib\+\_\+ \{\}}
+
+\Hypertarget{classpsm_1_1_p_s_m_a68f3f36fb082f95e05b6f415b2c17a1d}\label{classpsm_1_1_p_s_m_a68f3f36fb082f95e05b6f415b2c17a1d} 
+\index{psm::PSM@{psm::PSM}!config\_@{config\_}}
+\index{config\_@{config\_}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{config\_}{config\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsm_1_1_module_config}{Module\+Config}} psm\+::\+PSM\+::config\+\_\+ \{\}}
+
+\Hypertarget{classpsm_1_1_p_s_m_ae6102819ff045b4e58d11c6b70d3477a}\label{classpsm_1_1_p_s_m_ae6102819ff045b4e58d11c6b70d3477a} 
+\index{psm::PSM@{psm::PSM}!settings\_@{settings\_}}
+\index{settings\_@{settings\_}!psm::PSM@{psm::PSM}}
+\doxysubsubsection{\texorpdfstring{settings\_}{settings\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structpsm_1_1_settings}{Settings}} psm\+::\+PSM\+::settings\+\_\+ \{\}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{psm_8hpp}{psm.\+hpp}}\end{DoxyCompactItemize}

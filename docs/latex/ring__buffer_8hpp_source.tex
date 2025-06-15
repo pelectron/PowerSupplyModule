@@ -1,0 +1,109 @@
+\doxysection{ring\+\_\+buffer.\+hpp}
+\hypertarget{ring__buffer_8hpp_source}{}\label{ring__buffer_8hpp_source}\index{cli/ring\_buffer.hpp@{cli/ring\_buffer.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_RING\_BUFFER\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_RING\_BUFFER\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{class\ }RingBufView\ \{}
+\DoxyCodeLine{00009\ \ \ T\ *arr\_;}
+\DoxyCodeLine{00010\ \ \ std::size\_t\ capacity\_;}
+\DoxyCodeLine{00011\ \ \ \textcolor{comment}{//\ the\ head\ points\ to\ the\ position\ that\ was\ last\ written\ to}}
+\DoxyCodeLine{00012\ \ \ T\ *head;}
+\DoxyCodeLine{00013\ \ \ \textcolor{comment}{//\ the\ tail\ points\ to\ the\ position\ that\ can\ be\ read\ from}}
+\DoxyCodeLine{00014\ \ \ T\ *tail;}
+\DoxyCodeLine{00015\ \ \ std::size\_t\ size\_;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{constexpr}\ T\ *incr(T\ *p)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ ++p;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordflow}{if}\ (p\ ==\ (arr\_\ +\ capacity\_))}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ arr\_;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00023\ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \textcolor{keyword}{constexpr}\ RingBufView(T\ *arr,\ std::size\_t\ capacity)}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ :\ arr\_(arr),\ capacity\_(capacity),\ head(arr\_),\ tail(arr\_),\ size\_(0)\ \{\}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_full()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ size\_\ ==\ capacity\_;\ \}}
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_empty()\ noexcept\ \{\ \textcolor{keywordflow}{return}\ size\_\ ==\ 0;\ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ size()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ size\_;\ \}}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ capacity()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ capacity\_;\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ push\_back(\textcolor{keyword}{const}\ T\ \&t)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ size\_;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\ ==\ capacity\_)}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \ \ *head\ =\ t;}
+\DoxyCodeLine{00040\ \ \ \ \ size\_\ =\ s\ +\ 1;}
+\DoxyCodeLine{00041\ \ \ \ \ head\ =\ incr(head);}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00043\ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ push\_back(T\ \&\&t)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ size\_;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\ ==\ capacity\_)}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ *head\ =\ std::move(t);}
+\DoxyCodeLine{00050\ \ \ \ \ size\_\ =\ s\ +\ 1;}
+\DoxyCodeLine{00051\ \ \ \ \ head\ =\ incr(head);}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00053\ \ \ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ remove\_last(std::size\_t\ n)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ size\_;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >\ s)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ n\ =\ s;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (head\ -\/\ arr\_\ >=\ n)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ head\ -\/=\ n;}
+\DoxyCodeLine{00062\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ n\ -\/=\ head\ -\/\ arr\_;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ head\ =\ arr\_\ +\ capacity\_\ -\/\ n;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ pop(T\ \&t)\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{auto}\ s\ =\ size\_;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (s\ ==\ 0)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00072\ \ \ \ \ t\ =\ *tail;}
+\DoxyCodeLine{00073\ \ \ \ \ size\_\ =\ s\ -\/\ 1;}
+\DoxyCodeLine{00074\ \ \ \ \ tail\ =\ incr(tail);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00076\ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{struct\ }write\_iterator\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ RingBufView\ *owner;}
+\DoxyCodeLine{00080\ \ \ \ \ T\ t\{\};}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{constexpr}\ T\ \&operator*()\ \{\ \textcolor{keywordflow}{return}\ t;\ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{constexpr}\ write\_iterator\ \&operator++()\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ owner-\/>push\_back(t);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ t\ =\ \{\};}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \textcolor{keyword}{constexpr}\ write\_iterator\ output()\ \{\ \textcolor{keywordflow}{return}\ \{\textcolor{keyword}{this},\ 0\};\ \}}
+\DoxyCodeLine{00090\ \};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ std::\textcolor{keywordtype}{size\_t}\ Capacity>}
+\DoxyCodeLine{00093\ \textcolor{keyword}{class\ }RingBuffer\ :\ \textcolor{keyword}{public}\ RingBufView<T>\ \{}
+\DoxyCodeLine{00094\ \ \ \textcolor{keyword}{static\_assert}(std::is\_constructible\_v<T>);}
+\DoxyCodeLine{00095\ \ \ \textcolor{keyword}{static\_assert}(std::is\_trivially\_destructible\_v<T>);}
+\DoxyCodeLine{00096\ \ \ T\ values\_[Capacity]\{\};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{constexpr}\ RingBuffer()\ :\ RingBufView<T>(values\_,\ Capacity)\ \{\}}
+\DoxyCodeLine{00100\ \};}
+\DoxyCodeLine{00101\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

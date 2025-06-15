@@ -1,0 +1,25 @@
+\doxysection{cli\+::Config Concept Reference}
+\hypertarget{conceptcli_1_1_config}{}\label{conceptcli_1_1_config}\index{cli::Config@{cli::Config}}
+
+
+{\ttfamily \#include $<$cli/cli.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1_config}{cli::Config}}\ =\ \ \textcolor{keyword}{requires}(\textcolor{keyword}{typename}\ std::remove\_cvref\_t<T>::char\_type)\ \{}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ std::remove\_cvref\_t<T>::access\_separator}
+\DoxyCodeLine{\ \ \}\ -\/>\ std::convertible\_to<typename\ std::remove\_cvref\_t<T>::char\_type>;}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ std::remove\_cvref\_t<T>::commands\_start\_with\_separators}
+\DoxyCodeLine{\ \ \}\ -\/>\ std::convertible\_to<bool>;}
+\DoxyCodeLine{\ \ \{\ std::remove\_cvref\_t<T>::tx\_size\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\ \ \{\ std::remove\_cvref\_t<T>::rx\_size\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ std::remove\_cvref\_t<T>::max\_line\_length}
+\DoxyCodeLine{\ \ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

@@ -1,0 +1,157 @@
+\doxysection{traits.\+hpp}
+\hypertarget{traits_8hpp_source}{}\label{traits_8hpp_source}\index{cli/traits.hpp@{cli/traits.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_TRAITS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_TRAITS\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}cli/vector.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iterator>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }cli::traits\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{enum\ class}\ Kind\ \{\ Integer,\ FixPoint,\ Float,\ String,\ Struct,\ Sequence\ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }kind;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1traits_1_1is__integer}{is\_integer}}\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00021\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_float\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_fixpoint\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_string\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00024\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_sequence\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_struct\ :\ std::is\_aggregate<T>\ \{\};}
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }is\_enum\ :\ std::is\_enum<T>\ \{\};}
+\DoxyCodeLine{00031\ \textcolor{keyword}{template}\ <>\ \textcolor{keyword}{struct\ }is\_string<std::string\_view>\ :\ std::true\_type\ \{\};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ std::\textcolor{keywordtype}{size\_t}\ Cap>}
+\DoxyCodeLine{00034\ \textcolor{keyword}{struct\ }is\_sequence<FixedSizeVector<T,\ Cap>>\ :\ std::true\_type\ \{\};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00037\ \textcolor{keyword}{concept\ }Integer\ =}
+\DoxyCodeLine{00038\ \ \ \ \ (std::integral<T>\ and\ not\ std::same\_as<T,\ bool>)\ or\ is\_integer<T>::value;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00041\ \textcolor{keyword}{concept\ }FixPoint\ =}
+\DoxyCodeLine{00042\ \ \ \ \ is\_fixpoint<T>::value\ and}
+\DoxyCodeLine{00043\ \ \ \ \ std::constructible\_from<T,\ typename\ T::raw\_value\_type>\ and}
+\DoxyCodeLine{00044\ \ \ \ \ std::integral<typename\ T::raw\_value\_type>\ and\ \textcolor{keyword}{requires}(T\ a,\ T\ b)\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \{\ T::num\_int\_digits\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \{\ T::num\_frac\_digits\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \{\ a.integer()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \{\ a.fraction()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \{\ a.value()\ \}\ -\/>\ std::convertible\_to<typename\ T::raw\_value\_type>;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \{\ a\ <\ b\ \};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \{\ -\/a\ \};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \{\ a\ =\ b\ \};}
+\DoxyCodeLine{00053\ \ \ \ \ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00056\ \textcolor{keyword}{concept\ }Float\ =\ std::floating\_point<T>\ or\ is\_float<T>::value;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00059\ \textcolor{keyword}{concept\ }String\ =}
+\DoxyCodeLine{00060\ \ \ \ \ is\_string<T>::value\ and\ std::integral<typename\ T::value\_type>\ and}
+\DoxyCodeLine{00061\ \ \ \ \ std::constructible\_from<T,\ const\ char\ *,\ std::size\_t>\ and\ \textcolor{keyword}{requires}(T\ \&\&t)\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \{\ t.size()\ \}\ -\/>\ std::convertible\_to<std::size\_t>;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \{\ t.begin()\ \}\ -\/>\ std::forward\_iterator;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \{\ t.end()\ \}\ -\/>\ std::forward\_iterator;}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00068\ \textcolor{keyword}{concept\ }Sequence\ =\ is\_sequence<T>::value\ and}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(T\ a,\ \textcolor{keyword}{const}\ T\ b,\ \textcolor{keyword}{typename}\ T::value\_type\ value)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::regular<T>;}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::swappable<T>;}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::destructible<typename\ T::value\_type>;}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::same\_as<typename\ T::reference,\ typename}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ T::value\_type\ \&>;\ requires\ std::same\_as<typename}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ T::const\_reference,}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ typename\ T::value\_type\ \&>;}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::forward\_iterator<typename\ T::iterator>;}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::forward\_iterator<typename}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ T::const\_iterator>;\ requires}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ std::signed\_integral<typename\ T::difference\_type>;}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::same\_as<}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ typename\ T::difference\_type,}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ typename\ std::iterator\_traits<typename}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ T::iterator>::difference\_type>;}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ requires\ std::same\_as<typename\ T::difference\_type,}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ typename\ std::iterator\_traits<}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ typename}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T::const\_iterator>::difference\_type>;}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{\ a.begin()\ \}\ -\/>\ std::same\_as<typename\ T::iterator>;}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{\ a.end()\ \}\ -\/>\ std::same\_as<typename\ T::iterator>;}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{\ b.begin()\ \}\ -\/>\ std::same\_as<typename}}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ T::const\_iterator>;\ \{\ b.end()\ \}\ -\/>\ std::same\_as<typename}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ T::const\_iterator>;\ \{\ a.cbegin()\ \}\ -\/>}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ std::same\_as<typename\ T::const\_iterator>;\ \{\ a.cend()\ \}}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/>\ std::same\_as<typename\ T::const\_iterator>;\ \{\ a.size()}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}\ -\/>\ std::same\_as<typename\ T::size\_type>;\ \{\ a.max\_size()}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}\ -\/>\ std::same\_as<typename\ T::size\_type>;\ \{\ a.empty()\ \}}}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/>\ std::same\_as<bool>;}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ a.push\_back(value)\ \};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00103\ \textcolor{keyword}{concept\ }Struct\ =\ is\_struct<T>::value;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00106\ \textcolor{keyword}{concept\ }Enum\ =\ is\_enum<T>::value;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{int}egral\ T>\ \textcolor{keyword}{struct\ }integer\_traits\ \{}
+\DoxyCodeLine{00109\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{using\ }unsigned\_type\ =\ std::make\_unsigned\_t<type>;}
+\DoxyCodeLine{00111\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_signed\ =\ std::is\_signed\_v<type>;}
+\DoxyCodeLine{00112\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ size\ =\ \textcolor{keyword}{sizeof}(type);}
+\DoxyCodeLine{00113\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ align\ =\ \textcolor{keyword}{alignof}(type);}
+\DoxyCodeLine{00114\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ T\ min\ =\ std::numeric\_limits<T>::min();}
+\DoxyCodeLine{00115\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ T\ max\ =\ std::numeric\_limits<T>::max();}
+\DoxyCodeLine{00116\ \};}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{float}ing\_po\textcolor{keywordtype}{int}\ T>\ \textcolor{keyword}{struct\ }float\_traits\ \{}
+\DoxyCodeLine{00119\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00120\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_signed\ =\ std::is\_signed\_v<type>;}
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ size\ =\ \textcolor{keyword}{sizeof}(type);}
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{auto}\ align\ =\ \textcolor{keyword}{alignof}(type);}
+\DoxyCodeLine{00123\ \};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{template}\ <FixPo\textcolor{keywordtype}{int}\ T>\ \textcolor{keyword}{struct\ }fixpoint\_traits\ \{}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{using\ }type\ =\ T;}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{using\ }raw\_value\_type\ =\ \textcolor{keyword}{typename}\ T::raw\_value\_type;}
+\DoxyCodeLine{00128\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_signed\ =\ std::is\_signed\_v<raw\_value\_type>;}
+\DoxyCodeLine{00129\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_int\_digits\ =\ T::num\_int\_digits;}
+\DoxyCodeLine{00130\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ num\_frac\_digits\ =\ T::num\_frac\_digits;}
+\DoxyCodeLine{00131\ \};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }string\_traits\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>\ \textcolor{keyword}{struct\ }sequence\_traits\ :\ std::false\_type\ \{\};}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00138\ \textcolor{keyword}{concept\ }FlagEnum\ =\ Enum<T>\ and\ \textcolor{keyword}{requires}(T\ a,\ T\ b)\ \{}
+\DoxyCodeLine{00139\ \ \ \{\ a\ |\ b\ \}\ -\/>\ std::same\_as<T>;}
+\DoxyCodeLine{00140\ \};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{template}\ <Enum\ T>\ \textcolor{keyword}{struct\ }enum\_traits;}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{keyword}{template}\ <Enum\ T>}
+\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{requires}\ std::is\_signed\_v<std::underlying\_type\_t<T>>}
+\DoxyCodeLine{00146\ \textcolor{keyword}{struct\ }enum\_traits<T>\ \{}
+\DoxyCodeLine{00147\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::underlying\_type\_t<T>\ min\ =\ -\/128;}
+\DoxyCodeLine{00148\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::underlying\_type\_t<T>\ max\ =\ 127;}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_flag\ =\ FlagEnum<T>;}
+\DoxyCodeLine{00150\ \};}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \textcolor{keyword}{template}\ <Enum\ T>}
+\DoxyCodeLine{00153\ \ \ \textcolor{keyword}{requires}\ std::is\_unsigned\_v<std::underlying\_type\_t<T>>}
+\DoxyCodeLine{00154\ \textcolor{keyword}{struct\ }enum\_traits<T>\ \{}
+\DoxyCodeLine{00155\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::underlying\_type\_t<T>\ min\ =\ 0;}
+\DoxyCodeLine{00156\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::underlying\_type\_t<T>\ max\ =\ 255;}
+\DoxyCodeLine{00157\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ is\_flag\ =\ FlagEnum<T>;}
+\DoxyCodeLine{00158\ \};}
+\DoxyCodeLine{00159\ \}\ \textcolor{comment}{//\ namespace\ cli::traits}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

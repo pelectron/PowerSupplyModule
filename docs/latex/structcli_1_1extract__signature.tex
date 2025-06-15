@@ -1,0 +1,29 @@
+\doxysection{cli\+::extract\+\_\+signature\texorpdfstring{$<$}{<} F, typename \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcli_1_1extract__signature}{}\label{structcli_1_1extract__signature}\index{cli::extract\_signature$<$ F, typename $>$@{cli::extract\_signature$<$ F, typename $>$}}
+
+
+extracts the signature from a callable F, respecting const, volatile and noexcept qualifications.  
+
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename F, typename = void$>$\newline
+struct cli\+::extract\+\_\+signature$<$ F, typename $>$}
+extracts the signature from a callable F, respecting const, volatile and noexcept qualifications. 
+
+The extracted signature can be accessed by its inner typedef {\ttfamily type}.
+
+F is either
+\begin{DoxyItemize}
+\item a signature type, i.\+e. {\ttfamily Ret(\+Args...)\mbox{[}volatile\mbox{]}\mbox{[}const\mbox{]}\mbox{[}noexcept\mbox{]}},
+\item a function pointer type, i.\+e. {\ttfamily Ret(\texorpdfstring{$\ast$}{*})(Args...)\mbox{[}noexcept\mbox{]}},
+\item a member function pointer type, i.\+e. {\ttfamily Ret(\+T\+::\texorpdfstring{$\ast$}{*})(Args...)\mbox{[}volatile\mbox{]}\mbox{[}const\mbox{]}\mbox{[}noexcept\mbox{]}},
+\item or types with an unambigous call operator, i.\+e. a special case of the member function pointer.
+\end{DoxyItemize}
+
+for signature types, the signature itself is returned. for function pointer types, the signature is formed by removing the pointer for member function pointers and callables 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/util.\+hpp\end{DoxyCompactItemize}

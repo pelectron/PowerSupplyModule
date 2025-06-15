@@ -1,0 +1,4 @@
+var structcli_1_1extract__signature_3_01_f_00_01std_1_1void__t_3_01decltype_07_6_f_1_1operator_07_08_08_4_01_4 =
+[
+    [ "type", "structcli_1_1extract__signature_3_01_f_00_01std_1_1void__t_3_01decltype_07_6_f_1_1operator_07_08_08_4_01_4.html#a9ed6e745b446d9c12e529e464c31dc4e", null ]
+];

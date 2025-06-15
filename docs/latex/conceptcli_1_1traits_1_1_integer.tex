@@ -1,0 +1,14 @@
+\doxysection{cli\+::traits\+::Integer Concept Reference}
+\hypertarget{conceptcli_1_1traits_1_1_integer}{}\label{conceptcli_1_1traits_1_1_integer}\index{cli::traits::Integer@{cli::traits::Integer}}
+
+
+{\ttfamily \#include $<$cli/traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1traits_1_1_integer}{cli::traits::Integer}}\ =\ }
+\DoxyCodeLine{\ \ \ \ (std::integral<T>\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{and}}\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{not}}\ std::same\_as<T,\ bool>)\ \mbox{\hyperlink{namespacecli_aa9ba44b0dac5513be86e01090c2162a2}{or}}\ is\_integer<T>::value}
+
+\end{DoxyCode}

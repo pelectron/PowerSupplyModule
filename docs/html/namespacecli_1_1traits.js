@@ -1,0 +1,36 @@
+var namespacecli_1_1traits =
+[
+    [ "enum_traits", "structcli_1_1traits_1_1enum__traits.html", null ],
+    [ "enum_traits< T >", "structcli_1_1traits_1_1enum__traits_3_01_t_01_4.html", null ],
+    [ "fixpoint_traits", "structcli_1_1traits_1_1fixpoint__traits.html", "structcli_1_1traits_1_1fixpoint__traits" ],
+    [ "float_traits", "structcli_1_1traits_1_1float__traits.html", "structcli_1_1traits_1_1float__traits" ],
+    [ "integer_traits", "structcli_1_1traits_1_1integer__traits.html", "structcli_1_1traits_1_1integer__traits" ],
+    [ "is_enum", "structcli_1_1traits_1_1is__enum.html", null ],
+    [ "is_fixpoint", "structcli_1_1traits_1_1is__fixpoint.html", null ],
+    [ "is_float", "structcli_1_1traits_1_1is__float.html", null ],
+    [ "is_integer", "structcli_1_1traits_1_1is__integer.html", null ],
+    [ "is_sequence", "structcli_1_1traits_1_1is__sequence.html", null ],
+    [ "is_sequence< FixedSizeVector< T, Cap > >", "structcli_1_1traits_1_1is__sequence_3_01_fixed_size_vector_3_01_t_00_01_cap_01_4_01_4.html", null ],
+    [ "is_string", "structcli_1_1traits_1_1is__string.html", null ],
+    [ "is_string< std::string_view >", "structcli_1_1traits_1_1is__string_3_01std_1_1string__view_01_4.html", null ],
+    [ "is_struct", "structcli_1_1traits_1_1is__struct.html", null ],
+    [ "kind", "structcli_1_1traits_1_1kind.html", null ],
+    [ "sequence_traits", "structcli_1_1traits_1_1sequence__traits.html", null ],
+    [ "string_traits", "structcli_1_1traits_1_1string__traits.html", null ],
+    [ "Integer", "conceptcli_1_1traits_1_1_integer.html", null ],
+    [ "FixPoint", "conceptcli_1_1traits_1_1_fix_point.html", null ],
+    [ "Float", "conceptcli_1_1traits_1_1_float.html", null ],
+    [ "String", "conceptcli_1_1traits_1_1_string.html", null ],
+    [ "Sequence", "conceptcli_1_1traits_1_1_sequence.html", null ],
+    [ "Struct", "conceptcli_1_1traits_1_1_struct.html", null ],
+    [ "Enum", "conceptcli_1_1traits_1_1_enum.html", null ],
+    [ "FlagEnum", "conceptcli_1_1traits_1_1_flag_enum.html", null ],
+    [ "Kind", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0", [
+      [ "Integer", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0aa0faef0851b4294c06f2b94bb1cb2044", null ],
+      [ "FixPoint", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0a30fbd2a9a9efcbb0e7a75e0709128fd0", null ],
+      [ "Float", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0a22ae0e2b89e5e3d477f988cc36d3272b", null ],
+      [ "String", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0a27118326006d3829667a400ad23d5d98", null ],
+      [ "Struct", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0a886ef5dbd655a6c97726d7091c6b173e", null ],
+      [ "Sequence", "namespacecli_1_1traits.html#a0d35004fe84dd52970cbd21e2e1a7bd0a3ff39d3acb327553070a64ef0cb321d5", null ]
+    ] ]
+];

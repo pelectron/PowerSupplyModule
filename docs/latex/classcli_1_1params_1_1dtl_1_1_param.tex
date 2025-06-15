@@ -1,0 +1,42 @@
+\doxysection{cli\+::params\+::dtl\+::Param\texorpdfstring{$<$}{<} Cmd\+Name, Description, Type, Get, Set, Parse, Format, Validate, Sub\+Commands \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcli_1_1params_1_1dtl_1_1_param}{}\label{classcli_1_1params_1_1dtl_1_1_param}\index{cli::params::dtl::Param$<$ CmdName, Description, Type, Get, Set, Parse, Format, Validate, SubCommands $>$@{cli::params::dtl::Param$<$ CmdName, Description, Type, Get, Set, Parse, Format, Validate, SubCommands $>$}}
+
+
+the thing returned by calls to \doxylink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{cli\+::params\+::param}  
+
+
+
+
+{\ttfamily \#include $<$cli/param.\+hpp$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$Name Cmd\+Name, Name Description, Name Type, Getter Get, Setter Set, parse\+::\+Parser Parse, format\+::\+Formatter Format, validate\+::\+Validator Validate, Command... Sub\+Commands$>$\newline
+class cli\+::params\+::dtl\+::\+Param$<$ Cmd\+Name, Description, Type, Get, Set, Parse, Format, Validate, Sub\+Commands $>$}
+the thing returned by calls to \doxylink{group__parameters_gad60a9dac846725de58d768a5de0823d2}{cli\+::params\+::param} 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Cmd\+Name} & the name of the parameter \\
+\hline
+{\em Description} & the description \\
+\hline
+{\em Type} & a string that represents the type of the parameter \\
+\hline
+{\em Get} & the callable thats retrieves a T\textquotesingle{}s value \\
+\hline
+{\em Set} & the callable thats sets a T\textquotesingle{}s value \\
+\hline
+{\em Parse} & the callable that parses a T from a \doxylink{classcli_1_1_byte_view}{Byte\+View} \\
+\hline
+{\em Format} & the callable that formats a T into a \doxylink{classcli_1_1_byte_view}{Byte\+View} \\
+\hline
+{\em Sub\+Commands} & further \doxylink{classcli_1_1params_1_1dtl_1_1_param}{Param} or Function sub commands \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+cli/\mbox{\hyperlink{param_8hpp}{param.\+hpp}}\end{DoxyCompactItemize}

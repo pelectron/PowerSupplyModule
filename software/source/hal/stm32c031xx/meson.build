@@ -1,4 +1,5 @@
 hal_src = files(
+  'adc.cpp',
   'clocks.cpp',
   'gpio.cpp',
   'hal.cpp',
@@ -15,7 +16,7 @@ hal_lib = static_library(
   hal_src,
   include_directories: inc,
   native: false,
-  dependencies: deps,
+  dependencies: [deps],
 )
 
 hal_dep = declare_dependency(link_with: hal_lib, include_directories: inc, dependencies: deps)

@@ -1,7 +1,6 @@
 [constants]
 common_args = [
     '-U_FILE_OFFSET_BITS',
-    '-specs=nosys.specs',
     '-ffunction-sections',# each function to a seperate section ==> Code-optimization / deletion
     '-fdata-sections',# each variable to a seperate section ==> Code-optimization / deletion
     '-Wno-subobject-linkage',
@@ -9,6 +8,7 @@ common_args = [
     # '-fno-asynchronous-unwind-tables',
     '-fno-threadsafe-statics',
     '-fno-ident',
+    '-flto',
     # '-s'
     ]
 
@@ -24,6 +24,7 @@ strip   = 'arm-none-eabi-strip'
 gdb     = 'arm-none-eabi-gdb'
 
 [built-in options]
+b_lto= true
 b_asneeded    = false
 b_ndebug      = 'true'
 debug         = true

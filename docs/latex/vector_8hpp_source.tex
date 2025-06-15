@@ -1,0 +1,129 @@
+\doxysection{vector.\+hpp}
+\hypertarget{vector_8hpp_source}{}\label{vector_8hpp_source}\index{cli/vector.hpp@{cli/vector.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_VECTOR\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_VECTOR\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecli}{cli}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>\ \textcolor{keyword}{class\ }VecView\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00010\ \ \ T\ *values\_;}
+\DoxyCodeLine{00011\ \ \ std::size\_t\ size\_;}
+\DoxyCodeLine{00012\ \ \ std::size\_t\ capacity\_;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \textcolor{keyword}{using\ }value\_type\ =\ T;}
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{using\ }iterator\ =\ T\ *;}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{using\ }const\_iterator\ =\ \textcolor{keyword}{const}\ T\ *;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{constexpr}\ VecView(T\ *arr,\ std::size\_t\ capacity)}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ :\ values\_(arr),\ size\_(0),\ capacity\_(capacity)\ \{\}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ push\_back(\textcolor{keyword}{const}\ T\ \&t)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\_\ ==\ capacity\_)}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00025\ \ \ \ \ values\_[size\_++]\ =\ t;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00027\ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ push\_back(T\ \&\&t)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\_\ ==\ capacity\_)}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00032\ \ \ \ \ values\_[size\_++]\ =\ std::move(t);}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00034\ \ \ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ remove\_last(\textcolor{keywordtype}{size\_t}\ n)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\_\ <\ n)}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ size\_\ =\ 0;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ size\_\ -\/=\ n;}
+\DoxyCodeLine{00041\ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ reset()\ \{\ size\_\ =\ 0;\ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ size()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ size\_;\ \}}
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ capacity()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ capacity\_;\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{constexpr}\ T\ *data()\ \{\ \textcolor{keywordflow}{return}\ values\_;\ \}}
+\DoxyCodeLine{00049\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ T\ *data()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ values\_;\ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{constexpr}\ T\ *begin()\ \{\ \textcolor{keywordflow}{return}\ values\_;\ \}}
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ T\ *begin()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ values\_;\ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{constexpr}\ T\ *end()\ \{\ \textcolor{keywordflow}{return}\ values\_\ +\ size\_;\ \}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ T\ *end()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ values\_\ +\ size\_;\ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{constexpr}\ T\ \&operator[](std::size\_t\ i)\ \{\ \textcolor{keywordflow}{return}\ values\_[i];\ \}}
+\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ T\ \&operator[](std::size\_t\ i)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ values\_[i];\ \}}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ std::\textcolor{keywordtype}{size\_t}\ Capacity>}
+\DoxyCodeLine{00062\ \textcolor{keyword}{class\ }FixedSizeVector\ :\ \textcolor{keyword}{public}\ VecView<T>\ \{}
+\DoxyCodeLine{00063\ \ \ \textcolor{keyword}{static\_assert}(std::is\_constructible\_v<T>);}
+\DoxyCodeLine{00064\ \ \ \textcolor{keyword}{static\_assert}(std::is\_trivially\_destructible\_v<T>);}
+\DoxyCodeLine{00065\ \ \ T\ values\_[Capacity]\{\};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00068\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector()\ :\ VecView<T>(values\_,\ Capacity)\ \{\}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector(\textcolor{keyword}{const}\ FixedSizeVector\ \&other)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ :\ VecView<T>(values\_,\ Capacity)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ other.size();\ ++i)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ this-\/>push\_back(other[i]);}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector(FixedSizeVector\ \&\&other)}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ :\ VecView<T>(values\_,\ Capacity)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ other.size();\ ++i)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ this-\/>push\_back(std::move(other[i]));}
+\DoxyCodeLine{00081\ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ other.reset();}
+\DoxyCodeLine{00083\ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector(std::initializer\_list<T>\ il)\ :\ FixedSizeVector()\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&v\ :\ il)\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>size\_\ >=\ Capacity)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ values\_[this-\/>size\_++]\ =\ v;}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{constexpr}\ \string~FixedSizeVector()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector\ \&operator=(\textcolor{keyword}{const}\ FixedSizeVector\ \&other)\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ this-\/>reset();}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{while}\ (this-\/>size\_\ <\ other.size\_)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ this-\/>values\_[this-\/>size\_++]\ =\ other.values\_[this-\/>size\_];}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00101\ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \textcolor{keyword}{constexpr}\ FixedSizeVector\ \&operator=(FixedSizeVector\ \&\&other)\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ this-\/>reset();}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{while}\ (this-\/>size\_\ <\ other.size\_)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ this-\/>values\_[this-\/>size\_++]\ =\ std::move(other.values\_[this-\/>size\_]);}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ other.reset();}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00109\ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ FixedSizeVector\ \&other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>size\_\ !=\ other.size\_)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ this-\/>size\_;\ ++i)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (values\_[i]\ !=\ other.values\_[i])}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00120\ \ \ \}}
+\DoxyCodeLine{00121\ \};}
+\DoxyCodeLine{00122\ \}\ \textcolor{comment}{//\ namespace\ cli}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

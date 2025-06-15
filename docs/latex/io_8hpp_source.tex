@@ -1,0 +1,496 @@
+\doxysection{io.\+hpp}
+\hypertarget{io_8hpp_source}{}\label{io_8hpp_source}\index{cli/io.hpp@{cli/io.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CLI\_IO\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CLI\_IO\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cli/enums.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}cli/string.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <concepts>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }cli::io\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{enum\ class}\ Type\ :\ uint8\_t\ \{}
+\DoxyCodeLine{00014\ \ \ AutoComplete,}
+\DoxyCodeLine{00015\ \ \ BackSpace,}
+\DoxyCodeLine{00016\ \ \ Char,}
+\DoxyCodeLine{00017\ \ \ CursorUp,}
+\DoxyCodeLine{00018\ \ \ CursorDown,}
+\DoxyCodeLine{00019\ \ \ CursorLeft,}
+\DoxyCodeLine{00020\ \ \ CursorRight,}
+\DoxyCodeLine{00021\ \ \ NewLine,}
+\DoxyCodeLine{00022\ \ \ EraseInDisplay,}
+\DoxyCodeLine{00023\ \ \ EraseInLine,}
+\DoxyCodeLine{00024\ \ \ ScrollUp,}
+\DoxyCodeLine{00025\ \ \ ScrollDown,}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{struct\ }Event\ \{}
+\DoxyCodeLine{00029\ \ \ Type\ type;}
+\DoxyCodeLine{00030\ \ \ uint8\_t\ data[2]\{\};}
+\DoxyCodeLine{00031\ \ \ \textcolor{comment}{//\ TODO:\ replace\ final\ with\ data\ byte}}
+\DoxyCodeLine{00032\ \ \ uint8\_t\ \textcolor{keyword}{final};}
+\DoxyCodeLine{00033\ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{static\_assert}(\textcolor{keyword}{sizeof}(Event)\ ==\ 4);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T,\ std::\textcolor{keywordtype}{size\_t}\ Size>\ \textcolor{keyword}{class\ }Queue\ \{}
+\DoxyCodeLine{00038\ \ \ T\ data[Size\ +\ 1];}
+\DoxyCodeLine{00039\ \ \ T\ *head;}
+\DoxyCodeLine{00040\ \ \ T\ *tail;}
+\DoxyCodeLine{00041\ \};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{00064\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{CharStream}}\ =\ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&stream,\ uint8\_t\ c)\ \{}
+\DoxyCodeLine{00065\ \ \ \{\ std::invoke(stream,\ c)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00066\ \};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{00093\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{StringStream}}\ =\ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&stream,\ ByteView\ s)\ \{}
+\DoxyCodeLine{00094\ \ \ \{\ std::invoke(stream,\ s)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{00105\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_basic_output_stream}{BasicOutputStream}}\ =\ \mbox{\hyperlink{conceptcli_1_1io_1_1_char_stream}{CharStream<S>}}\ or\ \mbox{\hyperlink{conceptcli_1_1io_1_1_string_stream}{StringStream<S>}};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00115\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ S>}
+\DoxyCodeLine{00116\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcli_1_1io_1_1_output_stream}{OutputStream}}\ =\ \textcolor{keyword}{requires}(std::remove\_cvref\_t<S>\ \&s,\ uint8\_t\ c,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ByteView\ str,\ \textcolor{keyword}{const}\ Event\ \&ev)\ \{}
+\DoxyCodeLine{00118\ \ \ \textcolor{comment}{//\ writes\ a\ raw\ character\ c}}
+\DoxyCodeLine{00119\ \ \ \{\ s.write(c)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00120\ \ \ \textcolor{comment}{//\ writes\ the\ raw\ string\ str}}
+\DoxyCodeLine{00121\ \ \ \{\ s.write(str)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00122\ \ \ \textcolor{comment}{//\ "{}writes"{}\ an\ event}}
+\DoxyCodeLine{00123\ \ \ \{\ s.event(ev)\ \}\ -\/>\ std::same\_as<Error>;}
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00132\ \textcolor{keyword}{template}\ <BasicOutputStream\ Stream>\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{AnsiOutputStream}}\ \{}
+\DoxyCodeLine{00133\ \ \ Stream\ stream;}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \textcolor{keyword}{constexpr}\ Error\ write(uint8\_t\ c);}
+\DoxyCodeLine{00136\ \ \ \textcolor{keyword}{constexpr}\ Error\ write(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ s);}
+\DoxyCodeLine{00137\ \ \ \textcolor{keyword}{constexpr}\ Error\ event(\textcolor{keyword}{const}\ Event\ \&e);}
+\DoxyCodeLine{00138\ \};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{template}\ <BasicOutputStream\ Stream>}
+\DoxyCodeLine{00141\ \mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{AnsiOutputStream}}(Stream\ \&\&)\ -\/>\ \mbox{\hyperlink{structcli_1_1io_1_1_ansi_output_stream}{AnsiOutputStream<std::remove\_cvref\_t<Stream>}}>;}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00147\ \textcolor{keyword}{template}\ <OutputStream\ Stream>\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}\ \{}
+\DoxyCodeLine{00148\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{template}\ <OutputStream\ S>}
+\DoxyCodeLine{00150\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}(S\ \&\&stream)\ :\ stream(std::forward<S>(stream))\ \{\}}
+\DoxyCodeLine{00151\ \ \ \textcolor{keyword}{template}\ <BasicOutputStream\ S>}
+\DoxyCodeLine{00152\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}(S\ \&\&stream)\ :\ stream(std::forward<S>(stream))\ \{\}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00155\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3}{write}}(uint8\_t\ c);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00158\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3}{write}}(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ s);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00161\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_a16f1c4d4cf00539038371b6bcd7126da}{backspace}}(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_aff184cae4b6da018a42e7be9286363cf}{cursor\_up}}(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00165\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_ab18545b30c78ae3448cf037d4baa04a0}{cursor\_down}}(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00167\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af6c0e70ea443e2e282a11cb5bd74b770}{cursor\_left}}(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_a581adad299194cadd994b9648db700b6}{cursor\_right}}(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \textcolor{keyword}{constexpr}\ Error\ erase\_in\_display(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{constexpr}\ Error\ erase\_in\_line(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00173\ \ \ \textcolor{keyword}{constexpr}\ Error\ newline();}
+\DoxyCodeLine{00174\ \ \ \textcolor{keyword}{constexpr}\ Error\ scroll\_up(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00175\ \ \ \textcolor{keyword}{constexpr}\ Error\ scroll\_down(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00178\ \ \ Stream\ stream;}
+\DoxyCodeLine{00179\ \};}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{template}\ <OutputStream\ Stream>}
+\DoxyCodeLine{00182\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}(Stream\ \&\&)\ -\/>\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output<std::remove\_cvref\_t<Stream>}}>;}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{keyword}{template}\ <BasicOutputStream\ Stream>}
+\DoxyCodeLine{00185\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output}}(Stream\ \&\&)\ -\/>\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output<AnsiOutputStream<std::remove\_cvref\_t<Stream>}}>>;}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00263\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \{}
+\DoxyCodeLine{00264\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00265\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00266\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}(\mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00267\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00268\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&operator=(\mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}\ \&\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Cli>}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keyword}{requires}(not\ std::same\_as<Cli,\ Input>)}
+\DoxyCodeLine{00272\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcli_1_1io_1_1_input}{Input}}(\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ \&\mbox{\hyperlink{namespacecli}{cli}})}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ :\ \mbox{\hyperlink{namespacecli}{cli}}(\&\mbox{\hyperlink{namespacecli}{cli}}),\ put\_event\_(+[](\textcolor{keywordtype}{void}\ *\mbox{\hyperlink{namespacecli}{cli}},\ \textcolor{keyword}{const}\ Event\ \&ev)\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classcli_1_1_cli}{Cli}}\ *\textcolor{keyword}{>}(\mbox{\hyperlink{namespacecli}{cli}})-\/>put\_event(ev);}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \})\ \{\}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \textcolor{keyword}{constexpr}\ Error\ autocomplete();}
+\DoxyCodeLine{00278\ \ \ \textcolor{keyword}{constexpr}\ Error\ backspace(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00279\ \ \ \textcolor{keyword}{constexpr}\ Error\ cursor\_up(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{constexpr}\ Error\ cursor\_down(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00281\ \ \ \textcolor{keyword}{constexpr}\ Error\ cursor\_left(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00282\ \ \ \textcolor{keyword}{constexpr}\ Error\ cursor\_right(uint8\_t\ n\ =\ 1);}
+\DoxyCodeLine{00283\ \ \ \textcolor{keyword}{constexpr}\ Error\ newline();}
+\DoxyCodeLine{00284\ \ \ \textcolor{keyword}{constexpr}\ Error\ on\_char(uint8\_t\ c);}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00287\ \ \ \textcolor{keyword}{constexpr}\ Error\ parse\_seq\_and\_put\_event();}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \textcolor{keyword}{enum\ class}\ State\ :\ uint8\_t\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ normal,}
+\DoxyCodeLine{00291\ \ \ \ \ esc\_sequence,}
+\DoxyCodeLine{00292\ \ \ \ \ esc\_sequence\_param,}
+\DoxyCodeLine{00293\ \ \ \ \ esc\_sequence\_intermediate}
+\DoxyCodeLine{00294\ \ \ \};}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ uint8\_t\ buffer[12]\{\};}
+\DoxyCodeLine{00297\ \ \ uint8\_t\ size\ =\ 0;}
+\DoxyCodeLine{00298\ \ \ uint8\_t\ param\_start\ =\ 0;}
+\DoxyCodeLine{00299\ \ \ uint8\_t\ param\_end\ =\ 0;}
+\DoxyCodeLine{00300\ \ \ State\ state\ =\ State::normal;}
+\DoxyCodeLine{00301\ \ \ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{namespacecli}{cli}};}
+\DoxyCodeLine{00302\ \ \ Error\ (*put\_event\_)(\textcolor{keywordtype}{void}\ *,\ \textcolor{keyword}{const}\ Event\ \&);}
+\DoxyCodeLine{00303\ \};}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \textcolor{keyword}{namespace\ }dtl\ \{}
+\DoxyCodeLine{00306\ \textcolor{keyword}{using\ }Pair\ =\ std::pair<uint8\_t,\ Event>;}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ Event\ esc\_code\_map[]\ =\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \{Type::CursorUp,\ \{1,\ 0\},\ \textcolor{charliteral}{'A'}\},\ \ \ \ \ \ \ \{Type::CursorDown,\ \{1,\ 0\},\ \textcolor{charliteral}{'B'}\},}
+\DoxyCodeLine{00310\ \ \ \ \ \{Type::CursorRight,\ \{1,\ 0\},\ \textcolor{charliteral}{'C'}\},\ \ \ \ \{Type::CursorLeft,\ \{1,\ 0\},\ \textcolor{charliteral}{'D'}\},}
+\DoxyCodeLine{00311\ \ \ \ \ \{Type::EraseInDisplay,\ \{0,\ 0\},\ \textcolor{charliteral}{'J'}\},\ \{Type::EraseInLine,\ \{0,\ 0\},\ \textcolor{charliteral}{'K'}\},}
+\DoxyCodeLine{00312\ \ \ \ \ \{Type::ScrollUp,\ \{1,\ 0\},\ \textcolor{charliteral}{'S'}\},\ \ \ \ \ \ \ \{Type::ScrollDown,\ \{1,\ 0\},\ \textcolor{charliteral}{'T'}\},}
+\DoxyCodeLine{00313\ \};}
+\DoxyCodeLine{00314\ \}\ \textcolor{comment}{//\ namespace\ dtl}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00317\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3}{Output<OutputStream>::write}}(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00318\ \ \ \textcolor{keywordflow}{return}\ stream.write(c);}
+\DoxyCodeLine{00319\ \}}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00322\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af162183e4e10ebef50a7ded5c6333fb3}{Output<OutputStream>::write}}(\mbox{\hyperlink{classcli_1_1_byte_view}{ByteView}}\ s)\ \{}
+\DoxyCodeLine{00323\ \ \ \textcolor{keywordflow}{return}\ stream.write(s);}
+\DoxyCodeLine{00324\ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00327\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_a16f1c4d4cf00539038371b6bcd7126da}{Output<OutputStream>::backspace}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00328\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::BackSpace,\ \{n,\ 0\}\});}
+\DoxyCodeLine{00329\ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00332\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_aff184cae4b6da018a42e7be9286363cf}{Output<OutputStream>::cursor\_up}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00333\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::CursorUp,\ \{n,\ 0\},\ \textcolor{charliteral}{'A'}\});}
+\DoxyCodeLine{00334\ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00337\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_ab18545b30c78ae3448cf037d4baa04a0}{Output<OutputStream>::cursor\_down}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00338\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::CursorDown,\ \{n,\ 0\},\ \textcolor{charliteral}{'B'}\});}
+\DoxyCodeLine{00339\ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00342\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_af6c0e70ea443e2e282a11cb5bd74b770}{Output<OutputStream>::cursor\_left}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00343\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::CursorLeft,\ \{n,\ 0\},\ \textcolor{charliteral}{'D'}\});}
+\DoxyCodeLine{00344\ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00347\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output_a581adad299194cadd994b9648db700b6}{Output<OutputStream>::cursor\_right}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00348\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::CursorDown,\ \{n,\ 0\},\ \textcolor{charliteral}{'C'}\});}
+\DoxyCodeLine{00349\ \}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00352\ \textcolor{keyword}{constexpr}\ Error\ \mbox{\hyperlink{classcli_1_1io_1_1_output}{Output<OutputStream>::erase\_in\_display}}(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00353\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::EraseInDisplay,\ \{n,\ 0\},\ \textcolor{charliteral}{'J'}\});}
+\DoxyCodeLine{00354\ \}}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00357\ \textcolor{keyword}{constexpr}\ Error\ Output<OutputStream>::erase\_in\_line(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00358\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::EraseInDisplay,\ \{n,\ 0\},\ \textcolor{charliteral}{'K'}\});}
+\DoxyCodeLine{00359\ \}}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00362\ \textcolor{keyword}{constexpr}\ Error\ Output<OutputStream>::newline()\ \{}
+\DoxyCodeLine{00363\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::NewLine\});}
+\DoxyCodeLine{00364\ \}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00367\ \textcolor{keyword}{constexpr}\ Error\ Output<OutputStream>::scroll\_up(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00368\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::ScrollUp,\ \{n,\ 0\},\ \textcolor{charliteral}{'K'}\});}
+\DoxyCodeLine{00369\ \}}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \textcolor{keyword}{template}\ <OutputStream\ OutputStream>}
+\DoxyCodeLine{00372\ \textcolor{keyword}{constexpr}\ Error\ Output<OutputStream>::scroll\_down(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00373\ \ \ \textcolor{keywordflow}{return}\ stream.event(Event\{Type::ScrollDown,\ \{n,\ 0\},\ \textcolor{charliteral}{'K'}\});}
+\DoxyCodeLine{00374\ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \textcolor{keyword}{template}\ <BasicOutputStream\ Device>}
+\DoxyCodeLine{00377\ \textcolor{keyword}{constexpr}\ Error\ AnsiOutputStream<Device>::write(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00378\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (StringStream<Device>)\ \{}
+\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ ch[1]\ =\ \{\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(c)\};}
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{return}\ stream(ByteView(ch,\ 1));}
+\DoxyCodeLine{00381\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keywordflow}{return}\ stream(c);}
+\DoxyCodeLine{00383\ \ \ \}}
+\DoxyCodeLine{00384\ \}}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00386\ \textcolor{keyword}{template}\ <BasicOutputStream\ Device>}
+\DoxyCodeLine{00387\ \textcolor{keyword}{constexpr}\ Error\ AnsiOutputStream<Device>::write(ByteView\ s)\ \{}
+\DoxyCodeLine{00388\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (StringStream<Device>)\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordflow}{return}\ stream(s);}
+\DoxyCodeLine{00390\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&ch\ :\ s)}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ if\ (auto\ err\ =\ stream(ch);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00394\ \ \ \}}
+\DoxyCodeLine{00395\ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00396\ \}}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00398\ \textcolor{keyword}{template}\ <BasicOutputStream\ Device>}
+\DoxyCodeLine{00399\ \textcolor{keyword}{constexpr}\ Error\ AnsiOutputStream<Device>::event(\textcolor{keyword}{const}\ Event\ \&e)\ \{}
+\DoxyCodeLine{00400\ \ \ \textcolor{keywordflow}{switch}\ (e.type)\ \{}
+\DoxyCodeLine{00401\ \ \ \textcolor{keywordflow}{case}\ Type::AutoComplete:}
+\DoxyCodeLine{00402\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00403\ \ \ \textcolor{keywordflow}{case}\ Type::BackSpace:}
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ event(\{Type::CursorLeft,\ \{1\}\});\ err\ !=\ Error::none)}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{keywordflow}{return}\ event(\{Type::EraseInLine\});}
+\DoxyCodeLine{00407\ \ \ \textcolor{keywordflow}{case}\ Type::NewLine:}
+\DoxyCodeLine{00408\ \ \ \ \ write(\textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00410\ \ \ \textcolor{keywordflow}{case}\ Type::Char:}
+\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00412\ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00414\ \ \ \}}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \textcolor{keywordtype}{char}\ buffer[7]\{\textcolor{stringliteral}{"{}\(\backslash\)x1b["{}}\};}
+\DoxyCodeLine{00417\ \ \ \textcolor{comment}{//\ TODO:\ escape\ sequences\ with\ more\ than\ one\ argument}}
+\DoxyCodeLine{00418\ \ \ uint8\_t\ \textcolor{keyword}{final}\ =\ e.final;}
+\DoxyCodeLine{00419\ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{final}\ ==\ 0)}
+\DoxyCodeLine{00420\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&event\ :\ dtl::esc\_code\_map)\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ e.type)\ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keyword}{final}\ =\ \textcolor{keyword}{event}.final;}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00424\ \ \ \ \ \}}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00426\ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{final}\ ==\ 0)}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_argument;}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \ \ \textcolor{keywordtype}{unsigned}\ size\ =\ 2;}
+\DoxyCodeLine{00430\ \ \ \textcolor{keyword}{auto}\ l\ =\ e.data[0]\ \%\ 10;}
+\DoxyCodeLine{00431\ \ \ \textcolor{keyword}{auto}\ m\ =\ e.data[0]\ /\ 10;}
+\DoxyCodeLine{00432\ \ \ \textcolor{keyword}{auto}\ h\ =\ m\ /\ 10;}
+\DoxyCodeLine{00433\ \ \ m\ =\ m\ \%\ 10;}
+\DoxyCodeLine{00434\ \ \ \textcolor{keywordflow}{if}\ (h\ !=\ 0)}
+\DoxyCodeLine{00435\ \ \ \ \ buffer[size++]\ =\ h;}
+\DoxyCodeLine{00436\ \ \ \textcolor{keywordflow}{if}\ (not(m\ ==\ 0\ and\ h\ ==\ 0))}
+\DoxyCodeLine{00437\ \ \ \ \ buffer[size++]\ =\ m;}
+\DoxyCodeLine{00438\ \ \ buffer[size++]\ =\ l;}
+\DoxyCodeLine{00439\ \ \ buffer[size++]\ =\ \textcolor{keyword}{final};}
+\DoxyCodeLine{00440\ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (StringStream<Device>)\ \{}
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordflow}{return}\ stream(ByteView(buffer,\ size));}
+\DoxyCodeLine{00442\ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)\ \{}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ err\ =\ stream(buffer[i]);\ err\ !=\ Error::none)}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00446\ \ \ \ \ \}}
+\DoxyCodeLine{00447\ \ \ \}}
+\DoxyCodeLine{00448\ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00449\ \}}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \textcolor{keyword}{constexpr}\ Error\ Input::autocomplete()\ \{}
+\DoxyCodeLine{00452\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00454\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::AutoComplete\});}
+\DoxyCodeLine{00455\ \}}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ \textcolor{keyword}{constexpr}\ Error\ Input::backspace(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00458\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00459\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00460\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::BackSpace,\ \{n,\ 0\},\ 0\});}
+\DoxyCodeLine{00461\ \}}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \textcolor{keyword}{constexpr}\ Error\ Input::cursor\_up(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00464\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00466\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::CursorUp,\ \{n,\ 0\},\ \textcolor{charliteral}{'A'}\});}
+\DoxyCodeLine{00467\ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \textcolor{keyword}{constexpr}\ Error\ Input::cursor\_down(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00470\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00472\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::CursorDown,\ \{n,\ 0\},\ \textcolor{charliteral}{'B'}\});}
+\DoxyCodeLine{00473\ \}}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \textcolor{keyword}{constexpr}\ Error\ Input::cursor\_left(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00476\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00478\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::CursorLeft,\ \{n,\ 0\},\ \textcolor{charliteral}{'D'}\});}
+\DoxyCodeLine{00479\ \}}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \textcolor{keyword}{constexpr}\ Error\ Input::cursor\_right(uint8\_t\ n)\ \{}
+\DoxyCodeLine{00482\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00484\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::CursorRight,\ \{n,\ 0\},\ \textcolor{charliteral}{'C'}\});}
+\DoxyCodeLine{00485\ \}}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \textcolor{keyword}{constexpr}\ Error\ Input::newline()\ \{}
+\DoxyCodeLine{00488\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00489\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00490\ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::NewLine\});}
+\DoxyCodeLine{00491\ \}}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \textcolor{keyword}{constexpr}\ Error\ Input::on\_char(uint8\_t\ c)\ \{}
+\DoxyCodeLine{00494\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecli}{cli}}\ ==\ \textcolor{keyword}{nullptr}\ or\ put\_event\_\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00495\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::implementation\_error;}
+\DoxyCodeLine{00496\ }
+\DoxyCodeLine{00497\ \ \ \textcolor{keywordflow}{switch}\ (state)\ \{}
+\DoxyCodeLine{00498\ \ \ \textcolor{keywordflow}{case}\ State::normal:}
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{keywordflow}{switch}\ (c)\ \{}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::ESC:}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ potential\ control\ sequence\ has\ started}}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ state\ =\ State::esc\_sequence;}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ size\ =\ 1;}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ buffer[0]\ =\ c;}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::CSI:}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ control\ sequence\ has\ started}}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ state\ =\ State::esc\_sequence\_param;}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ size\ =\ 1;}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ buffer[0]\ =\ c;}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ param\_start\ =\ 1;}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::BS:}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ backspace(1);}
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::DEL:}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ backspace(1);}
+\DoxyCodeLine{00517\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::HT:}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ autocomplete();}
+\DoxyCodeLine{00519\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::CR:}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ [[fallthrough]];}
+\DoxyCodeLine{00521\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::LF:}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ [[fallthrough]];}
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::FF:}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ [[fallthrough]];}
+\DoxyCodeLine{00525\ \ \ \ \ \textcolor{keywordflow}{case}\ ansi::VT:}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ newline();}
+\DoxyCodeLine{00527\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ Event\{Type::Char,\ \{c\}\});}
+\DoxyCodeLine{00529\ \ \ \ \ \}}
+\DoxyCodeLine{00530\ \ \ \textcolor{keywordflow}{case}\ State::esc\_sequence:}
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ !=\ \textcolor{charliteral}{'['})\ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \textcolor{comment}{//\ not\ a\ control\ sequence\ -\/>\ ignore\ and\ go\ back\ to\ normal}}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00535\ \ \ \ \ \}}
+\DoxyCodeLine{00536\ \ \ \ \ state\ =\ State::esc\_sequence\_param;}
+\DoxyCodeLine{00537\ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00538\ \ \ \ \ param\_start\ =\ size;}
+\DoxyCodeLine{00539\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00540\ \ \ \textcolor{keywordflow}{case}\ State::esc\_sequence\_param:}
+\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ 0x30u\ and\ c\ <=\ 0x3Fu)\ \{}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \textcolor{comment}{//\ a\ parameter\ byte\ -\/>\ expand\ or\ create\ params}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00544\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ 0x20u\ and\ c\ <=\ 0x2Fu)\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \textcolor{comment}{//\ end\ of\ params,\ start\ of\ intermediate}}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ param\_end\ =\ size;}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ state\ =\ State::esc\_sequence\_intermediate;}
+\DoxyCodeLine{00549\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ 0x40u\ and\ c\ <=\ 0x7Eu)\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \textcolor{comment}{//\ end\ of\ sequence,\ skipped\ intermediate}}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_seq\_and\_put\_event();}
+\DoxyCodeLine{00553\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \textcolor{comment}{//\ illegal\ byte\ -\/>\ choose\ to\ abort\ command\ and\ report\ the\ invalid}}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \textcolor{comment}{//\ sequence}}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00558\ \ \ \ \ \}}
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00560\ \ \ \textcolor{keywordflow}{case}\ State::esc\_sequence\_intermediate:}
+\DoxyCodeLine{00561\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ 0x20u\ and\ c\ <=\ 0x2Fu)\ \{}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \textcolor{comment}{//\ still\ an\ intermediate\ byte}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00564\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (c\ >=\ 0x40u\ and\ c\ <=\ 0x7Eu)\ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \textcolor{comment}{//\ end\ of\ sequence}}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ buffer[size++]\ =\ c;}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse\_seq\_and\_put\_event();}
+\DoxyCodeLine{00568\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \textcolor{comment}{//\ illegal\ byte\ -\/>\ choose\ to\ abort\ command\ and\ report\ the\ invalid}}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \textcolor{comment}{//\ sequence}}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00573\ \ \ \ \ \}}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::none;}
+\DoxyCodeLine{00575\ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00576\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_state;}
+\DoxyCodeLine{00577\ \ \ \}}
+\DoxyCodeLine{00578\ \}}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00580\ \textcolor{keyword}{constexpr}\ Error\ Input::parse\_seq\_and\_put\_event()\ \{}
+\DoxyCodeLine{00581\ \ \ \textcolor{keyword}{const}\ uint8\_t\ final\_byte\ =\ buffer[size\ -\/\ 1];}
+\DoxyCodeLine{00582\ \ \ Event\ ev\{\};}
+\DoxyCodeLine{00583\ \ \ \textcolor{keywordtype}{bool}\ found\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00584\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&event\ :\ dtl::esc\_code\_map)\ \{}
+\DoxyCodeLine{00585\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.final\ ==\ final\_byte)\ \{}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ ev\ =\ event;}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ found\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00589\ \ \ \ \ \}}
+\DoxyCodeLine{00590\ \ \ \}}
+\DoxyCodeLine{00591\ }
+\DoxyCodeLine{00592\ \ \ \textcolor{keywordflow}{if}\ (not\ found)\ \{}
+\DoxyCodeLine{00593\ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00594\ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00595\ \ \ \}}
+\DoxyCodeLine{00596\ }
+\DoxyCodeLine{00597\ \ \ \textcolor{keyword}{auto}\ p\_idx\ =\ param\_start;}
+\DoxyCodeLine{00598\ \ \ \textcolor{keywordflow}{if}\ (p\_idx\ !=\ param\_end)\ \{}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ data\_idx\ =\ 0;}
+\DoxyCodeLine{00600\ \ \ \ \ uint8\_t\ val\ =\ 0;}
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keywordflow}{while}\ (p\_idx\ !=\ param\_end)\ \{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ch\ =\ buffer[p\_idx];}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ch\ >=\ \textcolor{charliteral}{'0'}\ and\ ch\ <=\ \textcolor{charliteral}{'9'})\ \{}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (val\ >\ 25)\ \{}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ val\ =\ val\ *\ 10\ +\ ch\ -\/\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\_idx\ ==\ param\_end\ -\/\ 1)\ \{}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_idx\ >\ 1)\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ ev.data[data\_idx++]\ =\ val;}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (ch\ ==\ \textcolor{charliteral}{';'})\ \{}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_idx\ >\ 1)\ \{}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\_idx\ ==\ param\_start\ or\ buffer[p\_idx\ -\/\ 1]\ ==\ \textcolor{charliteral}{';'})\ \{}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ use\ default\ alue}}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ ++data\_idx;}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ use\ parsed\ alue}}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ ev.data[data\_idx++]\ =\ val;}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ val\ =\ 0;}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Error::invalid\_esc\_seq;}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ ++p\_idx;}
+\DoxyCodeLine{00634\ \ \ \ \ \}}
+\DoxyCodeLine{00635\ \ \ \}}
+\DoxyCodeLine{00636\ \ \ \textcolor{keyword}{auto}\ err\ =\ (*put\_event\_)(\mbox{\hyperlink{namespacecli}{cli}},\ ev);}
+\DoxyCodeLine{00637\ \ \ state\ =\ State::normal;}
+\DoxyCodeLine{00638\ \ \ \textcolor{keywordflow}{return}\ err;}
+\DoxyCodeLine{00639\ \}}
+\DoxyCodeLine{00640\ \}\ \textcolor{comment}{//\ namespace\ cli::io}}
+\DoxyCodeLine{00641\ }
+\DoxyCodeLine{00642\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

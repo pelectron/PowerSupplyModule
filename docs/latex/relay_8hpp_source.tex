@@ -1,0 +1,83 @@
+\doxysection{relay.\+hpp}
+\hypertarget{relay_8hpp_source}{}\label{relay_8hpp_source}\mbox{\hyperlink{relay_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RELAY\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RELAY\_HPP}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{gpio_8hpp}{hal/gpio.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacepsm}{psm}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classpsm_1_1_relay}{Relay}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fe}{Id}}\ :\ std::uint8\_t\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaf5b977c2908a64cb98f2aa04f783d7cb}{out\_en\_p}}\ =\ 0,}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feaced6426fcc0043601eb0b1c88dab6cc6}{out\_en\_n}}\ =\ 1,}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea2d21b6dab905f82a23e7f8e17d37cb95}{out\_select}}\ =\ 2,}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8fea22f598bff6906993be5ec792e56e556c}{out\_series}}\ =\ 3,}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a3952c6cb23e859e82b4338963122e8feafedb2d84cafe20862cb4399751a8a7e3}{invalid}}\ =\ 0xFFu}
+\DoxyCodeLine{00016\ \ \ \};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}}\ \{\ \mbox{\hyperlink{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a}{open}}\ =\ 0,\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a349e686330723975502e9ef4f939a5ac}{closed}}\ =\ 1\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}}\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_ad01ed07d12d6edd76482534e141517b7}{hal::gpio::Id}}\ \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_ae980089b9244b50676c52636afa2fdf1}{pin}};}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{hal::gpio::State}}\ \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a2aab6a3933d0291abb3b0c287dbe2896}{open\_state}};}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}}\ \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a162dc44c589099c2b47577047d67cce0}{default\_state}};}
+\DoxyCodeLine{00028\ \ \ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_relay_aafe43540ebb8a2f798fc2194cc313545}{Relay}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00039\ \ \ \mbox{\hyperlink{namespacehal_ae1f89fb26303cf01ec7ca95682454c93}{hal::ConfigError}}\ \mbox{\hyperlink{classpsm_1_1_relay_ae55040d0fa00b788299f68e139d496bd}{init}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}}\ \&\mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}})\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespacehal}{hal}};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespacehal_1_1gpio}{hal::gpio}};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ \mbox{\hyperlink{namespacehal_1_1gpio_af87ab137f55fd56bd8ae78776f216c7c}{hal::gpio::configure}}(\mbox{\hyperlink{structhal_1_1gpio_1_1_output_config}{hal::gpio::OutputConfig}}\{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ .\mbox{\hyperlink{structhal_1_1gpio_1_1_output_config_af7505fa8d22277be4971611e5357af34}{id}}\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}}.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_ae980089b9244b50676c52636afa2fdf1}{pin}},}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ .mode\ =\ Mode::push\_pull,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ .speed\ =\ Speed::slow,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ .pull\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}}.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a2aab6a3933d0291abb3b0c287dbe2896}{open\_state}}\ ==\ \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059acdaeeeba9b4a4c5ebf042c0215a7bb0e}{hal::gpio::State::set}}\ ?\ Pull::up}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ Pull::down,}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ .state\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}}.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a2aab6a3933d0291abb3b0c287dbe2896}{open\_state}}\});}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{if}\ (res.error\ !=\ ConfigError::success)}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res.error;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ pin\_\ =\ std::move(res.peripheral);}
+\DoxyCodeLine{00054\ \ \ \ \ settings\_\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}}.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a162dc44c589099c2b47577047d67cce0}{default\_state}})\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69}{State::open}}:}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a}{open}}();}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a349e686330723975502e9ef4f939a5ac}{State::closed}}:}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \mbox{\hyperlink{classpsm_1_1_relay_a39e6af0485e6bfce81f1e285486e39a3}{close}}();}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return}\ ConfigError::success;}
+\DoxyCodeLine{00066\ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_relay_a47d09386e23f0465ed6097073808f68a}{open}}()\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ pin\_.\mbox{\hyperlink{classhal_1_1gpio_1_1_output_a2ec83ceff88d1f33c16535f8c31fdc3f}{set}}(settings\_.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a2aab6a3933d0291abb3b0c287dbe2896}{open\_state}});}
+\DoxyCodeLine{00073\ \ \ \ \ state\_\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69}{State::open}};}
+\DoxyCodeLine{00074\ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00079\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classpsm_1_1_relay_a39e6af0485e6bfce81f1e285486e39a3}{close}}()\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ pin\_.\mbox{\hyperlink{classhal_1_1gpio_1_1_output_a2ec83ceff88d1f33c16535f8c31fdc3f}{set}}(not\ settings\_.\mbox{\hyperlink{structpsm_1_1_relay_1_1_settings_a2aab6a3933d0291abb3b0c287dbe2896}{open\_state}});}
+\DoxyCodeLine{00081\ \ \ \ \ state\_\ =\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197a7cef8a734855777c2a9d0caf42666e69}{State::open}};}
+\DoxyCodeLine{00082\ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00087\ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classpsm_1_1_relay_a93f4e65907f7dc43e5c568e39ca38197}{State}}\ \mbox{\hyperlink{classpsm_1_1_relay_aade301c79396d79c9be4f6c77697df60}{state}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ state\_;\ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00092\ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structpsm_1_1_relay_1_1_settings}{Settings}}\ \&\mbox{\hyperlink{classpsm_1_1_relay_a836ec8fb911d593ad9ac585ff140aec7}{settings}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ settings\_;\ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00095\ \ \ \mbox{\hyperlink{classhal_1_1gpio_1_1_output}{hal::gpio::Output}}\ pin\_\{\};}
+\DoxyCodeLine{00096\ \ \ Settings\ settings\_\{\};}
+\DoxyCodeLine{00097\ \ \ \mbox{\hyperlink{namespacehal_1_1gpio_a3da7e1d158e3e71879a0cdc15a343059}{State}}\ state\_;}
+\DoxyCodeLine{00098\ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \}\ \textcolor{comment}{//\ namespace\ psm}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
